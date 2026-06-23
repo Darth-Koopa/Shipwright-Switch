@@ -22,12 +22,13 @@ Comparisons (highlighted):
   - Chinese character mismatch (CN vs OOT dump): yellow background
 
 Usage:
-  uv run python calibrate_messages.py
+  uv run message/calibrate_messages.py
 """
 
 import re
 import struct
 import html as html_mod
+from pathlib import Path
 from collections import OrderedDict
 
 import openpyxl
@@ -664,23 +665,25 @@ def build_excel(
 # ---------------------------------------------------------------------------
 
 def main():
+    here = Path(__file__).resolve().parent
+
     print("Parsing charmaps...")
-    charmap_ntsc = parse_charmap_ntsc("./charmap/charmap_ntsc.txt")
+    charmap_ntsc = parse_charmap_ntsc(str(here / "charmap" / "charmap_ntsc.txt"))
     print(f"  NTSC charmap: {len(charmap_ntsc)} entries")
-    charmap_chn = parse_charmap_chn("./charmap/charmap_chn.txt")
+    charmap_chn = parse_charmap_chn(str(here / "charmap" / "charmap_chn.txt"))
     print(f"  CN  charmap: {len(charmap_chn)} entries")
 
     print("Parsing message raw files...")
-    ntsc_msgs = parse_message_raw("./txt/message_raw_ntsc.txt")
+    ntsc_msgs = parse_message_raw(str(here / "txt" / "message_raw_ntsc.txt"))
     print(f"  NTSC messages: {len(ntsc_msgs)}")
-    cn_msgs = parse_message_raw("./txt/message_raw_cn_from_ique.txt")
+    cn_msgs = parse_message_raw(str(here / "txt" / "message_raw_cn_from_ique.txt"))
     print(f"  CN   messages: {len(cn_msgs)}")
 
     print("Parsing OOT dump HTML...")
-    oot_dump = parse_oot_dump_html("./calibration/OOT_SimplifiedChinese_TextDump.html")
+    oot_dump = parse_oot_dump_html(str(here / "calibration" / "OOT_SimplifiedChinese_TextDump.html"))
     print(f"  OOT dump entries: {len(oot_dump)}")
 
-    output = "./calibration/message_calibration.xlsx"
+    output = here / "calibration" / "message_calibration.xlsx"
     build_excel(ntsc_msgs, cn_msgs, oot_dump, charmap_ntsc, charmap_chn, str(output))
 
 

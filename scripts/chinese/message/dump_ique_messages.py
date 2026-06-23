@@ -12,12 +12,11 @@ character (e.g. 0xA1 0x02).  We must parse the data byte-by-byte, correctly
 skipping 2-byte CJK sequences, to identify the true MESSAGE_END markers.
 
 Usage:
-    uv run python dump_ique_messages.py [input_file] [output_file]
+    uv run message/dump_ique_messages.py
 """
 
 import re
 import struct
-import sys
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
@@ -197,10 +196,10 @@ def write_output(messages: list[bytes], text_ids: list[int] | None, output_path:
 
 
 def main():
-
-    input_file = sys.argv[1] if len(sys.argv) > 1 else "./raw/cn_message_data_static.bin"
-    output_file = sys.argv[2] if len(sys.argv) > 2 else "./txt/message_raw_cn_from_ique.txt"
-    ntsc_ref = sys.argv[3] if len(sys.argv) > 3 else"./txt/message_raw_ntsc.txt"
+    here = Path(__file__).resolve().parent
+    input_file = here / "raw" / "cn_message_data_static.bin"
+    output_file = here / "txt" / "message_raw_cn_from_ique.txt"
+    ntsc_ref = here / "txt" / "message_raw_ntsc.txt"
 
     with open(input_file, "rb") as f:
         data = f.read()
@@ -214,15 +213,15 @@ def main():
 
     # Load NTSC textId ordering
     text_ids = None
-    if Path(ntsc_ref).exists():
-        text_ids = load_ntsc_text_ids(ntsc_ref)
+    if ntsc_ref.exists():
+        text_ids = load_ntsc_text_ids(str(ntsc_ref))
         print(f"Loaded {len(text_ids)} textIds from NTSC reference: {ntsc_ref}")
         if len(messages) <= len(text_ids):
             print(f"  iQue messages ({len(messages)}) <= NTSC messages ({len(text_ids)}), mapping OK")
         else:
             print(f"  WARNING: iQue has MORE messages than NTSC! Some will use fallback IDs")
 
-    write_output(messages, text_ids, output_file)
+    write_output(messages, text_ids, str(output_file))
 
     # Print a few samples
     print("\n--- Sample entries ---")

@@ -352,4 +352,95 @@ static const ALIGN_ASSET(2) char gNum7DoActionJPNTex[] = dgNum7DoActionJPNTex;
 static const ALIGN_ASSET(2) char gNum8DoActionJPNTex[] = dgNum8DoActionJPNTex;
 
 
+
+
+// #region SOH [Chinese]
+#define dgAttackDoActionCHITex "__OTR__textures/do_action_static/gAttackDoActionCHITex"
+static const ALIGN_ASSET(2) char gAttackDoActionCHITex[] = dgAttackDoActionCHITex;
+
+#define dgCheckDoActionCHITex "__OTR__textures/do_action_static/gCheckDoActionCHITex"
+static const ALIGN_ASSET(2) char gCheckDoActionCHITex[] = dgCheckDoActionCHITex;
+
+#define dgClimbDoActionCHITex "__OTR__textures/do_action_static/gClimbDoActionCHITex"
+static const ALIGN_ASSET(2) char gClimbDoActionCHITex[] = dgClimbDoActionCHITex;
+
+#define dgDecideDoActionCHITex "__OTR__textures/do_action_static/gDecideDoActionCHITex"
+static const ALIGN_ASSET(2) char gDecideDoActionCHITex[] = dgDecideDoActionCHITex;
+
+#define dgDiveDoActionCHITex "__OTR__textures/do_action_static/gDiveDoActionCHITex"
+static const ALIGN_ASSET(2) char gDiveDoActionCHITex[] = dgDiveDoActionCHITex;
+
+#define dgDownDoActionCHITex "__OTR__textures/do_action_static/gDownDoActionCHITex"
+static const ALIGN_ASSET(2) char gDownDoActionCHITex[] = dgDownDoActionCHITex;
+
+#define dgDropDoActionCHITex "__OTR__textures/do_action_static/gDropDoActionCHITex"
+static const ALIGN_ASSET(2) char gDropDoActionCHITex[] = dgDropDoActionCHITex;
+
+#define dgEnterDoActionCHITex "__OTR__textures/do_action_static/gEnterDoActionCHITex"
+static const ALIGN_ASSET(2) char gEnterDoActionCHITex[] = dgEnterDoActionCHITex;
+
+#define dgFasterDoActionCHITex "__OTR__textures/do_action_static/gFasterDoActionCHITex"
+static const ALIGN_ASSET(2) char gFasterDoActionCHITex[] = dgFasterDoActionCHITex;
+
+#define dgGrabDoActionCHITex "__OTR__textures/do_action_static/gGrabDoActionCHITex"
+static const ALIGN_ASSET(2) char gGrabDoActionCHITex[] = dgGrabDoActionCHITex;
+
+#define dgJumpDoActionCHITex "__OTR__textures/do_action_static/gJumpDoActionCHITex"
+static const ALIGN_ASSET(2) char gJumpDoActionCHITex[] = dgJumpDoActionCHITex;
+
+#define dgNextDoActionCHITex "__OTR__textures/do_action_static/gNextDoActionCHITex"
+static const ALIGN_ASSET(2) char gNextDoActionCHITex[] = dgNextDoActionCHITex;
+
+#define dgNum1DoActionCHITex "__OTR__textures/do_action_static/gNum1DoActionCHITex"
+static const ALIGN_ASSET(2) char gNum1DoActionCHITex[] = dgNum1DoActionCHITex;
+
+#define dgNum2DoActionCHITex "__OTR__textures/do_action_static/gNum2DoActionCHITex"
+static const ALIGN_ASSET(2) char gNum2DoActionCHITex[] = dgNum2DoActionCHITex;
+
+#define dgNum3DoActionCHITex "__OTR__textures/do_action_static/gNum3DoActionCHITex"
+static const ALIGN_ASSET(2) char gNum3DoActionCHITex[] = dgNum3DoActionCHITex;
+
+#define dgNum4DoActionCHITex "__OTR__textures/do_action_static/gNum4DoActionCHITex"
+static const ALIGN_ASSET(2) char gNum4DoActionCHITex[] = dgNum4DoActionCHITex;
+
+#define dgNum5DoActionCHITex "__OTR__textures/do_action_static/gNum5DoActionCHITex"
+static const ALIGN_ASSET(2) char gNum5DoActionCHITex[] = dgNum5DoActionCHITex;
+
+#define dgNum6DoActionCHITex "__OTR__textures/do_action_static/gNum6DoActionCHITex"
+static const ALIGN_ASSET(2) char gNum6DoActionCHITex[] = dgNum6DoActionCHITex;
+
+#define dgNum7DoActionCHITex "__OTR__textures/do_action_static/gNum7DoActionCHITex"
+static const ALIGN_ASSET(2) char gNum7DoActionCHITex[] = dgNum7DoActionCHITex;
+
+#define dgNum8DoActionCHITex "__OTR__textures/do_action_static/gNum8DoActionCHITex"
+static const ALIGN_ASSET(2) char gNum8DoActionCHITex[] = dgNum8DoActionCHITex;
+
+#define dgOpenDoActionCHITex "__OTR__textures/do_action_static/gOpenDoActionCHITex"
+static const ALIGN_ASSET(2) char gOpenDoActionCHITex[] = dgOpenDoActionCHITex;
+
+#define dgPutAwayDoActionCHITex "__OTR__textures/do_action_static/gPutAwayDoActionCHITex"
+static const ALIGN_ASSET(2) char gPutAwayDoActionCHITex[] = dgPutAwayDoActionCHITex;
+
+#define dgReelDoActionCHITex "__OTR__textures/do_action_static/gReelDoActionCHITex"
+static const ALIGN_ASSET(2) char gReelDoActionCHITex[] = dgReelDoActionCHITex;
+
+#define dgReturnDoActionCHITex "__OTR__textures/do_action_static/gReturnDoActionCHITex"
+static const ALIGN_ASSET(2) char gReturnDoActionCHITex[] = dgReturnDoActionCHITex;
+
+#define dgSaveDoActionCHITex "__OTR__textures/do_action_static/gSaveDoActionCHITex"
+static const ALIGN_ASSET(2) char gSaveDoActionCHITex[] = dgSaveDoActionCHITex;
+
+#define dgSpeakDoActionCHITex "__OTR__textures/do_action_static/gSpeakDoActionCHITex"
+static const ALIGN_ASSET(2) char gSpeakDoActionCHITex[] = dgSpeakDoActionCHITex;
+
+#define dgStopDoActionCHITex "__OTR__textures/do_action_static/gStopDoActionCHITex"
+static const ALIGN_ASSET(2) char gStopDoActionCHITex[] = dgStopDoActionCHITex;
+
+#define dgThrowDoActionCHITex "__OTR__textures/do_action_static/gThrowDoActionCHITex"
+static const ALIGN_ASSET(2) char gThrowDoActionCHITex[] = dgThrowDoActionCHITex;
+
+#define dgUnusedNaviDoActionCHITex "__OTR__textures/do_action_static/gUnusedNaviDoActionCHITex"
+static const ALIGN_ASSET(2) char gUnusedNaviDoActionCHITex[] = dgUnusedNaviDoActionCHITex;
+
+// #endregion
 #endif // TEXTURES_DO_ACTION_STATIC_H

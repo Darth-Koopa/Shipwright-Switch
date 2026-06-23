@@ -14,11 +14,11 @@ The binary file is an OTR resource with format defined by:
 The file has a 0x40-byte OTR resource header before the factory data.
 
 Usage:
-    python dump_nes_messages.py [input_file] [output_file]
+    uv run message/dump_nes_messages.py
 """
 
 import struct
-import sys
+from pathlib import Path
 
 
 def read_message_table(filepath: str) -> list[dict]:
@@ -93,6 +93,19 @@ def format_msg_bytes(msg_bytes: bytes) -> str:
     return ", ".join(parts)
 
 
+def write_typepos(messages: list[dict], output_path: str):
+    """Write textId → typePos mapping.
+
+    typePos = (textboxType << 4) | textboxYPos, stored as a single byte.
+    Format: 0x0001 = 0x23;
+    """
+    with open(output_path, "w", encoding="utf-8") as f:
+        for m in messages:
+            typepos = (m["textboxType"] << 4) | m["textboxYPos"]
+            f.write(f"0x{m['id']:04X} = 0x{typepos:02X};\n")
+    print(f"Wrote {len(messages)} typePos entries to {output_path}")
+
+
 def write_output(messages: list[dict], output_path: str):
     """Write messages in the format: 0x0001 = { 0x..., 0x..., ... };"""
     with open(output_path, "w", encoding="utf-8") as f:
@@ -103,11 +116,14 @@ def write_output(messages: list[dict], output_path: str):
 
 
 def main():
-    input_file = sys.argv[1] if len(sys.argv) > 1 else "./raw/ntsc_nes_message_data_static"
-    output_file = sys.argv[2] if len(sys.argv) > 2 else "./txt/message_raw_ntsc.txt"
+    here = Path(__file__).resolve().parent
+    input_file = here / "raw" / "ntsc_nes_message_data_static"
+    output_file = here / "txt" / "message_raw_ntsc.txt"
+    typepos_file = here / "txt" / "message_raw_typepos.txt"
 
-    messages = read_message_table(input_file)
-    write_output(messages, output_file)
+    messages = read_message_table(str(input_file))
+    write_output(messages, str(output_file))
+    write_typepos(messages, str(typepos_file))
 
     # Print a few examples
     print("\n--- Sample entries ---")

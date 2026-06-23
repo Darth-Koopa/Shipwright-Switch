@@ -1,9 +1,8 @@
 [project]
-name = "message"
+name = "chinese"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "openpyxl>=3.1.5",
+    "pillow>=12.2.0",
 ]

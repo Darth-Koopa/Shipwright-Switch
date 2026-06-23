@@ -50,6 +50,7 @@ MessageTableEntry* sGerMessageEntryTablePtr = NULL;
 MessageTableEntry* sFraMessageEntryTablePtr = NULL;
 MessageTableEntry* sJpnMessageEntryTablePtr = NULL;
 MessageTableEntry* sStaffMessageEntryTablePtr = NULL;
+MessageTableEntry* sChiMessageEntryTablePtr = NULL;
 
 char* _message_0xFFFC_nes;
 
@@ -348,6 +349,8 @@ void Message_FindMessage(PlayState* play, u16 textId) {
         messageTableEntry = sGerMessageEntryTablePtr;
     else if (gSaveContext.language == LANGUAGE_FRA)
         messageTableEntry = sFraMessageEntryTablePtr;
+    else if (gSaveContext.language == LANGUAGE_CHI)
+        messageTableEntry = sChiMessageEntryTablePtr;
 
     // If PAL languages are not present in the OTR file, default to English
     if (messageTableEntry == NULL)
@@ -1622,7 +1625,13 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 Message_DrawTextChar(play, &font->charTexBuf[charTexIdx], &gfx);
                 charTexIdx += FONT_CHAR_TEX_SIZE;
 
-                msgCtx->textPosX += (s32)(sFontWidths[character - ' '] * (R_TEXT_CHAR_SCALE / 100.0f));
+                // #region SOH [Chinese] - Full-width for Chinese characters
+                if (character == 0xFE) {
+                    msgCtx->textPosX += (s32)(16.0f * (R_TEXT_CHAR_SCALE / 100.0f));
+                } else {
+                    msgCtx->textPosX += (s32)(sFontWidths[character - ' '] * (R_TEXT_CHAR_SCALE / 100.0f));
+                }
+                // #endregion
                 break;
         }
     }
@@ -2702,6 +2711,23 @@ void Message_Decode(PlayState* play) {
                 msgCtx->choiceNum = 2;
             } else if (temp_s2 == MESSAGE_THREE_CHOICE) {
                 msgCtx->choiceNum = 3;
+            // #region SOH [Chinese] - 2-byte CJK character
+            // In Chinese mode, bytes >= 0xA0 start 2-byte CJK sequences.
+            // Each CJK char occupies 2 raw bytes but 1 slot in msgBufDecoded.
+            // The slot is filled with 0xFE — an out-of-band marker telling
+            // Message_DrawText to use full-width spacing (16 px) instead of
+            // the proportional ASCII font width lookup.
+            // 0xFE is safe because it is > 0x8B (max Font_LoadChar index),
+            //   not a control code (0x01–0x1F), not an ASCII byte (0x20–0x7E),
+            //   not extended Latin (0x80–0x9E), and not a button icon (0x9F–0xAB).
+            } else if (gSaveContext.language == LANGUAGE_CHI && !sTextIsCredits &&
+                       !sDisplayNextMessageAsEnglish && temp_s2 >= 0xA0) {
+                u8 lowByte = font->msgBuf[++msgCtx->msgBufPos];
+                u16 chiChar = (temp_s2 << 8) | lowByte;
+                Font_LoadCharChinese(font, chiChar, charTexIdx);
+                charTexIdx += FONT_CHAR_TEX_SIZE;
+                msgCtx->msgBufDecoded[decodedBufPos] = 0xFE;
+            // #endregion
             } else if (temp_s2 != ' ') {
                 Font_LoadChar(font, temp_s2 - ' ', charTexIdx);
                 charTexIdx += FONT_CHAR_TEX_SIZE;

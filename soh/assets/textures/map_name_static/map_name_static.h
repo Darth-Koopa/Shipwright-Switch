@@ -412,4 +412,110 @@ static const ALIGN_ASSET(2) char gQuestionMarkPositionNameJPNTex[] = dgQuestionM
 static const ALIGN_ASSET(2) char gGanonsCastlePositionNameJPNTex[] = dgGanonsCastlePositionNameJPNTex;
 
 
+
+
+// #region SOH [Chinese]
+#define dgDeathMountainCraterPositionNameCHITex "__OTR__textures/map_name_static/gDeathMountainCraterPositionNameCHITex"
+static const ALIGN_ASSET(2) char gDeathMountainCraterPositionNameCHITex[] = dgDeathMountainCraterPositionNameCHITex;
+
+#define dgDeathMountainPointNameCHITex "__OTR__textures/map_name_static/gDeathMountainPointNameCHITex"
+static const ALIGN_ASSET(2) char gDeathMountainPointNameCHITex[] = dgDeathMountainPointNameCHITex;
+
+#define dgDeathMountainTrailPositionNameCHITex "__OTR__textures/map_name_static/gDeathMountainTrailPositionNameCHITex"
+static const ALIGN_ASSET(2) char gDeathMountainTrailPositionNameCHITex[] = dgDeathMountainTrailPositionNameCHITex;
+
+#define dgDesertColossusPositionNameCHITex "__OTR__textures/map_name_static/gDesertColossusPositionNameCHITex"
+static const ALIGN_ASSET(2) char gDesertColossusPositionNameCHITex[] = dgDesertColossusPositionNameCHITex;
+
+#define dgGanonsCastlePositionNameCHITex "__OTR__textures/map_name_static/gGanonsCastlePositionNameCHITex"
+static const ALIGN_ASSET(2) char gGanonsCastlePositionNameCHITex[] = dgGanonsCastlePositionNameCHITex;
+
+#define dgGerudoValleyPointNameCHITex "__OTR__textures/map_name_static/gGerudoValleyPointNameCHITex"
+static const ALIGN_ASSET(2) char gGerudoValleyPointNameCHITex[] = dgGerudoValleyPointNameCHITex;
+
+#define dgGerudoValleyPositionNameCHITex "__OTR__textures/map_name_static/gGerudoValleyPositionNameCHITex"
+static const ALIGN_ASSET(2) char gGerudoValleyPositionNameCHITex[] = dgGerudoValleyPositionNameCHITex;
+
+#define dgGerudosFortressPointNameCHITex "__OTR__textures/map_name_static/gGerudosFortressPointNameCHITex"
+static const ALIGN_ASSET(2) char gGerudosFortressPointNameCHITex[] = dgGerudosFortressPointNameCHITex;
+
+#define dgGerudosFortressPositionNameCHITex "__OTR__textures/map_name_static/gGerudosFortressPositionNameCHITex"
+static const ALIGN_ASSET(2) char gGerudosFortressPositionNameCHITex[] = dgGerudosFortressPositionNameCHITex;
+
+#define dgGoronCityPositionNameCHITex "__OTR__textures/map_name_static/gGoronCityPositionNameCHITex"
+static const ALIGN_ASSET(2) char gGoronCityPositionNameCHITex[] = dgGoronCityPositionNameCHITex;
+
+#define dgGraveyardPositionNameCHITex "__OTR__textures/map_name_static/gGraveyardPositionNameCHITex"
+static const ALIGN_ASSET(2) char gGraveyardPositionNameCHITex[] = dgGraveyardPositionNameCHITex;
+
+#define dgHauntedWastelandPointNameCHITex "__OTR__textures/map_name_static/gHauntedWastelandPointNameCHITex"
+static const ALIGN_ASSET(2) char gHauntedWastelandPointNameCHITex[] = dgHauntedWastelandPointNameCHITex;
+
+#define dgHauntedWastelandPositionNameCHITex "__OTR__textures/map_name_static/gHauntedWastelandPositionNameCHITex"
+static const ALIGN_ASSET(2) char gHauntedWastelandPositionNameCHITex[] = dgHauntedWastelandPositionNameCHITex;
+
+#define dgHyliaLakesidePointNameCHITex "__OTR__textures/map_name_static/gHyliaLakesidePointNameCHITex"
+static const ALIGN_ASSET(2) char gHyliaLakesidePointNameCHITex[] = dgHyliaLakesidePointNameCHITex;
+
+#define dgHyruleCastlePositionNameCHITex "__OTR__textures/map_name_static/gHyruleCastlePositionNameCHITex"
+static const ALIGN_ASSET(2) char gHyruleCastlePositionNameCHITex[] = dgHyruleCastlePositionNameCHITex;
+
+#define dgHyruleFieldPointNameCHITex "__OTR__textures/map_name_static/gHyruleFieldPointNameCHITex"
+static const ALIGN_ASSET(2) char gHyruleFieldPointNameCHITex[] = dgHyruleFieldPointNameCHITex;
+
+#define dgHyruleFieldPositionNameCHITex "__OTR__textures/map_name_static/gHyruleFieldPositionNameCHITex"
+static const ALIGN_ASSET(2) char gHyruleFieldPositionNameCHITex[] = dgHyruleFieldPositionNameCHITex;
+
+#define dgKakarikoVillagePointNameCHITex "__OTR__textures/map_name_static/gKakarikoVillagePointNameCHITex"
+static const ALIGN_ASSET(2) char gKakarikoVillagePointNameCHITex[] = dgKakarikoVillagePointNameCHITex;
+
+#define dgKakarikoVillagePositionNameCHITex "__OTR__textures/map_name_static/gKakarikoVillagePositionNameCHITex"
+static const ALIGN_ASSET(2) char gKakarikoVillagePositionNameCHITex[] = dgKakarikoVillagePositionNameCHITex;
+
+#define dgKokiriForestPointNameCHITex "__OTR__textures/map_name_static/gKokiriForestPointNameCHITex"
+static const ALIGN_ASSET(2) char gKokiriForestPointNameCHITex[] = dgKokiriForestPointNameCHITex;
+
+#define dgKokiriForestPositionNameCHITex "__OTR__textures/map_name_static/gKokiriForestPositionNameCHITex"
+static const ALIGN_ASSET(2) char gKokiriForestPositionNameCHITex[] = dgKokiriForestPositionNameCHITex;
+
+#define dgLakeHyliaPositionNameCHITex "__OTR__textures/map_name_static/gLakeHyliaPositionNameCHITex"
+static const ALIGN_ASSET(2) char gLakeHyliaPositionNameCHITex[] = dgLakeHyliaPositionNameCHITex;
+
+#define dgLonLonRanchPointNameCHITex "__OTR__textures/map_name_static/gLonLonRanchPointNameCHITex"
+static const ALIGN_ASSET(2) char gLonLonRanchPointNameCHITex[] = dgLonLonRanchPointNameCHITex;
+
+#define dgLonLonRanchPositionNameCHITex "__OTR__textures/map_name_static/gLonLonRanchPositionNameCHITex"
+static const ALIGN_ASSET(2) char gLonLonRanchPositionNameCHITex[] = dgLonLonRanchPositionNameCHITex;
+
+#define dgLostWoodsPointNameCHITex "__OTR__textures/map_name_static/gLostWoodsPointNameCHITex"
+static const ALIGN_ASSET(2) char gLostWoodsPointNameCHITex[] = dgLostWoodsPointNameCHITex;
+
+#define dgLostWoodsPositionNameCHITex "__OTR__textures/map_name_static/gLostWoodsPositionNameCHITex"
+static const ALIGN_ASSET(2) char gLostWoodsPositionNameCHITex[] = dgLostWoodsPositionNameCHITex;
+
+#define dgMarketPointNameCHITex "__OTR__textures/map_name_static/gMarketPointNameCHITex"
+static const ALIGN_ASSET(2) char gMarketPointNameCHITex[] = dgMarketPointNameCHITex;
+
+#define dgMarketPositionNameCHITex "__OTR__textures/map_name_static/gMarketPositionNameCHITex"
+static const ALIGN_ASSET(2) char gMarketPositionNameCHITex[] = dgMarketPositionNameCHITex;
+
+#define dgQuestionMarkPositionNameCHITex "__OTR__textures/map_name_static/gQuestionMarkPositionNameCHITex"
+static const ALIGN_ASSET(2) char gQuestionMarkPositionNameCHITex[] = dgQuestionMarkPositionNameCHITex;
+
+#define dgSacredForestMeadowPositionNameCHITex "__OTR__textures/map_name_static/gSacredForestMeadowPositionNameCHITex"
+static const ALIGN_ASSET(2) char gSacredForestMeadowPositionNameCHITex[] = dgSacredForestMeadowPositionNameCHITex;
+
+#define dgZorasDomainPointNameCHITex "__OTR__textures/map_name_static/gZorasDomainPointNameCHITex"
+static const ALIGN_ASSET(2) char gZorasDomainPointNameCHITex[] = dgZorasDomainPointNameCHITex;
+
+#define dgZorasDomainPositionNameCHITex "__OTR__textures/map_name_static/gZorasDomainPositionNameCHITex"
+static const ALIGN_ASSET(2) char gZorasDomainPositionNameCHITex[] = dgZorasDomainPositionNameCHITex;
+
+#define dgZorasFountainPositionNameCHITex "__OTR__textures/map_name_static/gZorasFountainPositionNameCHITex"
+static const ALIGN_ASSET(2) char gZorasFountainPositionNameCHITex[] = dgZorasFountainPositionNameCHITex;
+
+#define dgZorasRiverPositionNameCHITex "__OTR__textures/map_name_static/gZorasRiverPositionNameCHITex"
+static const ALIGN_ASSET(2) char gZorasRiverPositionNameCHITex[] = dgZorasRiverPositionNameCHITex;
+
+// #endregion
 #endif // TEXTURES_MAP_NAME_STATIC_H

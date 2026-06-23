@@ -825,7 +825,7 @@ void RegisterOnUpdateMainMenuSelection() {
         [](uint8_t optionIndex, uint8_t optionValue) {
             if (!CVarGetInteger(CVAR_SETTING("A11yTTS"), 0))
                 return;
-            uint8_t language = (gSaveContext.language == LANGUAGE_JPN) ? LANGUAGE_ENG : gSaveContext.language;
+            uint8_t language = (gSaveContext.language == LANGUAGE_JPN || gSaveContext.language == LANGUAGE_CHI) ? LANGUAGE_ENG : gSaveContext.language;
 
             auto optionName = BossRush_GetSettingName(optionIndex, language);
             auto optionValueName = BossRush_GetSettingChoiceName(optionIndex, optionValue, language);
@@ -837,7 +837,7 @@ void RegisterOnUpdateMainMenuSelection() {
         [](uint8_t optionIndex) {
             if (!CVarGetInteger(CVAR_SETTING("A11yTTS"), 0))
                 return;
-            uint8_t language = (gSaveContext.language == LANGUAGE_JPN) ? LANGUAGE_ENG : gSaveContext.language;
+            uint8_t language = (gSaveContext.language == LANGUAGE_JPN || gSaveContext.language == LANGUAGE_CHI) ? LANGUAGE_ENG : gSaveContext.language;
 
             auto optionName = SohFileSelect_GetSettingText(optionIndex, language);
             SpeechSynthesizer::Instance->Speak(optionName, GetLanguageCode());

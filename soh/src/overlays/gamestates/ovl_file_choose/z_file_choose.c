@@ -1587,7 +1587,7 @@ static void* sFileInfoBoxTextures[] = {
     gFileSelFileInfoBox4Tex, gFileSelFileInfoBox5Tex,
 };
 
-static void* sTitleLabels[4][9] = {
+static void* sTitleLabels[5][9] = {
     { gFileSelPleaseSelectAFileENGTex, gFileSelOpenThisFileENGTex, gFileSelCopyWhichFileENGTex,
       gFileSelCopyToWhichFileENGTex, gFileSelAreYouSureENGTex, gFileSelFileCopiedENGTex, gFileSelEraseWhichFileENGTex,
       gFileSelAreYouSure2ENGTex, gFileSelFileErasedENGTex },
@@ -1600,9 +1600,12 @@ static void* sTitleLabels[4][9] = {
     { gFileSelPleaseSelectAFileJPNTex, gFileSelOpenThisFileJPNTex, gFileSelWhichFile1JPNTex,
       gFileSelCopyToWhichFileJPNTex, gFileSelAreYouSureJPNTex, gFileSelFileCopiedJPNTex, gFileSelEraseWhichFileJPNTex,
       gFileSelAreYouSure2JPNTex, gFileSelFileErasedJPNTex },
+    { gFileSelPleaseSelectAFileENGTex, gFileSelOpenThisFileENGTex, gFileSelCopyWhichFileENGTex,
+      gFileSelCopyToWhichFileENGTex, gFileSelAreYouSureENGTex, gFileSelFileCopiedENGTex, gFileSelEraseWhichFileENGTex,
+      gFileSelAreYouSure2ENGTex, gFileSelFileErasedENGTex }, // LANGUAGE_CHI — fallback to English
 };
 
-static void* sWarningLabels[4][5] = {
+static void* sWarningLabels[5][5] = {
     { gFileSelNoFileToCopyENGTex, gFileSelNoFileToEraseENGTex, gFileSelNoEmptyFileENGTex, gFileSelFileEmptyENGTex,
       gFileSelFileInUseENGTex },
     { gFileSelNoFileToCopyGERTex, gFileSelNoFileToEraseGERTex, gFileSelNoEmptyFileGERTex, gFileSelFileEmptyGERTex,
@@ -1611,20 +1614,24 @@ static void* sWarningLabels[4][5] = {
       gFileSelFileInUseFRATex },
     { gFileSelNoFileToCopyJPNTex, gFileSelNoFileToEraseJPNTex, gFileSelNoEmptyFileJPNTex, gFileSelFileEmptyJPNTex,
       gFileSelFileInUseJPNTex },
+    { gFileSelNoFileToCopyENGTex, gFileSelNoFileToEraseENGTex, gFileSelNoEmptyFileENGTex, gFileSelFileEmptyENGTex,
+      gFileSelFileInUseENGTex }, // LANGUAGE_CHI
 };
 
-static void* sFileButtonTextures[4][3] = {
+static void* sFileButtonTextures[5][3] = {
     { gFileSelFile1ButtonENGTex, gFileSelFile2ButtonENGTex, gFileSelFile3ButtonENGTex },
     { gFileSelFile1ButtonGERTex, gFileSelFile2ButtonGERTex, gFileSelFile3ButtonGERTex },
     { gFileSelFile1ButtonFRATex, gFileSelFile2ButtonFRATex, gFileSelFile3ButtonFRATex },
     { gFileSelFile1ButtonJPNTex, gFileSelFile2ButtonJPNTex, gFileSelFile3ButtonJPNTex },
+    { gFileSelFile1ButtonENGTex, gFileSelFile2ButtonENGTex, gFileSelFile3ButtonENGTex }, // LANGUAGE_CHI
 };
 
-static void* sActionButtonTextures[4][4] = {
+static void* sActionButtonTextures[5][4] = {
     { gFileSelCopyButtonENGTex, gFileSelEraseButtonENGTex, gFileSelYesButtonENGTex, gFileSelQuitButtonENGTex },
     { gFileSelCopyButtonGERTex, gFileSelEraseButtonGERTex, gFileSelYesButtonGERTex, gFileSelQuitButtonGERTex },
     { gFileSelCopyButtonFRATex, gFileSelEraseButtonFRATex, gFileSelYesButtonFRATex, gFileSelQuitButtonFRATex },
     { gFileSelCopyButtonJPNTex, gFileSelEraseButtonJPNTex, gFileSelYesButtonJPNTex, gFileSelQuitButtonJPNTex },
+    { gFileSelCopyButtonENGTex, gFileSelEraseButtonENGTex, gFileSelYesButtonENGTex, gFileSelQuitButtonENGTex }, // LANGUAGE_CHI
 };
 
 static void* sOptionsButtonTextures[] = {
@@ -1632,6 +1639,7 @@ static void* sOptionsButtonTextures[] = {
     gFileSelOptionsButtonGERTex,
     gFileSelOptionsButtonENGTex,
     gFileSelOptionsButtonJPNTex,
+    gFileSelOptionsButtonENGTex, // LANGUAGE_CHI
 };
 
 const char* FileChoose_GetQuestChooseTitleTexName(Language lang) {
@@ -1813,7 +1821,7 @@ void FileChoose_DrawWindowContents(GameState* thisx) {
     } else if (this->configMode == CM_BOSS_RUSH_MENU) {
         FileChoose_DrawBossRushMenuWindowContents(this);
     } else if (this->configMode == CM_RANDOMIZER_SETTINGS_MENU) {
-        uint8_t language = (gSaveContext.language == LANGUAGE_JPN) ? LANGUAGE_ENG : gSaveContext.language;
+        uint8_t language = (gSaveContext.language == LANGUAGE_JPN || gSaveContext.language == LANGUAGE_CHI) ? LANGUAGE_ENG : gSaveContext.language;
         uint8_t textAlpha = this->randomizerUIAlpha;
 
         for (uint8_t index = 0; index <= RSM_OPEN_RANDOMIZER_SETTINGS; index++) {
@@ -2660,6 +2668,8 @@ static const char* randoVersionWarningText[] = {
     "corrompues.",
     // Japanese NTSC TODO:
     "This save was created on a different version of SoH.\nThings may be broken. Play at your own risk.",
+    // Chinese — fallback to English
+    "This save was created on a different version of SoH.\nThings may be broken. Play at your own risk.",
 };
 
 void FileChoose_DrawRandoSaveVersionWarning(GameState* thisx) {
@@ -2680,7 +2690,7 @@ void FileChoose_DrawRandoSaveVersionWarning(GameState* thisx) {
             }
 
             // Compute the height for a "squished" textbox texture
-            s16 height = ((gSaveContext.language == LANGUAGE_ENG) || (gSaveContext.language == LANGUAGE_JPN))
+            s16 height = ((gSaveContext.language == LANGUAGE_ENG) || (gSaveContext.language == LANGUAGE_JPN) || (gSaveContext.language == LANGUAGE_CHI))
                              ? 32
                              : 40; // English is only 2 lines
             // float math to get a S5.10 number that will squish the texture
@@ -2714,6 +2724,7 @@ void FileChoose_Main(GameState* thisx) {
         gFileSelControlsGERTex,
         gFileSelControlsFRATex,
         gFileSelControlsJPNTex,
+        gFileSelControlsENGTex, // LANGUAGE_CHI
     };
     FileChooseContext* this = (FileChooseContext*)thisx;
     Input* input = &this->state.input[0];

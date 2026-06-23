@@ -2782,6 +2782,10 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 l
             newName[loadOffset][length - 6] = 'J';
             newName[loadOffset][length - 5] = 'P';
             newName[loadOffset][length - 4] = 'N';
+        } else if (gSaveContext.language == LANGUAGE_CHI) {
+            newName[loadOffset][length - 6] = 'C';
+            newName[loadOffset][length - 5] = 'H';
+            newName[loadOffset][length - 4] = 'I';
         }
         doAction = newName[loadOffset];
     }
@@ -2852,6 +2856,10 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
             newName[length - 6] = 'J';
             newName[length - 5] = 'P';
             newName[length - 4] = 'N';
+        } else if (gSaveContext.language == LANGUAGE_CHI) {
+            newName[length - 6] = 'C';
+            newName[length - 5] = 'H';
+            newName[length - 4] = 'I';
         }
         doAction = newName;
     }
@@ -3810,8 +3818,8 @@ void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
 }
 
 void Interface_DrawItemButtons(PlayState* play) {
-    static void* cUpLabelTextures[] = { gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpJPTex };
-    static s16 startButtonLeftPos[] = { 132, 130, 130, 132 };
+    static void* cUpLabelTextures[] = { gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpENGTex, gNaviCUpJPTex, gNaviCUpENGTex };
+    static s16 startButtonLeftPos[] = { 132, 130, 130, 132, 132 };
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     Player* player = GET_PLAYER(play);
     PauseContext* pauseCtx = &play->pauseCtx;
@@ -5143,7 +5151,7 @@ void Interface_Draw(PlayState* play) {
     // #region SOH [NTSC]
     s32 languageOffset = gSaveContext.language;
 
-    if (languageOffset == LANGUAGE_JPN) {
+    if (languageOffset == LANGUAGE_JPN || languageOffset == LANGUAGE_CHI) {
         languageOffset = LANGUAGE_ENG;
     }
     // #endregion

@@ -32,6 +32,10 @@ void KaleidoScope_DrawDungeonMap(PlayState* play, GraphicsContext* gfxCtx) {
         gPauseDekuTitleJPNTex, gPauseDodongoTitleJPNTex,   gPauseJabuTitleJPNTex,   gPauseForestTitleJPNTex,
         gPauseFireTitleJPNTex, gPauseWaterTitleJPNTex,     gPauseSpiritTitleJPNTex, gPauseShadowTitleJPNTex,
         gPauseBotWTitleJPNTex, gPauseIceCavernTitleJPNTex,
+        // LANGUAGE_CHI - uses ENG fallback
+        gPauseDekuTitleENGTex, gPauseDodongoTitleENGTex,   gPauseJabuTitleENGTex,   gPauseForestTitleENGTex,
+        gPauseFireTitleENGTex, gPauseWaterTitleENGTex,     gPauseSpiritTitleENGTex, gPauseShadowTitleENGTex,
+        gPauseBotWTitleENGTex, gPauseIceCavernTitleENGTex,
     };
     static void* floorIconTexs[] = {
         gDungeonMapBlankFloorButtonTex, gDungeonMap8FButtonTex, gDungeonMap7FButtonTex, gDungeonMap6FButtonTex,
@@ -440,6 +444,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gPauseCurrentPositionGERTex,
         gPauseCurrentPositionFRATex,
         gPauseCurrentPositionJPNTex,
+        gPauseCurrentPositionENGTex, // LANGUAGE_CHI uses ENG
     };
     static u16 D_8082A6D4 = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
