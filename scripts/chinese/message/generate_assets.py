@@ -283,7 +283,7 @@ def generate_message_cpp(messages: dict[int, list[int]], out_path: Path,
     lines.append("")
     lines.append("// #endregion")
     lines.append("")
-    lines.append("extern MessageTableEntry* sChiMessageEntryTablePtr;")
+    lines.append('extern "C" MessageTableEntry* sChiMessageEntryTablePtr;')
     lines.append("")
     lines.append('extern "C" void OTRMessage_InitChinese(void) {')
     lines.append("    sChiMessageEntryTablePtr = sChiMessageTable;")

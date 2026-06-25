@@ -4248,7 +4248,7 @@ static MessageTableEntry sChiMessageTable[] = {
 
 // #endregion
 
-extern MessageTableEntry* sChiMessageEntryTablePtr;
+extern "C" MessageTableEntry* sChiMessageEntryTablePtr;
 
 extern "C" void OTRMessage_InitChinese(void) {
     sChiMessageEntryTablePtr = sChiMessageTable;
