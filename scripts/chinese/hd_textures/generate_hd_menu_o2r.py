@@ -36,43 +36,51 @@ OTR_HEADER_SIZE = 0x40
 RESOURCE_TYPE_TEXTURE = 0x4F544558
 TEX_FLAG_LOAD_AS_RAW = 1
 
-FOLDERS = ["do_action_static", "item_name_static", "map_name_static"]
-
-# N64 texture types derived from the custom PNG suffix
-IA4 = 6   # .ia4.png → G_IM_FMT_IA | G_IM_SIZ_4b  (4bpp)
-IA8 = 7   # .ia8.png → G_IM_FMT_IA | G_IM_SIZ_8b  (8bpp)
+# N64 texture types derived from custom PNG suffix
+# IA4: G_IM_FMT_IA | G_IM_SIZ_4b  (4bpp, 0.5 B/px)
+# IA8: G_IM_FMT_IA | G_IM_SIZ_8b  (8bpp, 1 B/px)
+# I8:  G_IM_FMT_I  | G_IM_SIZ_8b  (8bpp, 1 B/px)
+IA4 = 6
+IA8 = 7
+I8  = 5
 
 
 def tex_type_from_png_name(png_name: str) -> int:
     """Return the N64 texture type based on the PNG format suffix."""
-    return IA8 if ".ia8." in png_name else IA4
+    if ".ia8." in png_name:
+        return IA8
+    if ".i8." in png_name:
+        return I8
+    return IA4
 
 
 def orig_bytes_per_row(orig_w: int, tex_type: int) -> float:
     """Original bytes per row for the given N64 texture type."""
-    if tex_type == IA8:     # 8bpp: 1 byte/pixel
+    if tex_type in (IA8, I8):   # 8bpp: 1 byte/pixel
         return orig_w * 1.0
-    else:                   # IA4 / I4: 4bpp: 0.5 byte/pixel
+    else:                       # IA4 / I4: 4bpp: 0.5 byte/pixel
         return orig_w * 0.5
 
 
 def verify_coverage() -> dict[str, list[tuple[str, Path, Path]]]:
-    """Check every custom CHI PNG has a matching HD PNG.  Returns per-folder
-    list of (tex_name, custom_path, hd_path)."""
+    """Check every custom CHI PNG has a matching HD PNG.
+
+    Auto-detects folders — any folder in CUSTOM_DIR that contains
+    *CHI*.png files and has a matching folder in HD_DIR.
+    """
     result: dict[str, list[tuple[str, Path, Path]]] = {}
     missing: list[str] = []
 
-    for folder in FOLDERS:
-        custom_dir = CUSTOM_DIR / folder
-        hd_dir = HD_DIR / folder
-        entries: list[tuple[str, Path, Path]] = []
-
-        if not custom_dir.exists():
+    for custom_dir in sorted(CUSTOM_DIR.iterdir()):
+        if not custom_dir.is_dir():
             continue
+        folder = custom_dir.name
+        hd_dir = HD_DIR / folder
+
+        entries: list[tuple[str, Path, Path]] = []
         for png in sorted(custom_dir.iterdir()):
             if not png.name.endswith(".png") or "CHI" not in png.name:
                 continue
-            # custom: gFooCHITex.ia4.png → name: gFooCHITex
             tex_name = png.name.split(".")[0]
             hd_png = hd_dir / f"{tex_name}.png"
             if not hd_png.exists():

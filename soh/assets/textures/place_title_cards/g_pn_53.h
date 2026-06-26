@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gGERudosFortressTitleCardGERTex[] = dgGERudosFo
 #define dgGERudosFortressTitleCardFRATex "__OTR__textures/g_pn_53/gGERudosFortressTitleCardFRATex"
 static const ALIGN_ASSET(2) char gGERudosFortressTitleCardFRATex[] = dgGERudosFortressTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgGERudosFortressTitleCardCHITex "__OTR__textures/g_pn_53/gGERudosFortressTitleCardCHITex"
+static const ALIGN_ASSET(2) char gGERudosFortressTitleCardCHITex[] = dgGERudosFortressTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_53_H

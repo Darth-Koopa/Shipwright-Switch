@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gZoraShopTitleCardGERTex[] = dgZoraShopTitleCar
 #define dgZoraShopTitleCardFRATex "__OTR__textures/g_pn_21/gZoraShopTitleCardFRATex"
 static const ALIGN_ASSET(2) char gZoraShopTitleCardFRATex[] = dgZoraShopTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgZoraShopTitleCardCHITex "__OTR__textures/g_pn_21/gZoraShopTitleCardCHITex"
+static const ALIGN_ASSET(2) char gZoraShopTitleCardCHITex[] = dgZoraShopTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_21_H

@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gGERudoValleyTitleCardGERTex[] = dgGERudoValley
 #define dgGERudoValleyTitleCardFRATex "__OTR__textures/g_pn_35/gGERudoValleyTitleCardFRATex"
 static const ALIGN_ASSET(2) char gGERudoValleyTitleCardFRATex[] = dgGERudoValleyTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgGERudoValleyTitleCardCHITex "__OTR__textures/g_pn_35/gGERudoValleyTitleCardCHITex"
+static const ALIGN_ASSET(2) char gGERudoValleyTitleCardCHITex[] = dgGERudoValleyTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_35_H

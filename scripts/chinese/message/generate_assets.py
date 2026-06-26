@@ -449,24 +449,100 @@ def _append_chi_textures(png_dir: Path, header_path: Path, otr_prefix: str):
 
 
 def generate_menu_textures():
-    """Append CHI declarations to do_action, item_name, and map_name headers."""
+    """Append CHI declarations to single-header texture files."""
     custom = REPO / "soh" / "assets" / "custom" / "textures"
+    textures = REPO / "soh" / "assets" / "textures"
 
-    _append_chi_textures(
-        custom / "do_action_static",
-        REPO / "soh" / "assets" / "textures" / "do_action_static" / "do_action_static.h",
-        "textures/do_action_static",
-    )
-    _append_chi_textures(
-        custom / "item_name_static",
-        REPO / "soh" / "assets" / "textures" / "item_name_static" / "item_name_static.h",
-        "textures/item_name_static",
-    )
-    _append_chi_textures(
-        custom / "map_name_static",
-        REPO / "soh" / "assets" / "textures" / "map_name_static" / "map_name_static.h",
-        "textures/map_name_static",
-    )
+    folders = [
+        ("do_action_static", "do_action_static.h"),
+        ("item_name_static", "item_name_static.h"),
+        ("map_name_static", "map_name_static.h"),
+        ("icon_item_nes_static", "icon_item_nes_static.h"),
+    ]
+    for folder, header in folders:
+        _append_chi_textures(
+            custom / folder,
+            textures / folder / header,
+            f"textures/{folder}",
+        )
+
+
+# ---------------------------------------------------------------------------
+# 8. Append CHI declarations to title-card header files
+# ---------------------------------------------------------------------------
+
+def generate_title_card_chi():
+    """Add CHI texture declarations to individual title-card header files.
+
+    Each title-card texture lives in its own g_pn_XX / object_XX folder with
+    its own .h file.  We scan soh/assets/custom/textures/ for these folders
+    and update the matching header, deriving the OTR prefix from the existing
+    ENG entry.
+    """
+    custom = REPO / "soh" / "assets" / "custom" / "textures"
+    if not custom.exists():
+        return
+
+    header_dirs = {
+        "place_title_cards": REPO / "soh" / "assets" / "textures" / "place_title_cards",
+        "boss_title_cards": REPO / "soh" / "assets" / "textures" / "boss_title_cards",
+    }
+
+    count = 0
+    for folder in sorted(custom.iterdir()):
+        if not folder.is_dir():
+            continue
+        if folder.name in ("do_action_static", "item_name_static", "map_name_static",
+                           "chinese_font"):
+            continue
+
+        # Find matching header
+        header_dir = None
+        for hd_path in header_dirs.values():
+            if (hd_path / f"{folder.name}.h").exists():
+                header_dir = hd_path
+                break
+        if header_dir is None:
+            continue
+
+        header_path = header_dir / f"{folder.name}.h"
+
+        chi_pngs = sorted(p for p in folder.iterdir()
+                          if p.name.endswith(".png") and "CHI" in p.name)
+        if not chi_pngs:
+            continue
+
+        content = header_path.read_text(encoding="utf-8")
+        # Extract OTR prefix from existing ENG entry
+        m = re.search(r'"__OTR__([^"]+/)[^/"]+ENGTex"', content)
+        if not m:
+            continue
+        otr_prefix = m.group(1)  # e.g. "textures/g_pn_01/"
+
+        # Remove old CHI block (same pattern as _append_chi_textures)
+        content = re.sub(
+            r"\n// #region SOH \[Chinese\].*?// #endregion\n",
+            "", content, flags=re.DOTALL
+        )
+
+        lines = []
+        for p in chi_pngs:
+            name = p.name.split(".")[0]
+            lines.append(f'#define d{name} "__OTR__{otr_prefix}{name}"')
+            lines.append(f"static const ALIGN_ASSET(2) char {name}[] = d{name};")
+            lines.append("")
+
+        block = (
+            "\n// #region SOH [Chinese]\n"
+            + "\n".join(lines)
+            + "// #endregion\n"
+        )
+        content = content.replace("#endif", block + "#endif")
+        header_path.write_text(content, encoding="utf-8")
+        count += len(chi_pngs)
+
+    if count:
+        print(f"  Added {count} CHI entries to title-card headers")
 
 
 # ---------------------------------------------------------------------------
@@ -504,6 +580,9 @@ def main():
 
     print("\n7. Appending CHI menu texture declarations ...")
     generate_menu_textures()
+
+    print("\n8. Appending CHI title-card declarations ...")
+    generate_title_card_chi()
 
     print("\n=== Done ===")
 

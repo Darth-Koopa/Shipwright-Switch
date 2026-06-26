@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gFairysFountainTitleCardGERTex[] = dgFairysFoun
 #define dgFairysFountainTitleCardFRATex "__OTR__textures/g_pn_45/gFairysFountainTitleCardFRATex"
 static const ALIGN_ASSET(2) char gFairysFountainTitleCardFRATex[] = dgFairysFountainTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgFairysFountainTitleCardCHITex "__OTR__textures/g_pn_45/gFairysFountainTitleCardCHITex"
+static const ALIGN_ASSET(2) char gFairysFountainTitleCardCHITex[] = dgFairysFountainTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_45_H

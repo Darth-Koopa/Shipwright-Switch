@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gInsideGanonsCastleTitleCardGERTex[] = dgInside
 #define dgInsideGanonsCastleTitleCardFRATex "__OTR__textures/g_pn_09/gInsideGanonsCastleTitleCardFRATex"
 static const ALIGN_ASSET(2) char gInsideGanonsCastleTitleCardFRATex[] = dgInsideGanonsCastleTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgInsideGanonsCastleTitleCardCHITex "__OTR__textures/g_pn_09/gInsideGanonsCastleTitleCardCHITex"
+static const ALIGN_ASSET(2) char gInsideGanonsCastleTitleCardCHITex[] = dgInsideGanonsCastleTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_09_H

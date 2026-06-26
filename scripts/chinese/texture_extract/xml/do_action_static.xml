@@ -1,0 +1,33 @@
+<Root>
+     <File Name="do_action_static" Segment="7">
+        <Texture Name="gAttackDoActionCHITex" OutName="attack_chi" Format="ia4" Width="48" Height="16" Offset="0x2B80"/>
+        <Texture Name="gCheckDoActionCHITex" OutName="check_chi" Format="ia4" Width="48" Height="16" Offset="0x2D00"/>
+        <Texture Name="gEnterDoActionCHITex" OutName="enter_chi" Format="ia4" Width="48" Height="16" Offset="0x2E80"/>
+        <Texture Name="gReturnDoActionCHITex" OutName="return_chi" Format="ia4" Width="48" Height="16" Offset="0x3000"/>
+        <Texture Name="gOpenDoActionCHITex" OutName="open_chi" Format="ia4" Width="48" Height="16" Offset="0x3180"/>
+        <Texture Name="gJumpDoActionCHITex" OutName="jump_chi" Format="ia4" Width="48" Height="16" Offset="0x3300"/>
+        <Texture Name="gDecideDoActionCHITex" OutName="decide_chi" Format="ia4" Width="48" Height="16" Offset="0x3480"/>
+        <Texture Name="gDiveDoActionCHITex" OutName="dive_chi" Format="ia4" Width="48" Height="16" Offset="0x3600"/>
+        <Texture Name="gFasterDoActionCHITex" OutName="faster_chi" Format="ia4" Width="48" Height="16" Offset="0x3780"/>
+        <Texture Name="gThrowDoActionCHITex" OutName="throw_chi" Format="ia4" Width="48" Height="16" Offset="0x3900"/>
+        <Texture Name="gUnusedNaviDoActionCHITex" OutName="navi_unused_chi" Format="ia4" Width="48" Height="16" Offset="0x3A80"/>
+        <Texture Name="gClimbDoActionCHITex" OutName="climb_chi" Format="ia4" Width="48" Height="16" Offset="0x3C00"/>
+        <Texture Name="gDropDoActionCHITex" OutName="drop_chi" Format="ia4" Width="48" Height="16" Offset="0x3D80"/>
+        <Texture Name="gDownDoActionCHITex" OutName="down_chi" Format="ia4" Width="48" Height="16" Offset="0x3F00"/>
+        <Texture Name="gSaveDoActionCHITex" OutName="save_chi" Format="ia4" Width="48" Height="16" Offset="0x4080"/>
+        <Texture Name="gSpeakDoActionCHITex" OutName="speak_chi" Format="ia4" Width="48" Height="16" Offset="0x4200"/>
+        <Texture Name="gNextDoActionCHITex" OutName="next_chi" Format="ia4" Width="48" Height="16" Offset="0x4380"/>
+        <Texture Name="gGrabDoActionCHITex" OutName="grab_chi" Format="ia4" Width="48" Height="16" Offset="0x4500"/>
+        <Texture Name="gStopDoActionCHITex" OutName="stop_chi" Format="ia4" Width="48" Height="16" Offset="0x4680"/>
+        <Texture Name="gPutAwayDoActionCHITex" OutName="put_away_chi" Format="ia4" Width="48" Height="16" Offset="0x4800"/>
+        <Texture Name="gReelDoActionCHITex" OutName="reel_chi" Format="ia4" Width="48" Height="16" Offset="0x4980"/>
+        <Texture Name="gNum1DoActionCHITex" OutName="num_1_chi" Format="ia4" Width="48" Height="16" Offset="0x4B00"/>
+        <Texture Name="gNum2DoActionCHITex" OutName="num_2_chi" Format="ia4" Width="48" Height="16" Offset="0x4C80"/>
+        <Texture Name="gNum3DoActionCHITex" OutName="num_3_chi" Format="ia4" Width="48" Height="16" Offset="0x4E00"/>
+        <Texture Name="gNum4DoActionCHITex" OutName="num_4_chi" Format="ia4" Width="48" Height="16" Offset="0x4F80"/>
+        <Texture Name="gNum5DoActionCHITex" OutName="num_5_chi" Format="ia4" Width="48" Height="16" Offset="0x5100"/>
+        <Texture Name="gNum6DoActionCHITex" OutName="num_6_chi" Format="ia4" Width="48" Height="16" Offset="0x5280"/>
+        <Texture Name="gNum7DoActionCHITex" OutName="num_7_chi" Format="ia4" Width="48" Height="16" Offset="0x5400"/>
+        <Texture Name="gNum8DoActionCHITex" OutName="num_8_chi" Format="ia4" Width="48" Height="16" Offset="0x5580"/>
+     </File>
+</Root>

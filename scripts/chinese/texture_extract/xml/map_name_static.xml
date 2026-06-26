@@ -1,0 +1,39 @@
+<Root>
+     <File Name="map_name_static" Segment="11">
+        <Texture Name="gHauntedWastelandPointNameCHITex" OutName="haunted_wasteland_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x3000"/>
+        <Texture Name="gGerudosFortressPointNameCHITex" OutName="gerudos_fortress_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x3400"/>
+        <Texture Name="gGerudoValleyPointNameCHITex" OutName="gerudo_valley_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x3800"/>
+        <Texture Name="gHyliaLakesidePointNameCHITex" OutName="hylia_lakeside_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x3c00"/>
+        <Texture Name="gLonLonRanchPointNameCHITex" OutName="lon_lon_ranch_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x4000"/>
+        <Texture Name="gMarketPointNameCHITex" OutName="market_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x4400"/>
+        <Texture Name="gHyruleFieldPointNameCHITex" OutName="hyrule_field_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x4800"/>
+        <Texture Name="gDeathMountainPointNameCHITex" OutName="death_mountain_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x4c00"/>
+        <Texture Name="gKakarikoVillagePointNameCHITex" OutName="kakariko_village_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x5000"/>
+        <Texture Name="gLostWoodsPointNameCHITex" OutName="lost_woods_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x5400"/>
+        <Texture Name="gKokiriForestPointNameCHITex" OutName="kokiri_forest_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x5800"/>
+        <Texture Name="gZorasDomainPointNameCHITex" OutName="zoras_domain_point_name_chi" Format="ia4" Width="128" Height="16" Offset="0x5c00"/>
+        
+        <Texture Name="gHyruleFieldPositionNameCHITex" OutName="hyrule_field_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x13c00"/>
+        <Texture Name="gKakarikoVillagePositionNameCHITex" OutName="kakariko_village_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x14600"/>
+        <Texture Name="gGraveyardPositionNameCHITex" OutName="graveyard_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x15000"/>
+        <Texture Name="gZorasRiverPositionNameCHITex" OutName="zoras_river_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x15a00"/>
+        <Texture Name="gKokiriForestPositionNameCHITex" OutName="kokiri_forest_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x16400"/>
+        <Texture Name="gSacredForestMeadowPositionNameCHITex" OutName="sacred_forest_meadow_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x16e00"/>
+        <Texture Name="gLakeHyliaPositionNameCHITex" OutName="lake_hylia_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x17800"/>
+        <Texture Name="gZorasDomainPositionNameCHITex" OutName="zoras_domain_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x18200"/>
+        <Texture Name="gZorasFountainPositionNameCHITex" OutName="zoras_fountain_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x18c00"/>
+        <Texture Name="gGerudoValleyPositionNameCHITex" OutName="gerudo_valley_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x19600"/>
+        <Texture Name="gLostWoodsPositionNameCHITex" OutName="lost_woods_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1a000"/>
+        <Texture Name="gDesertColossusPositionNameCHITex" OutName="desert_colossus_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1aa00"/>
+        <Texture Name="gGerudosFortressPositionNameCHITex" OutName="gerudos_fortress_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1b400"/>
+        <Texture Name="gHauntedWastelandPositionNameCHITex" OutName="haunted_wasteland_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1be00"/>
+        <Texture Name="gMarketPositionNameCHITex" OutName="market_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1c800"/>
+        <Texture Name="gHyruleCastlePositionNameCHITex" OutName="hyrule_castle_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1d200"/>
+        <Texture Name="gDeathMountainTrailPositionNameCHITex" OutName="death_mountain_trail_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1dc00"/>
+        <Texture Name="gDeathMountainCraterPositionNameCHITex" OutName="death_mountain_crater_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1e600"/>
+        <Texture Name="gGoronCityPositionNameCHITex" OutName="goron_city_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1f000"/>
+        <Texture Name="gLonLonRanchPositionNameCHITex" OutName="lon_lon_ranch_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x1fa00"/>
+        <Texture Name="gQuestionMarkPositionNameCHITex" OutName="question_mark_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x20400"/>
+        <Texture Name="gGanonsCastlePositionNameCHITex" OutName="ganons_castle_position_name_chi" Format="ia8" Width="80" Height="32" Offset="0x20e00"/>
+     </File>
+</Root>

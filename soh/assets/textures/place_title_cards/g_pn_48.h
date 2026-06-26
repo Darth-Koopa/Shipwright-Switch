@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gStableTitleCardGERTex[] = dgStableTitleCardGER
 #define dgStableTitleCardFRATex "__OTR__textures/g_pn_48/gStableTitleCardFRATex"
 static const ALIGN_ASSET(2) char gStableTitleCardFRATex[] = dgStableTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgStableTitleCardCHITex "__OTR__textures/g_pn_48/gStableTitleCardCHITex"
+static const ALIGN_ASSET(2) char gStableTitleCardCHITex[] = dgStableTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_48_H

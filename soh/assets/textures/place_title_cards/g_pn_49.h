@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gThievesHideoutTitleCardGERTex[] = dgThievesHid
 #define dgThievesHideoutTitleCardFRATex "__OTR__textures/g_pn_49/gThievesHideoutTitleCardFRATex"
 static const ALIGN_ASSET(2) char gThievesHideoutTitleCardFRATex[] = dgThievesHideoutTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgThievesHideoutTitleCardCHITex "__OTR__textures/g_pn_49/gThievesHideoutTitleCardCHITex"
+static const ALIGN_ASSET(2) char gThievesHideoutTitleCardCHITex[] = dgThievesHideoutTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_49_H

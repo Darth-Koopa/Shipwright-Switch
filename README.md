@@ -14,8 +14,9 @@ textures from the iQue Player release.
 
 - **Chinese message text** — 2115 messages from the iQue ROM, calibrated against
   the N64 Simplified Chinese text dump
-- **Chinese UI textures** — 29 action labels, 112 item names, 34 map labels
-  replaced with iQue-original Chinese versions
+- **Chinese UI textures** — action labels (29), item names (112), map labels (34),
+  dungeon titles (10), place title cards (57), and boss title cards (10),
+  all replaced with iQue-original Chinese versions
 - **All-CharChn CJK font** — 2183 custom 16×16 I4 glyphs rendered from
   Source Han Sans SC, covering the complete iQue character set + extended range
 - **HD texture packs** — 128×128 RGBA32 HD font glyphs and UI textures,
@@ -42,11 +43,18 @@ textures from the iQue Player release.
    uv run hd_textures/generate_hd_menu_o2r.py
    ```
 
+### Important Note
+
+This Chinese localization has only been tested with the **NTSC (US)** version of
+the ROM. Other regional versions may have untested differences in text IDs or
+texture layouts. Please use an NTSC-US ROM for the best experience.
+
 ### Tools (`scripts/chinese/`)
 
 | Directory | Purpose |
 |-----------|---------|
 | `message/` | Message extraction, calibration, and asset code generation |
+| `texture_extract/` | iQue ROM texture extraction (XML definitions + N64 format decoders) |
 | `hd_textures/` | HD texture sources and O2R packer for UI textures |
 
 See `scripts/chinese/message/README.md` for the full control-code reference
