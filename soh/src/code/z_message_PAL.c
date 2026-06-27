@@ -1649,8 +1649,8 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
 }
 
 void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
-    static s16 sIconItem32XOffsets[] = { 74, 74, 74, 54 };
-    static s16 sIconItem24XOffsets[] = { 72, 72, 72, 50 };
+    static s16 sIconItem32XOffsets[] = { 74, 74, 74, 54, 74 }; // CHI uses ENG offsets
+    static s16 sIconItem24XOffsets[] = { 72, 72, 72, 50, 72 }; // CHI uses ENG offsets
     MessageContext* msgCtx = &play->msgCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     u8 language = sDisplayNextMessageAsEnglish ? LANGUAGE_ENG : gSaveContext.language;

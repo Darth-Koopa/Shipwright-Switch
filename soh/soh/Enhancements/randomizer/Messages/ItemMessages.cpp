@@ -101,8 +101,8 @@ void LoadCustomItemIcon(bool displayAsEnglish) {
         iconSize = Rando::StaticData::RetrieveItem(rgid).GetCustomIconSize();
     }
     if (customIcon != nullptr) {
-        static int16_t sIconItem32XOffsets[] = { 74, 74, 74, 54 };
-        static int16_t sIconItem24XOffsets[] = { 72, 72, 72, 50 };
+        static int16_t sIconItem32XOffsets[] = { 74, 74, 74, 54, 74 }; // CHI uses ENG offsets
+        static int16_t sIconItem24XOffsets[] = { 72, 72, 72, 50, 72 }; // CHI uses ENG offsets
         MessageContext* msgCtx = &gPlayState->msgCtx;
         uint8_t language = displayAsEnglish ? LANGUAGE_ENG : gSaveContext.language;
         if (iconSize == ICON_SIZE_32) {
