@@ -160,6 +160,55 @@ def apply_corrections(messages: list[bytes]) -> list[bytes]:
     return corrected
 
 
+# ---------------------------------------------------------------------------
+# Ocarina "played song" message fix
+#
+# These messages (textId 0x0893-0x089F, "You played the XXX!") display
+# a musical staff alongside the text.  In the iQue ROM data the message
+# body has only one trailing NEWLINE (0x01) before QUICKTEXT_DISABLE
+# (0x09) + END (0x02), while the English counterpart has three NEWLINEs.
+# With SoH's font scaling, the single NEWLINE causes the text to sit
+# too close to the staff for CJK characters.  We insert an extra 0x01
+# to match the vertical spacing.
+# ---------------------------------------------------------------------------
+_OCARINA_PLAYED_SONG_TEXT_IDS = set(range(0x0893, 0x08A0))
+
+
+def apply_ocarina_newline_fix(messages: list[bytes],
+                              text_ids: list[int]) -> list[bytes]:
+    """Insert an extra NEWLINE (0x01) into "played song" ocarina messages.
+
+    Only modifies messages whose mapped textId is in 0x0893-0x089F AND
+    whose last three bytes match the expected pattern 0x01 0x09 0x02.
+    """
+    # Build textId → message index lookup
+    tid_to_idx: dict[int, int] = {}
+    for idx, tid in enumerate(text_ids):
+        if idx < len(messages):
+            tid_to_idx[tid] = idx
+
+    fixed = 0
+    result = list(messages)  # shallow copy; replace modified entries
+    for tid in sorted(tid_to_idx):
+        if tid not in _OCARINA_PLAYED_SONG_TEXT_IDS:
+            continue
+        idx = tid_to_idx[tid]
+        msg = result[idx]
+        # Verify expected ending: ... 0x01, 0x09, 0x02
+        if len(msg) < 3:
+            continue
+        if msg[-3] == 0x01 and msg[-2] == 0x09 and msg[-1] == 0x02:
+            # Insert extra 0x01 before the final 0x09
+            new_msg = bytearray(msg)
+            new_msg[-2:-2] = b'\x01\x01'  # insert two 0x01 before 0x09
+            result[idx] = bytes(new_msg)
+            fixed += 1
+
+    if fixed:
+        print(f"Applied ocarina NEWLINE fix to {fixed} message(s)")
+    return result
+
+
 def load_ntsc_text_ids(ntsc_raw_path: str) -> list[int]:
     """Extract textIds from message_raw_ntsc.txt in order.
 
@@ -220,6 +269,10 @@ def main():
             print(f"  iQue messages ({len(messages)}) <= NTSC messages ({len(text_ids)}), mapping OK")
         else:
             print(f"  WARNING: iQue has MORE messages than NTSC! Some will use fallback IDs")
+
+    # Apply ocarina "played song" NEWLINE fix (needs textIds to identify targets)
+    if text_ids is not None:
+        messages = apply_ocarina_newline_fix(messages, text_ids)
 
     write_output(messages, text_ids, str(output_file))
 
