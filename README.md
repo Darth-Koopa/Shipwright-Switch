@@ -151,7 +151,7 @@ If you want to manually compile SoH, please consult the [building instructions](
 ### Playtesting
 If you want to playtest a continuous integration build, you can find them at the links below. Keep in mind that these are for playtesting only, and you will likely encounter bugs and possibly crashes. 
 
-* [Nintendo Switch](https://nightly.link/timschneeb/Shipwright/workflows/generate-builds/develop/soh-nx.zip)
+* [Nintendo Switch](https://nightly.link/timschneeb/Shipwright/workflows/generate-builds/develop/soh-nx.zip).
 
 ### Further Reading
 More detailed documentation can be found in the 'docs' directory, including the aforementioned [building instructions](docs/BUILDING.md).
