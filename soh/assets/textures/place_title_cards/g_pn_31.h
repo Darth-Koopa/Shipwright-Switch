@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gKokiriForestTitleCardGERTex[] = dgKokiriForest
 #define dgKokiriForestTitleCardFRATex "__OTR__textures/g_pn_31/gKokiriForestTitleCardFRATex"
 static const ALIGN_ASSET(2) char gKokiriForestTitleCardFRATex[] = dgKokiriForestTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgKokiriForestTitleCardCHITex "__OTR__textures/g_pn_31/gKokiriForestTitleCardCHITex"
+static const ALIGN_ASSET(2) char gKokiriForestTitleCardCHITex[] = dgKokiriForestTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_31_H

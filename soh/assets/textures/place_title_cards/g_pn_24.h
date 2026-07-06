@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gPotionShopTitleCardGERTex[] = dgPotionShopTitl
 #define dgPotionShopTitleCardFRATex "__OTR__textures/g_pn_24/gPotionShopTitleCardFRATex"
 static const ALIGN_ASSET(2) char gPotionShopTitleCardFRATex[] = dgPotionShopTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgPotionShopTitleCardCHITex "__OTR__textures/g_pn_24/gPotionShopTitleCardCHITex"
+static const ALIGN_ASSET(2) char gPotionShopTitleCardCHITex[] = dgPotionShopTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_24_H

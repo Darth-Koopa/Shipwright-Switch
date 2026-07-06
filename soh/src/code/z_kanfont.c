@@ -5,10 +5,14 @@
 #include "message_data_static.h"
 #include "textures/nes_font_static/nes_font_static.h"
 #include "textures/kanji/kanji.h"
+#include "textures/chinese_font/chinese_font.h"
 #include "textures/message_static/message_static.h"
 
 // SOH [NTSC]
 extern MessageTableEntry* sJpnMessageEntryTablePtr;
+
+// SOH [Chinese]
+extern MessageTableEntry* sChiMessageEntryTablePtr;
 
 // #region SOH [Port] Asset tables we can pull from instead of from ROM
 const char* fontTbl[140] = {
@@ -4140,6 +4144,9 @@ const char* msgStaticTbl[] = {
     gMessageEndSquareTex,
     gMessageArrowTex,
 };
+
+#include "z_kanfont_chinese_tbl.inc"
+
 // #endregion
 
 /**
@@ -4176,6 +4183,54 @@ void Font_LoadChar(Font* font, u8 character, u16 codePointIndex) {
     if (character < 0x8B)
         memcpy(&font->charTexBuf[codePointIndex], fontTbl[character], strlen(fontTbl[character]) + 1);
 }
+
+// #region SOH [Chinese] - Load Chinese character glyph via OTR path
+/**
+ * Loads a Chinese character glyph via OTR path into the character texture buffer
+ * at `codePointIndex`. The value of `character` is the 2-byte iQue encoding
+ * (0xA08C–0xA775 main, 0xAA9F–0xAAAB buttons, 0xAAAC–0xAC48 extended).
+ *
+ * Button codes are intercepted before the glyph table lookup and redirected
+ * to NES font icon textures.  Undefined codes fall through to an empty texture.
+ */
+void Font_LoadCharChinese(Font* font, u16 character, u16 codePointIndex) {
+    if (sChiMessageEntryTablePtr == NULL) {
+        return;
+    }
+
+    // iQue button/icon codes (0xAA9F–0xAAAB) — map to NES font textures
+    if (character >= 0xAA9F && character <= 0xAAAB) {
+        static const char* buttonIconTbl[] = {
+            gMsgChar9FButtonATex,      // 0xAA9F
+            gMsgCharA0ButtonBTex,      // 0xAAA0
+            gMsgCharA1ButtonCTex,      // 0xAAA1
+            gMsgCharA2ButtonLTex,      // 0xAAA2
+            gMsgCharA3ButtonRTex,      // 0xAAA3
+            gMsgCharA4ButtonZTex,      // 0xAAA4
+            gMsgCharA5ButtonCUpTex,    // 0xAAA5
+            gMsgCharA6ButtonCDownTex,  // 0xAAA6
+            gMsgCharA7ButtonCLeftTex,  // 0xAAA7
+            gMsgCharA8ButtonCRightTex, // 0xAAA8
+            gMsgCharA9ZTargetSignTex,  // 0xAAA9
+            gMsgCharAAControlStickTex, // 0xAAAA
+            gMsgCharABControlPadTex,   // 0xAAAB
+        };
+        s32 btnIndex = character - 0xAA9F;
+        memcpy(&font->charTexBuf[codePointIndex], buttonIconTbl[btnIndex],
+               strlen(buttonIconTbl[btnIndex]) + 1);
+        return;
+    }
+
+    // Contiguous table index: glyphIndex = code – 0xA08C
+    // Valid ranges: 0xA08C–0xA775 (main) and 0xAAAC–0xAC48 (extended).
+    // Gaps and button codes use gMsgCharChnEmptyTex.
+    s32 glyphIndex = character - 0xA08C;
+    if (glyphIndex >= 0 && glyphIndex < ARRAY_COUNT(chineseFontTbl)) {
+        memcpy(&font->charTexBuf[codePointIndex], chineseFontTbl[glyphIndex],
+               strlen(chineseFontTbl[glyphIndex]) + 1);
+    }
+}
+// #endregion
 
 /**
  * Loads a message box icon from message_static, such as the ending triangle/square or choice arrow into the

@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gLakeHyliaTitleCardGERTex[] = dgLakeHyliaTitleC
 #define dgLakeHyliaTitleCardFRATex "__OTR__textures/g_pn_32/gLakeHyliaTitleCardFRATex"
 static const ALIGN_ASSET(2) char gLakeHyliaTitleCardFRATex[] = dgLakeHyliaTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgLakeHyliaTitleCardCHITex "__OTR__textures/g_pn_32/gLakeHyliaTitleCardCHITex"
+static const ALIGN_ASSET(2) char gLakeHyliaTitleCardCHITex[] = dgLakeHyliaTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_32_H

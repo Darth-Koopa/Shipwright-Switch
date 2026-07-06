@@ -15,4 +15,9 @@ static const ALIGN_ASSET(2) char gMorphaTitleCardFRATex[] = dgMorphaTitleCardFRA
 #define dgMorphaTitleCardJPNTex "__OTR__textures/object_mo/gMorphaTitleCardJPNTex"
 static const ALIGN_ASSET(2) char gMorphaTitleCardJPNTex[] = dgMorphaTitleCardJPNTex;
 
+
+// #region SOH [Chinese]
+#define dgMorphaTitleCardCHITex "__OTR__textures/object_mo/gMorphaTitleCardCHITex"
+static const ALIGN_ASSET(2) char gMorphaTitleCardCHITex[] = dgMorphaTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_OBJECT_MO_H

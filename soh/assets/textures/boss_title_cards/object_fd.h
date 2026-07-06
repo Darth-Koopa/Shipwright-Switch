@@ -15,4 +15,9 @@ static const ALIGN_ASSET(2) char gVolvagiaBossTitleCardFRATex[] = dgVolvagiaBoss
 #define dgVolvagiaBossTitleCardJPNTex "__OTR__textures/object_fd/gVolvagiaBossTitleCardJPNTex"
 static const ALIGN_ASSET(2) char gVolvagiaBossTitleCardJPNTex[] = dgVolvagiaBossTitleCardJPNTex;
 
+
+// #region SOH [Chinese]
+#define dgVolvagiaBossTitleCardCHITex "__OTR__textures/object_fd/gVolvagiaBossTitleCardCHITex"
+static const ALIGN_ASSET(2) char gVolvagiaBossTitleCardCHITex[] = dgVolvagiaBossTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_OBJECT_FD_H

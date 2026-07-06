@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gBazaarTitleCardGERTex[] = dgBazaarTitleCardGER
 #define dgBazaarTitleCardFRATex "__OTR__textures/g_pn_23/gBazaarTitleCardFRATex"
 static const ALIGN_ASSET(2) char gBazaarTitleCardFRATex[] = dgBazaarTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgBazaarTitleCardCHITex "__OTR__textures/g_pn_23/gBazaarTitleCardCHITex"
+static const ALIGN_ASSET(2) char gBazaarTitleCardCHITex[] = dgBazaarTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_23_H

@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gChamberOfTheSagesTitleCardGERTex[] = dgChamber
 #define dgChamberOfTheSagesTitleCardFRATex "__OTR__textures/g_pn_14/gChamberOfTheSagesTitleCardFRATex"
 static const ALIGN_ASSET(2) char gChamberOfTheSagesTitleCardFRATex[] = dgChamberOfTheSagesTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgChamberOfTheSagesTitleCardCHITex "__OTR__textures/g_pn_14/gChamberOfTheSagesTitleCardCHITex"
+static const ALIGN_ASSET(2) char gChamberOfTheSagesTitleCardCHITex[] = dgChamberOfTheSagesTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_14_H

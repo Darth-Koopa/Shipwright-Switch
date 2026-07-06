@@ -1,0 +1,173 @@
+<Root>
+    <File Name="g_pn_01">
+        <Texture Name="gForestTempleTitleCardCHITex" OutName="forest_temple_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_02">
+        <Texture Name="gShadowTempleTitleCardCHITex" OutName="shadow_temple_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_03">
+        <Texture Name="gFireTempleTitleCardCHITex" OutName="fire_temple_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_04">
+        <Texture Name="gWaterTempleTitleCardCHITex" OutName="water_temple_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_05">
+        <Texture Name="gSpiritTempleTitleCardCHITex" OutName="spirit_temple_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_06">
+        <Texture Name="gDekuTreeTitleCardCHITex" OutName="deku_tree_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_07">
+        <Texture Name="gJabuJabuTitleCardCHITex" OutName="jabu_jabu_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_08">
+        <Texture Name="gDodongosCavernTitleCardCHITex" OutName="dodongos_cavern_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_09">
+        <Texture Name="gInsideGanonsCastleTitleCardCHITex" OutName="inside_ganons_castle_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_10">
+        <Texture Name="gIceCavernTitleCardCHITex" OutName="ice_cavern_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_11">
+        <Texture Name="gGERudoTrainingGroundTitleCardCHITex" OutName="gerudo_training_ground_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_12">
+        <Texture Name="gCastleCourtyardTitleCardCHITex" OutName="castle_courtyard_ground_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_13">
+        <Texture Name="gGreatFairysFountainTitleCardCHITex" OutName="great_fairys_fountain_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_14">
+        <Texture Name="gChamberOfTheSagesTitleCardCHITex" OutName="chamber_of_the_sages_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_15">
+        <Texture Name="gShootingGalleryTitleCardCHITex" OutName="shooting_gallery_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_16">
+        <Texture Name="gTempleOfTimeTitleCardCHITex" OutName="temple_of_time_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_17">
+        <Texture Name="gMarketTitleCardCHITex" OutName="market_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_18">
+        <Texture Name="gBackAlleyTitleCardCHITex" OutName="back_alley_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_19">
+        <Texture Name="gKokiriShopTitleCardCHITex" OutName="kokiri_shop_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_20">
+        <Texture Name="gGoronShopTitleCardCHITex" OutName="goron_shop_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_21">
+        <Texture Name="gZoraShopTitleCardCHITex" OutName="zora_shop_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_22">
+        <Texture Name="gHouseOfSkulltulaTitleCardCHITex" OutName="house_of_skulltula_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_23">
+        <Texture Name="gBazaarTitleCardCHITex" OutName="bazaar_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_24">
+        <Texture Name="gPotionShopTitleCardCHITex" OutName="potion_shop_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_25">
+        <Texture Name="gGravekeepersHutTitleCardCHITex" OutName="gravekeepsers_hut_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_26">
+        <Texture Name="gLakesideLaboratoryTitleCardCHITex" OutName="lakeside_laboratory_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_27">
+        <Texture Name="gHyruleFieldTitleCardCHITex" OutName="hyrule_field_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_28">
+        <Texture Name="gKakarikoVillageTitleCardCHITex" OutName="kakariko_village_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_29">
+        <Texture Name="gGraveyardTitleCardCHITex" OutName="graveyard_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_30">
+        <Texture Name="gZorasRiverTitleCardCHITex" OutName="zoras_river_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_31">
+        <Texture Name="gKokiriForestTitleCardCHITex" OutName="kokiri_firest_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_32">
+        <Texture Name="gLakeHyliaTitleCardCHITex" OutName="lake_hylia_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_33">
+        <Texture Name="gZorasDomainTitleCardCHITex" OutName="zoras_domain_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_34">
+        <Texture Name="gZorasFountainTitleCardCHITex" OutName="zoras_fountain_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_35">
+        <Texture Name="gGERudoValleyTitleCardCHITex" OutName="gerudo_valley_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_36">
+        <Texture Name="gLostWoodsTitleCardCHITex" OutName="lost_woods_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_37">
+        <Texture Name="gHauntedWastelandTitleCardCHITex" OutName="haunted_wasteland_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_38">
+        <Texture Name="gHyruleCastleTitleCardCHITex" OutName="hyrule_castle_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_39">
+        <Texture Name="gDeathMountainTrailTitleCardCHITex" OutName="death_mountain_trail_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_40">
+        <Texture Name="gDeathMountainCraterTitleCardCHITex" OutName="death_mountain_crater_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_41">
+        <Texture Name="gGoronCityTitleCardCHITex" OutName="goron_city_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_42">
+        <Texture Name="gLonLonRanchTitleCardCHITex" OutName="lon_lon_ranch_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_43">
+        <Texture Name="gGanonsCastleTitleCardCHITex" OutName="ganons_castle_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_44">
+        <Texture Name="gRoyalFamilysTombTitleCardCHITex" OutName="royal_familys_tomb_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_45">
+        <Texture Name="gFairysFountainTitleCardCHITex" OutName="fairys_fountain_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_46">
+        <Texture Name="gFishingPondTitleCardCHITex" OutName="fishing_pond_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_47">
+        <Texture Name="gBombchuBowlingAlleyCardCHITex" OutName="bombchu_bowling_alley_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_48">
+        <Texture Name="gStableTitleCardCHITex" OutName="stable_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_49">
+        <Texture Name="gThievesHideoutTitleCardCHITex" OutName="thieves_hideout_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_50">
+        <Texture Name="gHappyMaskShopTitleCardCHITex" OutName="happy_mask_shop_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_51">
+        <Texture Name="gTreasureBoxShopTitleCardCHITex" OutName="treasure_box_shop_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_52">
+        <Texture Name="gSacredForestMeadowTitleCardCHITex" OutName="sacred_forest_meadow_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_53">
+        <Texture Name="gGERudosFortressTitleCardCHITex" OutName="gerudos_fortress_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_54">
+        <Texture Name="gBottomOfTheWellTitleCardCHITex" OutName="bottom_of_the_well_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_55">
+        <Texture Name="gDesertColossusTitleCardCHITex" OutName="desert_colossus_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_56">
+        <Texture Name="gBombchuShopTitleCardCHITex" OutName="bombchu_shop_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+    <File Name="g_pn_57">
+        <Texture Name="gQuestionMarkTitleCardCHITex" OutName="question_mark_chi" Format="ia8" Width="144" Height="24" Offset="0xD80"/>
+    </File>
+</Root>

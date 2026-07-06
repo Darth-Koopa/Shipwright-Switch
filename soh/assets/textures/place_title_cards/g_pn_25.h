@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gGravekeepersHutTitleCardGERTex[] = dgGravekeep
 #define dgGravekeepersHutTitleCardFRATex "__OTR__textures/g_pn_25/gGravekeepersHutTitleCardFRATex"
 static const ALIGN_ASSET(2) char gGravekeepersHutTitleCardFRATex[] = dgGravekeepersHutTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgGravekeepersHutTitleCardCHITex "__OTR__textures/g_pn_25/gGravekeepersHutTitleCardCHITex"
+static const ALIGN_ASSET(2) char gGravekeepersHutTitleCardCHITex[] = dgGravekeepersHutTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_25_H

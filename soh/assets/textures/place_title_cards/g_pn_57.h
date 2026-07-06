@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gQuestionMarkTitleCardGERTex[] = dgQuestionMark
 #define dgQuestionMarkTitleCardFRATex "__OTR__textures/g_pn_57/gQuestionMarkTitleCardFRATex"
 static const ALIGN_ASSET(2) char gQuestionMarkTitleCardFRATex[] = dgQuestionMarkTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgQuestionMarkTitleCardCHITex "__OTR__textures/g_pn_57/gQuestionMarkTitleCardCHITex"
+static const ALIGN_ASSET(2) char gQuestionMarkTitleCardCHITex[] = dgQuestionMarkTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_57_H

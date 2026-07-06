@@ -15,4 +15,9 @@ static const ALIGN_ASSET(2) char gGanondorfTitleCardFRATex[] = dgGanondorfTitleC
 #define dgGanondorfTitleCardJPNTex "__OTR__textures/object_ganon/gGanondorfTitleCardJPNTex"
 static const ALIGN_ASSET(2) char gGanondorfTitleCardJPNTex[] = dgGanondorfTitleCardJPNTex;
 
+
+// #region SOH [Chinese]
+#define dgGanondorfTitleCardCHITex "__OTR__textures/object_ganon/gGanondorfTitleCardCHITex"
+static const ALIGN_ASSET(2) char gGanondorfTitleCardCHITex[] = dgGanondorfTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_OBJECT_GANON_H

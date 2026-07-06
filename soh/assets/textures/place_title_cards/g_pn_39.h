@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gDeathMountainTrailTitleCardGERTex[] = dgDeathM
 #define dgDeathMountainTrailTitleCardFRATex "__OTR__textures/g_pn_39/gDeathMountainTrailTitleCardFRATex"
 static const ALIGN_ASSET(2) char gDeathMountainTrailTitleCardFRATex[] = dgDeathMountainTrailTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgDeathMountainTrailTitleCardCHITex "__OTR__textures/g_pn_39/gDeathMountainTrailTitleCardCHITex"
+static const ALIGN_ASSET(2) char gDeathMountainTrailTitleCardCHITex[] = dgDeathMountainTrailTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_39_H

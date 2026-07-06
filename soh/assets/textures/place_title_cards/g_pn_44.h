@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gRoyalFamilysTombTitleCardGERTex[] = dgRoyalFam
 #define dgRoyalFamilysTombTitleCardFRATex "__OTR__textures/g_pn_44/gRoyalFamilysTombTitleCardFRATex"
 static const ALIGN_ASSET(2) char gRoyalFamilysTombTitleCardFRATex[] = dgRoyalFamilysTombTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgRoyalFamilysTombTitleCardCHITex "__OTR__textures/g_pn_44/gRoyalFamilysTombTitleCardCHITex"
+static const ALIGN_ASSET(2) char gRoyalFamilysTombTitleCardCHITex[] = dgRoyalFamilysTombTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_44_H

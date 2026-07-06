@@ -15,4 +15,9 @@ static const ALIGN_ASSET(2) char gKingDodongoTitleCardFRATex[] = dgKingDodongoTi
 #define dgKingDodongoTitleCardJPNTex "__OTR__textures/object_kingdodongo/gKingDodongoTitleCardJPNTex"
 static const ALIGN_ASSET(2) char gKingDodongoTitleCardJPNTex[] = dgKingDodongoTitleCardJPNTex;
 
+
+// #region SOH [Chinese]
+#define dgKingDodongoTitleCardCHITex "__OTR__textures/object_kingdodongo/gKingDodongoTitleCardCHITex"
+static const ALIGN_ASSET(2) char gKingDodongoTitleCardCHITex[] = dgKingDodongoTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_OBJECT_KINGDODONGO_H

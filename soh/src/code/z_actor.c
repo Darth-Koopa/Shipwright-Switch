@@ -859,6 +859,10 @@ void TitleCard_InitBossName(PlayState* play, TitleCardContext* titleCtx, void* t
             newName[length - 6] = 'J';
             newName[length - 5] = 'P';
             newName[length - 4] = 'N';
+        } else if (gSaveContext.language == LANGUAGE_CHI) {
+            newName[length - 6] = 'C';
+            newName[length - 5] = 'H';
+            newName[length - 4] = 'I';
         }
         texture = newName;
     }
@@ -1081,6 +1085,10 @@ void TitleCard_InitPlaceName(PlayState* play, TitleCardContext* titleCtx, void* 
             newName[length - 6] = 'J';
             newName[length - 5] = 'P';
             newName[length - 4] = 'N';
+        } else if (gSaveContext.language == LANGUAGE_CHI) {
+            newName[length - 6] = 'C';
+            newName[length - 5] = 'H';
+            newName[length - 4] = 'I';
         }
         texture = newName;
     }

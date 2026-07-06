@@ -1,6 +1,73 @@
 ![Ship of Harkinian](docs/shiptitle.darkmode.png#gh-dark-mode-only)
 ![Ship of Harkinian](docs/shiptitle.lightmode.png#gh-light-mode-only)
 
+# Simplified Chinese Support
+
+This fork adds full Simplified Chinese language support to Ship of Harkinian 9.2.3,
+replacing untranslated item names, map labels, and action prompts with Chinese
+textures from the iQue Player release.
+
+### Features
+
+- **Chinese message text** — 2115 messages from the iQue ROM, calibrated against
+  the N64 Simplified Chinese text dump
+- **Chinese UI textures** — action labels (29), item names (112), map labels (34),
+  dungeon titles (10), place title cards (57), and boss title cards (10),
+  all replaced with iQue-original Chinese versions
+- **All-CharChn CJK font** — 2183 custom 16×16 I4 glyphs rendered from
+  Source Han Sans SC, covering the complete iQue character set + extended range
+- **HD texture packs** — 128×128 RGBA32 HD font glyphs and UI textures,
+  compatible with [OoT-Reloaded](https://github.com/GhostlyDark/OoT-Reloaded)
+
+### Quick Start
+
+1. Select **Chinese** in Settings → Language
+2. For HD textures, place the two O2R mods in the `mods/` folder:
+   ```
+   mods/
+   ├── chinese_font_hd.o2r    # HD CJK glyphs (use with OoT-Reloaded)
+   └── chinese_menu_hd.o2r    # HD UI textures
+   ```
+3. To build HD font mod (chinese_font_hd.o2r):
+   ```bash
+   cd scripts/chinese
+   uv run message/generate_assets.py      # generates CJK glyphs + message table
+   uv run message/generate_hd_font_o2r.py # generates chinese_font_hd.o2r
+   ```
+4. To build HD textures mod (chinese_menu_hd.o2r):
+   ```bash
+   cd scripts/chinese
+   uv run hd_textures/generate_hd_menu_o2r.py
+   ```
+
+### Important Note
+
+This Chinese localization has only been tested with the **NTSC (US)** version of
+the ROM. Other regional versions may have untested differences in text IDs or
+texture layouts. Please use an NTSC-US ROM for the best experience.
+
+### Tools (`scripts/chinese/`)
+
+| Directory | Purpose |
+|-----------|---------|
+| `message/` | Message extraction, calibration, and asset code generation |
+| `texture_extract/` | iQue ROM texture extraction (XML definitions + N64 format decoders) |
+| `hd_textures/` | HD texture sources and O2R packer for UI textures |
+
+See `scripts/chinese/message/README.md` for the full control-code reference
+and calibration workflow.
+
+### Acknowledgments
+
+This implementation builds upon work from several projects:
+
+| Project | Role |
+|---------|------|
+| [sxunix/Shipwright](https://github.com/sxunix/Shipwright) | Original Chinese support framework for SoH 9.1.2 |
+| [Xzonn/NintendoOfficialChineseGames](https://github.com/Xzonn/NintendoOfficialChineseGames) | N64 Simplified Chinese text dump used for message calibration |
+| [zeldaret/Z64Utils](https://github.com/zeldaret/Z64Utils) | iQue ROM message extraction |
+| [GhostlyDark/OoT-Reloaded](https://github.com/GhostlyDark/OoT-Reloaded) | HD font glyph style reference (gray210) and O2R format compatibility |
+
 ## Website
 
 Official Website: https://www.shipofharkinian.com/

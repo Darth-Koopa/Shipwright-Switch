@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gLostWoodsTitleCardGERTex[] = dgLostWoodsTitleC
 #define dgLostWoodsTitleCardFRATex "__OTR__textures/g_pn_36/gLostWoodsTitleCardFRATex"
 static const ALIGN_ASSET(2) char gLostWoodsTitleCardFRATex[] = dgLostWoodsTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgLostWoodsTitleCardCHITex "__OTR__textures/g_pn_36/gLostWoodsTitleCardCHITex"
+static const ALIGN_ASSET(2) char gLostWoodsTitleCardCHITex[] = dgLostWoodsTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_36_H

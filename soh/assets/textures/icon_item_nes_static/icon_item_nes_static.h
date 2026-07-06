@@ -96,4 +96,37 @@ static const ALIGN_ASSET(2) char gPauseQuestStatus20ENGTex[] = dgPauseQuestStatu
 #define dgPauseSave10ENGTex "__OTR__textures/icon_item_nes_static/gPauseSave10ENGTex"
 static const ALIGN_ASSET(2) char gPauseSave10ENGTex[] = dgPauseSave10ENGTex;
 
+
+// #region SOH [Chinese]
+#define dgPauseBotWTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseBotWTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseBotWTitleCHITex[] = dgPauseBotWTitleCHITex;
+
+#define dgPauseDekuTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseDekuTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseDekuTitleCHITex[] = dgPauseDekuTitleCHITex;
+
+#define dgPauseDodongoTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseDodongoTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseDodongoTitleCHITex[] = dgPauseDodongoTitleCHITex;
+
+#define dgPauseFireTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseFireTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseFireTitleCHITex[] = dgPauseFireTitleCHITex;
+
+#define dgPauseForestTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseForestTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseForestTitleCHITex[] = dgPauseForestTitleCHITex;
+
+#define dgPauseIceCavernTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseIceCavernTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseIceCavernTitleCHITex[] = dgPauseIceCavernTitleCHITex;
+
+#define dgPauseJabuTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseJabuTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseJabuTitleCHITex[] = dgPauseJabuTitleCHITex;
+
+#define dgPauseShadowTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseShadowTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseShadowTitleCHITex[] = dgPauseShadowTitleCHITex;
+
+#define dgPauseSpiritTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseSpiritTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseSpiritTitleCHITex[] = dgPauseSpiritTitleCHITex;
+
+#define dgPauseWaterTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseWaterTitleCHITex"
+static const ALIGN_ASSET(2) char gPauseWaterTitleCHITex[] = dgPauseWaterTitleCHITex;
+
+// #endregion
 #endif // TEXTURES_ICON_ITEM_NES_STATIC_H

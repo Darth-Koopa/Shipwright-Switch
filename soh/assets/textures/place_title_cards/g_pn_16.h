@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gTempleOfTimeTitleCardGERTex[] = dgTempleOfTime
 #define dgTempleOfTimeTitleCardFRATex "__OTR__textures/g_pn_16/gTempleOfTimeTitleCardFRATex"
 static const ALIGN_ASSET(2) char gTempleOfTimeTitleCardFRATex[] = dgTempleOfTimeTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgTempleOfTimeTitleCardCHITex "__OTR__textures/g_pn_16/gTempleOfTimeTitleCardCHITex"
+static const ALIGN_ASSET(2) char gTempleOfTimeTitleCardCHITex[] = dgTempleOfTimeTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_16_H

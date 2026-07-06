@@ -68,6 +68,35 @@ jobs:
         path: soh.o2r
         retention-days: 3
 
+  generate-hd-o2r:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Git Checkout
+      uses: actions/checkout@v6
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+    - name: Sync deps and generate HD font O2R
+      run: |
+        cd scripts/chinese
+        uv sync
+        uv run python message/generate_hd_font_o2r.py
+    - name: Generate HD menu O2R
+      run: |
+        cd scripts/chinese
+        uv run python hd_textures/generate_hd_menu_o2r.py
+    - name: Upload HD font O2R
+      uses: actions/upload-artifact@v7
+      with:
+        name: chinese_font_hd.o2r
+        path: chinese_font_hd.o2r
+        retention-days: 3
+    - name: Upload HD menu O2R
+      uses: actions/upload-artifact@v7
+      with:
+        name: chinese_menu_hd.o2r
+        path: chinese_menu_hd.o2r
+        retention-days: 3
+
   build-macos:
     if: 0 # Disable mac build on fork
     needs: generate-soh-otr
