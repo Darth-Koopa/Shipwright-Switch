@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gIceCavernTitleCardGERTex[] = dgIceCavernTitleC
 #define dgIceCavernTitleCardFRATex "__OTR__textures/g_pn_10/gIceCavernTitleCardFRATex"
 static const ALIGN_ASSET(2) char gIceCavernTitleCardFRATex[] = dgIceCavernTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgIceCavernTitleCardCHITex "__OTR__textures/g_pn_10/gIceCavernTitleCardCHITex"
+static const ALIGN_ASSET(2) char gIceCavernTitleCardCHITex[] = dgIceCavernTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_10_H

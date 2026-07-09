@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gHouseOfSkulltulaTitleCardGERTex[] = dgHouseOfS
 #define dgHouseOfSkulltulaTitleCardFRATex "__OTR__textures/g_pn_22/gHouseOfSkulltulaTitleCardFRATex"
 static const ALIGN_ASSET(2) char gHouseOfSkulltulaTitleCardFRATex[] = dgHouseOfSkulltulaTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgHouseOfSkulltulaTitleCardCHITex "__OTR__textures/g_pn_22/gHouseOfSkulltulaTitleCardCHITex"
+static const ALIGN_ASSET(2) char gHouseOfSkulltulaTitleCardCHITex[] = dgHouseOfSkulltulaTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_22_H

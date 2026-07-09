@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gSacredForestMeadowTitleCardGERTex[] = dgSacred
 #define dgSacredForestMeadowTitleCardFRATex "__OTR__textures/g_pn_52/gSacredForestMeadowTitleCardFRATex"
 static const ALIGN_ASSET(2) char gSacredForestMeadowTitleCardFRATex[] = dgSacredForestMeadowTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgSacredForestMeadowTitleCardCHITex "__OTR__textures/g_pn_52/gSacredForestMeadowTitleCardCHITex"
+static const ALIGN_ASSET(2) char gSacredForestMeadowTitleCardCHITex[] = dgSacredForestMeadowTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_52_H

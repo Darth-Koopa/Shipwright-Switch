@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gJabuJabuTitleCardGERTex[] = dgJabuJabuTitleCar
 #define dgJabuJabuTitleCardFRATex "__OTR__textures/g_pn_07/gJabuJabuTitleCardFRATex"
 static const ALIGN_ASSET(2) char gJabuJabuTitleCardFRATex[] = dgJabuJabuTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgJabuJabuTitleCardCHITex "__OTR__textures/g_pn_07/gJabuJabuTitleCardCHITex"
+static const ALIGN_ASSET(2) char gJabuJabuTitleCardCHITex[] = dgJabuJabuTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_07_H

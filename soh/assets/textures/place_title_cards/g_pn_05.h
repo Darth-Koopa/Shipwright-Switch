@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gSpiritTempleTitleCardGERTex[] = dgSpiritTemple
 #define dgSpiritTempleTitleCardFRATex "__OTR__textures/g_pn_05/gSpiritTempleTitleCardFRATex"
 static const ALIGN_ASSET(2) char gSpiritTempleTitleCardFRATex[] = dgSpiritTempleTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgSpiritTempleTitleCardCHITex "__OTR__textures/g_pn_05/gSpiritTempleTitleCardCHITex"
+static const ALIGN_ASSET(2) char gSpiritTempleTitleCardCHITex[] = dgSpiritTempleTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_05_H

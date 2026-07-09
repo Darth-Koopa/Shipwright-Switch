@@ -15,4 +15,9 @@ static const ALIGN_ASSET(2) char gTwinrovaTitleCardFRATex[] = dgTwinrovaTitleCar
 #define dgTwinrovaTitleCardJPNTex "__OTR__textures/object_tw/gTwinrovaTitleCardJPNTex"
 static const ALIGN_ASSET(2) char gTwinrovaTitleCardJPNTex[] = dgTwinrovaTitleCardJPNTex;
 
+
+// #region SOH [Chinese]
+#define dgTwinrovaTitleCardCHITex "__OTR__textures/object_tw/gTwinrovaTitleCardCHITex"
+static const ALIGN_ASSET(2) char gTwinrovaTitleCardCHITex[] = dgTwinrovaTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_OBJECT_TW_H

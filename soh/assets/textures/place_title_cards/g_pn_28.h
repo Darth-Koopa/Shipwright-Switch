@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gKakarikoVillageTitleCardGERTex[] = dgKakarikoV
 #define dgKakarikoVillageTitleCardFRATex "__OTR__textures/g_pn_28/gKakarikoVillageTitleCardFRATex"
 static const ALIGN_ASSET(2) char gKakarikoVillageTitleCardFRATex[] = dgKakarikoVillageTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgKakarikoVillageTitleCardCHITex "__OTR__textures/g_pn_28/gKakarikoVillageTitleCardCHITex"
+static const ALIGN_ASSET(2) char gKakarikoVillageTitleCardCHITex[] = dgKakarikoVillageTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_28_H

@@ -89,12 +89,18 @@ void FileChoose_SetKeyboardVtx(GameState* thisx) {
     }
 }
 
-static void* sNameLabelTextures[] = { gFileSelNameENGTex, gFileSelNameENGTex, gFileSelNameFRATex };
+static void* sNameLabelTextures[] = {
+    gFileSelNameENGTex, gFileSelNameENGTex, gFileSelNameFRATex,
+    gFileSelNameENGTex, // LANGUAGE_JPN — fallback to English
+    gFileSelNameENGTex, // LANGUAGE_CHI
+};
 
 static void* sBackspaceEndTextures[][2] = {
     { gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex },
     { gFileSelBackspaceButtonTex, gFileSelENDButtonGERTex },
     { gFileSelBackspaceButtonTex, gFileSelENDButtonFRATex },
+    { gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex }, // LANGUAGE_JPN
+    { gFileSelBackspaceButtonTex, gFileSelENDButtonENGTex }, // LANGUAGE_CHI
 };
 
 static u16 sBackspaceEndWidths[] = { 28, 44 };
@@ -835,31 +841,30 @@ void FileChoose_UpdateOptionsMenu(GameState* thisx) {
 }
 
 typedef struct {
-    /* 0x00 */ void* texture[3];
-    /* 0x0C */ u16 width[3];
-    /* 0x12 */ u16 height;
-} OptionsMenuTextureInfo; // size = 0x14
+    /* 0x00 */ void* texture[5];
+    /* 0x14 */ u16 width[5];
+    /* 0x1E */ u16 height;
+} OptionsMenuTextureInfo;
 
 static OptionsMenuTextureInfo gOptionsMenuHeaders[] = {
-    { { gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex }, { 128, 128, 128 }, 16 },
-    { { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDFRATex }, { 64, 64, 64 }, 16 },
-    { { gFileSelLTargetingENGTex, gFileSelLTargetingGERTex, gFileSelLTargetingFRATex }, { 64, 144, 64 }, 16 },
-    { { gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessGERTex, gFileSelCheckBrightnessFRATex },
-      { 128, 128, 128 },
-      16 },
-    { { gFileSelLanguageENGTex, gFileSelLanguageGERTex, gFileSelLanguageFRATex }, { 64, 64, 64 }, 16 },
+    { { gFileSelOptionsENGTex, gFileSelOptionsGERTex, gFileSelOptionsENGTex, gFileSelOptionsENGTex, gFileSelOptionsENGTex }, { 128, 128, 128, 128, 128 }, 16 },
+    { { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDFRATex, gFileSelSOUNDENGTex, gFileSelSOUNDENGTex }, { 64, 64, 64, 64, 64 }, 16 },
+    { { gFileSelLTargetingENGTex, gFileSelLTargetingGERTex, gFileSelLTargetingFRATex, gFileSelLTargetingENGTex, gFileSelLTargetingENGTex }, { 64, 144, 64, 64, 64 }, 16 },
+    { { gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessGERTex, gFileSelCheckBrightnessFRATex, gFileSelCheckBrightnessENGTex, gFileSelCheckBrightnessENGTex },
+      { 128, 128, 128, 128, 128 }, 16 },
+    { { gFileSelLanguageENGTex, gFileSelLanguageGERTex, gFileSelLanguageFRATex, gFileSelLanguageENGTex, gFileSelLanguageENGTex }, { 64, 64, 64, 64, 64 }, 16 },
 };
 
 static OptionsMenuTextureInfo gOptionsMenuSettings[] = {
-    { { gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex }, { 48, 48, 48 }, 16 },
-    { { gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex }, { 48, 48, 48 }, 16 },
-    { { gFileSelHeadsetENGTex, gFileSelHeadsetGERTex, gFileSelHeadsetFRATex }, { 48, 48, 48 }, 16 },
-    { { gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex }, { 48, 48, 48 }, 16 },
-    { { gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex }, { 48, 80, 48 }, 16 },
-    { { gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex }, { 48, 80, 48 }, 16 },
-    { { gFileSelLangEnglishENGTex, gFileSelLangEnglishENGTex, gFileSelLangEnglishENGTex }, { 48, 48, 48 }, 16 },
-    { { gFileSelLangDeutschGERTex, gFileSelLangDeutschGERTex, gFileSelLangDeutschGERTex }, { 48, 48, 48 }, 16 },
-    { { gFileSelLangFrancaisFRATex, gFileSelLangFrancaisFRATex, gFileSelLangFrancaisFRATex }, { 48, 48, 48 }, 16 },
+    { { gFileSelStereoENGTex, gFileSelStereoENGTex, gFileSelStereoFRATex, gFileSelStereoENGTex, gFileSelStereoENGTex }, { 48, 48, 48, 48, 48 }, 16 },
+    { { gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex, gFileSelMonoENGTex }, { 48, 48, 48, 48, 48 }, 16 },
+    { { gFileSelHeadsetENGTex, gFileSelHeadsetGERTex, gFileSelHeadsetFRATex, gFileSelHeadsetENGTex, gFileSelHeadsetENGTex }, { 48, 48, 48, 48, 48 }, 16 },
+    { { gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex, gFileSelSurroundENGTex }, { 48, 48, 48, 48, 48 }, 16 },
+    { { gFileSelSwitchENGTex, gFileSelSwitchGERTex, gFileSelSwitchFRATex, gFileSelSwitchENGTex, gFileSelSwitchENGTex }, { 48, 80, 48, 48, 48 }, 16 },
+    { { gFileSelHoldENGTex, gFileSelHoldGERTex, gFileSelHoldFRATex, gFileSelHoldENGTex, gFileSelHoldENGTex }, { 48, 80, 48, 48, 48 }, 16 },
+    { { gFileSelLangEnglishENGTex, gFileSelLangEnglishENGTex, gFileSelLangEnglishENGTex, gFileSelLangEnglishENGTex, gFileSelLangEnglishENGTex }, { 48, 48, 48, 48, 48 }, 16 },
+    { { gFileSelLangDeutschGERTex, gFileSelLangDeutschGERTex, gFileSelLangDeutschGERTex, gFileSelLangDeutschGERTex, gFileSelLangDeutschGERTex }, { 48, 48, 48, 48, 48 }, 16 },
+    { { gFileSelLangFrancaisFRATex, gFileSelLangFrancaisFRATex, gFileSelLangFrancaisFRATex, gFileSelLangFrancaisFRATex, gFileSelLangFrancaisFRATex }, { 48, 48, 48, 48, 48 }, 16 },
 };
 
 void FileChoose_DrawOptionsImpl(GameState* thisx) {

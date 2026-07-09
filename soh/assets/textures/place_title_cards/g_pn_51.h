@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gTreasureBoxShopTitleCardGERTex[] = dgTreasureB
 #define dgTreasureBoxShopTitleCardFRATex "__OTR__textures/g_pn_51/gTreasureBoxShopTitleCardFRATex"
 static const ALIGN_ASSET(2) char gTreasureBoxShopTitleCardFRATex[] = dgTreasureBoxShopTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgTreasureBoxShopTitleCardCHITex "__OTR__textures/g_pn_51/gTreasureBoxShopTitleCardCHITex"
+static const ALIGN_ASSET(2) char gTreasureBoxShopTitleCardCHITex[] = dgTreasureBoxShopTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_51_H

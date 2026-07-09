@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gDekuTreeTitleCardGERTex[] = dgDekuTreeTitleCar
 #define dgDekuTreeTitleCardFRATex "__OTR__textures/g_pn_06/gDekuTreeTitleCardFRATex"
 static const ALIGN_ASSET(2) char gDekuTreeTitleCardFRATex[] = dgDekuTreeTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgDekuTreeTitleCardCHITex "__OTR__textures/g_pn_06/gDekuTreeTitleCardCHITex"
+static const ALIGN_ASSET(2) char gDekuTreeTitleCardCHITex[] = dgDekuTreeTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_06_H

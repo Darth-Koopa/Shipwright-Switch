@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gHappyMaskShopTitleCardGERTex[] = dgHappyMaskSh
 #define dgHappyMaskShopTitleCardFRATex "__OTR__textures/g_pn_50/gHappyMaskShopTitleCardFRATex"
 static const ALIGN_ASSET(2) char gHappyMaskShopTitleCardFRATex[] = dgHappyMaskShopTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgHappyMaskShopTitleCardCHITex "__OTR__textures/g_pn_50/gHappyMaskShopTitleCardCHITex"
+static const ALIGN_ASSET(2) char gHappyMaskShopTitleCardCHITex[] = dgHappyMaskShopTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_50_H

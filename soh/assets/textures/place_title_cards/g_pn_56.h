@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gBombchuShopTitleCardGERTex[] = dgBombchuShopTi
 #define dgBombchuShopTitleCardFRATex "__OTR__textures/g_pn_56/gBombchuShopTitleCardFRATex"
 static const ALIGN_ASSET(2) char gBombchuShopTitleCardFRATex[] = dgBombchuShopTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgBombchuShopTitleCardCHITex "__OTR__textures/g_pn_56/gBombchuShopTitleCardCHITex"
+static const ALIGN_ASSET(2) char gBombchuShopTitleCardCHITex[] = dgBombchuShopTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_56_H

@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gBottomOfTheWellTitleCardGERTex[] = dgBottomOfT
 #define dgBottomOfTheWellTitleCardFRATex "__OTR__textures/g_pn_54/gBottomOfTheWellTitleCardFRATex"
 static const ALIGN_ASSET(2) char gBottomOfTheWellTitleCardFRATex[] = dgBottomOfTheWellTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgBottomOfTheWellTitleCardCHITex "__OTR__textures/g_pn_54/gBottomOfTheWellTitleCardCHITex"
+static const ALIGN_ASSET(2) char gBottomOfTheWellTitleCardCHITex[] = dgBottomOfTheWellTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_54_H

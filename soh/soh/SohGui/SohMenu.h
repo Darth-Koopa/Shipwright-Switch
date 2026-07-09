@@ -25,6 +25,7 @@ static std::map<int32_t, const char*> languages = {
     { LANGUAGE_GER, "German" },
     { LANGUAGE_FRA, "French" },
     { LANGUAGE_JPN, "Japanese" },
+    { LANGUAGE_CHI, "Chinese" },
 };
 void UpdateMenuTricks();
 void UpdateMenuLocations();

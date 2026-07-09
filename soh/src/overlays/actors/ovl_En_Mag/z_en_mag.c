@@ -415,7 +415,7 @@ bool EnMag_ShouldDrawNoController(Font* font, Gfx** gfxP, bool isActualText) {
         return true;
     }
     Gfx* gfx = *gfxP;
-    u8 language = (gSaveContext.language == LANGUAGE_JPN) ? LANGUAGE_ENG : gSaveContext.language;
+    u8 language = (gSaveContext.language == LANGUAGE_JPN || gSaveContext.language == LANGUAGE_CHI) ? LANGUAGE_ENG : gSaveContext.language;
     s32 length = strlen(noControllerMsg[language]);
     u16 rectLeft = VREG(19) + ((length - 13) * -3);
     u16 rectTop = YREG(10) + 171;
@@ -450,7 +450,7 @@ bool EnMag_ShouldDrawPressStart(Font* font, Gfx** gfxP, bool isActualText) {
         return true;
     }
     Gfx* gfx = *gfxP;
-    u8 language = (gSaveContext.language == LANGUAGE_JPN) ? LANGUAGE_ENG : gSaveContext.language;
+    u8 language = (gSaveContext.language == LANGUAGE_JPN || gSaveContext.language == LANGUAGE_CHI) ? LANGUAGE_ENG : gSaveContext.language;
     s32 length = strlen(pressStartMsg[language]);
     u16 rectLeft = YREG(7) + ((length - 11) * -3);
     u16 rectTop = YREG(10) + 171;

@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gHauntedWastelandTitleCardGERTex[] = dgHauntedW
 #define dgHauntedWastelandTitleCardFRATex "__OTR__textures/g_pn_37/gHauntedWastelandTitleCardFRATex"
 static const ALIGN_ASSET(2) char gHauntedWastelandTitleCardFRATex[] = dgHauntedWastelandTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgHauntedWastelandTitleCardCHITex "__OTR__textures/g_pn_37/gHauntedWastelandTitleCardCHITex"
+static const ALIGN_ASSET(2) char gHauntedWastelandTitleCardCHITex[] = dgHauntedWastelandTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_37_H

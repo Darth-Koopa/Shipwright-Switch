@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gShootingGalleryTitleCardGERTex[] = dgShootingG
 #define dgShootingGalleryTitleCardFRATex "__OTR__textures/g_pn_15/gShootingGalleryTitleCardFRATex"
 static const ALIGN_ASSET(2) char gShootingGalleryTitleCardFRATex[] = dgShootingGalleryTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgShootingGalleryTitleCardCHITex "__OTR__textures/g_pn_15/gShootingGalleryTitleCardCHITex"
+static const ALIGN_ASSET(2) char gShootingGalleryTitleCardCHITex[] = dgShootingGalleryTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_15_H

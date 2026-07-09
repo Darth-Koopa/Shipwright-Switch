@@ -105,9 +105,11 @@ extern "C" MessageTableEntry* sNesMessageEntryTablePtr;
 extern "C" MessageTableEntry* sGerMessageEntryTablePtr;
 extern "C" MessageTableEntry* sFraMessageEntryTablePtr;
 extern "C" MessageTableEntry* sJpnMessageEntryTablePtr;
+extern "C" MessageTableEntry* sChiMessageEntryTablePtr;
 
 static const std::array<MessageTableEntry**, LANGUAGE_MAX> messageTables = {
-    &sNesMessageEntryTablePtr, &sGerMessageEntryTablePtr, &sFraMessageEntryTablePtr, &sJpnMessageEntryTablePtr
+    &sNesMessageEntryTablePtr, &sGerMessageEntryTablePtr, &sFraMessageEntryTablePtr, &sJpnMessageEntryTablePtr,
+    &sChiMessageEntryTablePtr
 };
 
 void SohMenu::UpdateLanguageMap(std::map<int32_t, const char*>& languageMap) {

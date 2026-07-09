@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gBackAlleyTitleCardGERTex[] = dgBackAlleyTitleC
 #define dgBackAlleyTitleCardFRATex "__OTR__textures/g_pn_18/gBackAlleyTitleCardFRATex"
 static const ALIGN_ASSET(2) char gBackAlleyTitleCardFRATex[] = dgBackAlleyTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgBackAlleyTitleCardCHITex "__OTR__textures/g_pn_18/gBackAlleyTitleCardCHITex"
+static const ALIGN_ASSET(2) char gBackAlleyTitleCardCHITex[] = dgBackAlleyTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_18_H

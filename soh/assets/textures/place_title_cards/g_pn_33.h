@@ -12,4 +12,9 @@ static const ALIGN_ASSET(2) char gZorasDomainTitleCardGERTex[] = dgZorasDomainTi
 #define dgZorasDomainTitleCardFRATex "__OTR__textures/g_pn_33/gZorasDomainTitleCardFRATex"
 static const ALIGN_ASSET(2) char gZorasDomainTitleCardFRATex[] = dgZorasDomainTitleCardFRATex;
 
+
+// #region SOH [Chinese]
+#define dgZorasDomainTitleCardCHITex "__OTR__textures/g_pn_33/gZorasDomainTitleCardCHITex"
+static const ALIGN_ASSET(2) char gZorasDomainTitleCardCHITex[] = dgZorasDomainTitleCardCHITex;
+// #endregion
 #endif // TEXTURES_G_PN_33_H

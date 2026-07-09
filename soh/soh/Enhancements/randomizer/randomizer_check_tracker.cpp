@@ -1878,7 +1878,7 @@ void DrawLocation(RandomizerCheck rc) {
                 } else {
                     if (IsHeartPiece((GetItemID)Rando::StaticData::RetrieveItem(loc->GetVanillaItem()).GetItemID())) {
                         if (gSaveContext.language == LANGUAGE_ENG || gSaveContext.language == LANGUAGE_GER ||
-                            gSaveContext.language == LANGUAGE_JPN) {
+                            gSaveContext.language == LANGUAGE_JPN || gSaveContext.language == LANGUAGE_CHI) {
                             txt = Rando::StaticData::RetrieveItem(loc->GetVanillaItem()).GetName().english;
                         } else if (gSaveContext.language == LANGUAGE_FRA) {
                             txt = Rando::StaticData::RetrieveItem(loc->GetVanillaItem()).GetName().french;
@@ -1911,7 +1911,7 @@ void DrawLocation(RandomizerCheck rc) {
                 } else {
                     if (IsHeartPiece((GetItemID)Rando::StaticData::RetrieveItem(loc->GetVanillaItem()).GetItemID())) {
                         if (gSaveContext.language == LANGUAGE_ENG || gSaveContext.language == LANGUAGE_GER ||
-                            gSaveContext.language == LANGUAGE_JPN) {
+                            gSaveContext.language == LANGUAGE_JPN || gSaveContext.language == LANGUAGE_CHI) {
                             txt = Rando::StaticData::RetrieveItem(loc->GetVanillaItem()).GetName().english;
                         } else if (gSaveContext.language == LANGUAGE_FRA) {
                             txt = Rando::StaticData::RetrieveItem(loc->GetVanillaItem()).GetName().french;

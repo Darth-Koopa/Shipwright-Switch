@@ -158,7 +158,7 @@ const std::string CustomMessage::GetFrench(MessageFormat format) const {
 
 const std::string CustomMessage::GetForCurrentLanguage(MessageFormat format) const {
     return GetForLanguage(
-        ((Language)gSaveContext.language == LANGUAGE_JPN) ? LANGUAGE_ENG : (Language)gSaveContext.language, format);
+        ((Language)gSaveContext.language == LANGUAGE_JPN || (Language)gSaveContext.language == LANGUAGE_CHI) ? LANGUAGE_ENG : (Language)gSaveContext.language, format);
 }
 
 const std::string CustomMessage::GetForLanguage(uint8_t language, MessageFormat format) const {
