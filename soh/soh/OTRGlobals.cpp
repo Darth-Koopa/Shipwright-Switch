@@ -34,6 +34,7 @@
 #include "frame_interpolation.h"
 #include "SohGui/SohMenu.h"
 #include "SohGui/SohGui.hpp"
+#include "SohGui/Localization.h"
 #include "variables.h"
 #include "z64.h"
 #include "macros.h"
@@ -319,6 +320,19 @@ OTRGlobals::OTRGlobals() {
         fontStandardLargest = CreateFontWithSize(24.0f, "fonts/Montserrat-Regular.ttf");
         fontJapanese = CreateFontWithSize(24.0f, "fonts/NotoSansJP-Regular.ttf", true);
         ImGui::GetIO().FontDefault = fontStandardLarger;
+
+        // Merge Simplified-Chinese glyphs into every UI font the menu can render with.
+        // These are separate ImFont objects from ImGui's built-in default font, so merging
+        // into the default font (as the libultraship font-setup callback does) would NOT
+        // make Chinese render in the menu. We merge into each actual font at its own size.
+        SohGui::MergeSimplifiedChineseInto(fontStandard, 16.0f);
+        SohGui::MergeSimplifiedChineseInto(fontStandardLarger, 20.0f);
+        SohGui::MergeSimplifiedChineseInto(fontStandardLargest, 24.0f);
+        SohGui::MergeSimplifiedChineseInto(fontMonoSmall, 14.0f);
+        SohGui::MergeSimplifiedChineseInto(fontMono, 16.0f);
+        SohGui::MergeSimplifiedChineseInto(fontMonoLarger, 20.0f);
+        SohGui::MergeSimplifiedChineseInto(fontMonoLargest, 24.0f);
+        // fontJapanese already covers CJK via GetGlyphRangesJapanese(), so no merge needed.
     }
 
     previousImGuiScaleIndex = -1;

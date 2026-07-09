@@ -1,4 +1,5 @@
 #include "UIWidgets.hpp"
+#include "ship/utils/StringHelper.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui_internal.h>
 #include <libultraship/libultraship.h>
@@ -15,7 +16,7 @@ namespace UIWidgets {
 // Manually included newlines will still be respected and reset the line length
 // If line is midword when it hits the limit, text should break at the last encountered space
 std::string WrappedText(const char* text, unsigned int charactersPerLine) {
-    std::string newText(text);
+    std::string newText = StringHelper::Translate(text);
     const size_t tipLength = newText.length();
     int lastSpace = -1;
     int currentLineLength = 0;
@@ -902,7 +903,7 @@ bool CVarColorPicker(const char* label, const char* cvarName, Color_RGBA8 defaul
     ImGui::AlignTextToFramePadding();
     if (showReset) {
         ImGui::SameLine();
-        std::string uniqueTag = "Reset##" + std::string(label);
+        std::string uniqueTag = StringHelper::Translate("Reset") + "##" + std::string(label);
         if (UIWidgets::Button(uniqueTag.c_str(),
                               UIWidgets::ButtonOptions({ { .tooltip = "Resets this color to its default value" } })
                                   .Color(themeColor)
@@ -919,7 +920,7 @@ bool CVarColorPicker(const char* label, const char* cvarName, Color_RGBA8 defaul
     }
     if (showRandom) {
         ImGui::SameLine();
-        std::string uniqueTag = "Random##" + std::string(label);
+        std::string uniqueTag = StringHelper::Translate("Random") + "##" + std::string(label);
         if (UIWidgets::Button(uniqueTag.c_str(),
                               UIWidgets::ButtonOptions({ { .tooltip = "Generates a random color value to use" } })
                                   .Color(themeColor)
@@ -936,7 +937,7 @@ bool CVarColorPicker(const char* label, const char* cvarName, Color_RGBA8 defaul
     }
     if (showRainbow) {
         ImGui::SameLine();
-        std::string uniqueTag = "Rainbow##" + std::string(cvarName) + "Rainbow";
+        std::string uniqueTag = StringHelper::Translate("Rainbow") + "##" + std::string(cvarName) + "Rainbow";
 
         UIWidgets::CVarCheckbox(
             uniqueTag.c_str(), rainbowCVar.c_str(),
@@ -947,7 +948,7 @@ bool CVarColorPicker(const char* label, const char* cvarName, Color_RGBA8 defaul
     ImGui::EndDisabled();
     if (showLock) {
         ImGui::SameLine();
-        std::string uniqueTag = "Lock##" + std::string(cvarName) + "Locked";
+        std::string uniqueTag = StringHelper::Translate("Lock") + "##" + std::string(cvarName) + "Locked";
 
         UIWidgets::CVarCheckbox(
             uniqueTag.c_str(), lockedCVar.c_str(),
@@ -1189,7 +1190,7 @@ bool BtnSelector(const char* label, int32_t* value, const BtnSelectorOptions& op
                 ImGui::Text("+");
                 ImGui::SameLine();
             }
-            if (UIWidgets::Button(buttonName.c_str(), UIWidgets::ButtonOptions()
+            if (UIWidgets::Button(StringHelper::Translate(buttonName).c_str(), UIWidgets::ButtonOptions()
                                                           .Tooltip("Remove this button from the combination")
                                                           .Color(UIWidgets::Colors::Gray)
                                                           .Size(UIWidgets::Sizes::Inline))) {
@@ -1209,7 +1210,7 @@ bool BtnSelector(const char* label, int32_t* value, const BtnSelectorOptions& op
         UIWidgets::PushStyleMenuItem();
         for (const auto& [buttonName, buttonMask] : buttonMap) {
             if (!(currentValue & buttonMask)) {
-                if (ImGui::MenuItem(buttonName.c_str())) {
+                if (ImGui::MenuItem(StringHelper::Translate(buttonName).c_str())) {
                     currentValue |= buttonMask;
                     dirty = true;
                 }

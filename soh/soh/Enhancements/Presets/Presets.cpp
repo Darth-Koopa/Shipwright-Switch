@@ -361,7 +361,7 @@ void DrawNewPresetPopup() {
 
 void PresetsCustomWidget(WidgetInfo& info) {
     ImGui::PushFont(OTRGlobals::Instance->fontMonoLarger);
-    if (UIWidgets::Button("New Preset", UIWidgets::ButtonOptions(
+    if (UIWidgets::Button(StringHelper::Translate("New Preset").c_str(), UIWidgets::ButtonOptions(
                                             { { .disabled = (CVarGetInteger(CVAR_SETTING("DisableChanges"), 0) != 0),
                                                 .disabledTooltip = "Disabled because of race lockout" } })
                                             .Size(UIWidgets::Sizes::Inline)
@@ -374,19 +374,22 @@ void PresetsCustomWidget(WidgetInfo& info) {
         DrawNewPresetPopup();
     }
     ImGui::SameLine();
-    UIWidgets::CVarCheckbox("Hide built-in presets", CVAR_GENERAL("HideBuiltInPresets"),
+    UIWidgets::CVarCheckbox(StringHelper::Translate("Hide built-in presets").c_str(),
+                            CVAR_GENERAL("HideBuiltInPresets"),
                             UIWidgets::CheckboxOptions().Color(THEME_COLOR));
     bool hideBuiltIn = CVarGetInteger(CVAR_GENERAL("HideBuiltInPresets"), 0);
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTable("PresetWidgetTable", PRESET_SECTION_MAX + 3)) {
-        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthFixed, 400);
+        ImGui::TableSetupColumn(StringHelper::Translate("Name").c_str(), ImGuiTableColumnFlags_WidthFixed, 400);
         for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
             ImGui::TableSetupColumn(blockInfo[i].names[0].c_str());
         }
-        ImGui::TableSetupColumn("Apply", ImGuiTableColumnFlags_WidthFixed,
-                                ImGui::CalcTextSize("Apply").x + ImGui::GetStyle().FramePadding.x * 2);
-        ImGui::TableSetupColumn("Delete", ImGuiTableColumnFlags_WidthFixed,
-                                ImGui::CalcTextSize("Delete").x + ImGui::GetStyle().FramePadding.x * 2);
+        ImGui::TableSetupColumn(StringHelper::Translate("Apply").c_str(), ImGuiTableColumnFlags_WidthFixed,
+                                ImGui::CalcTextSize(StringHelper::Translate("Apply").c_str()).x +
+                                    ImGui::GetStyle().FramePadding.x * 2);
+        ImGui::TableSetupColumn(StringHelper::Translate("Delete").c_str(), ImGuiTableColumnFlags_WidthFixed,
+                                ImGui::CalcTextSize(StringHelper::Translate("Delete").c_str()).x +
+                                    ImGui::GetStyle().FramePadding.x * 2);
         BlankButton();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
@@ -401,7 +404,7 @@ void PresetsCustomWidget(WidgetInfo& info) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::AlignTextToFramePadding();
-            ImGui::Text("No presets found.");
+            ImGui::Text(StringHelper::Translate("No presets found.").c_str());
             ImGui::EndTable();
             UIWidgets::PopStyleTabs();
             ImGui::PopFont();

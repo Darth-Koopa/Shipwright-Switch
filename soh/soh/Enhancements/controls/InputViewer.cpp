@@ -449,7 +449,7 @@ InputViewerSettingsWindow::~InputViewerSettingsWindow() {
 
 void InputViewerSettingsWindow::DrawElement() {
     // gInputViewer.Scale
-    CVarSliderFloat("Input Viewer Scale: %.2f", CVAR_INPUT_VIEWER("Scale"),
+    CVarSliderFloat(StringHelper::Translate("Input Viewer Scale: %.2f").c_str(), CVAR_INPUT_VIEWER("Scale"),
                     FloatSliderOptions()
                         .Color(THEME_COLOR)
                         .DefaultValue(1.0f)
@@ -459,19 +459,19 @@ void InputViewerSettingsWindow::DrawElement() {
                         .Tooltip("Sets the on screen size of the input viewer"));
 
     // gInputViewer.EnableDragging
-    CVarCheckbox("Enable Dragging", CVAR_INPUT_VIEWER("EnableDragging"),
+    CVarCheckbox(StringHelper::Translate("Enable Dragging").c_str(), CVAR_INPUT_VIEWER("EnableDragging"),
                  CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
 
     UIWidgets::PaddedSeparator(true, true);
 
     // gInputViewer.ShowBackground
-    CVarCheckbox("Show Background Layer", CVAR_INPUT_VIEWER("ShowBackground"),
+    CVarCheckbox(StringHelper::Translate("Show Background Layer").c_str(), CVAR_INPUT_VIEWER("ShowBackground"),
                  CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
 
     UIWidgets::PaddedSeparator(true, true);
 
     PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader("Buttons")) {
+    if (ImGui::CollapsingHeader(StringHelper::Translate("Buttons").c_str())) {
 
         // gInputViewer.ButtonOutlineMode
         CVarCombobox(
@@ -612,7 +612,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Analog Stick")) {
+    if (ImGui::CollapsingHeader(StringHelper::Translate("Analog Stick").c_str())) {
         // gInputViewer.AnalogStick.VisibilityMode
         CVarCombobox(
             "Analog Stick Visibility", CVAR_INPUT_VIEWER("AnalogStick.VisibilityMode"), stickModeOptions,
@@ -645,7 +645,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Additional (\"Right\") Stick")) {
+    if (ImGui::CollapsingHeader(StringHelper::Translate("Additional (\"Right\") Stick").c_str())) {
         // gInputViewer.RightStick.VisibilityMode
         CVarCombobox(
             "Right Stick Visibility", CVAR_INPUT_VIEWER("RightStick.VisibilityMode"), stickModeOptions,
@@ -666,7 +666,7 @@ void InputViewerSettingsWindow::DrawElement() {
 
         // gInputViewer.RightStick.Movement
         CVarSliderInt(
-            "Right Stick Movement: %dpx", CVAR_INPUT_VIEWER("RightStick.Movement"),
+            StringHelper::Translate("Right Stick Movement: %dpx").c_str(), CVAR_INPUT_VIEWER("RightStick.Movement"),
             IntSliderOptions()
                 .Color(THEME_COLOR)
                 .Min(0)
@@ -678,10 +678,10 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Analog Angle Values")) {
+    if (ImGui::CollapsingHeader(StringHelper::Translate("Analog Angle Values").c_str())) {
         // gAnalogAngles
         CVarCheckbox(
-            "Show Analog Stick Angle Values", CVAR_INPUT_VIEWER("AnalogAngles.Enabled"),
+            StringHelper::Translate("Show Analog Stick Angle Values").c_str(), CVAR_INPUT_VIEWER("AnalogAngles.Enabled"),
             CheckboxOptions().Color(THEME_COLOR).Tooltip("Displays analog stick angle values in the input viewer"));
         if (CVarGetInteger(CVAR_INPUT_VIEWER("AnalogAngles.Enabled"), 0)) {
             // gInputViewer.AnalogAngles.TextColor

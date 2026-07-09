@@ -148,11 +148,11 @@ void SohMenu::AddMenuEnhancements() {
     AddWidget(path, "Autosave", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Autosave"))
         .RaceDisable(false)
-        .Options(CheckboxOptions().Tooltip(
+        .Options(CheckboxOptions().Tooltip(StringHelper::Translate(
             "Save the game automatically on a 3 minute interval and when soft-resetting the game. The interval "
             "autosave will wait if the game is paused in any way (dialogue, pause screen up, cutscenes, "
             "etc.).\n\n"
-            "The soft-reset save will *not* trigger in cutscene maps like the Chamber of Sages!"));
+            "The soft-reset save will *not* trigger in cutscene maps like the Chamber of Sages!")));
     AddWidget(path, "Notification on Autosave", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("AutosaveNotification"))
         .PreFunc([](WidgetInfo& info) { info.isHidden = !CVarGetInteger(CVAR_ENHANCEMENT("Autosave"), 0); })
@@ -161,7 +161,7 @@ void SohMenu::AddMenuEnhancements() {
 
     AddWidget(path, "Remember Save Location", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("RememberSaveLocation"))
-        .Options(CheckboxOptions().Tooltip(
+        .Options(CheckboxOptions().Tooltip(StringHelper::Translate(
             "When loading a save, places Link at the last entrance he went through.\n"
             "This doesn't work if the save was made in grottos, fairy fountains, or dungeons."));
 
@@ -173,7 +173,7 @@ void SohMenu::AddMenuEnhancements() {
                 CVarSetInteger(CVAR_ENHANCEMENT("ChestSizeDependsStoneOfAgony"), 0);
             }
         })
-        .Options(CheckboxOptions().DefaultValue(false).Tooltip(
+        .Options(CheckboxOptions().DefaultValue(false).Tooltip(StringHelper::Translate(
             "Toggle to change container textures to match their contents in randomizer games.\n"
             "Categories: Major items, Lesser items, Junk items, Small keys, Boss keys, Skulltula Tokens."));
     AddWidget(path, "Containers of Agony", WIDGET_CVAR_CHECKBOX)
@@ -196,7 +196,7 @@ void SohMenu::AddMenuEnhancements() {
             "Makes Dampe appear anytime during the night, not just his usual working hours."));
     AddWidget(path, "Exit Market at Night", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("MarketSneak"))
-        .Options(CheckboxOptions().Tooltip(
+        .Options(CheckboxOptions().Tooltip(StringHelper::Translate(
             "Allows exiting Hyrule Castle Market Town to Hyrule Field at night by speaking to the guard "
             "next to the gate."));
     AddWidget(path, "Shops and Games Always Open", WIDGET_CVAR_CHECKBOX)
@@ -217,8 +217,8 @@ void SohMenu::AddMenuEnhancements() {
             ComboboxOptions()
                 .ComboMap(cursorAnywhereValues)
                 .DefaultIndex(PAUSE_ANY_CURSOR_RANDO_ONLY)
-                .Tooltip("Allows the cursor on the pause menu to be over any slot. Sometimes required in Randomizer "
-                         "to select certain items."));
+                .Tooltip(StringHelper::Translate("Allows the cursor on the pause menu to be over any slot. Sometimes "
+                                                  "required in Randomizer to select certain items."));
     AddWidget(path, "Pause Warp", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("PauseWarp"))
         .Options(CheckboxOptions().Tooltip(
@@ -233,12 +233,12 @@ void SohMenu::AddMenuEnhancements() {
     AddWidget(path, "Don't Require Input for Credits Sequence", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("NoInputForCredits"))
         .RaceDisable(false)
-        .Options(CheckboxOptions().Tooltip(
+        .Options(CheckboxOptions().Tooltip(StringHelper::Translate(
             "Removes the Input Requirement on Text boxes after defeating Ganon, allowing the Credits "
             "Sequence to continue to progress."));
     AddWidget(path, "Include Held Inputs at the Start of Pause Buffer Input Window", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("IncludeHeldInputsBufferWindow"))
-        .Options(CheckboxOptions().Tooltip(
+        .Options(CheckboxOptions().Tooltip(StringHelper::Translate(
             "Typically, inputs that are held prior to the buffer window are not included in the buffer. This "
             "setting changes that behavior to include them. This may cause some inputs to be re-triggered "
             "undesireably, for instance Z-Targeting something you might not want to."));
@@ -249,10 +249,11 @@ void SohMenu::AddMenuEnhancements() {
                      .Max(40)
                      .DefaultValue(0)
                      .Format("%d frames")
-                     .Tooltip("Adds back in a delay after unpausing before the game resumes playing again, "
-                              "where inputs can be held prematurely to be input immediately after the game resumes. "
-                              "This essentially brings back behaviour from console releases which are lost on default "
-                              "because SoH isn't limited to N64 hardware."));
+                     .Tooltip(StringHelper::Translate(
+                         "Adds back in a delay after unpausing before the game resumes playing again, "
+                         "where inputs can be held prematurely to be input immediately after the game resumes. "
+                         "This essentially brings back behaviour from console releases which are lost on default "
+                         "because SoH isn't limited to N64 hardware."));
     AddWidget(path, "Simulated Input Lag: %d frames", WIDGET_CVAR_SLIDER_INT)
         .CVar(CVAR_SIMULATED_INPUT_LAG)
         .Options(IntSliderOptions()
@@ -263,9 +264,10 @@ void SohMenu::AddMenuEnhancements() {
                      .Tooltip("Buffers your inputs to be executed a specified amount of frames later."));
     AddWidget(path, "Reworked Targeting", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("ReworkedTargeting.Enabled"))
-        .Options(CheckboxOptions().Tooltip("Reworks targeting functionality\n"
-                                           "- Press Z while locked always untargets (in Toggle mode)\n"
-                                           "- Use the configured button combo to switch between targets"));
+        .Options(CheckboxOptions().Tooltip(StringHelper::Translate(
+            "Reworks targeting functionality\n"
+            "- Press Z while locked always untargets (in Toggle mode)\n"
+            "- Use the configured button combo to switch between targets"));
     AddWidget(path, "Target Switch Button Combination:", WIDGET_CVAR_BTN_SELECTOR)
         .PreFunc([](WidgetInfo& info) {
             info.isHidden = CVarGetInteger(CVAR_ENHANCEMENT("ReworkedTargeting.Enabled"), 0) == 0;

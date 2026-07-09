@@ -8,6 +8,7 @@
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include <imgui.h>
 #include <libultraship/libultraship.h>
+#include "ship/utils/StringHelper.h"
 #include "soh/ShipUtils.h"
 #include "soh/ShipInit.hpp"
 
@@ -707,7 +708,7 @@ bool Combobox(std::string label, T* value, const std::map<T, const char*>& combo
     ImGui::AlignTextToFramePadding();
     if (options.labelPosition != LabelPositions::None) {
         if (options.alignment == ComponentAlignments::Right) {
-            ImGui::Text("%s", trueLabel.c_str());
+            ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             if (options.labelPosition == LabelPositions::Above) {
                 ImGui::NewLine();
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x - comboWidth);
@@ -718,17 +719,17 @@ bool Combobox(std::string label, T* value, const std::map<T, const char*>& combo
             }
         } else if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Above) {
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             }
         }
     }
 
     ImGui::SetNextItemWidth(comboWidth);
-    if (ImGui::BeginCombo(invisibleLabel, comboMap.at(*value), options.flags)) {
+    if (ImGui::BeginCombo(invisibleLabel, StringHelper::Translate(comboMap.at(*value)).c_str(), options.flags)) {
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10.0f, 10.0f));
         for (const auto& pair : comboMap) {
             if (strlen(pair.second) > 1) {
-                if (ImGui::Selectable(pair.second, pair.first == *value)) {
+                if (ImGui::Selectable(StringHelper::Translate(pair.second).c_str(), pair.first == *value)) {
                     *value = pair.first;
                     dirty = true;
                 }
@@ -742,11 +743,11 @@ bool Combobox(std::string label, T* value, const std::map<T, const char*>& combo
         if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Near) {
                 ImGui::SameLine();
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             } else if (options.labelPosition == LabelPositions::Far) {
                 float width = ImGui::CalcTextSize(comboMap.at(*value)).x + ImGui::GetStyle().FramePadding.x * 2;
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x - width);
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             }
         }
     }
@@ -790,7 +791,7 @@ bool Combobox(std::string label, T* value, const std::vector<const char*>& combo
     ImGui::AlignTextToFramePadding();
     if (options.labelPosition != LabelPositions::None) {
         if (options.alignment == ComponentAlignments::Right) {
-            ImGui::Text("%s", trueLabel.c_str());
+            ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             if (options.labelPosition == LabelPositions::Above) {
                 ImGui::NewLine();
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x - comboWidth);
@@ -801,18 +802,18 @@ bool Combobox(std::string label, T* value, const std::vector<const char*>& combo
             }
         } else if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Above) {
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             }
         }
     }
 
     ImGui::SetNextItemWidth(comboWidth);
-    if (ImGui::BeginCombo(invisibleLabel, comboVector.at(currentValueIndex), options.flags)) {
+    if (ImGui::BeginCombo(invisibleLabel, StringHelper::Translate(comboVector.at(currentValueIndex)).c_str(), options.flags)) {
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10.0f, 10.0f));
         for (size_t i = 0; i < comboVector.size(); ++i) {
             auto newValue = static_cast<T>(i);
             if (strlen(comboVector.at(i)) > 1) {
-                if (ImGui::Selectable(comboVector.at(i), newValue == *value)) {
+                if (ImGui::Selectable(StringHelper::Translate(comboVector.at(i)).c_str(), newValue == *value)) {
                     *value = newValue;
                     dirty = true;
                 }
@@ -826,11 +827,11 @@ bool Combobox(std::string label, T* value, const std::vector<const char*>& combo
         if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Near) {
                 ImGui::SameLine();
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             } else if (options.labelPosition == LabelPositions::Far) {
                 float width = ImGui::CalcTextSize(comboVector.at(*value)).x + ImGui::GetStyle().FramePadding.x * 2;
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x - width);
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             }
         }
     }
@@ -875,7 +876,7 @@ bool Combobox(std::string label, T* value, const std::vector<std::string>& combo
     ImGui::AlignTextToFramePadding();
     if (options.labelPosition != LabelPositions::None) {
         if (options.alignment == ComponentAlignments::Right) {
-            ImGui::Text("%s", trueLabel.c_str());
+            ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             if (options.labelPosition == LabelPositions::Above) {
                 ImGui::NewLine();
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x - comboWidth);
@@ -886,18 +887,18 @@ bool Combobox(std::string label, T* value, const std::vector<std::string>& combo
             }
         } else if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Above) {
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             }
         }
     }
 
     ImGui::SetNextItemWidth(comboWidth);
-    if (ImGui::BeginCombo(invisibleLabel, comboVector.at(currentValueIndex).c_str(), options.flags)) {
+    if (ImGui::BeginCombo(invisibleLabel, StringHelper::Translate(comboVector.at(currentValueIndex)).c_str(), options.flags)) {
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10.0f, 10.0f));
         for (size_t i = 0; i < comboVector.size(); ++i) {
             auto newValue = static_cast<T>(i);
             if (comboVector.at(i).length() > 1) {
-                if (ImGui::Selectable(comboVector.at(i).c_str(), newValue == *value)) {
+                if (ImGui::Selectable(StringHelper::Translate(comboVector.at(i)).c_str(), newValue == *value)) {
                     *value = newValue;
                     dirty = true;
                 }
@@ -911,12 +912,12 @@ bool Combobox(std::string label, T* value, const std::vector<std::string>& combo
         if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Near) {
                 ImGui::SameLine();
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             } else if (options.labelPosition == LabelPositions::Far) {
                 float width =
                     ImGui::CalcTextSize(comboVector.at(*value).c_str()).x + ImGui::GetStyle().FramePadding.x * 2;
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x - width);
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             }
         }
     }
@@ -963,7 +964,7 @@ bool Combobox(std::string label, T* value, const char* (&comboArray)[N], const C
     ImGui::AlignTextToFramePadding();
     if (options.labelPosition != LabelPositions::None) {
         if (options.alignment == ComponentAlignments::Right) {
-            ImGui::Text("%s", trueLabel.c_str());
+            ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             if (options.labelPosition == LabelPositions::Above) {
                 ImGui::NewLine();
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x - comboWidth);
@@ -974,7 +975,7 @@ bool Combobox(std::string label, T* value, const char* (&comboArray)[N], const C
             }
         } else if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Above) {
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             }
         }
     }
@@ -999,11 +1000,11 @@ bool Combobox(std::string label, T* value, const char* (&comboArray)[N], const C
         if (options.alignment == ComponentAlignments::Left) {
             if (options.labelPosition == LabelPositions::Near) {
                 ImGui::SameLine();
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             } else if (options.labelPosition == LabelPositions::Far) {
                 float width = ImGui::CalcTextSize(comboArray[*value]).x + ImGui::GetStyle().FramePadding.x * 2;
                 ImGui::SameLine(ImGui::GetContentRegionAvail().x - width);
-                ImGui::Text("%s", trueLabel.c_str());
+                ImGui::Text("%s", StringHelper::Translate(trueLabel).c_str());
             }
         }
     }

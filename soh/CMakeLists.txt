@@ -140,6 +140,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set_source_files_properties(soh/Enhancements/tts/tts.cpp PROPERTIES COMPILE_FLAGS "/utf-8")
     set_source_files_properties(soh/Enhancements/custom-message/CustomMessageManager.cpp PROPERTIES COMPILE_FLAGS "/utf-8")
     set_source_files_properties(soh/Enhancements/custom-message/CustomMessageManager.h PROPERTIES COMPILE_FLAGS "/utf-8")
+    set_source_files_properties(soh/SohGui/Localization.cpp PROPERTIES COMPILE_FLAGS "/utf-8")
 endif()
 
 # handle Network removals
@@ -225,6 +226,16 @@ set(ALL_FILES
 ################################################################################
 add_executable(${PROJECT_NAME} ${ALL_FILES})
 
+# Copy the Simplified-Chinese UI font next to the executable so it can be loaded at runtime.
+set(SOH_CJK_FONT "${CMAKE_CURRENT_SOURCE_DIR}/soh/SohGui/fonts/DroidSansFallback.ttf")
+if (EXISTS "${SOH_CJK_FONT}")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SOH_CJK_FONT}"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/DroidSansFallback.ttf"
+        COMMENT "Copying DroidSansFallback.ttf next to ${PROJECT_NAME}")
+endif()
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 endif()
@@ -291,6 +302,7 @@ FetchContent_Declare(
         dr_libs
         GIT_REPOSITORY https://github.com/mackron/dr_libs.git
         GIT_TAG da35f9d6c7374a95353fd1df1d394d44ab66cf01
+        GIT_SUBMODULES ""
 )
 FetchContent_MakeAvailable(dr_libs)
 

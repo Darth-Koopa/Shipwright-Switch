@@ -132,6 +132,18 @@ void SohMenu::AddMenuSettings() {
 
     // General - Settings
     AddWidget(path, "Menu Settings", WIDGET_SEPARATOR_TEXT);
+
+    // Interface language
+    static const std::map<int32_t, const char*> interfaceLanguageOptions = {
+        { 0, "English" },
+        { 1, "简体中文" },
+    };
+    AddWidget(path, "Interface Language", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_SETTING("Menu.InterfaceLanguage"))
+        .Options(ComboboxOptions()
+                     .Tooltip("Select the display language for the menu interface.")
+                     .ComboMap(interfaceLanguageOptions)
+                     .DefaultIndex(0));
     AddWidget(path, "Menu Theme", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_SETTING("Menu.Theme"))
         .RaceDisable(false)
