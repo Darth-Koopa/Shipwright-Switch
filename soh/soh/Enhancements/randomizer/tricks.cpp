@@ -100,7 +100,8 @@ const ImVec4 Tricks::GetTagColor(const Tag tag) {
 
 void Tricks::DrawTagChips(const std::set<Tag>& rtTags, std::string trickName) {
     for (const Tag rtTag : rtTags) {
-        std::string tagId = GetTagName(rtTag) + "##" + trickName;
+        std::string tagDisplay = StringHelper::Translate(GetTagName(rtTag));
+        std::string tagId = tagDisplay + "##" + trickName;
         ImGui::SameLine();
         ImGui::BeginDisabled();
         UIWidgets::PushStyleButton(GetTagColor(rtTag));

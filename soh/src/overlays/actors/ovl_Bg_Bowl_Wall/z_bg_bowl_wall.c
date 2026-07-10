@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_bowl_wall.c
  * Overlay: Bg_Bowl_Wall
  * Description: Bombchu Bowling Alley Wall

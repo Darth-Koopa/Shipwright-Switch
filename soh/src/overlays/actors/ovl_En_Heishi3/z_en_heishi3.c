@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_heishi3.c
  * Overlay: ovl_En_Heishi3
  * Description: Hyrule Castle Guard

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_niw_girl.c
  * Overlay: ovl_En_Niw_Girl
  * Description: Girl that chases a cuckoo around in Hyrule Market and Kakariko Village

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_hidan_curtain.c
  * Overlay: ovl_Bg_Hidan_Curtain
  * Description: Flame circle

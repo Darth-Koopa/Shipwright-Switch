@@ -244,7 +244,7 @@ void InsertHelpHoverText(const std::string& text) {
     ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "?");
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
-        ImGui::Text("%s", WrappedText(text, 60).c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), WrappedText(text, 60).c_str());
         ImGui::EndTooltip();
     }
 }
@@ -254,7 +254,7 @@ void InsertHelpHoverText(const char* text) {
     ImGui::TextColored(ImVec4(0.7f, 0.7f, 0.7f, 1.0f), "?");
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
-        ImGui::Text("%s", WrappedText(text, 60).c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), WrappedText(text, 60).c_str());
         ImGui::EndTooltip();
     }
 }
@@ -1039,7 +1039,7 @@ bool CVarRadioButton(const char* text, const char* cvarName, int32_t id, const R
         ret = true;
     }
     ImGui::SameLine();
-    ImGui::Text("%s", text);
+    ImGui::Text(StringHelper::Translate("%s").c_str(), text);
     PopStyleCheckbox();
     if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled) && !Ship_IsCStringEmpty(options.tooltip)) {
         ImGui::SetTooltip("%s", WrappedText(options.tooltip).c_str());
@@ -1176,7 +1176,7 @@ bool BtnSelector(const char* label, int32_t* value, const BtnSelectorOptions& op
     ImGui::PushID(label);
     ImGui::BeginGroup();
     ImGui::AlignTextToFramePadding();
-    ImGui::Text("%s", label);
+    ImGui::Text(StringHelper::Translate("%s").c_str(), label);
     ImGui::BeginDisabled(false);
     PushStyleCombobox(options.color);
     ImGui::BeginChild("ButtonCombo", ImVec2(0, ImGui::GetFrameHeightWithSpacing() + 14.0f), ImGuiChildFlags_None,

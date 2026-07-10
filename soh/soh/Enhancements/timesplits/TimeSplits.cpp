@@ -1,4 +1,5 @@
 #include <vector>
+#include <ship/utils/StringHelper.h>
 #include <fstream>
 
 #include <ship/Context.h>
@@ -330,7 +331,7 @@ void HandleDragAndDrop(std::vector<SplitObject>& objectList, int targetIndex, co
                        ImGuiDragDropFlags flags = ImGuiDragDropFlags_None) {
     if (ImGui::BeginDragDropSource(flags)) {
         ImGui::SetDragDropPayload("DragMove", &targetIndex, sizeof(uint32_t));
-        ImGui::Text("Move %s", itemName.c_str());
+        ImGui::Text(StringHelper::Translate("Move %s").c_str(), itemName.c_str());
         ImGui::EndDragDropSource();
     }
 
@@ -458,7 +459,7 @@ void TimeSplitsPopUpContext() {
             ImGui::EndGroup();
 
             ImGui::PopItemWidth();
-            if (ImGui::Button("Set Tokens")) {
+            if (ImGui::Button(StringHelper::Translate("Set Tokens").c_str())) {
                 auto findID = std::find_if(splitObjectList.begin(), splitObjectList.end(),
                                            [&](const SplitObject& obj) { return obj.splitID == ITEM_SKULL_TOKEN; });
                 SplitObject& buildTokenObject = *findID;
@@ -514,7 +515,7 @@ void TimeSplitsPopUpContext() {
                         ImGui::SetCursorScreenPos(textPos);
                         std::string upgSubstr = popupObject.splitName.substr(popupObject.splitName.size() - 4);
                         std::string upgOutput = removeSpecialCharacters(upgSubstr);
-                        ImGui::Text("%s", upgOutput.c_str());
+                        ImGui::Text(StringHelper::Translate("%s").c_str(), upgOutput.c_str());
                     }
                 }
                 ImGui::EndGroup();
@@ -643,12 +644,12 @@ void TimeSplitsDrawSplitsList() {
     ImGui::BeginChild("SplitTable", ImVec2(0.0f, ImGui::GetWindowHeight() - 128.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(4, 0));
     if (ImGui::BeginTable("Splits", 5, ImGuiTableFlags_Hideable | ImGuiTableFlags_Reorderable)) {
-        ImGui::TableSetupColumn("Item Image", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
+        ImGui::TableSetupColumn(StringHelper::Translate("Item Image").c_str(), ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
                                 34.0f);
-        ImGui::TableSetupColumn("Item Name");
+        ImGui::TableSetupColumn(StringHelper::Translate("Item Name").c_str());
         ImGui::TableSetupColumn("Current Time");
         ImGui::TableSetupColumn("+/-");
-        ImGui::TableSetupColumn("Prev. Best");
+        ImGui::TableSetupColumn(StringHelper::Translate("Prev. Best").c_str());
         ImGui::TableHeadersRow();
 
         SplitsPushImageButtonStyle();
@@ -674,10 +675,10 @@ void TimeSplitsDrawSplitsList() {
             ImGui::TableNextColumn();
             ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 5.0f));
             ImGui::AlignTextToFramePadding();
-            ImGui::TextWrapped("%s", split.splitName.c_str());
+            ImGui::TextWrapped(StringHelper::Translate("%s").c_str(), split.splitName.c_str());
             ImGui::TableNextColumn();
             // Current Time
-            ImGui::Text("%s", (split.splitTimeStatus == SPLIT_STATUS_ACTIVE)
+            ImGui::Text(StringHelper::Translate("%s").c_str(), (split.splitTimeStatus == SPLIT_STATUS_ACTIVE)
                                   ? formatTimestampTimeSplit(GAMEPLAYSTAT_TOTAL_TIME).c_str()
                               : (split.splitTimeStatus == SPLIT_STATUS_COLLECTED)
                                   ? formatTimestampTimeSplit(split.splitTimeCurrent).c_str()
@@ -687,7 +688,7 @@ void TimeSplitsDrawSplitsList() {
             ImGui::TextColored(splitTimeColor, "%s", formatTimestampTimeSplit(splitBestTimeDisplay).c_str());
             ImGui::TableNextColumn();
             // Previous Best
-            ImGui::Text("%s", (split.splitTimePreviousBest != 0)
+            ImGui::Text(StringHelper::Translate("%s").c_str(), (split.splitTimePreviousBest != 0)
                                   ? formatTimestampTimeSplit(split.splitTimePreviousBest).c_str()
                                   : "--:--:-");
             ImGui::PopID();
@@ -727,11 +728,11 @@ void TimeSplitsDrawItemList(uint32_t type) {
     ImGui::BeginTable("Item List", tableSize);
     for (size_t i = 0; i < tableSize; i++) {
         if (i == 0) {
-            ImGui::TableSetupColumn("Item Image",
+            ImGui::TableSetupColumn(StringHelper::Translate("Item Image").c_str(),
                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel, 39.0f);
         } else {
             if (type > SPLIT_TYPE_QUEST) {
-                ImGui::TableSetupColumn("Item Name");
+                ImGui::TableSetupColumn(StringHelper::Translate("Item Name").c_str());
             } else {
                 ImGui::TableSetupColumn(std::to_string(i).c_str(),
                                         ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel, 39.0f);
@@ -774,7 +775,7 @@ void TimeSplitsDrawItemList(uint32_t type) {
                 ImGui::TableNextColumn();
                 ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 7.0f));
                 ImGui::AlignTextToFramePadding();
-                ImGui::Text("%s", split.splitName.c_str());
+                ImGui::Text(StringHelper::Translate("%s").c_str(), split.splitName.c_str());
                 ImGui::PopStyleVar(1);
             }
         }
@@ -791,7 +792,7 @@ void TimeSplitsUpdateWindowSize() {
 }
 
 void TimeSplitsDrawOptionsMenu() {
-    ImGui::SeparatorText("Window Options");
+    ImGui::SeparatorText(StringHelper::Translate("Window Options").c_str());
     Color_RGBA8 defaultColor = { 0, 0, 0, 255 };
     if (CVarColorPicker("Background Color", CVAR_ENHANCEMENT("TimeSplits.WindowColor"), defaultColor, true, 0,
                         THEME_COLOR)) {
@@ -810,9 +811,9 @@ void TimeSplitsDrawOptionsMenu() {
         TimeSplitsUpdateWindowSize();
     }
 
-    ImGui::SeparatorText("Split List Management");
+    ImGui::SeparatorText(StringHelper::Translate("Split List Management").c_str());
 
-    ImGui::Text("New List Name: ");
+    ImGui::Text(StringHelper::Translate("New List Name: ").c_str());
     ImGui::PushItemWidth(150.0f);
     PushStyleInput(THEME_COLOR);
     ImGui::InputText("##listName", listNameBuf, 25);
@@ -826,7 +827,7 @@ void TimeSplitsDrawOptionsMenu() {
 
     TimeSplitsFileManagement(SPLIT_ACTION_COLLECT, "", emptyList);
     static uint32_t selectedItem = 0;
-    ImGui::Text("Select List to Load: ");
+    ImGui::Text(StringHelper::Translate("Select List to Load: ").c_str());
     ImGui::PushItemWidth(150.0f);
     Combobox("", &selectedItem, keys, ComboboxOptions().Color(THEME_COLOR).LabelPosition(LabelPositions::Near));
     ImGui::PopItemWidth();
@@ -868,7 +869,7 @@ void TimeSplitsDrawManageList() {
     ImGui::BeginChild("SplitTable", ImVec2(0.0f, ImGui::GetWindowHeight() - 128.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(4, 0));
     if (ImGui::BeginTable("List Management", 2, ImGuiTableFlags_BordersInnerV)) {
-        ImGui::TableSetupColumn("Preview", ImGuiTableColumnFlags_WidthFixed, 120.0f);
+        ImGui::TableSetupColumn(StringHelper::Translate("Preview").c_str(), ImGuiTableColumnFlags_WidthFixed, 120.0f);
         ImGui::TableSetupColumn("Options", ImGuiTableColumnFlags_NoHeaderLabel);
 
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
@@ -877,7 +878,7 @@ void TimeSplitsDrawManageList() {
 
         ImGui::TableNextColumn();
         ImGui::BeginTabBar("List Preview");
-        if (ImGui::BeginTabItem("Preview")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Preview").c_str())) {
             ImGui::BeginChild("PreviewChild");
             for (auto& data : splitList) {
                 float availableWidth = ImGui::GetContentRegionAvail().x;
@@ -917,7 +918,7 @@ void TimeSplitsDrawManageList() {
             TimeSplitsDrawItemList(SPLIT_TYPE_ITEM);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Quest")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Quest").c_str())) {
             TimeSplitsDrawItemList(SPLIT_TYPE_QUEST);
             ImGui::EndTabItem();
         }
@@ -925,7 +926,7 @@ void TimeSplitsDrawManageList() {
             TimeSplitsDrawItemList(SPLIT_TYPE_ENTRANCE);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Bosses")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Bosses").c_str())) {
             TimeSplitsDrawItemList(SPLIT_TYPE_BOSS);
             ImGui::EndTabItem();
         }
@@ -956,11 +957,11 @@ void TimeSplitWindow::DrawElement() {
 
     PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("Split Tabs")) {
-        if (ImGui::BeginTabItem("Splits")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Splits").c_str())) {
             TimeSplitsDrawSplitsList();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Manage List")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Manage List").c_str())) {
             TimeSplitsDrawManageList();
             ImGui::EndTabItem();
         }

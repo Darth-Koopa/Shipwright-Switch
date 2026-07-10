@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_mori_bigst.c
  * Overlay: ovl_Bg_Mori_Bigst
  * Description: Forest Temple falling platform and Stalfos fight

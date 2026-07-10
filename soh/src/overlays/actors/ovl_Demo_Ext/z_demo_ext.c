@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_demo_ext.c
  * Overlay: Demo_Ext
  * Description: Magic Vortex in Silver Gauntlets Cutscene

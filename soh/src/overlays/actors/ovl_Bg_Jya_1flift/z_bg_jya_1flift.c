@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_jya_1flift.c
  * Overlay: ovl_Bg_Jya_1flift
  * Description: Shortcut Elevator used in the vanilla version of the Spirit Temple

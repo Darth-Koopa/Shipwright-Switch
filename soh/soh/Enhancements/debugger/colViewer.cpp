@@ -1,4 +1,5 @@
 #include "colViewer.h"
+#include <ship/utils/StringHelper.h>
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
 
@@ -69,10 +70,10 @@ void ColViewerWindow::DrawElement() {
 
     CVarCheckbox("Apply as decal", CVAR_DEVELOPER_TOOLS("ColViewer.Decal"),
                  checkOpt.DefaultValue(true).Tooltip(
-                     "Applies the collision as a decal display. This can be useful if there is z-fighting occuring "
-                     "with the scene geometry, but can cause other artifacts."));
+                     StringHelper::Translate("Applies the collision as a decal display. This can be useful if there is z-fighting occuring "
+                     "with the scene geometry, but can cause other artifacts.").c_str()));
     CVarCheckbox("Shaded", CVAR_DEVELOPER_TOOLS("ColViewer.Shaded"),
-                 checkOpt.DefaultValue(false).Tooltip("Applies the scene's shading to the collision display."));
+                 checkOpt.DefaultValue(false).Tooltip(StringHelper::Translate("Applies the scene's shading to the collision display.").c_str()));
 
     // This has to be duplicated in both code paths due to the nature of ImGui::IsItemHovered()
     const std::string colorHelpText = "View and change the colors used for collision display.";

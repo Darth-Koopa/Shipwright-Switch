@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_mori_hashira4
  * Overlay: ovl_Bg_Mori_Hashira4
  * Description: Forest Temple gates and rotating pillars

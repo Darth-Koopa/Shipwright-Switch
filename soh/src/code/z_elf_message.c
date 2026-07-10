@@ -1,4 +1,4 @@
-#include "global.h"
+﻿#include "global.h"
 #include "z64elf_message.h"
 #include <assert.h>
 #include "soh/OTRGlobals.h"

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_anubice_tag.c
  * Overlay: ovl_En_Anubice_Tag
  * Description: Spawns and manages the Anubis enemy

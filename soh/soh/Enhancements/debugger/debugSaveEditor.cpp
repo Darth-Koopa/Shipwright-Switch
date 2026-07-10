@@ -1,4 +1,5 @@
-#include "debugSaveEditor.h"
+﻿#include "debugSaveEditor.h"
+#include <ship/utils/StringHelper.h>
 #include "soh/Enhancements/randomizer/randomizerTypes.h"
 #include "soh/util.h"
 #include "soh/SohGui/ImGuiUtils.h"
@@ -209,7 +210,7 @@ void DrawInfoTab() {
     } else if (gPlayState == nullptr) {
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Game Inactive");
     } else if (gSaveContext.fileNum >= 0 && gSaveContext.fileNum <= 2) {
-        Combobox("File Number", &gSaveContext.fileNum, fileNumMap, comboboxOptionsBase.Tooltip("Current File Number"));
+        Combobox(StringHelper::Translate("File Number").c_str(), &gSaveContext.fileNum, fileNumMap, comboboxOptionsBase.Tooltip(StringHelper::Translate("Current File Number").c_str()));
     } else {
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Debug File");
     }
@@ -234,10 +235,10 @@ void DrawInfoTab() {
     ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
 
     if (gSaveContext.ship.filenameLanguage == NAME_LANGUAGE_PAL) {
-        ImGui::Text("Name: %s", name.c_str());
+        ImGui::Text(StringHelper::Translate("Name: %s").c_str(), name.c_str());
     } else {
         ImGui::PushFont(OTRGlobals::Instance->fontJapanese);
-        ImGui::Text("Name: %s", name.c_str());
+        ImGui::Text(StringHelper::Translate("Name: %s").c_str(), name.c_str());
         ImGui::PopFont();
     }
 
@@ -258,17 +259,17 @@ void DrawInfoTab() {
     const bool hasNTSC = (sJpnMessageEntryTablePtr != nullptr);
     if (hasPAL && hasNTSC) {
         // Full
-        Combobox("Player Name Language", &gSaveContext.ship.filenameLanguage, filenameLanguageMap,
-                 comboboxOptionsBase.Tooltip("Encoding used for Player Name"));
+        Combobox(StringHelper::Translate("Player Name Language").c_str(), &gSaveContext.ship.filenameLanguage, filenameLanguageMap,
+                 comboboxOptionsBase.Tooltip(StringHelper::Translate("Encoding used for Player Name").c_str()));
     } else if (hasNTSC && (gSaveContext.ship.filenameLanguage != NAME_LANGUAGE_PAL)) {
         // NTSC only
-        Combobox("Player Name Language", &gSaveContext.ship.filenameLanguage, filenameLanguageMapNTSCOnly,
-                 comboboxOptionsBase.Tooltip("Encoding used for Player Name"));
+        Combobox(StringHelper::Translate("Player Name Language").c_str(), &gSaveContext.ship.filenameLanguage, filenameLanguageMapNTSCOnly,
+                 comboboxOptionsBase.Tooltip(StringHelper::Translate("Encoding used for Player Name").c_str()));
     } else {
         // PAL only (read only)
         ImGui::BeginDisabled();
-        Combobox("Player Name Language", &gSaveContext.ship.filenameLanguage, filenameLanguageMap,
-                 comboboxOptionsBase.Tooltip("Encoding used for Player Name"));
+        Combobox(StringHelper::Translate("Player Name Language").c_str(), &gSaveContext.ship.filenameLanguage, filenameLanguageMap,
+                 comboboxOptionsBase.Tooltip(StringHelper::Translate("Encoding used for Player Name").c_str()));
         ImGui::EndDisabled();
     }
 
@@ -276,7 +277,7 @@ void DrawInfoTab() {
     // until it is done being edited
     int16_t healthIntermediary = gSaveContext.healthCapacity;
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Max Health", ImGuiDataType_S16, &healthIntermediary);
+    ImGui::InputScalar(StringHelper::Translate("Max Health").c_str(), ImGuiDataType_S16, &healthIntermediary);
     PopStyleInput();
     if (ImGui::IsItemDeactivated()) {
         gSaveContext.healthCapacity = healthIntermediary;
@@ -286,8 +287,8 @@ void DrawInfoTab() {
         gSaveContext.health = gSaveContext.healthCapacity; // Clamp health to new max
     }
     int32_t health = (int32_t)gSaveContext.health;
-    if (SliderInt("Health", &health,
-                  intSliderOptionsBase.Tooltip("Current health. 16 units per full heart")
+    if (SliderInt(StringHelper::Translate("Health").c_str(), &health,
+                  intSliderOptionsBase.Tooltip(StringHelper::Translate("Current health. 16 units per full heart").c_str())
                       .Min(0)
                       .Max(gSaveContext.healthCapacity))) {
         gSaveContext.health = (int16_t)health;
@@ -295,13 +296,13 @@ void DrawInfoTab() {
 
     bool isDoubleDefenseAcquired = gSaveContext.isDoubleDefenseAcquired != 0;
     if (Checkbox("Double Defense", &isDoubleDefenseAcquired,
-                 checkboxOptionsBase.Tooltip("Is double defense unlocked?"))) {
+                 checkboxOptionsBase.Tooltip(StringHelper::Translate("Is double defense unlocked?").c_str()))) {
         gSaveContext.isDoubleDefenseAcquired = isDoubleDefenseAcquired;
         gSaveContext.inventory.defenseHearts =
             gSaveContext.isDoubleDefenseAcquired ? 20 : 0; // Set to get the border drawn in the UI
     }
     if (Combobox("Magic Level", &gSaveContext.magicLevel, magicLevelMap,
-                 comboboxOptionsBase.Tooltip("Current magic level"))) {
+                 comboboxOptionsBase.Tooltip(StringHelper::Translate("Current magic level").c_str()))) {
         gSaveContext.isMagicAcquired = gSaveContext.magicLevel > 0;
         gSaveContext.isDoubleMagicAcquired = gSaveContext.magicLevel == 2;
     }
@@ -311,100 +312,100 @@ void DrawInfoTab() {
     }
 
     int32_t magic = (int32_t)gSaveContext.magic;
-    if (SliderInt("Magic", &magic,
+    if (SliderInt(StringHelper::Translate("Magic").c_str(), &magic,
                   intSliderOptionsBase.Min(0)
                       .Max(gSaveContext.magicCapacity)
-                      .Tooltip("Current magic. 48 units per magic level"))) {
+                      .Tooltip(StringHelper::Translate("Current magic. 48 units per magic level").c_str()))) {
         gSaveContext.magic = (int8_t)magic;
     }
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Rupees", ImGuiDataType_S16, &gSaveContext.rupees);
+    ImGui::InputScalar(StringHelper::Translate("Rupees").c_str(), ImGuiDataType_S16, &gSaveContext.rupees);
     Tooltip("Current rupees");
     PopStyleInput();
 
-    SliderInt("Time", (int32_t*)&gSaveContext.dayTime, intSliderOptionsBase.Min(0).Max(0xFFFF).Tooltip("Time of day"));
-    if (Button("Dawn", buttonOptionsBase)) {
+    SliderInt(StringHelper::Translate("Time").c_str(), (int32_t*)&gSaveContext.dayTime, intSliderOptionsBase.Min(0).Max(0xFFFF).Tooltip(StringHelper::Translate("Time of day").c_str()));
+    if (Button(StringHelper::Translate("Dawn").c_str(), buttonOptionsBase)) {
         gSaveContext.dayTime = 0x4000;
     }
     ImGui::SameLine();
-    if (Button("Noon", buttonOptionsBase)) {
+    if (Button(StringHelper::Translate("Noon").c_str(), buttonOptionsBase)) {
         gSaveContext.dayTime = 0x8000;
     }
     ImGui::SameLine();
-    if (Button("Sunset", buttonOptionsBase)) {
+    if (Button(StringHelper::Translate("Sunset").c_str(), buttonOptionsBase)) {
         gSaveContext.dayTime = 0xC001;
     }
     ImGui::SameLine();
-    if (Button("Midnight", buttonOptionsBase)) {
+    if (Button(StringHelper::Translate("Midnight").c_str(), buttonOptionsBase)) {
         gSaveContext.dayTime = 0;
     }
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Total Days", ImGuiDataType_S32, &gSaveContext.totalDays);
+    ImGui::InputScalar(StringHelper::Translate("Total Days").c_str(), ImGuiDataType_S32, &gSaveContext.totalDays);
     Tooltip("Total number of days elapsed since the start of the game");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Deaths", ImGuiDataType_U16, &gSaveContext.deaths);
+    ImGui::InputScalar(StringHelper::Translate("Deaths").c_str(), ImGuiDataType_U16, &gSaveContext.deaths);
     Tooltip("Total number of deaths");
     PopStyleInput();
 
-    Checkbox("Has BGS", (bool*)&gSaveContext.bgsFlag,
-             checkboxOptionsBase.Tooltip("Is Biggoron sword unlocked? Replaces Giant's knife"));
+    Checkbox(StringHelper::Translate("Has BGS").c_str(), (bool*)&gSaveContext.bgsFlag,
+             checkboxOptionsBase.Tooltip(StringHelper::Translate("Is Biggoron sword unlocked? Replaces Giant's knife").c_str()));
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Sword Health", ImGuiDataType_U16, &gSaveContext.swordHealth);
+    ImGui::InputScalar(StringHelper::Translate("Sword Health").c_str(), ImGuiDataType_U16, &gSaveContext.swordHealth);
     Tooltip("Giant's knife health. Default is 8. Must be >0 for Biggoron sword to work");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Bgs Day Count", ImGuiDataType_S32, &gSaveContext.bgsDayCount);
+    ImGui::InputScalar(StringHelper::Translate("Bgs Day Count").c_str(), ImGuiDataType_S32, &gSaveContext.bgsDayCount);
     Tooltip("Total number of days elapsed since receiving claim check from Biggoron");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Entrance Index", ImGuiDataType_S32, &gSaveContext.entranceIndex);
+    ImGui::InputScalar(StringHelper::Translate("Entrance Index").c_str(), ImGuiDataType_S32, &gSaveContext.entranceIndex);
     Tooltip("From which entrance did Link arrive?");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Cutscene Index", ImGuiDataType_S32, &gSaveContext.cutsceneIndex);
+    ImGui::InputScalar(StringHelper::Translate("Cutscene Index").c_str(), ImGuiDataType_S32, &gSaveContext.cutsceneIndex);
     Tooltip("Which cutscene is this?");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Navi Timer", ImGuiDataType_U16, &gSaveContext.naviTimer);
+    ImGui::InputScalar(StringHelper::Translate("Navi Timer").c_str(), ImGuiDataType_U16, &gSaveContext.naviTimer);
     Tooltip("Navi wants to talk at 600 units, decides not to at 3000.");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Timer State", ImGuiDataType_S16, &gSaveContext.timerState);
+    ImGui::InputScalar(StringHelper::Translate("Timer State").c_str(), ImGuiDataType_S16, &gSaveContext.timerState);
     Tooltip("Heat timer, race timer, etc. Has white font");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Timer Seconds", ImGuiDataType_S16, &gSaveContext.timerSeconds, &one, NULL);
+    ImGui::InputScalar(StringHelper::Translate("Timer Seconds").c_str(), ImGuiDataType_S16, &gSaveContext.timerSeconds, &one, NULL);
     Tooltip("Time, in seconds");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Sub-Timer State", ImGuiDataType_S16, &gSaveContext.subTimerState);
+    ImGui::InputScalar(StringHelper::Translate("Sub-Timer State").c_str(), ImGuiDataType_S16, &gSaveContext.subTimerState);
     Tooltip("Trade timer, Ganon collapse timer, etc. Has yellow font");
     PopStyleInput();
 
     PushStyleInput(THEME_COLOR);
-    ImGui::InputScalar("Sub-Timer Seconds", ImGuiDataType_S16, &gSaveContext.subTimerSeconds, &one, NULL);
+    ImGui::InputScalar(StringHelper::Translate("Sub-Timer Seconds").c_str(), ImGuiDataType_S16, &gSaveContext.subTimerSeconds, &one, NULL);
     Tooltip("Time, in seconds");
     PopStyleInput();
 
-    Combobox("Audio", &gSaveContext.audioSetting, audioMap, comboboxOptionsBase.Tooltip("Sound setting"));
+    Combobox("Audio", &gSaveContext.audioSetting, audioMap, comboboxOptionsBase.Tooltip(StringHelper::Translate("Sound setting").c_str()));
 
-    Checkbox("64 DD file?", (bool*)&gSaveContext.n64ddFlag,
-             checkboxOptionsBase.Tooltip("WARNING! If you save, your file may be locked! Use caution!"));
+    Checkbox(StringHelper::Translate("64 DD file?").c_str(), (bool*)&gSaveContext.n64ddFlag,
+             checkboxOptionsBase.Tooltip(StringHelper::Translate("WARNING! If you save, your file may be locked! Use caution!").c_str()));
 
     Combobox("Z Target Mode", &gSaveContext.zTargetSetting, zTargetMap,
-             comboboxOptionsBase.Tooltip("Z-Targeting behavior"));
+             comboboxOptionsBase.Tooltip(StringHelper::Translate("Z-Targeting behavior").c_str()));
 
     if (IS_RANDO &&
         (OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_TRIFORCE_HUNT) != RO_TRIFORCE_HUNT_OFF)) {
@@ -421,7 +422,7 @@ void DrawInfoTab() {
                                                      "Running Man Race",  "?",
                                                      "Dampe's Race" };
 
-    if (ImGui::TreeNode("Minigames")) {
+    if (ImGui::TreeNode(StringHelper::Translate("Minigames").c_str())) {
         for (int i = 0; i < 7; i++) {
             if (i == 2 && ImGui::TreeNode("Fishing")) { // fishing has a few more flags to it
                 u8 fishSize = gSaveContext.highScores[i] & 0x7F;
@@ -436,7 +437,7 @@ void DrawInfoTab() {
                 PopStyleInput();
                 bool FishBool = gSaveContext.highScores[i] & 0x80;
                 if (Checkbox("Cheated as Child", &FishBool,
-                             checkboxOptionsBase.Tooltip("Used the Sinking lure to catch it."))) {
+                             checkboxOptionsBase.Tooltip(StringHelper::Translate("Used the Sinking lure to catch it.").c_str()))) {
                     gSaveContext.highScores[i] &= ~0x80;
                     gSaveContext.highScores[i] |= (0x80 * FishBool);
                 }
@@ -451,19 +452,19 @@ void DrawInfoTab() {
                 PopStyleInput();
                 FishBool = gSaveContext.highScores[i] & 0x80000000;
                 if (Checkbox("Cheated as Adult", &FishBool,
-                             checkboxOptionsBase.Tooltip("Used the Sinking lure to catch it."))) {
+                             checkboxOptionsBase.Tooltip(StringHelper::Translate("Used the Sinking lure to catch it.").c_str()))) {
                     gSaveContext.highScores[i] &= ~0x80000000;
                     gSaveContext.highScores[i] |= (0x80000000 * FishBool);
                 }
                 FishBool = gSaveContext.highScores[i] & 0x100;
                 if (Checkbox("Played as Child", &FishBool,
-                             checkboxOptionsBase.Tooltip("Played at least one game as a child"))) {
+                             checkboxOptionsBase.Tooltip(StringHelper::Translate("Played at least one game as a child").c_str()))) {
                     gSaveContext.highScores[i] &= ~0x100;
                     gSaveContext.highScores[i] |= (0x100 * FishBool);
                 }
                 FishBool = gSaveContext.highScores[i] & 0x200;
                 if (Checkbox("Played as Adult", &FishBool,
-                             checkboxOptionsBase.Tooltip("Played at least one game as an adult"))) {
+                             checkboxOptionsBase.Tooltip(StringHelper::Translate("Played at least one game as an adult").c_str()))) {
                     gSaveContext.highScores[i] &= ~0x200;
                     gSaveContext.highScores[i] |= (0x200 * FishBool);
                 }
@@ -484,7 +485,7 @@ void DrawInfoTab() {
                 }
                 FishBool = gSaveContext.highScores[i] & 0x1000;
                 if (Checkbox("Stole Owner's Hat", &FishBool,
-                             checkboxOptionsBase.Tooltip("The owner's now visibly bald when Adult Link."))) {
+                             checkboxOptionsBase.Tooltip(StringHelper::Translate("The owner's now visibly bald when Adult Link.").c_str()))) {
                     gSaveContext.highScores[i] &= ~0x1000;
                     gSaveContext.highScores[i] |= (0x1000 * FishBool);
                 }
@@ -527,7 +528,7 @@ void DrawInventoryTab() {
 
     Checkbox(
         "Restrict to valid items", &restrictToValid,
-        checkboxOptionsBase.Tooltip("Restricts items and ammo to only what is possible to legally acquire in-game"));
+        checkboxOptionsBase.Tooltip(StringHelper::Translate("Restricts items and ammo to only what is possible to legally acquire in-game").c_str()));
 
     for (int32_t y = 0; y < 4; y++) {
         for (int32_t x = 0; x < 6; x++) {
@@ -563,7 +564,7 @@ void DrawInventoryTab() {
                     ImGui::OpenPopup(itemPopupPicker);
                 }
             } else {
-                if (ImGui::Button("##itemNone", ImVec2(IMAGE_SIZE, IMAGE_SIZE) + ImGui::GetStyle().FramePadding * 2)) {
+                if (ImGui::Button(StringHelper::Translate("##itemNone").c_str(), ImVec2(IMAGE_SIZE, IMAGE_SIZE) + ImGui::GetStyle().FramePadding * 2)) {
                     selectedIndex = index;
                     ImGui::OpenPopup(itemPopupPicker);
                 }
@@ -573,7 +574,7 @@ void DrawInventoryTab() {
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
             if (ImGui::BeginPopup(itemPopupPicker)) {
                 PushStyleButton(Colors::DarkGray);
-                if (ImGui::Button("##itemNonePicker",
+                if (ImGui::Button(StringHelper::Translate("##itemNonePicker").c_str(),
                                   ImVec2(IMAGE_SIZE, IMAGE_SIZE) + ImGui::GetStyle().FramePadding * 2)) {
                     gSaveContext.inventory.items[selectedIndex] = ITEM_NONE;
                     ImGui::CloseCurrentPopup();
@@ -693,7 +694,7 @@ void DrawFlagTableArray16(const FlagTable& flagTable, uint16_t row, uint16_t& fl
             ImGui::BeginTooltip();
             uint16_t index = row * 16 + flagIndex;
             const char* desc = flagTable.flagDescriptions.at(index);
-            ImGui::Text("0x%02X: %s", index, UIWidgets::WrappedText(desc, 60).c_str());
+            ImGui::Text(StringHelper::Translate("0x%02X: %s").c_str(), index, UIWidgets::WrappedText(desc, 60).c_str());
             ImGui::EndTooltip();
         }
         ImGui::PopID();
@@ -757,9 +758,9 @@ static void DrawFlagTableSearchResults(const FlagTable& flagTable, ImGuiTextFilt
 
             ImGui::SameLine();
             if (hasDescription) {
-                ImGui::TextWrapped("0x%02X: %s", index, desc);
+                ImGui::TextWrapped(StringHelper::Translate("0x%02X: %s").c_str(), index, desc);
             } else {
-                ImGui::Text("0x%02X", index);
+                ImGui::Text(StringHelper::Translate("0x%02X").c_str(), index);
             }
 
             ImGui::PopID();
@@ -767,7 +768,7 @@ static void DrawFlagTableSearchResults(const FlagTable& flagTable, ImGuiTextFilt
     }
 
     if (!hasMatches) {
-        ImGui::Text("No flags match the current search.");
+        ImGui::Text(StringHelper::Translate("No flags match the current search.").c_str());
     }
 }
 
@@ -778,7 +779,7 @@ void DrawFlagsTab() {
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("stateFlags1");
+                    ImGui::Text(StringHelper::Translate("stateFlags1").c_str());
                     DrawFlagArray32("stateFlags1", player->stateFlags1, THEME_COLOR);
                 },
                 "stateFlags1");
@@ -787,14 +788,14 @@ void DrawFlagsTab() {
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("stateFlags2");
+                    ImGui::Text(StringHelper::Translate("stateFlags2").c_str());
                     DrawFlagArray32("stateFlags2", player->stateFlags2, THEME_COLOR);
                 },
                 "stateFlags2");
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("stateFlags3");
+                    ImGui::Text(StringHelper::Translate("stateFlags3").c_str());
                     DrawFlagArray8("stateFlags3", player->stateFlags3, THEME_COLOR);
                 },
                 "stateFlags3");
@@ -803,7 +804,7 @@ void DrawFlagsTab() {
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("unk_6AE_rotFlags");
+                    ImGui::Text(StringHelper::Translate("unk_6AE_rotFlags").c_str());
                     DrawFlagArray16("unk_6AE_rotFlags", player->unk_6AE_rotFlags, THEME_COLOR);
                 },
                 "unk_6AE_rotFlags");
@@ -815,7 +816,7 @@ void DrawFlagsTab() {
             ActorContext* act = &gPlayState->actorCtx;
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("Switch");
+                    ImGui::Text(StringHelper::Translate("Switch").c_str());
                     InsertHelpHoverText("Permanently-saved switch flags");
                     if (Button("Set All##Switch", buttonOptionsBase.Tooltip(""))) {
                         act->flags.swch = UINT32_MAX;
@@ -832,7 +833,7 @@ void DrawFlagsTab() {
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("Temp Switch");
+                    ImGui::Text(StringHelper::Translate("Temp Switch").c_str());
                     InsertHelpHoverText("Temporary switch flags. Unset on scene transitions");
                     if (Button("Set All##Temp Switch", buttonOptionsBase.Tooltip(""))) {
                         act->flags.tempSwch = UINT32_MAX;
@@ -864,7 +865,7 @@ void DrawFlagsTab() {
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("Temp Clear");
+                    ImGui::Text(StringHelper::Translate("Temp Clear").c_str());
                     InsertHelpHoverText("Temporary room-clear flags. Unset on scene transitions");
                     if (Button("Set All##Temp Clear", buttonOptionsBase.Tooltip(""))) {
                         act->flags.tempClear = UINT32_MAX;
@@ -879,7 +880,7 @@ void DrawFlagsTab() {
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("Collect");
+                    ImGui::Text(StringHelper::Translate("Collect").c_str());
                     InsertHelpHoverText("Permanently-saved collect flags");
                     if (Button("Set All##Collect", buttonOptionsBase.Tooltip(""))) {
                         act->flags.collect = UINT32_MAX;
@@ -896,7 +897,7 @@ void DrawFlagsTab() {
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("Temp Collect");
+                    ImGui::Text(StringHelper::Translate("Temp Collect").c_str());
                     InsertHelpHoverText("Temporary collect flags. Unset on scene transitions");
                     if (Button("Set All##Temp Collect", buttonOptionsBase.Tooltip(""))) {
                         act->flags.tempCollect = UINT32_MAX;
@@ -911,7 +912,7 @@ void DrawFlagsTab() {
 
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("Chest");
+                    ImGui::Text(StringHelper::Translate("Chest").c_str());
                     InsertHelpHoverText("Permanently-saved chest flags");
                     if (Button("Set All##Chest", buttonOptionsBase.Tooltip(""))) {
                         act->flags.chest = UINT32_MAX;
@@ -929,7 +930,7 @@ void DrawFlagsTab() {
             ImGui::BeginGroup();
 
             if (Button("Reload Flags", buttonOptionsBase.Tooltip(
-                                           "Load flags from saved scene flags. Normally happens on scene load"))) {
+                                           StringHelper::Translate("Load flags from saved scene flags. Normally happens on scene load").c_str()))) {
                 act->flags.swch = gSaveContext.sceneFlags[gPlayState->sceneNum].swch;
                 act->flags.clear = gSaveContext.sceneFlags[gPlayState->sceneNum].clear;
                 act->flags.collect = gSaveContext.sceneFlags[gPlayState->sceneNum].collect;
@@ -937,7 +938,7 @@ void DrawFlagsTab() {
             }
 
             if (Button("Save Flags",
-                       buttonOptionsBase.Tooltip("Save current scene flags. Normally happens on scene exit"))) {
+                       buttonOptionsBase.Tooltip(StringHelper::Translate("Save current scene flags. Normally happens on scene exit").c_str()))) {
                 gSaveContext.sceneFlags[gPlayState->sceneNum].swch = act->flags.swch;
                 gSaveContext.sceneFlags[gPlayState->sceneNum].clear = act->flags.clear;
                 gSaveContext.sceneFlags[gPlayState->sceneNum].collect = act->flags.collect;
@@ -945,7 +946,7 @@ void DrawFlagsTab() {
             }
 
             if (Button("Clear Flags",
-                       buttonOptionsBase.Tooltip("Clear current scene flags. Reload scene to see changes"))) {
+                       buttonOptionsBase.Tooltip(StringHelper::Translate("Clear current scene flags. Reload scene to see changes").c_str()))) {
                 act->flags.swch = 0;
                 act->flags.clear = 0;
                 act->flags.collect = 0;
@@ -954,7 +955,7 @@ void DrawFlagsTab() {
 
             ImGui::EndGroup();
         } else {
-            ImGui::Text("Current game state does not have an active scene");
+            ImGui::Text(StringHelper::Translate("Current game state does not have an active scene").c_str());
         }
 
         ImGui::TreePop();
@@ -963,7 +964,7 @@ void DrawFlagsTab() {
     if (ImGui::TreeNode("Saved Scene Flags")) {
         static uint32_t selectedSceneFlagMap = 0;
         ImGui::AlignTextToFramePadding();
-        ImGui::Text("Map");
+        ImGui::Text(StringHelper::Translate("Map").c_str());
         ImGui::SameLine();
         PushStyleCombobox(THEME_COLOR);
         if (ImGui::BeginCombo("##Map", SohUtils::GetSceneName(selectedSceneFlagMap).c_str())) {
@@ -980,14 +981,14 @@ void DrawFlagsTab() {
         // Don't show current scene button if there is no current scene
         if (gPlayState != nullptr) {
             ImGui::SameLine();
-            if (Button("Current", buttonOptionsBase.Tooltip("Open flags for current scene"))) {
+            if (Button("Current", buttonOptionsBase.Tooltip(StringHelper::Translate("Open flags for current scene").c_str()))) {
                 selectedSceneFlagMap = gPlayState->sceneNum;
             }
         }
 
         DrawGroupWithBorder(
             [&]() {
-                ImGui::Text("Switch");
+                ImGui::Text(StringHelper::Translate("Switch").c_str());
                 InsertHelpHoverText("Switch flags");
                 DrawFlagArray32("Switch", gSaveContext.sceneFlags[selectedSceneFlagMap].swch, THEME_COLOR);
             },
@@ -1005,7 +1006,7 @@ void DrawFlagsTab() {
 
         DrawGroupWithBorder(
             [&]() {
-                ImGui::Text("Collect");
+                ImGui::Text(StringHelper::Translate("Collect").c_str());
                 InsertHelpHoverText("Collect flags");
                 DrawFlagArray32("Collect", gSaveContext.sceneFlags[selectedSceneFlagMap].collect, THEME_COLOR);
             },
@@ -1015,7 +1016,7 @@ void DrawFlagsTab() {
 
         DrawGroupWithBorder(
             [&]() {
-                ImGui::Text("Chest");
+                ImGui::Text(StringHelper::Translate("Chest").c_str());
                 InsertHelpHoverText("Chest flags");
                 DrawFlagArray32("Chest", gSaveContext.sceneFlags[selectedSceneFlagMap].chest, THEME_COLOR);
             },
@@ -1023,7 +1024,7 @@ void DrawFlagsTab() {
 
         DrawGroupWithBorder(
             [&]() {
-                ImGui::Text("Rooms");
+                ImGui::Text(StringHelper::Translate("Rooms").c_str());
                 InsertHelpHoverText("Flags for visted rooms");
                 DrawFlagArray32("Rooms", gSaveContext.sceneFlags[selectedSceneFlagMap].rooms, THEME_COLOR);
             },
@@ -1033,7 +1034,7 @@ void DrawFlagsTab() {
 
         DrawGroupWithBorder(
             [&]() {
-                ImGui::Text("Floors");
+                ImGui::Text(StringHelper::Translate("Floors").c_str());
                 InsertHelpHoverText("Flags for visted floors");
                 DrawFlagArray32("Floors", gSaveContext.sceneFlags[selectedSceneFlagMap].floors, THEME_COLOR);
             },
@@ -1046,7 +1047,7 @@ void DrawFlagsTab() {
         [&]() {
             PushStyleCombobox(THEME_COLOR);
             static size_t selectedGsMap = 0;
-            ImGui::Text("Gold Skulltulas");
+            ImGui::Text(StringHelper::Translate("Gold Skulltulas").c_str());
             if (ImGui::BeginCombo("##GSMap", gsMapping[selectedGsMap])) {
                 for (size_t index = 0; index < gsMapping.size(); index++) {
                     if (ImGui::Selectable(gsMapping[index])) {
@@ -1060,7 +1061,7 @@ void DrawFlagsTab() {
 
             // TODO We should write out descriptions for each one... ugh
             ImGui::AlignTextToFramePadding();
-            ImGui::Text("Flags");
+            ImGui::Text(StringHelper::Translate("Flags").c_str());
             uint32_t currentFlags = GET_GS_FLAGS(selectedGsMap);
             uint32_t allFlags = gAreaGsFlags[selectedGsMap];
             uint32_t setMask = 1;
@@ -1099,7 +1100,7 @@ void DrawFlagsTab() {
                 static bool keepGsCountUpdated = true;
                 Checkbox("Keep GS Count Updated", &keepGsCountUpdated,
                          checkboxOptionsBase.Tooltip(
-                             "Automatically adjust the number of gold skulltula tokens acquired based on set flags."));
+                             StringHelper::Translate("Automatically adjust the number of gold skulltula tokens acquired based on set flags.").c_str()));
                 int32_t gsCount = 0;
                 if (keepGsCountUpdated) {
                     for (int32_t gsFlagIndex = 0; gsFlagIndex < 6; gsFlagIndex++) {
@@ -1133,11 +1134,11 @@ void DrawFlagsTab() {
                             if (j == 0) {
                                 for (int k = 0xF; k >= 0; k--) {
                                     ImGui::SameLine(37.5 + ((0xF - k) * 33.8));
-                                    ImGui::Text("%X", k);
+                                    ImGui::Text(StringHelper::Translate("%X").c_str(), k);
                                 }
                             }
 
-                            ImGui::Text("%s", fmt::format("{:<2X}", j).c_str());
+                            ImGui::Text(StringHelper::Translate("%s").c_str(), fmt::format("{:<2X}", j).c_str());
 
                             switch (flagTable.flagTableType) {
                                 case EVENT_CHECK_INF:
@@ -1200,7 +1201,7 @@ void DrawFlagsTab() {
 
 // Draws a combo that lets you choose and upgrade value from a drop-down of text values
 void DrawUpgrade(const std::string& categoryName, int32_t categoryId, const std::vector<std::string>& names) {
-    ImGui::Text("%s", categoryName.c_str());
+    ImGui::Text(StringHelper::Translate("%s").c_str(), categoryName.c_str());
     ImGui::SameLine();
     ImGui::PushID(categoryName.c_str());
     PushStyleCombobox(THEME_COLOR);
@@ -1238,7 +1239,7 @@ void DrawUpgradeIcon(const std::string& categoryName, int32_t categoryId, const 
             ImGui::OpenPopup(upgradePopupPicker);
         }
     } else {
-        if (ImGui::Button("##itemNone", ImVec2(IMAGE_SIZE, IMAGE_SIZE) + ImGui::GetStyle().FramePadding * 2)) {
+        if (ImGui::Button(StringHelper::Translate("##itemNone").c_str(), ImVec2(IMAGE_SIZE, IMAGE_SIZE) + ImGui::GetStyle().FramePadding * 2)) {
             ImGui::OpenPopup(upgradePopupPicker);
         }
     }
@@ -1253,7 +1254,7 @@ void DrawUpgradeIcon(const std::string& categoryName, int32_t categoryId, const 
 
             PushStyleButton(Colors::DarkGray);
             if (items[pickerIndex] == ITEM_NONE) {
-                if (ImGui::Button("##upgradePopupPicker",
+                if (ImGui::Button(StringHelper::Translate("##upgradePopupPicker").c_str(),
                                   ImVec2(IMAGE_SIZE, IMAGE_SIZE) + ImGui::GetStyle().FramePadding * 2)) {
                     Inventory_ChangeUpgrade(categoryId, pickerIndex);
                     ImGui::CloseCurrentPopup();
@@ -1402,7 +1403,7 @@ void DrawEquipmentTab() {
             "30",
             "50",
         };
-        ImGui::Text("%s", "Bombchu Bag Capacity");
+        ImGui::Text(StringHelper::Translate("%s").c_str(), "Bombchu Bag Capacity");
         ImGui::SameLine();
         ImGui::PushID("Bombchu Bag Capacity");
         PushStyleCombobox(THEME_COLOR);
@@ -1550,7 +1551,7 @@ void DrawQuestStatusTab() {
 
     DrawGroupWithBorder(
         [&]() {
-            ImGui::Text("Dungeon Items");
+            ImGui::Text(StringHelper::Translate("Dungeon Items").c_str());
 
             static int32_t dungeonItemsScene = SCENE_DEKU_TREE;
             static int32_t lastDungeonScene = -1;
@@ -1597,7 +1598,7 @@ void DrawQuestStatusTab() {
             } else {
                 // dungeonItems is size 20 but dungeonKeys is size 19, so there are no keys for the last scene
                 // (Barinade's Lair)
-                ImGui::Text("Barinade's Lair does not have small keys");
+                ImGui::Text(StringHelper::Translate("Barinade's Lair does not have small keys").c_str());
             }
         },
         "Dungeon Items");
@@ -1681,7 +1682,7 @@ void DrawPlayerTab() {
         PushStyleInput(THEME_COLOR);
         DrawGroupWithBorder(
             [&]() {
-                ImGui::Text("Link's Position");
+                ImGui::Text(StringHelper::Translate("Link's Position").c_str());
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
                 ImGui::InputScalar("X##Pos", ImGuiDataType_Float, &player->actor.world.pos.x);
                 ImGui::InputScalar("Y##Pos", ImGuiDataType_Float, &player->actor.world.pos.y);
@@ -1692,7 +1693,7 @@ void DrawPlayerTab() {
         ImGui::SameLine();
         DrawGroupWithBorder(
             [&]() {
-                ImGui::Text("Link's Rotation");
+                ImGui::Text(StringHelper::Translate("Link's Rotation").c_str());
                 InsertHelpHoverText("For Link's rotation in relation to the world");
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
                 ImGui::InputScalar("X##Rot", ImGuiDataType_S16, &player->actor.world.rot.x);
@@ -1704,7 +1705,7 @@ void DrawPlayerTab() {
         ImGui::SameLine();
         DrawGroupWithBorder(
             [&]() {
-                ImGui::Text("Link's Model Rotation");
+                ImGui::Text(StringHelper::Translate("Link's Model Rotation").c_str());
                 InsertHelpHoverText("For Link's actual model");
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
                 ImGui::InputScalar("X##ModRot", ImGuiDataType_S16, &player->actor.shape.rot.x);
@@ -1747,7 +1748,7 @@ void DrawPlayerTab() {
         DrawGroupWithBorder(
             [&]() {
                 PushStyleCombobox(THEME_COLOR);
-                ImGui::Text("Link's Current Equipment");
+                ImGui::Text(StringHelper::Translate("Link's Current Equipment").c_str());
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 12);
                 if (ImGui::BeginCombo("Sword", curSword)) {
                     if (ImGui::Selectable("None")) {
@@ -1851,7 +1852,7 @@ void DrawPlayerTab() {
             [&]() {
                 ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                 PushStyleInput(THEME_COLOR);
-                ImGui::Text("Current Items");
+                ImGui::Text(StringHelper::Translate("Current Items").c_str());
                 ImGui::InputScalar("B Button", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[0], &one, NULL);
                 ImGui::InputScalar("C Left", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[1], &one, NULL);
                 ImGui::InputScalar("C Down", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[2], &one, NULL);
@@ -1867,7 +1868,7 @@ void DrawPlayerTab() {
                 [&]() {
                     ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                     PushStyleInput(THEME_COLOR);
-                    ImGui::Text("Current D-pad Items");
+                    ImGui::Text(StringHelper::Translate("Current D-pad Items").c_str());
                     // Two spaces at the end for aligning, not elegant but it's working
                     ImGui::InputScalar("D-pad Up  ", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[4], &one, NULL);
                     ImGui::InputScalar("D-pad Down", ImGuiDataType_U8, &gSaveContext.equips.buttonItems[5], &one, NULL);
@@ -1880,7 +1881,7 @@ void DrawPlayerTab() {
                 "Current D-pad Items");
         }
 
-        ImGui::Text("Player State");
+        ImGui::Text(StringHelper::Translate("Player State").c_str());
         uint8_t bit[32] = {};
         uint32_t flags[3] = { player->stateFlags1, player->stateFlags2, player->stateFlags3 };
         std::vector<std::vector<std::string>> flag_strs = { state1, state2, state3 };
@@ -1889,12 +1890,12 @@ void DrawPlayerTab() {
             std::string label = fmt::format("State Flags {}", j + 1);
             DrawGroupWithBorder(
                 [&]() {
-                    ImGui::Text("%s", label.c_str());
+                    ImGui::Text(StringHelper::Translate("%s").c_str(), label.c_str());
                     std::vector<std::string> state = flag_strs[j];
                     for (int i = 0; i <= 31; i++) {
                         bit[i] = ((flags[j] >> i) & 1);
                         if (bit[i] != 0) {
-                            ImGui::Text("%s", state[i].c_str());
+                            ImGui::Text(StringHelper::Translate("%s").c_str(), state[i].c_str());
                         }
                     }
                 },
@@ -1904,12 +1905,12 @@ void DrawPlayerTab() {
         DrawGroupWithBorder(
             [&]() {
                 ImGui::Text("Sword");
-                ImGui::Text("  %d", player->meleeWeaponState);
+                ImGui::Text(StringHelper::Translate("  %d").c_str(), player->meleeWeaponState);
             },
             "Sword");
 
     } else {
-        ImGui::Text("Global Context needed for player info!");
+        ImGui::Text(StringHelper::Translate("Global Context needed for player info!").c_str());
     }
 }
 
@@ -1930,37 +1931,37 @@ void SaveEditorWindow::DrawElement() {
 
     if (ImGui::BeginTabBar("SaveContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Info")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Info").c_str())) {
             DrawInfoTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Inventory")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Inventory").c_str())) {
             DrawInventoryTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Flags")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Flags").c_str())) {
             DrawFlagsTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Equipment")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Equipment").c_str())) {
             DrawEquipmentTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Quest Status")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Quest Status").c_str())) {
             DrawQuestStatusTab();
             ImGui::EndTabItem();
         }
 
         ResetBaseOptions();
-        if (ImGui::BeginTabItem("Player")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Player").c_str())) {
             DrawPlayerTab();
             ImGui::EndTabItem();
         }

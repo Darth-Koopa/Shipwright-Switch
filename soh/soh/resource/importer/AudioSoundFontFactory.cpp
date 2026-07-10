@@ -1,4 +1,4 @@
-#include "soh/resource/importer/AudioSoundFontFactory.h"
+﻿#include "soh/resource/importer/AudioSoundFontFactory.h"
 #include "soh/resource/type/AudioSoundFont.h"
 #include <tinyxml2.h>
 #include <z64.h>

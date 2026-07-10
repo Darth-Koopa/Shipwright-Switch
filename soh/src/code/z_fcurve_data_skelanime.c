@@ -1,4 +1,4 @@
-#include "global.h"
+﻿#include "global.h"
 #include <assert.h>
 #include "soh/ResourceManagerHelpers.h"
 

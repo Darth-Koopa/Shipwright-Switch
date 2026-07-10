@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_kakasi.c
  * Overlay: ovl_En_Kakasi
  * Description: Pierre the Scarecrow

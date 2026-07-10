@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_hs2.c
  * Overlay: ovl_En_Hs2
  * Description: Carpenter's Son (Child Link version)

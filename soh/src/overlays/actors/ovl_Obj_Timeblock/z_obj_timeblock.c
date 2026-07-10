@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_obj_timeblock.c
  * Overlay: ovl_Obj_Timeblock
  * Description: Song of Time Block

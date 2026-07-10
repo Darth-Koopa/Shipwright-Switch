@@ -1,4 +1,5 @@
-#include "MessageViewer.h"
+﻿#include "MessageViewer.h"
+#include <ship/utils/StringHelper.h>
 
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
@@ -34,13 +35,13 @@ MessageViewer::~MessageViewer() {
 
 void MessageViewer::DrawElement() {
     ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
-    ImGui::Text("Table ID");
+    ImGui::Text(StringHelper::Translate("Table ID").c_str());
     ImGui::SameLine();
     PushStyleInput(THEME_COLOR);
     ImGui::InputText("##TableID", mTableIdBuf, MAX_STRING_SIZE, ImGuiInputTextFlags_CallbackCharFilter,
                      UIWidgets::TextFilters::FilterAlphaNum);
     UIWidgets::InsertHelpHoverText("Leave blank for vanilla table");
-    ImGui::Text("Text ID");
+    ImGui::Text(StringHelper::Translate("Text ID").c_str());
     ImGui::SameLine();
     switch (mTextIdBase) {
         case DECIMAL:
@@ -69,9 +70,9 @@ void MessageViewer::DrawElement() {
                         UIWidgets::ComboboxOptions()
                             .Color(THEME_COLOR)
                             .DefaultIndex(0)
-                            .Tooltip("Which language to load from the selected text ID"));
+                            .Tooltip(StringHelper::Translate("Which language to load from the selected text ID").c_str()));
     PushStyleButton(THEME_COLOR);
-    if (ImGui::Button("Display Message##ExistingMessage")) {
+    if (ImGui::Button(StringHelper::Translate("Display Message##ExistingMessage").c_str())) {
         mDisplayExistingMessageClicked = true;
     }
     ImGui::Text("Custom Message");
@@ -81,7 +82,7 @@ void MessageViewer::DrawElement() {
     PushStyleInput(THEME_COLOR);
     ImGui::InputTextMultiline("##CustomMessage", mCustomMessageBuf, MAX_STRING_SIZE);
     PopStyleInput();
-    if (ImGui::Button("Display Message##CustomMessage")) {
+    if (ImGui::Button(StringHelper::Translate("Display Message##CustomMessage").c_str())) {
         mDisplayCustomMessageClicked = true;
     }
     PopStyleButton();

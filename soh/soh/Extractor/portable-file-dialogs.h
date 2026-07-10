@@ -1,4 +1,4 @@
-//
+﻿//
 //  Portable File Dialogs
 //
 //  Copyright © 2018–2022 Sam Hocevar <sam@hocevar.net>

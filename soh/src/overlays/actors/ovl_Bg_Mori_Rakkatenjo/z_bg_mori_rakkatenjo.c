@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_mori_rakkatenjo.c
  * Overlay: ovl_Bg_Mori_Rakkatenjo
  * Description: Falling ceiling in Forest Temple

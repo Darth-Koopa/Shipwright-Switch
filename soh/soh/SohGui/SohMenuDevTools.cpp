@@ -44,8 +44,8 @@ void SohMenu::AddMenuDevTools() {
     AddWidget(path, "Debug Mode", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_DEVELOPER_TOOLS("DebugEnabled"))
         .Options(
-            CheckboxOptions().Tooltip("Enables Debug Mode, allowing you to select maps with L + R + Z, noclip "
-                                      "with L + D-pad Right, and open the debug menu with L on the pause screen."));
+            CheckboxOptions().Tooltip(StringHelper::Translate("Enables Debug Mode, allowing you to select maps with L + R + Z, noclip "
+                                      "with L + D-pad Right, and open the debug menu with L on the pause screen.").c_str()));
     AddWidget(path, "Map Select Button Combination:", WIDGET_CVAR_BTN_SELECTOR)
         .CVar("gDeveloperTools.MapSelectBtn")
         .Options(BtnSelectorOptions().DefaultValue(BTN_R | BTN_L | BTN_Z))
@@ -72,18 +72,18 @@ void SohMenu::AddMenuDevTools() {
     AddWidget(path, "OoT Skulltula Debug", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_DEVELOPER_TOOLS("SkulltulaDebugEnabled"))
         .PreFunc([](WidgetInfo& info) { info.isHidden = !CVarGetInteger(CVAR_DEVELOPER_TOOLS("DebugEnabled"), 0); })
-        .Options(CheckboxOptions().Tooltip("Enables Skulltula Debug, when moving the cursor in the menu above various "
+        .Options(CheckboxOptions().Tooltip(StringHelper::Translate("Enables Skulltula Debug, when moving the cursor in the menu above various "
                                            "map icons (boss key, compass, map screen locations, etc.) will set the GS "
-                                           "bits in that area.\nUSE WITH CAUTION AS IT DOES NOT UPDATE THE GS COUNT!"));
+                                           "bits in that area.\nUSE WITH CAUTION AS IT DOES NOT UPDATE THE GS COUNT!").c_str()));
     AddWidget(path, "Resource logging", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_DEVELOPER_TOOLS("ResourceLogging"))
         .Options(CheckboxOptions().Tooltip("Logs some resources as XML when they're loaded in binary format."));
 
     AddWidget(path, "Frame Advance", WIDGET_CHECKBOX)
         .Options(CheckboxOptions().Tooltip(
-            "This allows you to advance through the game one frame at a time on command. "
+            StringHelper::Translate("This allows you to advance through the game one frame at a time on command. "
             "To advance a frame, hold Z and tap R on the second controller. Holding Z "
-            "and R will advance a frame every half second. You can also use the buttons below."))
+            "and R will advance a frame every half second. You can also use the buttons below.").c_str()))
         .PreFunc([](WidgetInfo& info) {
             info.isHidden = mSohMenu->disabledMap.at(DISABLE_FOR_NULL_PLAY_STATE).active ||
                             mSohMenu->disabledMap.at(DISABLE_FOR_DEBUG_MODE_OFF).active;
@@ -115,8 +115,8 @@ void SohMenu::AddMenuDevTools() {
     AddWidget(path, "Log Level", WIDGET_CVAR_COMBOBOX)
         .CVar(CVAR_DEVELOPER_TOOLS("LogLevel"))
         .Options(ComboboxOptions()
-                     .Tooltip("The log level determines which messages are printed to the console."
-                              " This does not affect the log file output")
+                     .Tooltip(StringHelper::Translate("The log level determines which messages are printed to the console."
+                              " This does not affect the log file output").c_str())
                      .ComboMap(logLevels)
                      .DefaultIndex(defaultLogLevel))
         .Callback([](WidgetInfo& info) {

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_eff_ss_dead_dd.c
  * Overlay: ovl_Effect_Ss_Dead_Dd
  * Description:

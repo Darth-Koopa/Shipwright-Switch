@@ -1,4 +1,4 @@
-#include "global.h"
+﻿#include "global.h"
 
 void TitleSetup_InitImpl(GameState* gameState) {
     osSyncPrintf("ゼルダ共通データ初期化\n"); // "Zelda common data initalization"

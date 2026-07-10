@@ -1,4 +1,5 @@
 #include "SohStatsWindow.h"
+#include <ship/utils/StringHelper.h>
 #include "soh/OTRGlobals.h"
 
 void SohStatsWindow::DrawElement() {
@@ -8,17 +9,17 @@ void SohStatsWindow::DrawElement() {
     ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
 
 #if defined(_WIN32)
-    ImGui::Text("Platform: Windows");
+    ImGui::Text(StringHelper::Translate("Platform: Windows").c_str());
 #elif defined(__IOS__)
-    ImGui::Text("Platform: iOS");
+    ImGui::Text(StringHelper::Translate("Platform: iOS").c_str());
 #elif defined(__APPLE__)
-    ImGui::Text("Platform: macOS");
+    ImGui::Text(StringHelper::Translate("Platform: macOS").c_str());
 #elif defined(__linux__)
-    ImGui::Text("Platform: Linux");
+    ImGui::Text(StringHelper::Translate("Platform: Linux").c_str());
 #else
-    ImGui::Text("Platform: Unknown");
+    ImGui::Text(StringHelper::Translate("Platform: Unknown").c_str());
 #endif
-    ImGui::Text("Status: %0.3f ms/frame (%0.1f FPS)", deltatime * 1000.0f, framerate);
+    ImGui::Text(StringHelper::Translate("Status: %0.3f ms/frame (%0.1f FPS)").c_str(), deltatime * 1000.0f, framerate);
     ImGui::PopStyleColor();
     ImGui::PopFont();
 }

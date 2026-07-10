@@ -33,13 +33,16 @@ namespace SohGui {
 extern std::shared_ptr<SohMenu> mSohMenu;
 enum setting { UPDATE_aspectRatioX, UPDATE_aspectRatioY, UPDATE_verticalPixelCount };
 
-std::map<int32_t, const char*> aspectRatioPresetLabels = { { 0, StringHelper::Translate("Off").c_str() },
-                                                           { 1, StringHelper::Translate("Custom").c_str() },
-                                                           { 2, StringHelper::Translate("Original (4:3)").c_str() },
-                                                           { 3, StringHelper::Translate("Widescreen (16:9)").c_str() },
-                                                           { 4, StringHelper::Translate("Nintendo 3DS (5:3)").c_str() },
-                                                           { 5, StringHelper::Translate("16:10 (8:5)").c_str() },
-                                                           { 6, StringHelper::Translate("Ultrawide (21:9)").c_str() } };
+// NOTE: plain literals, not StringHelper::Translate(...).c_str() — Translate returns a
+// temporary std::string freed right after .c_str(), leaving a dangling pointer that crashes
+// CalcComboWidth/strlen at draw time. The combobox translates options live (UIWidgets::Combobox).
+std::map<int32_t, const char*> aspectRatioPresetLabels = { { 0, "Off" },
+                                                           { 1, "Custom" },
+                                                           { 2, "Original (4:3)" },
+                                                           { 3, "Widescreen (16:9)" },
+                                                           { 4, "Nintendo 3DS (5:3)" },
+                                                           { 5, "16:10 (8:5)" },
+                                                           { 6, "Ultrawide (21:9)" } };
 const float aspectRatioPresetsX[] = { 0.0f, 16.0f, 4.0f, 16.0f, 5.0f, 16.0f, 21.0f };
 const float aspectRatioPresetsY[] = { 0.0f, 9.0f, 3.0f, 9.0f, 3.0f, 10.0f, 9.0f };
 const int default_aspectRatio = 1; // Default combo list option
@@ -52,7 +55,7 @@ std::vector<const char*> GetPixelCountPresetLabels() {
     static std::vector<std::string> translated;
     if (translated.empty()) {
         for (int i = 0; i < pixelCountPresetRawCount; i++) {
-            translated.push_back(StringHelper::Translate(pixelCountPresetRawLabels[i]));
+            translated.push_back(StringHelper::Translate(pixelCountPresetRawLabels[i]).c_str());
         }
     }
     std::vector<const char*> ptrs;
@@ -165,7 +168,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
                                ICON_FA_QUESTION_CIRCLE " \"Force aspect ratio\" required.");
             // ImGui::Text(" ");
             ImGui::SameLine();
-            if (UIWidgets::Button("Click to resolve", UIWidgets::ButtonOptions().Color(THEME_COLOR))) {
+            if (UIWidgets::Button(StringHelper::Translate("Click to resolve").c_str(), UIWidgets::ButtonOptions().Color(THEME_COLOR))) {
                 item_aspectRatio = default_aspectRatio; // Set it to Custom
                 aspectRatioX = aspectRatioPresetsX[2];  // but use the 4:3 defaults
                 aspectRatioY = aspectRatioPresetsY[2];
@@ -215,7 +218,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
 
         // Integer Scaling
         UIWidgets::CVarSliderInt(
-            fmt::format(StringHelper::Translate("Integer scale factor: {}").c_str(), max_integerScaleFactor).c_str(),
+            fmt::format(fmt::runtime(StringHelper::Translate("Integer scale factor: {}")), max_integerScaleFactor).c_str(),
             CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.Factor",
             UIWidgets::IntSliderOptions(
                 { { .disabled = disabled_pixelPerfectMode ||
@@ -272,7 +275,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
             // Having this button should hopefully prevent support headaches.
             ImGui::TextColored(messageColor[MESSAGE_QUESTION], ICON_FA_QUESTION_CIRCLE
                                " If the image is stretched and you don't know why, click this.");
-            if (ImGui::Button("Click to reenable aspect correction.")) {
+            if (ImGui::Button(StringHelper::Translate("Click to reenable aspect correction.").c_str())) {
                 CVarSetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".IgnoreAspectCorrection", 0);
                 Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
             }
@@ -312,13 +315,14 @@ void ResolutionCustomWidget(WidgetInfo& info) {
                                             "(Makes screen bounds take priority over specified factor.)").c_str(),
                     CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.NeverExceedBounds",
                     UIWidgets::CheckboxOptions({ { .disabled = disabled_neverExceedBounds } })
-                        .Tooltip("Prevents integer scaling factor from exceeding screen bounds.\n\n"
+                        .Tooltip(StringHelper::Translate(
+                                 "Prevents integer scaling factor from exceeding screen bounds.\n\n"
                                  "Enabled: Will clamp the scaling factor and display a gentle warning in the "
                                  "resolution editor.\n"
                                  "Disabled: Will allow scaling to exceed screen bounds, for users who want to crop "
                                  "overscan.\n\n"
                                  " " ICON_FA_INFO_CIRCLE
-                                 " Please note that exceeding screen bounds may show a scroll bar on-screen.")
+                                 " Please note that exceeding screen bounds may show a scroll bar on-screen.").c_str())
                         .Color(THEME_COLOR)
                         .DefaultValue(true))) {
 
@@ -332,7 +336,7 @@ void ResolutionCustomWidget(WidgetInfo& info) {
             // Integer Scaling - Exceed Bounds By 1x/Offset.
             // A popular feature in some retro frontends/upscalers, sometimes called "crop overscan" or "1080p 5x".
             UIWidgets::CVarCheckbox(
-                "Allow integer scale factor to go +1 above maximum screen bounds.",
+                StringHelper::Translate("Allow integer scale factor to go +1 above maximum screen bounds.").c_str(),
                 CVAR_PREFIX_ADVANCED_RESOLUTION ".IntegerScale.ExceedBoundsBy",
                 UIWidgets::CheckboxOptions(
                     { { .disabled = !CVarGetInteger(CVAR_PREFIX_ADVANCED_RESOLUTION ".PixelPerfectMode", 0) ||
@@ -404,18 +408,18 @@ void RegisterResolutionWidgets() {
     WidgetPath path = { "Settings", "Graphics", SECTION_COLUMN_2 };
 
     // Resolution visualiser
-    mSohMenu->AddWidget(path, "Viewport dimensions: {} x {}", WIDGET_TEXT)
+    mSohMenu->AddWidget(path, StringHelper::Translate("Viewport dimensions: {} x {}").c_str(), WIDGET_TEXT)
         .RaceDisable(false)
         .PreFunc([](WidgetInfo& info) {
             auto gfx_current_game_window_viewport = GetInterpreter().get()->mGameWindowViewport;
-            info.name = fmt::format("Viewport dimensions: {} x {}", gfx_current_game_window_viewport.width,
+            info.name = fmt::format(fmt::runtime(StringHelper::Translate("Viewport dimensions: {} x {}")), gfx_current_game_window_viewport.width,
                                     gfx_current_game_window_viewport.height);
         });
-    mSohMenu->AddWidget(path, "Internal resolution: {} x {}", WIDGET_TEXT)
+    mSohMenu->AddWidget(path, StringHelper::Translate("Internal resolution: {} x {}").c_str(), WIDGET_TEXT)
         .RaceDisable(false)
         .PreFunc([](WidgetInfo& info) {
             auto gfx_current_dimensions = GetInterpreter().get()->mCurDimensions;
-            info.name = fmt::format("Internal resolution: {} x {}", gfx_current_dimensions.width,
+            info.name = fmt::format(fmt::runtime(StringHelper::Translate("Internal resolution: {} x {}")), gfx_current_dimensions.width,
                                     gfx_current_dimensions.height);
         });
 
@@ -525,7 +529,7 @@ void RegisterResolutionWidgets() {
                     ImGui::Dummy({ 0, 2 });
                     const float resolvedAspectRatio =
                         (float)gfx_current_dimensions.width / gfx_current_dimensions.height;
-                    ImGui::Text("Aspect ratio: %.2f:1", resolvedAspectRatio);
+                    ImGui::Text(StringHelper::Translate("Aspect ratio: %.2f:1").c_str(), resolvedAspectRatio);
                 }
             }
         });

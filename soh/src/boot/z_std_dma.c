@@ -1,4 +1,4 @@
-#include "global.h"
+﻿#include "global.h"
 #include "vt.h"
 #include <stdio.h>
 #include <assert.h>

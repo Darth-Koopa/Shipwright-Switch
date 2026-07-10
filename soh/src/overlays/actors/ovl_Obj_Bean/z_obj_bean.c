@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_obj_bean.c
  * Overlay: ovl_Obj_Bean
  * Description: Bean plant spot

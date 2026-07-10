@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_obj_kibako.c
  * Overlay: ovl_Obj_Kibako
  * Description: Small wooden box

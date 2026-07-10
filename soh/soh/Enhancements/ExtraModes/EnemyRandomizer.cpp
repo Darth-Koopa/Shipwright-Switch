@@ -1,4 +1,5 @@
 #include "functions.h"
+#include <ship/utils/StringHelper.h>
 #include "macros.h"
 #include "soh/Enhancements/randomizer/3drando/random.hpp"
 #include "soh/Enhancements/randomizer/SeedContext.h"
@@ -946,7 +947,7 @@ void RegisterEnemyRandomizerWidgets() {
 
     SohGui::mSohMenu->AddWidget(path, "Randomized Enemy Sizes", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("RandomizedEnemySizes"))
-        .Options(UIWidgets::CheckboxOptions().Tooltip("Enemies and Bosses spawn with random sizes."));
+        .Options(UIWidgets::CheckboxOptions().Tooltip(StringHelper::Translate("Enemies and Bosses spawn with random sizes.").c_str()));
 
     SohGui::mSohMenu->AddWidget(path, "Scale Health with Size", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("EnemySizeScalesHealth"))

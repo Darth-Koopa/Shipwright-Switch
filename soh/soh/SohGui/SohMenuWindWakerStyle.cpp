@@ -28,8 +28,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"))
         .RaceDisable(false)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Re-lights actors and objects with a single dominant light and a soft Wind Waker-style ramp. "
-            "Only affects objects, not the static scene. Pairs well with cel-shaded texture packs."));
+            StringHelper::Translate("Re-lights actors and objects with a single dominant light and a soft Wind Waker-style ramp. "
+            "Only affects objects, not the static scene. Pairs well with cel-shaded texture packs.").c_str()));
     AddWidget(path, "Options", WIDGET_SEPARATOR_TEXT).PreFunc(hideUnlessCelEnabled);
     AddWidget(path, "Reset All to Defaults", WIDGET_BUTTON)
         .PreFunc(hideUnlessCelEnabled)
@@ -51,8 +51,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessCelEnabled)
         .Options(FloatSliderOptions()
-                     .Tooltip("Where the dark-to-light transition sits. Higher = more of the surface "
-                              "stays in shadow.")
+                     .Tooltip(StringHelper::Translate("Where the dark-to-light transition sits. Higher = more of the surface "
+                              "stays in shadow.").c_str())
                      .Min(0.0f)
                      .Max(1.0f)
                      .DefaultValue(0.5f)
@@ -62,8 +62,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessCelEnabled)
         .Options(FloatSliderOptions()
-                     .Tooltip("Width of the transition band. Low = a hard cel edge; high = a softer "
-                              "gradient.")
+                     .Tooltip(StringHelper::Translate("Width of the transition band. Low = a hard cel edge; high = a softer "
+                              "gradient.").c_str())
                      .Format("%.2f") // 2 decimals; the 0.01 step makes the drag land on hundredths (no snap)
                      .Min(0.01f)
                      .Max(0.2f)
@@ -83,8 +83,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessCelEnabled)
         .Options(FloatSliderOptions()
-                     .Tooltip("How dark the shadow side gets. 0% = no shadow (flat), 100% = full "
-                              "shadow down to ambient.")
+                     .Tooltip(StringHelper::Translate("How dark the shadow side gets. 0% = no shadow (flat), 100% = full "
+                              "shadow down to ambient.").c_str())
                      .Min(0.0f)
                      .Max(1.0f)
                      .DefaultValue(0.6f)
@@ -94,10 +94,10 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessCelEnabled)
         .Options(FloatSliderOptions()
-                     .Tooltip("Extends how far a point light can remain an object's key light, as a "
+                     .Tooltip(StringHelper::Translate("Extends how far a point light can remain an object's key light, as a "
                               "multiplier on its actual radius (key selection only — the game's real "
                               "lighting is unchanged). Raise it so an orbiting fairy keeps lighting nearby "
-                              "objects even when it swings to its far side. 1x = the light's literal range.")
+                              "objects even when it swings to its far side. 1x = the light's literal range.").c_str())
                      .Format("%.1fx")
                      .Min(1.0f)
                      .Max(4.0f)
@@ -107,16 +107,16 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessCelEnabled)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Let Navi count as a candidate key light for cel shading. Navi blinks on/off and orbits Link, so "
+            StringHelper::Translate("Let Navi count as a candidate key light for cel shading. Navi blinks on/off and orbits Link, so "
             "leaving this on makes the lighting on nearby objects shift around with her. Turn it off to ignore "
-            "Navi and keep the key light steady (the sun/moon or a torch wins instead)."));
+            "Navi and keep the key light steady (the sun/moon or a torch wins instead).").c_str()));
     AddWidget(path, "Transition Time", WIDGET_CVAR_SLIDER_FLOAT)
         .CVar(CVAR_ENHANCEMENT("Graphics.ToonLighting.TransitionTime"))
         .RaceDisable(false)
         .PreFunc(hideUnlessCelEnabled)
         .Options(FloatSliderOptions()
-                     .Tooltip("How long the key light takes to ease from one source to another. Higher "
-                              "= slower, more deliberate travel between the sun and a fairy/torch.")
+                     .Tooltip(StringHelper::Translate("How long the key light takes to ease from one source to another. Higher "
+                              "= slower, more deliberate travel between the sun and a fairy/torch.").c_str())
                      .Format("%.1fs")
                      .Min(0.1f)
                      .Max(6.0f)
@@ -126,16 +126,16 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_DEVELOPER_TOOLS("ToonLighting.ShowDebug"))
         .PreFunc(hideUnlessCelEnabled)
         .Options(CheckboxOptions().Tooltip(
-            "Draws a debug ray from each actor for every candidate light (coloured by the light, longer "
+            StringHelper::Translate("Draws a debug ray from each actor for every candidate light (coloured by the light, longer "
             "when stronger), a cyan range ring around each point light, and a bold magenta needle down "
-            "the chosen key light, so you can see which light is winning and where the key points."));
+            "the chosen key light, so you can see which light is winning and where the key points.").c_str()));
     AddWidget(path, "Highlight Lit Objects", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_DEVELOPER_TOOLS("ToonLighting.HighlightBands"))
         .PreFunc(hideUnlessCelEnabled)
         .Options(CheckboxOptions().Tooltip(
-            "Renders every cel-shaded object as flat white on the lit side and flat black in shadow (the "
+            StringHelper::Translate("Renders every cel-shaded object as flat white on the lit side and flat black in shadow (the "
             "texture is discarded), so it is obvious which draws are being relit — handy for confirming "
-            "whether large surfaces like water or lava are getting relit."));
+            "whether large surfaces like water or lava are getting relit.").c_str()));
 
     // ===========================================================================================
     // Lights — Wind Waker flame-flicker tweaks (Misc) plus the cast light pools (Light Casting). On by
@@ -175,15 +175,15 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldLighting.HideVanillaGlow"))
         .RaceDisable(false)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Hides the original flat, billboarded, flickering glow circle the game draws over torches and "
-            "other glow lights (it clashes with the cast pools). Applies while Light Casting is on."));
+            StringHelper::Translate("Hides the original flat, billboarded, flickering glow circle the game draws over torches and "
+            "other glow lights (it clashes with the cast pools). Applies while Light Casting is on.").c_str()));
     AddWidget(path, "Improve Flame Flicker", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldLighting.ImproveFlameFlicker"))
         .RaceDisable(false)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Replaces the game's fast, jagged per-frame torch/flame flicker with a slow, organic Wind Waker "
+            StringHelper::Translate("Replaces the game's fast, jagged per-frame torch/flame flicker with a slow, organic Wind Waker "
             "flicker. Applied at the source, so it affects the vanilla scene lighting and Cel Shading even "
-            "when Light Casting is off."));
+            "when Light Casting is off.").c_str()));
     AddWidget(path, "Flicker Speed", WIDGET_CVAR_SLIDER_FLOAT)
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldLighting.FlickerSpeed"))
         .RaceDisable(false)
@@ -193,8 +193,8 @@ void SohMenu::AddMenuWindWakerStyle() {
             info.options->disabledTooltip = "Enable \"Improve Flame Flicker\" to adjust this.";
         })
         .Options(FloatSliderOptions()
-                     .Tooltip("How often flames pick a new brightness for the Wind Waker flicker. Higher = "
-                              "faster; lower = a lazier flame.")
+                     .Tooltip(StringHelper::Translate("How often flames pick a new brightness for the Wind Waker flicker. Higher = "
+                              "faster; lower = a lazier flame.").c_str())
                      .Format("%.2fx")
                      .Min(0.1f)
                      .Max(3.0f)
@@ -203,11 +203,11 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldLighting.NaviSaturation"))
         .RaceDisable(false)
         .Options(FloatSliderOptions()
-                     .Tooltip("Tints Navi's light toward her current colour. Her light is normally white, but "
+                     .Tooltip(StringHelper::Translate("Tints Navi's light toward her current colour. Her light is normally white, but "
                               "she changes colour when targeting (yellow on enemies, and so on); raise this to "
                               "let a little of that colour through. Applied at the source, so it tints her cast "
                               "pool, the objects she lights under Cel Shading, and the vanilla lighting alike. "
-                              "0% = white.")
+                              "0% = white.").c_str())
                      .Min(0.0f)
                      .Max(1.0f)
                      .DefaultValue(0.2f)
@@ -260,24 +260,24 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldLighting.Enabled"))
         .RaceDisable(false)
         .Options(CheckboxOptions().DefaultValue(false).Tooltip(
-            "Casts a pool of light from each point light (torch, fairy, ...) onto the surrounding world "
+            StringHelper::Translate("Casts a pool of light from each point light (torch, fairy, ...) onto the surrounding world "
             "geometry, Wind Waker-style. Affects only the static world, not actors/objects (lit by Cel "
-            "Shading)."));
+            "Shading).").c_str()));
     // Pool movement (global) sits right under the master toggle.
     AddWidget(path, "Use Wind Waker default movement", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldLighting.WWDefaultMovement"))
         .RaceDisable(false)
         .PreFunc(hideUnlessLightCastEnabled)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Pins the pool's tumble and size pulse to the authentic Wind Waker rates. Turn off to reveal and "
-            "set Rotation Speed and Size Flicker yourself."));
+            StringHelper::Translate("Pins the pool's tumble and size pulse to the authentic Wind Waker rates. Turn off to reveal and "
+            "set Rotation Speed and Size Flicker yourself.").c_str()));
     AddWidget(path, "Rotation Speed", WIDGET_CVAR_SLIDER_FLOAT)
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldLighting.RotationSpeed"))
         .RaceDisable(false)
         .PreFunc(hideUnlessCustomMovement)
         .Options(FloatSliderOptions()
-                     .Tooltip("Speed of the Wind Waker two-axis tumble that animates the pool's faceted "
-                              "edges, as a multiplier on the authentic rate. 1.0 = authentic; 0 = static.")
+                     .Tooltip(StringHelper::Translate("Speed of the Wind Waker two-axis tumble that animates the pool's faceted "
+                              "edges, as a multiplier on the authentic rate. 1.0 = authentic; 0 = static.").c_str())
                      .Format("%.2fx")
                      .Min(0.0f)
                      .Max(3.0f)
@@ -287,9 +287,9 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessCustomMovement)
         .Options(FloatSliderOptions()
-                     .Tooltip("Depth of the Wind Waker size pulse — the pool's dominant flicker. The orb "
+                     .Tooltip(StringHelper::Translate("Depth of the Wind Waker size pulse — the pool's dominant flicker. The orb "
                               "gently grows/shrinks on a slow random walk (re-rolled every ~0.2 s, eased). "
-                              "1.0 = authentic (~5%); 0 = steady. (Navi is excluded — she isn't a flame.)")
+                              "1.0 = authentic (~5%); 0 = steady. (Navi is excluded — she isn't a flame.)").c_str())
                      .Format("%.2f")
                      .Min(0.0f)
                      .Max(3.0f)
@@ -324,10 +324,10 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessLightCastEnabled)
         .Options(CheckboxOptions().DefaultValue(false).Tooltip(
-            "Makes non-Navi fairies emit light (they don't in vanilla): the fairies that drift around places "
+            StringHelper::Translate("Makes non-Navi fairies emit light (they don't in vanilla): the fairies that drift around places "
             "like Kokiri Forest, and the healing fairies found out in the world (the magic one casts a wider "
             "pool). Since it turns them into real light sources, they then cast light pools AND can light nearby "
-            "objects via Cel Shading, the same as Navi. A cluster of them can make the lighting busy."));
+            "objects via Cel Shading, the same as Navi. A cluster of them can make the lighting busy.").c_str()));
     addSliderWithReset("Other Fairy Cast Size", CVAR_ENHANCEMENT("Graphics.WorldLighting.WildFairySphereSize"),
                        0.1f, 4.0f, 0.75f, "%.2fx", false, hideUnlessWildFairyCast,
                        "Pool size for non-Navi fairies (Kokiri Forest fairies + the healing fairies), separate "
@@ -341,9 +341,9 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_DEVELOPER_TOOLS("WorldLighting.ShowLightSpheres"))
         .PreFunc(hideUnlessLightCastEnabled)
         .Options(CheckboxOptions().Tooltip(
-            "Overlays a translucent faceted shell of each light's icosphere — the volume used for its cast "
+            StringHelper::Translate("Overlays a translucent faceted shell of each light's icosphere — the volume used for its cast "
             "pool — tinted by the light, so you can see where the pools are, their size, and their spin. "
-            "(The renderer has no line primitive, so this is a shell rather than a true wireframe.)"));
+            "(The renderer has no line primitive, so this is a shell rather than a true wireframe.)").c_str()));
 
     // Held Deku stick — its own light source. Unlike the casting groups above it feeds Cel Shading + Actor
     // Shadows even with Light Casting off, so it lives in the right column with its toggle always visible;
@@ -354,9 +354,9 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldLighting.DekuStickLight"))
         .RaceDisable(false)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Makes a lit, held Deku stick a real light source at its burning tip (it isn't in vanilla). Like a "
+            StringHelper::Translate("Makes a lit, held Deku stick a real light source at its burning tip (it isn't in vanilla). Like a "
             "torch it lights nearby objects via Cel Shading and casts their shadows, and — with Light Casting "
-            "on — casts its own pool on the world. This one toggle controls all three."));
+            "on — casts its own pool on the world. This one toggle controls all three.").c_str()));
     addSliderWithReset("Deku Stick Cast Size", CVAR_ENHANCEMENT("Graphics.WorldLighting.DekuStickSphereSize"),
                        0.1f, 4.0f, 0.5f, "%.2fx", false, hideUnlessDekuStickCast,
                        "The held Deku stick's pool size, separate from torches, so you can size the stick's "
@@ -377,18 +377,18 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"))
         .RaceDisable(false)
         .Options(CheckboxOptions().DefaultValue(false).Tooltip(
-            "Replaces the vanilla actor shadows with a shape-based drop shadow for each actor (Link, NPCs, "
+            StringHelper::Translate("Replaces the vanilla actor shadows with a shape-based drop shadow for each actor (Link, NPCs, "
             "enemies, items, ...): its own silhouette cast from the single key light Cel Shading picks, wrapped "
             "onto the real ground so it follows slopes and bumps. Off by default (vanilla shadows). Uses the "
-            "Cel Shading key selection, but works whether or not Cel Shading itself is on."));
+            "Cel Shading key selection, but works whether or not Cel Shading itself is on.").c_str()));
     AddWidget(path, "Suppress Vanilla Shadows", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldShadows.SuppressVanillaShadows"))
         .RaceDisable(false)
         .PreFunc(hideUnlessShadowsEnabled)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Hide the original game's actor shadows (Link's feet, the NPC/enemy circles, the horse shadow, "
+            StringHelper::Translate("Hide the original game's actor shadows (Link's feet, the NPC/enemy circles, the horse shadow, "
             "the sign and snake-statue texture shadows) so only the new shape shadows show. Turn off to draw "
-            "both."));
+            "both.").c_str()));
     AddWidget(path, "Shadows on Walkable Actors", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldShadows.ReceiverActors"))
         .RaceDisable(false)
@@ -427,10 +427,10 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessShadowsEnabled)
         .Options(FloatSliderOptions()
-                     .Tooltip("How long the shadow may get. The key light is raised toward straight-overhead "
+                     .Tooltip(StringHelper::Translate("How long the shadow may get. The key light is raised toward straight-overhead "
                               "before projecting, so a low light still casts a short shadow tucked under the "
                               "actor (like the vanilla shadow). Lower = always short and steep; higher = lets "
-                              "a low light stretch the shadow out further.")
+                              "a low light stretch the shadow out further.").c_str())
                      .Format("%.2f")
                      .Min(0.0f)
                      .Max(1.0f)
@@ -440,11 +440,11 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessShadowsEnabled)
         .Options(FloatSliderOptions()
-                     .Tooltip("How far below the feet the shadow conforms to the ground. The shadow is a thin "
+                     .Tooltip(StringHelper::Translate("How far below the feet the shadow conforms to the ground. The shadow is a thin "
                               "stencil 'slab' at the feet that wraps onto whatever ground is inside it. Higher = "
                               "follows ground that dips further (steeper inclines), but past a ledge the shadow "
                               "creeps further down the drop. Lower = clings tight to the feet and won't spill "
-                              "over cliff edges, but may clip on steep slopes.")
+                              "over cliff edges, but may clip on steep slopes.").c_str())
                      .Format("%.0f")
                      .Min(5.0f)
                      .Max(200.0f)
@@ -454,10 +454,10 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessShadowsEnabled)
         .Options(FloatSliderOptions()
-                     .Tooltip("How far ABOVE the feet the shadow can climb onto rising ground. Raise this so the "
+                     .Tooltip(StringHelper::Translate("How far ABOVE the feet the shadow can climb onto rising ground. Raise this so the "
                               "shadow still appears where an incline rises higher than the actor's feet (without "
                               "it, the shadow vanishes on up-slopes). Too high starts to catch the actor's own "
-                              "lower legs, so keep it just above the ground rise you need.")
+                              "lower legs, so keep it just above the ground rise you need.").c_str())
                      .Format("%.0f")
                      .Min(0.0f)
                      .Max(120.0f)
@@ -467,10 +467,10 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessShadowsEnabled)
         .Options(IntSliderOptions()
-                     .Tooltip("Performance: actors farther than this from the camera get no shape shadow (each "
+                     .Tooltip(StringHelper::Translate("Performance: actors farther than this from the camera get no shape shadow (each "
                               "shadow redraws the actor's whole silhouette once per tap, so distant ones cost "
                               "more than they're worth). Lower to gain frames in crowded scenes; raise for "
-                              "shadows that stay visible into the distance.")
+                              "shadows that stay visible into the distance.").c_str())
                      .Min(300)
                      .Max(5000)
                      .DefaultValue(900)
@@ -481,8 +481,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_DEVELOPER_TOOLS("WorldShadows.ShowVolume"))
         .PreFunc(hideUnlessShadowsEnabled)
         .Options(CheckboxOptions().Tooltip(
-            "Draws the actual 3D shadow volume translucently so you can see its shape: black top/bottom caps, "
-            "blue side walls. The ground inside this volume is what gets shadowed."));
+            StringHelper::Translate("Draws the actual 3D shadow volume translucently so you can see its shape: black top/bottom caps, "
+            "blue side walls. The ground inside this volume is what gets shadowed.").c_str()));
 
     // ===========================================================================================
     // Sky — the Wind Waker-style sky replacement: gradient dome + drifting clouds + night stars.
@@ -508,9 +508,9 @@ void SohMenu::AddMenuWindWakerStyle() {
         .CVar(CVAR_ENHANCEMENT("Graphics.WWSky.Enabled"))
         .RaceDisable(false)
         .Options(CheckboxOptions().DefaultValue(false).Tooltip(
-            "Replaces the overworld sky with a Wind Waker-style one: a gradient sky dome, drifting puffy "
+            StringHelper::Translate("Replaces the overworld sky with a Wind Waker-style one: a gradient sky dome, drifting puffy "
             "clouds with a wispy horizon cloud band, and a twinkling night starfield. Each part can be "
-            "toggled and tuned below. Texture packs can swap in different cloud art."));
+            "toggled and tuned below. Texture packs can swap in different cloud art.").c_str()));
 
     AddWidget(path, "Horizon", WIDGET_SEPARATOR_TEXT).PreFunc(hideUnlessSky);
     AddWidget(path, "Horizon Height", WIDGET_CVAR_SLIDER_FLOAT)
@@ -518,9 +518,9 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSky)
         .Options(FloatSliderOptions()
-                     .Tooltip("Raises or lowers the sky's horizon line — the gradient's haze boundary and "
+                     .Tooltip(StringHelper::Translate("Raises or lowers the sky's horizon line — the gradient's haze boundary and "
                               "the horizon cloud band move together. Useful where the visible horizon sits "
-                              "below eye level, like the middle of Hyrule Field.")
+                              "below eye level, like the middle of Hyrule Field.").c_str())
                      .Format("%.0f")
                      .Min(-2000.0f)
                      .Max(2000.0f)
@@ -530,9 +530,9 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSky)
         .Options(FloatSliderOptions()
-                     .Tooltip("How much the sky horizon sinks as the camera climbs. 0% = it follows the "
+                     .Tooltip(StringHelper::Translate("How much the sky horizon sinks as the camera climbs. 0% = it follows the "
                               "camera, always at the same height on screen; 100% = it stays at a fixed "
-                              "world height, so hilltops rise in front of it and valleys look out over it.")
+                              "world height, so hilltops rise in front of it and valleys look out over it.").c_str())
                      .Min(0.0f)
                      .Max(1.5f)
                      .DefaultValue(0.75f)
@@ -544,15 +544,15 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSky)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Replaces the sky texture with a smooth Wind Waker-style gradient, fading from a hazy horizon "
-            "up to a deeper sky. The colours shift with the time of day through dawn, dusk and night."));
+            StringHelper::Translate("Replaces the sky texture with a smooth Wind Waker-style gradient, fading from a hazy horizon "
+            "up to a deeper sky. The colours shift with the time of day through dawn, dusk and night.").c_str()));
     AddWidget(path, "Gradient Brightness", WIDGET_CVAR_SLIDER_FLOAT)
         .CVar(CVAR_ENHANCEMENT("Graphics.WWSkyGradient.Brightness"))
         .RaceDisable(false)
         .PreFunc(hideUnlessSkyGradient)
         .Options(FloatSliderOptions()
-                     .Tooltip("Overall brightness of the sky gradient. Raise for a more vivid sky, lower "
-                              "for a moodier one.")
+                     .Tooltip(StringHelper::Translate("Overall brightness of the sky gradient. Raise for a more vivid sky, lower "
+                              "for a moodier one.").c_str())
                      .Min(0.5f)
                      .Max(1.5f)
                      .DefaultValue(1.0f)
@@ -564,8 +564,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSky)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Drifting Wind Waker-style puffy clouds across the sky, plus the wispy cloud band around the "
-            "horizon, both riding the wind."));
+            StringHelper::Translate("Drifting Wind Waker-style puffy clouds across the sky, plus the wispy cloud band around the "
+            "horizon, both riding the wind.").c_str()));
     AddWidget(path, "Opacity", WIDGET_CVAR_SLIDER_FLOAT)
         .CVar(CVAR_ENHANCEMENT("Graphics.WWClouds.Opacity"))
         .RaceDisable(false)
@@ -581,8 +581,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSkyClouds)
         .Options(FloatSliderOptions()
-                     .Tooltip("How much of the sky the clouds fill — from a few scattered clouds up to "
-                              "fully overcast.")
+                     .Tooltip(StringHelper::Translate("How much of the sky the clouds fill — from a few scattered clouds up to "
+                              "fully overcast.").c_str())
                      .Min(0.0f)
                      .Max(1.0f)
                      .DefaultValue(0.3f)
@@ -592,8 +592,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSkyClouds)
         .Options(FloatSliderOptions()
-                     .Tooltip("How fast the clouds drift across the sky on the wind. 1x is Wind Waker's "
-                              "own speed.")
+                     .Tooltip(StringHelper::Translate("How fast the clouds drift across the sky on the wind. 1x is Wind Waker's "
+                              "own speed.").c_str())
                      .Format("%.1fx")
                      .Min(0.0f)
                      .Max(4.0f)
@@ -605,15 +605,15 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSky)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "A Wind Waker-style twinkling starfield over the night sky: a fixed bright constellation plus "
-            "hundreds of small stars that shimmer, fading in at dusk and out at dawn."));
+            StringHelper::Translate("A Wind Waker-style twinkling starfield over the night sky: a fixed bright constellation plus "
+            "hundreds of small stars that shimmer, fading in at dusk and out at dawn.").c_str()));
     AddWidget(path, "Star Count", WIDGET_CVAR_SLIDER_INT)
         .CVar(CVAR_ENHANCEMENT("Graphics.WWNightSky.StarCount"))
         .RaceDisable(false)
         .PreFunc(hideUnlessSkyStars)
         .Options(IntSliderOptions()
-                     .Tooltip("Maximum number of stars at full night (the visible count rises and falls "
-                              "with the time of day). Wind Waker uses 1000.")
+                     .Tooltip(StringHelper::Translate("Maximum number of stars at full night (the visible count rises and falls "
+                              "with the time of day). Wind Waker uses 1000.").c_str())
                      .Min(50)
                      .Max(1000)
                      .DefaultValue(1000)
@@ -634,8 +634,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSkyStars)
         .Options(FloatSliderOptions()
-                     .Tooltip("How fast the stars pulse. 1x is Wind Waker's rate — about ten seconds per "
-                              "cycle.")
+                     .Tooltip(StringHelper::Translate("How fast the stars pulse. 1x is Wind Waker's rate — about ten seconds per "
+                              "cycle.").c_str())
                      .Format("%.1fx")
                      .Min(0.1f)
                      .Max(5.0f)
@@ -647,8 +647,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSky)
         .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Wind Waker's white wind streaks curling through the sky — occasionally pulling a full "
-            "loop-de-loop. Their number follows the wind's strength."));
+            StringHelper::Translate("Wind Waker's white wind streaks curling through the sky — occasionally pulling a full "
+            "loop-de-loop. Their number follows the wind's strength.").c_str()));
     AddWidget(path, "Wisp Amount", WIDGET_CVAR_SLIDER_FLOAT)
         .CVar(CVAR_ENHANCEMENT("Graphics.WWWindWisps.Amount"))
         .RaceDisable(false)
@@ -657,8 +657,8 @@ void SohMenu::AddMenuWindWakerStyle() {
                             !CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WWWindWisps.Enabled"), 1);
         })
         .Options(FloatSliderOptions()
-                     .Tooltip("How many wisps ride the wind (their number also rises and falls with the "
-                              "wind's strength). 1x is Wind Waker's own count.")
+                     .Tooltip(StringHelper::Translate("How many wisps ride the wind (their number also rises and falls with the "
+                              "wind's strength). 1x is Wind Waker's own count.").c_str())
                      .Format("%.1fx")
                      .Min(0.5f)
                      .Max(10.0f)
@@ -671,9 +671,9 @@ void SohMenu::AddMenuWindWakerStyle() {
                             !CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WWWindWisps.Enabled"), 1);
         })
         .Options(FloatSliderOptions()
-                     .Tooltip("How fast the wisps fly. 1x is Wind Waker's own speed. The whole flight "
+                     .Tooltip(StringHelper::Translate("How fast the wisps fly. 1x is Wind Waker's own speed. The whole flight "
                               "path scales together, so the curls and loops keep their shape; slower "
-                              "wisps also leave shorter streaks.")
+                              "wisps also leave shorter streaks.").c_str())
                      .Format("%.2fx")
                      .Min(0.25f)
                      .Max(1.5f)
@@ -685,8 +685,8 @@ void SohMenu::AddMenuWindWakerStyle() {
         .RaceDisable(false)
         .PreFunc(hideUnlessSky)
         .Options(CheckboxOptions().DefaultValue(false).Tooltip(
-            "Draws the Wind Waker sky only on the left half of the screen, leaving the original sky "
-            "visible on the right — a live side-by-side comparison."));
+            StringHelper::Translate("Draws the Wind Waker sky only on the left half of the screen, leaving the original sky "
+            "visible on the right — a live side-by-side comparison.").c_str()));
 }
 
 } // namespace SohGui

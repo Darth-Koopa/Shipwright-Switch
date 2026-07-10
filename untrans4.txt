@@ -1,0 +1,62 @@
+=== Unwrapped ENGLISH UI string literals (concatenated, not in table) ===
+count: 60
+[SohMenuDevTools.cpp:47] 'Enables Debug Mode, allowing you to select maps with L + R + Z, noclip with L + D-pad Right, and open the debug menu with L on the pause screen.'
+[SohMenuDevTools.cpp:75] 'Enables Skulltula Debug, when moving the cursor in the menu above various map icons (boss key, compass, map screen locations, etc.) will set the GS bits in that area.\\nUSE WITH CAUTION AS IT DOES NOT UPDATE THE GS COUNT!'
+[SohMenuDevTools.cpp:83] 'This allows you to advance through the game one frame at a time on command. To advance a frame, hold Z and tap R on the second controller. Holding Z and R will advance a frame every half second. You can also use the buttons below.'
+[SohMenuEnhancements.cpp:509] 'Pierre appears when an Ocarina is pulled out. Requires learning the Scarecrow\'s Song first.\\nWithout the randomizer option \\"Skip Scarecrow\'s Song\\" enabled for a seed, this still requires you to teach the scarecrow the song as both ages before summoning.'
+[SohMenuEnhancements.cpp:524] 'Stops the game from freezing the player when picking up Gold Skulltula Tokens. Does not apply in randomizer savefiles.'
+[SohMenuEnhancements.cpp:584] 'Disables the fixed camera in maps that use 2D pre-rendered backgrounds. Enable this when using a mod that implements 3D backdrops for these areas.\\nRequires Scene Change to alter.'
+[SohMenuEnhancements.cpp:622] 'Scales all of the Adult Equipment, as well as moving some a bit, to fit on Child Link better. May not work properly with some mods.'
+[SohMenuEnhancements.cpp:731] 'The Kokiri are mystical beings that fade into view when approached. Enabling this will remove their draw distance.'
+[SohMenuEnhancements.cpp:746] 'Exclude Actors that are useful for Glitches from the extended culling ranges. Some actors may still draw in the extended ranges, but will not \\"update\\" so that certain glitches that leverage the original culling requirements will still work.\\n\\nThe following actors are excluded:\\n - White Clothed Gerudos\\n - King Zora\\n - Gossip Stones\\n - Boulders\\n - Blue Warps\\n - Darunia\\n - Gold Skulltulas'
+[SohMenuEnhancements.cpp:765] 'Equip items and equipment on the D-pad. If used with \\"D-pad on Pause Screen\\", you must hold C-Up to equip instead of navigate.'
+[SohMenuEnhancements.cpp:770] "Allows unequipping items from C-Buttons/D-pad by hovering over an equipped item and pressing the button it's equipped to."
+[SohMenuEnhancements.cpp:788] 'Allows Strength to be toggled on and off by pressing A on the Strength Upgrade in the Equipment Subscreen of the Pause Menu. This allows performing some glitches that require the player to not have Strength.'
+[SohMenuEnhancements.cpp:848] 'Stops masks from automatically unequipping on certain situations:\\n- When entering a new scene\\n- When not in any C-Button or the D-pad\\n- When saving and quitting\\n- When dying\\n- When traveling through time (if \\"Masks Equippable as Adult\\" is activated)'
+[SohMenuEnhancements.cpp:865] 'After completing the mask trading sub-quest, press A and any direction on the mask slot to change masks.'
+[SohMenuEnhancements.cpp:873] 'Allows you to control a Bombchu after dropping it.\\nControl Stick: Steer\\nB: Detonate\\nA: Quit Control'
+[SohMenuEnhancements.cpp:879] 'Make Deku Nuts explode Bombs, similar to how they interact with Bombchus. This does not affect Bomb Flowers.'
+[SohMenuEnhancements.cpp:886] "Explosions are now a static size, like in Majora's Mask and OoT3D. Makes Bombchu hovering much easier."
+[SohMenuEnhancements.cpp:900] 'Bombchus do not sell out when bought, and a 10 pack of Bombchus costs 99 rupees instead of 100.'
+[SohMenuEnhancements.cpp:906] "Allow the Bow and Magic Arrows to be equipped at the same time on different slots. NOTE: This will disable the behavior of the 'Equip Dupe' glitch."
+[SohMenuEnhancements.cpp:934] "Allows Child Link to use a Bow with Arrows.\\nAllows Adult Link to use a Slingshot with Seeds.\\n\\nRequires glitches or the 'Timeless Equipment' cheat to equip."
+[SohMenuEnhancements.cpp:939] 'Aiming with a Bow or Slingshot will display a reticle as with the Hookshot when the projectile is ready to fire.'
+[SohMenuEnhancements.cpp:943] 'Allows cycling between different arrow types (Normal, Fire, Ice, Light) while aiming the bow. Press the R button to cycle to the next available arrow type. Only works when aiming and only cycles to arrow types you own with sufficient magic.'
+[SohMenuEnhancements.cpp:958] "Instantly return the Boomerang to Link by pressing its item button while it's in the air."
+[SohMenuEnhancements.cpp:977] 'Helps FW persist between ages, gives Child and Adult separate FW points, and can be used in more places.'
+[SohMenuEnhancements.cpp:1008] "Fixes kokiri animation state to match their text state when getting Zelda's Letter before Kokiri Emerald."
+[SohMenuEnhancements.cpp:1012] 'Fixes the two raised floor switches, the one in Forest Temple Basement and the one at the top of Fire Temple. This will lower them, making activating them easier.'
+[SohMenuEnhancements.cpp:1017] "Fixes one Zora's dialogue giving a hint about bringing Ruto's Letter to King Zora to properly occur before moving King Zora rather than after."
+[SohMenuEnhancements.cpp:1030] 'Causes respawning enemies, like Stalchildren, to appear on land near bodies of water. Fixes an incorrect calculation that acted like water underneath ground was above it.'
+[SohMenuEnhancements.cpp:1047] 'Forces Goron City doors open if you somehow complete Fire Temple without talking to Goron Link  and receiving the Goron Tunic.'
+[SohMenuEnhancements.cpp:1054] "Prevents the Forest Stage Deku Nut upgrade from becoming unobtainable after receiving the Poacher's Saw."
+[SohMenuEnhancements.cpp:1091] 'Fixes camera slightly drifting to the left when standing still due to a math error. May impact certain glitches.'
+[SohMenuEnhancements.cpp:1095] 'Fixes camera getting stuck on collision when standing still. Also fixes slight shift back in camera when Link stops moving. May impact certain glitches.'
+[SohMenuEnhancements.cpp:1100] 'Fixes camera swing rate when the player falls off a ledge and the camera swings around. May impact certain glitches.'
+[SohMenuEnhancements.cpp:1112] 'Removes the Dungeon Entrance icon on the top-left corner of the screen when no dungeon is present on the current map.'
+[SohMenuEnhancements.cpp:1118] 'Re-Enables the two-handed idle animation, a seemingly finished animation that was disabled on accident in the original game.'
+[SohMenuEnhancements.cpp:1128] "Prevent the Gerudo Warrior's clothes changing color when changing Link's tunic or using bombs in front of her."
+[SohMenuEnhancements.cpp:1162] 'Adds 5 higher pitches for the Silver Rupee Jingle for the rooms with more than 5 Silver Rupees. Only relevant for playthroughs involving Master Quest Dungeons.'
+[SohMenuEnhancements.cpp:1210] 'Restore a bug from NTSC 1.0 that allows putting away an item without an animation and performing Putaway Ocarina Items.'
+[SohMenuEnhancements.cpp:1219] 'Restores a bug from NTSC 1.0/1.1 that allows you to obtain the eyeball frog from King Zora instead of the Zora Tunic by Holding Shield.'
+[SohMenuEnhancements.cpp:1230] 'Restores the wider range of certain shutter doors from NTSC 1.0.\\nNotably affects Jabu-Jabu and boss doors.'
+[SohMenuEnhancements.cpp:1245] 'When you lose 4 quarters of a heart you will permanently lose that Heart Container.\\n\\nDisabling this after the fact will restore your Heart Containers.'
+[SohMenuEnhancements.cpp:1294] 'Disables Heart Drops, but not Heart Placements, like from a Deku Scrub running off.\\nThis simulates Hero Mode from other games in the series.'
+[SohMenuEnhancements.cpp:1340] "Always win the Heart Piece/Purple Rupee on the first dig in Dampe's Grave Digging game. In a Randomizer file, this defaults to on if this enhancement has never been changed."
+[SohMenuEnhancements.cpp:1566] 'Every fish in the Fishing Pond will always be a Hyrule Loach.\\n\\nNOTE: This requires reloading the area.'
+[SohMenuEnhancements.cpp:1587] 'Allows Link to bounce off walls when linear velocity is high enough, this is relevant when frequently being knocked back by traps, CC, or in Anchor.'
+[SohMenuEnhancements.cpp:1607] 'Enables Ivan the Fairy upon the next map change. Player 2 can control Ivan and press the C-Buttons to use items and mess with Player 1!'
+[SohMenuEnhancements.cpp:1630] "Changes Heart Piece and Heart Container functionality.\\n\\n - Each Heart Container or full Heart Piece reduces Link's Hearts by 1.\\n - Can be enabled retroactively after a File has already started."
+[SohMenuEnhancements.cpp:1705] 'Allows any item to be equipped, regardless of age.\\nAlso allows child to use adult strength upgrades.'
+[SohMenuEnhancements.cpp:1750] 'Keese and Guay no longer target you and simply ignore you as if you were wearing the Skull Mask.'
+[SohMenuEnhancements.cpp:1767] "Passive Infinite Sword Glitch\\nIt makes your sword's swing effect and hitbox stay active indefinitely."
+[SohMenuNetwork.cpp:35] 'Sail is a networking protocol designed to facilitate remote control of the Ship of Harkinian client. It is intended to be utilized alongside a Sail server, for which we provide a few straightforward implementations on our GitHub. The current implementations available allow integration with Twitch chat and SAMMI Bot, feel free to contribute your own!\\n\\nClick this button to copy the link to the Sail Github page to your clipboard.'
+[SohMenuNetwork.cpp:112] "Crowd Control is a platform that allows viewers to interact with a streamer's game in real time.\\n\\nPlease head over to www.crowdcontrol.live for more information!"
+[SohMenuNetwork.cpp:181] 'Enemies spawned by CrowdControl won\'t be considered for \\"clear enemy rooms\\", so they don\'t need to be killed to complete these rooms.'
+[SohMenuRandomizer.cpp:638] 'Play unique fanfares when obtaining quest items (medallions/stones/songs). Note that these fanfares can be longer than usual.'
+[SohMenuRandomizer.cpp:643] 'Displays a \\"Mystery Item\\" model in place of any freestanding/GS/shop items that were shuffled, and replaces item names for them and scrubs and merchants, regardless of hint settings, so you never know what you\'re getting.'
+[SohMenuRandomizer.cpp:650] "When shuffling boss souls, they'll appear as a simpler model instead of showing the boss' models.This might make boss souls more distinguishable from a distance, and can help with performance."
+[SohMenuWindWakerStyle.cpp:128] 'Draws a debug ray from each actor for every candidate light (coloured by the light, longer when stronger), a cyan range ring around each point light, and a bold magenta needle down the chosen key light, so you can see which light is winning and where the key points.'
+[SohMenuWindWakerStyle.cpp:135] 'Renders every cel-shaded object as flat white on the lit side and flat black in shadow (the texture is discarded), so it is obvious which draws are being relit �� handy for confirming whether large surfaces like water or lava are getting relit.'
+[SohMenuWindWakerStyle.cpp:343] "Overlays a translucent faceted shell of each light's icosphere �� the volume used for its cast pool �� tinted by the light, so you can see where the pools are, their size, and their spin. (The renderer has no line primitive, so this is a shell rather than a true wireframe.)"
+[SohMenuWindWakerStyle.cpp:483] 'Draws the actual 3D shadow volume translucently so you can see its shape: black top/bottom caps, blue side walls. The ground inside this volume is what gets shadowed.'

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_kakasi3.c
  * Overlay: ovl_En_Kakasi3
  * Description: Bonooru the Scarecrow

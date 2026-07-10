@@ -1,4 +1,4 @@
-#include "z_en_ny.h"
+﻿#include "z_en_ny.h"
 #include "objects/object_ny/object_ny.h"
 #include "soh/frame_interpolation.h"
 #include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_heishi2.c
  * Overlay: ovl_En_Heishi2
  * Description: Hyrulian Guards

@@ -1,4 +1,5 @@
 #include "actorViewer.h"
+#include <ship/utils/StringHelper.h>
 #include "soh/util.h"
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
@@ -133,13 +134,13 @@ void DLViewerWindow::DrawElement() {
             Ship::Context::GetInstance()->GetResourceManager()->LoadResource(activeDisplayList));
 
         if (res->GetInitData()->Type != static_cast<uint32_t>(Fast::ResourceType::DisplayList)) {
-            ImGui::Text("Resource type is not a Display List. Please choose another.");
+            ImGui::Text(StringHelper::Translate("Resource type is not a Display List. Please choose another.").c_str());
             ImGui::PopFont();
             ImGui::EndDisabled();
             return;
         }
 
-        ImGui::Text("Total Instruction Size: %lu", res->Instructions.size());
+        ImGui::Text(StringHelper::Translate("Total Instruction Size: %lu").c_str(), res->Instructions.size());
 
         for (size_t i = 0; i < res->Instructions.size(); i++) {
             std::string id = "##CMD" + std::to_string(i);
@@ -216,37 +217,37 @@ void DLViewerWindow::DrawElement() {
             }
             if (cmd == G_SETTILE) {
                 ImGui::SameLine();
-                ImGui::Text("FMT: %u", _SHIFTR(gfx->words.w0, 21, 3));
+                ImGui::Text(StringHelper::Translate("FMT: %u").c_str(), _SHIFTR(gfx->words.w0, 21, 3));
                 ImGui::SameLine();
-                ImGui::Text("SIZ: %u", _SHIFTR(gfx->words.w0, 19, 2));
+                ImGui::Text(StringHelper::Translate("SIZ: %u").c_str(), _SHIFTR(gfx->words.w0, 19, 2));
                 ImGui::SameLine();
-                ImGui::Text("LINE: %u", _SHIFTR(gfx->words.w0, 9, 9));
+                ImGui::Text(StringHelper::Translate("LINE: %u").c_str(), _SHIFTR(gfx->words.w0, 9, 9));
                 ImGui::SameLine();
-                ImGui::Text("TMEM: %u", _SHIFTR(gfx->words.w0, 0, 9));
+                ImGui::Text(StringHelper::Translate("TMEM: %u").c_str(), _SHIFTR(gfx->words.w0, 0, 9));
                 ImGui::SameLine();
-                ImGui::Text("TILE: %u", _SHIFTR(gfx->words.w1, 24, 3));
+                ImGui::Text(StringHelper::Translate("TILE: %u").c_str(), _SHIFTR(gfx->words.w1, 24, 3));
                 ImGui::SameLine();
-                ImGui::Text("PAL: %u", _SHIFTR(gfx->words.w1, 20, 4));
+                ImGui::Text(StringHelper::Translate("PAL: %u").c_str(), _SHIFTR(gfx->words.w1, 20, 4));
                 ImGui::SameLine();
-                ImGui::Text("CMT: %u", _SHIFTR(gfx->words.w1, 18, 2));
+                ImGui::Text(StringHelper::Translate("CMT: %u").c_str(), _SHIFTR(gfx->words.w1, 18, 2));
                 ImGui::SameLine();
-                ImGui::Text("MASKT: %u", _SHIFTR(gfx->words.w1, 14, 4));
+                ImGui::Text(StringHelper::Translate("MASKT: %u").c_str(), _SHIFTR(gfx->words.w1, 14, 4));
                 ImGui::SameLine();
-                ImGui::Text("SHIFT: %u", _SHIFTR(gfx->words.w1, 10, 4));
+                ImGui::Text(StringHelper::Translate("SHIFT: %u").c_str(), _SHIFTR(gfx->words.w1, 10, 4));
                 ImGui::SameLine();
-                ImGui::Text("CMS: %u", _SHIFTR(gfx->words.w1, 8, 2));
+                ImGui::Text(StringHelper::Translate("CMS: %u").c_str(), _SHIFTR(gfx->words.w1, 8, 2));
                 ImGui::SameLine();
-                ImGui::Text("MASKS: %u", _SHIFTR(gfx->words.w1, 4, 4));
+                ImGui::Text(StringHelper::Translate("MASKS: %u").c_str(), _SHIFTR(gfx->words.w1, 4, 4));
                 ImGui::SameLine();
-                ImGui::Text("SHIFTS: %u", _SHIFTR(gfx->words.w1, 0, 4));
+                ImGui::Text(StringHelper::Translate("SHIFTS: %u").c_str(), _SHIFTR(gfx->words.w1, 0, 4));
             }
             if (cmd == G_SETTIMG) {
                 ImGui::SameLine();
-                ImGui::Text("FMT: %u", _SHIFTR(gfx->words.w0, 21, 3));
+                ImGui::Text(StringHelper::Translate("FMT: %u").c_str(), _SHIFTR(gfx->words.w0, 21, 3));
                 ImGui::SameLine();
-                ImGui::Text("SIZ: %u", _SHIFTR(gfx->words.w0, 19, 2));
+                ImGui::Text(StringHelper::Translate("SIZ: %u").c_str(), _SHIFTR(gfx->words.w0, 19, 2));
                 ImGui::SameLine();
-                ImGui::Text("WIDTH: %u", _SHIFTR(gfx->words.w0, 0, 10));
+                ImGui::Text(StringHelper::Translate("WIDTH: %u").c_str(), _SHIFTR(gfx->words.w0, 0, 10));
                 ImGui::SameLine();
             }
             if (cmd == G_SETTIMG_OTR_HASH) {
@@ -256,31 +257,31 @@ void DLViewerWindow::DrawElement() {
 
                 gfx--;
                 ImGui::SameLine();
-                ImGui::Text("FMT: %u", _SHIFTR(gfx->words.w0, 21, 3));
+                ImGui::Text(StringHelper::Translate("FMT: %u").c_str(), _SHIFTR(gfx->words.w0, 21, 3));
                 ImGui::SameLine();
-                ImGui::Text("SIZ: %u", _SHIFTR(gfx->words.w0, 19, 2));
+                ImGui::Text(StringHelper::Translate("SIZ: %u").c_str(), _SHIFTR(gfx->words.w0, 19, 2));
                 ImGui::SameLine();
-                ImGui::Text("WIDTH: %u", _SHIFTR(gfx->words.w0, 0, 10));
+                ImGui::Text(StringHelper::Translate("WIDTH: %u").c_str(), _SHIFTR(gfx->words.w0, 0, 10));
                 ImGui::SameLine();
-                ImGui::Text("Texture Name: %s", fileName);
+                ImGui::Text(StringHelper::Translate("Texture Name: %s").c_str(), fileName);
             }
             if (cmd == G_SETTIMG_OTR_FILEPATH) {
                 char* fileName = (char*)gfx->words.w1;
                 gfx++;
                 ImGui::SameLine();
-                ImGui::Text("FMT: %u", _SHIFTR(gfx->words.w0, 21, 3));
+                ImGui::Text(StringHelper::Translate("FMT: %u").c_str(), _SHIFTR(gfx->words.w0, 21, 3));
                 ImGui::SameLine();
-                ImGui::Text("SIZ: %u", _SHIFTR(gfx->words.w0, 19, 2));
+                ImGui::Text(StringHelper::Translate("SIZ: %u").c_str(), _SHIFTR(gfx->words.w0, 19, 2));
                 ImGui::SameLine();
-                ImGui::Text("WIDTH: %u", _SHIFTR(gfx->words.w0, 0, 10));
+                ImGui::Text(StringHelper::Translate("WIDTH: %u").c_str(), _SHIFTR(gfx->words.w0, 0, 10));
                 ImGui::SameLine();
-                ImGui::Text("Texture Name: %s", fileName);
+                ImGui::Text(StringHelper::Translate("Texture Name: %s").c_str(), fileName);
             }
             if (cmd == G_VTX) {
                 ImGui::SameLine();
-                ImGui::Text("Num VTX: %u", _SHIFTR(gfx->words.w0, 12, 8));
+                ImGui::Text(StringHelper::Translate("Num VTX: %u").c_str(), _SHIFTR(gfx->words.w0, 12, 8));
                 ImGui::SameLine();
-                ImGui::Text("Offset: %u", _SHIFTR(gfx->words.w0, 1, 7) - _SHIFTR(gfx->words.w0, 12, 8));
+                ImGui::Text(StringHelper::Translate("Offset: %u").c_str(), _SHIFTR(gfx->words.w0, 1, 7) - _SHIFTR(gfx->words.w0, 12, 8));
             }
             if (cmd == G_VTX_OTR_HASH) {
                 gfx++;
@@ -289,24 +290,24 @@ void DLViewerWindow::DrawElement() {
 
                 gfx--;
                 ImGui::SameLine();
-                ImGui::Text("Num VTX: %u", _SHIFTR(gfx->words.w0, 12, 8));
+                ImGui::Text(StringHelper::Translate("Num VTX: %u").c_str(), _SHIFTR(gfx->words.w0, 12, 8));
                 ImGui::SameLine();
-                ImGui::Text("Offset: %u", _SHIFTR(gfx->words.w0, 1, 7) - _SHIFTR(gfx->words.w0, 12, 8));
+                ImGui::Text(StringHelper::Translate("Offset: %u").c_str(), _SHIFTR(gfx->words.w0, 1, 7) - _SHIFTR(gfx->words.w0, 12, 8));
 
                 ImGui::SameLine();
-                ImGui::Text("Vertex Name: %s", fileName);
+                ImGui::Text(StringHelper::Translate("Vertex Name: %s").c_str(), fileName);
             }
             if (cmd == G_VTX_OTR_FILEPATH) {
                 char* fileName = (char*)gfx->words.w1;
 
                 gfx++;
                 ImGui::SameLine();
-                ImGui::Text("Num VTX: %u", _SHIFTR(gfx->words.w0, 12, 8));
+                ImGui::Text(StringHelper::Translate("Num VTX: %u").c_str(), _SHIFTR(gfx->words.w0, 12, 8));
                 ImGui::SameLine();
-                ImGui::Text("Offset: %u", _SHIFTR(gfx->words.w0, 1, 7) - _SHIFTR(gfx->words.w0, 12, 8));
+                ImGui::Text(StringHelper::Translate("Offset: %u").c_str(), _SHIFTR(gfx->words.w0, 1, 7) - _SHIFTR(gfx->words.w0, 12, 8));
 
                 ImGui::SameLine();
-                ImGui::Text("Vertex Name: %s", fileName);
+                ImGui::Text(StringHelper::Translate("Vertex Name: %s").c_str(), fileName);
             }
             if (cmd == G_DL) {}
             if (cmd == G_DL_OTR_HASH) {
@@ -314,23 +315,23 @@ void DLViewerWindow::DrawElement() {
                 uint64_t hash = ((uint64_t)gfx->words.w0 << 32) + (uint64_t)gfx->words.w1;
                 const char* fileName = ResourceGetNameByCrc(hash);
                 ImGui::SameLine();
-                ImGui::Text("DL Name: %s", fileName);
+                ImGui::Text(StringHelper::Translate("DL Name: %s").c_str(), fileName);
             }
             if (cmd == G_DL_OTR_FILEPATH) {
                 char* fileName = (char*)gfx->words.w1;
                 ImGui::SameLine();
-                ImGui::Text("DL Name: %s", fileName);
+                ImGui::Text(StringHelper::Translate("DL Name: %s").c_str(), fileName);
             }
 
             // Skip second half of instructions that are over 128-bit wide
             if (cmd == G_SETTIMG_OTR_HASH || cmd == G_DL_OTR_HASH || cmd == G_VTX_OTR_HASH || cmd == G_BRANCH_Z_OTR ||
                 cmd == G_MARKER || cmd == G_MTX_OTR) {
                 i++;
-                ImGui::Text("%lu - Reserved - Second half of %s", i, cmdLabel.c_str());
+                ImGui::Text(StringHelper::Translate("%lu - Reserved - Second half of %s").c_str(), i, cmdLabel.c_str());
             }
             ImGui::EndGroup();
         }
-    } catch (const std::exception& e) { ImGui::Text("Error displaying DL instructions."); }
+    } catch (const std::exception& e) { ImGui::Text(StringHelper::Translate("Error displaying DL instructions.").c_str()); }
 
     ImGui::PopFont();
     ImGui::EndDisabled();

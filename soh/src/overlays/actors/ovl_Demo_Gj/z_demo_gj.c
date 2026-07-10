@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_demo_gj.c
  * Overlay: Demo_Gj
  * Description: Ganon battle rubble.

@@ -232,7 +232,7 @@ uint32_t Menu::DrawSearchResults(std::string& menuSearchText) {
                             ImGui::PushStyleColor(ImGuiCol_Text, UIWidgets::ColorValues.at(UIWidgets::Colors::Gray));
                             std::string origin =
                                 fmt::format("  ({} -> {}, Col {})", StringHelper::Translate(menuEntry.label), StringHelper::Translate(sidebarLabel), i + 1);
-                            ImGui::Text("%s", origin.c_str());
+                            ImGui::Text(StringHelper::Translate("%s").c_str(), origin.c_str());
                             ImGui::PopStyleColor();
                             searchCount++;
                             if (info.type == WIDGET_COMBOBOX || info.type == WIDGET_CVAR_COMBOBOX) {
@@ -259,7 +259,7 @@ uint32_t Menu::DrawSearchResults(std::string& menuSearchText) {
                 MenuDrawItem(entry.info, 400, menuThemeIndex);
                 ImGui::PushStyleColor(ImGuiCol_Text, UIWidgets::ColorValues.at(UIWidgets::Colors::Gray));
                 std::string origin = fmt::format("  ({} -> {}, {})", StringHelper::Translate(entry.menuName), StringHelper::Translate(entry.sidebarName), StringHelper::Translate(entry.location));
-                ImGui::Text("%s", origin.c_str());
+                ImGui::Text(StringHelper::Translate("%s").c_str(), origin.c_str());
                 ImGui::PopStyleColor();
                 searchCount++;
             }
@@ -386,7 +386,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                     ImGui::PushStyleColor(ImGuiCol_Text, UIWidgets::ColorValues.at(options->color));
                 }
                 ImGui::AlignTextToFramePadding();
-                ImGui::TextWrapped("%s", translatedName.c_str());
+                ImGui::TextWrapped(StringHelper::Translate("%s").c_str(), translatedName.c_str());
                 if (options->color != UIWidgets::Colors::NoColor) {
                     ImGui::PopStyleColor();
                 }
@@ -544,7 +544,7 @@ void Menu::MenuDrawItem(WidgetInfo& widget, uint32_t width, UIWidgets::Colors me
                 std::string menuSearchText(menuSearch.InputBuf);
 
                 if (menuSearchText == "") {
-                    ImGui::Text("Start typing to see results.");
+                    ImGui::Text(StringHelper::Translate("Start typing to see results.").c_str());
                     return;
                 }
                 DrawSearchResults(menuSearchText);
@@ -888,12 +888,12 @@ void Menu::DrawElement() {
     if (headerSearch && menuSearchText.length() > 0) {
         ImGui::AlignTextToFramePadding();
         ImGui::PushFont(OTRGlobals::Instance->fontMonoLargest);
-        ImGui::Text("Search Results");
+        ImGui::Text(StringHelper::Translate("Search Results").c_str());
         ImGui::PopFont();
         ImGui::SameLine();
         UIWidgets::ButtonOptions clearBtnOpts = {};
         clearBtnOpts.size = UIWidgets::Sizes::Inline;
-        if (UIWidgets::Button("Clear Search", clearBtnOpts)) {
+        if (UIWidgets::Button(StringHelper::Translate("Clear Search").c_str(), clearBtnOpts)) {
             menuSearch.Clear();
         }
         ImGui::BeginChild("searchSeparator", ImVec2(ImGui::GetContentRegionAvail().x / 2, 20),

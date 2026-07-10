@@ -1,4 +1,4 @@
-#include <libultraship/libultra.h>
+﻿#include <libultraship/libultra.h>
 #include "global.h"
 
 static PlayState* sPlayState;

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_mori_hashigo.c
  * Overlay: ovl_Bg_Mori_Hashigo
  * Description: Falling ladder and clasp that holds it. Unused.

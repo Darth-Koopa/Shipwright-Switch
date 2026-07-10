@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_arrow_light.c
  * Overlay: ovl_Arrow_Light
  * Description: Light Arrow. Spawned as a child of a normal arrow.

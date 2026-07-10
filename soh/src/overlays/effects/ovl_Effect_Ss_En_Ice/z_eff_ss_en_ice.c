@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_eff_ss_en_ice.c
  * Overlay: ovl_Effect_Ss_En_Ice
  * Description: Ice clumps

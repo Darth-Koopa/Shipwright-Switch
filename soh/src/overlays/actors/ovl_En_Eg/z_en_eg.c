@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_eg.c
  * Overlay: ovl_En_Eg
  * Description: Triggers a void out (used in the tower collapse sequence?)

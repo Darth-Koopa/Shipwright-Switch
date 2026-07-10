@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_diving_game.c
  * Overlay: ovl_En_Diving_Game
  * Description: Diving minigame

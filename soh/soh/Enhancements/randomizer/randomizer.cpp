@@ -1,4 +1,5 @@
 #include "randomizer.h"
+#include <ship/utils/StringHelper.h>
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <variables.h>
@@ -209,7 +210,7 @@ bool Randomizer::SpoilerFileExists(const char* spoilerFileName) {
 
             if (!isValid) {
                 SohGui::RegisterPopup(
-                    "Old Spoiler Version",
+                    StringHelper::Translate("Old Spoiler Version").c_str(),
                     "The spoiler file located at\n" + std::string(spoilerFileName) +
                         "\nwas made by a version that doesn't match the currently running version.\n" +
                         "Loading for this file has been cancelled.");

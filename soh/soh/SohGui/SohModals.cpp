@@ -47,7 +47,7 @@ void SohModalWindow::DrawElement() {
                                    ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize |
                                        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar |
                                        ImGuiWindowFlags_NoSavedSettings)) {
-            ImGui::Text("%s", curModal.message_.c_str());
+            ImGui::Text(StringHelper::Translate("%s").c_str(), curModal.message_.c_str());
             UIWidgets::PushStyleButton(THEME_COLOR);
             if (ImGui::Button(curModal.button1_.c_str())) {
                 if (curModal.button1callback_ != nullptr) {

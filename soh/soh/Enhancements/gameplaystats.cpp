@@ -386,7 +386,7 @@ void GameplayStatsRow(const char* label, const std::string& value, ImVec4 color 
     ImGui::PushStyleColor(ImGuiCol_Text, color);
     ImGui::TableNextRow();
     ImGui::TableNextColumn();
-    ImGui::Text("%s", label);
+    ImGui::Text("%s", StringHelper::Translate(label).c_str());
     ImGui::SameLine(ImGui::GetContentRegionAvail().x - (ImGui::CalcTextSize(value.c_str()).x));
     ImGui::Text("%s", value.c_str());
     ImGui::PopStyleColor();
@@ -444,7 +444,7 @@ const char* ResolveSceneID(int sceneID, int roomID) {
 void DrawGameplayStatsHeader() {
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsHeader", 1, ImGuiTableFlags_BordersOuter);
-    ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn(StringHelper::Translate("stat").c_str(), ImGuiTableColumnFlags_WidthStretch);
     // if tag is empty (not a release build)
     if (gGitCommitTag[0] == 0) {
         GameplayStatsRow("Git Branch:", (char*)gGitBranch);
@@ -494,7 +494,7 @@ void DrawGameplayStatsTimestampsTab() {
 
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsTimestamps", 1, ImGuiTableFlags_BordersOuter);
-    ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn(StringHelper::Translate("stat").c_str(), ImGuiTableColumnFlags_WidthStretch);
     for (int i = 0; i < TIMESTAMP_MAX; i++) {
         // To be shown, the entry must have a non-zero time and a string for its display name
         if (itemTimestampDisplay[i].time > 0 && strnlen(itemTimestampDisplay[i].name, 21) > 1) {
@@ -531,7 +531,7 @@ void DrawGameplayStatsCountsTab() {
 
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsCounts", 1, ImGuiTableFlags_BordersOuter);
-    ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn(StringHelper::Translate("stat").c_str(), ImGuiTableColumnFlags_WidthStretch);
     GameplayStatsRow("Enemies Defeated:", formatIntGameplayStat(enemiesDefeated));
     if (enemiesDefeated > 0) {
         ImGui::TableNextRow();
@@ -612,7 +612,7 @@ void DrawGameplayStatsBreakdownTab() {
 
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsCounts", 1, ImGuiTableFlags_BordersOuter);
-    ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
+    ImGui::TableSetupColumn(StringHelper::Translate("stat").c_str(), ImGuiTableColumnFlags_WidthStretch);
     for (int i = 0; i < gSaveContext.ship.stats.tsIdx; i++) {
         TimestampInfo tsInfo = sceneTimestampDisplay[i];
         bool canShow = !tsInfo.isRoom || CVarGetInteger(CVAR_GAMEPLAY_STATS("RoomBreakdown"), 0);
@@ -665,19 +665,19 @@ void GameplayStatsWindow::DrawElement() {
     UIWidgets::PushStyleTabs(THEME_COLOR);
 
     if (ImGui::BeginTabBar("Stats", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
-        if (ImGui::BeginTabItem("Timestamps")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Timestamps").c_str())) {
             DrawGameplayStatsTimestampsTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Counts")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Counts").c_str())) {
             DrawGameplayStatsCountsTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Breakdown")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Breakdown").c_str())) {
             DrawGameplayStatsBreakdownTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Options")) {
+        if (ImGui::BeginTabItem(StringHelper::Translate("Options").c_str())) {
             DrawGameplayStatsOptionsTab();
             ImGui::EndTabItem();
         }

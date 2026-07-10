@@ -1,4 +1,4 @@
-#include "global.h"
+﻿#include "global.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 #include "soh/frame_interpolation.h"

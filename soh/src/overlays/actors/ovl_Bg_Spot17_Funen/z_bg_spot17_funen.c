@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_spot17_funen
  * Overlay: ovl_Bg_Spot17_Funen
  * Description: Crater Smoke Cone

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_arrow_ice.c
  * Overlay: ovl_Arrow_Ice
  * Description: Ice Arrow. Spawned as a child of a normal arrow.

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_eff_ss_ice_smoke.c
  * Overlay: ovl_Effect_Ss_Ice_Smoke
  * Description: Ice Smoke

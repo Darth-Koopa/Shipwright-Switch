@@ -1,4 +1,5 @@
 #include "valueViewer.h"
+#include <ship/utils/StringHelper.h>
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/OTRGlobals.h"
@@ -202,7 +203,7 @@ void ValueViewerWindow::DrawElement() {
         UIWidgets::PopStyleCheckbox();
         UIWidgets::PopStyleButton();
         ImGui::SameLine();
-        ImGui::Text("%s:", element.name);
+        ImGui::Text(StringHelper::Translate("%s:").c_str(), element.name);
         ImGui::SameLine();
         switch (element.type) {
             case TYPE_S8:
@@ -224,10 +225,10 @@ void ValueViewerWindow::DrawElement() {
                 ImGui::Text(element.typeFormat ? "0x%x" : "%u", *(u32*)element.valueFn());
                 break;
             case TYPE_CHAR:
-                ImGui::Text("%c", *(char*)element.valueFn());
+                ImGui::Text(StringHelper::Translate("%c").c_str(), *(char*)element.valueFn());
                 break;
             case TYPE_STRING:
-                ImGui::Text("%s", (char*)element.valueFn());
+                ImGui::Text(StringHelper::Translate("%s").c_str(), (char*)element.valueFn());
                 break;
             case TYPE_FLOAT:
                 ImGui::Text(element.typeFormat ? "%4.1f" : "%f", *(float*)element.valueFn());

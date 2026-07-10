@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_elf_msg2.c
  * Overlay: ovl_Elf_Msg2
  * Description: Targetable Navi check spot

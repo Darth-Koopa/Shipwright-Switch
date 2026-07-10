@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_hidan_kousi.c
  * Overlay: ovl_Bg_Hidan_Kousi
  * Description:

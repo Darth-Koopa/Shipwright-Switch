@@ -1,4 +1,5 @@
 #include "hookDebugger.h"
+#include <ship/utils/StringHelper.h>
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "soh/SohGui/UIWidgets.hpp"
@@ -19,25 +20,25 @@ void DrawHookRegisteringInfos(const char* hookName) {
     size_t numHooks = (*hookData[hookName]).size();
 
     if (numHooks == 0) {
-        ImGui::TextColored(grey, "No hooks found");
+        ImGui::TextColored(grey, StringHelper::Translate("No hooks found").c_str());
         return;
     }
 
-    ImGui::Text("Total Registered: %d", numHooks);
+    ImGui::Text(StringHelper::Translate("Total Registered: %d").c_str(), numHooks);
 
     if (ImGui::BeginTable(("Table##" + std::string(hookName)).c_str(), 4,
                           ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable |
                               ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit)) {
         ImGui::TableSetupColumn("ID", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Registration Info", ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn(StringHelper::Translate("Type").c_str(), ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(StringHelper::Translate("Registration Info").c_str(), ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableSetupColumn("# Calls", ImGuiTableColumnFlags_WidthFixed);
         ImGui::TableHeadersRow();
         for (auto& [id, hookInfo] : (*hookData[hookName])) {
             ImGui::TableNextRow();
 
             ImGui::TableNextColumn();
-            ImGui::Text("%d", id);
+            ImGui::Text(StringHelper::Translate("%d").c_str(), id);
 
             ImGui::TableNextColumn();
             switch (hookInfo.registering.type) {
@@ -45,13 +46,13 @@ void DrawHookRegisteringInfos(const char* hookName) {
                     ImGui::Text("Normal");
                     break;
                 case HOOK_TYPE_ID:
-                    ImGui::Text("ID");
+                    ImGui::Text(StringHelper::Translate("ID").c_str());
                     break;
                 case HOOK_TYPE_PTR:
-                    ImGui::Text("Ptr");
+                    ImGui::Text(StringHelper::Translate("Ptr").c_str());
                     break;
                 case HOOK_TYPE_FILTER:
-                    ImGui::Text("Filter");
+                    ImGui::Text(StringHelper::Translate("Filter").c_str());
                     break;
                 default:
                     ImGui::TextColored(red, "[UNKNOWN]");
@@ -74,7 +75,7 @@ void DrawHookRegisteringInfos(const char* hookName) {
             }
 
             ImGui::TableNextColumn();
-            ImGui::Text("%d", hookInfo.calls);
+            ImGui::Text(StringHelper::Translate("%d").c_str(), hookInfo.calls);
         }
         ImGui::EndTable();
     }
@@ -91,12 +92,12 @@ void HookDebuggerWindow::DrawElement() {
                                "(\"__cpp_lib_source_location\" not defined in \"<version>\").");
 #endif
 
-    if (UIWidgets::Button("Expand All", UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
+    if (UIWidgets::Button(StringHelper::Translate("Expand All").c_str(), UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
         hookOptCollapseAll = false;
         hookOptExpandAll = true;
     }
     ImGui::SameLine();
-    if (UIWidgets::Button("Collapse All",
+    if (UIWidgets::Button(StringHelper::Translate("Collapse All").c_str(),
                           UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
         hookOptExpandAll = false;
         hookOptCollapseAll = true;
@@ -114,7 +115,7 @@ void HookDebuggerWindow::DrawElement() {
             ImGui::SetNextItemOpen(collapseLogic, ImGuiCond_Always);
         }
 
-        if (ImGui::TreeNode(hookName)) {
+        if (ImGui::TreeNode(StringHelper::Translate(hookName).c_str())) {
             DrawHookRegisteringInfos(hookName);
             ImGui::TreePop();
         }

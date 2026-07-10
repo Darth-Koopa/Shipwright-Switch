@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_takara_man.c
  * Overlay: ovl_En_Takara_Man
  * Description: Treasure Chest Game Man

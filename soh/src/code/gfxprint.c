@@ -1,4 +1,4 @@
-#include "global.h"
+﻿#include "global.h"
 
 #include "align_asset_macro.h"
 #include "soh/OTRGlobals.h"

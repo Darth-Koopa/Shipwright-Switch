@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_en_horse_game_check.c
  * Overlay: ovl_En_Horse_Game_Check
  * Description: Horseback Minigames

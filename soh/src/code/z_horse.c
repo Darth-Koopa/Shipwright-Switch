@@ -1,4 +1,4 @@
-#include "global.h"
+﻿#include "global.h"
 #include "vt.h"
 #include <assert.h>
 #include "soh/Enhancements/game-interactor/GameInteractor.h"

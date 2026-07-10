@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_mori_idomizu.c
  * Overlay: ovl_Bg_Mori_Idomizu
  * Description: Square of water in Forest Temple well

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_jya_bigmirror.c
  * Overlay: ovl_Bg_Jya_Bigmirror
  * Description: Ceiling mirror and puzzle in Spirit Temple top rooms

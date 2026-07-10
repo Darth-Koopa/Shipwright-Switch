@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_bdan_switch.c
  * Overlay: ovl_Bg_Bdan_Switch
  * Description: Switches Inside Lord Jabu-Jabu

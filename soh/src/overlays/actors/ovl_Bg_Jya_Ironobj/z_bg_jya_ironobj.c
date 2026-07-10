@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_jya_ironobj.c
  * Overlay: ovl_Bg_Jya_Ironobj
  * Description: Destructable Iron Knuckle objects

@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <ship/utils/StringHelper.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -695,11 +696,11 @@ void DrawItemCount(ItemTrackerItem item, bool hideMax) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize((currentString + maxString).c_str()).x / 2), p.y - 14));
         ImGui::PushStyleColor(ImGuiCol_Text, currentColor);
-        ImGui::Text("%s", currentString.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), currentString.c_str());
         ImGui::PopStyleColor();
         ImGui::SameLine(0, 0.0f);
         ImGui::PushStyleColor(ImGuiCol_Text, maxColor);
-        ImGui::Text("%s", maxString.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), maxString.c_str());
         ImGui::PopStyleColor();
     } else if (currentAndMax.currentCapacity > 0 && trackerNumberDisplayMode != ITEM_TRACKER_NUMBER_NONE &&
                IsValidSaveFile()) {
@@ -753,11 +754,11 @@ void DrawItemCount(ItemTrackerItem item, bool hideMax) {
 
         ImGui::SetCursorScreenPos(ImVec2(x, p.y - 14));
         ImGui::PushStyleColor(ImGuiCol_Text, currentColor);
-        ImGui::Text("%s", currentString.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), currentString.c_str());
         ImGui::PopStyleColor();
         ImGui::SameLine(0, 0.0f);
         ImGui::PushStyleColor(ImGuiCol_Text, maxColor);
-        ImGui::Text("%s", maxString.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), maxString.c_str());
         ImGui::PopStyleColor();
     } else if (item.id == RG_TRIFORCE_PIECE && IS_RANDO &&
                (OTRGlobals::Instance->gRandomizer->GetRandoSettingValue(RSK_TRIFORCE_HUNT) != RO_TRIFORCE_HUNT_OFF) &&
@@ -790,11 +791,11 @@ void DrawItemCount(ItemTrackerItem item, bool hideMax) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize((currentString + maxString).c_str()).x / 2), p.y - 14));
         ImGui::PushStyleColor(ImGuiCol_Text, currentColor);
-        ImGui::Text("%s", currentString.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), currentString.c_str());
         ImGui::PopStyleColor();
         ImGui::SameLine(0, 0.0f);
         ImGui::PushStyleColor(ImGuiCol_Text, maxColor);
-        ImGui::Text("%s", maxString.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), maxString.c_str());
         ImGui::PopStyleColor();
     } else {
         ImGui::SetCursorScreenPos(ImVec2(p.x, p.y - 14));
@@ -1227,7 +1228,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(beanName.c_str()).x / 2), p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", beanName.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), beanName.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1237,7 +1238,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(bossName.c_str()).x / 2), p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", bossName.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), bossName.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1247,7 +1248,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(name.c_str()).x / 2), p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", name.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), name.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1257,7 +1258,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(ocarinaButtonName.c_str()).x / 2),
                                          p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", ocarinaButtonName.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), ocarinaButtonName.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1267,7 +1268,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(overworldKeyName.c_str()).x / 2),
                                          p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", overworldKeyName.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), overworldKeyName.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1276,7 +1277,7 @@ void DrawItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(itemName.c_str()).x / 2), p.y - (iconSize + 2)));
         ImGui::PushStyleColor(ImGuiCol_Text, IM_COL_WHITE);
-        ImGui::Text("%s", itemName.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), itemName.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1343,7 +1344,7 @@ void DrawDungeonItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(dungeonName.c_str()).x / 2), p.y - (iconSize + offset)));
         ImGui::PushStyleColor(ImGuiCol_Text, dungeonColor);
-        ImGui::Text("%s", dungeonName.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), dungeonName.c_str());
         ImGui::PopStyleColor();
     }
 
@@ -1354,7 +1355,7 @@ void DrawDungeonItem(ItemTrackerItem item) {
         ImGui::SetCursorScreenPos(
             ImVec2(p.x + (iconSize / 2) - (ImGui::CalcTextSize(dungeonName.c_str()).x / 2), p.y - (iconSize + 13)));
         ImGui::PushStyleColor(ImGuiCol_Text, dungeonColor);
-        ImGui::Text("%s", dungeonName.c_str());
+        ImGui::Text(StringHelper::Translate("%s").c_str(), dungeonName.c_str());
         ImGui::PopStyleColor();
     }
     ImGui::EndGroup();
@@ -1424,7 +1425,7 @@ void DrawTotalChecks() {
     } else {
         ImGui::SetWindowFontScale(1);
     }
-    ImGui::Text("Checks: %d/%d", totalChecksGotten, totalChecks);
+    ImGui::Text(StringHelper::Translate("Checks: %d/%d").c_str(), totalChecksGotten, totalChecks);
     ImGui::EndGroup();
 }
 
@@ -2043,8 +2044,8 @@ static std::map<int32_t, const char*> minimalDisplayTypes = { { SECTION_DISPLAY_
 void ItemTrackerSettingsWindow::DrawElement() {
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 8.0f, 8.0f });
     if (ImGui::BeginTable("itemTrackerSettingsTable", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("General settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Section settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(StringHelper::Translate("General settings").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(StringHelper::Translate("Section settings").c_str(), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::TableHeadersRow();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
@@ -2255,7 +2256,7 @@ void RegisterItemTrackerWidgets() {
                      .LabelPosition(LabelPositions::Far)
                      .Color(THEME_COLOR)
                      .ComboMap(itemTrackerKeyTrackOptions)
-                     .Tooltip("Customize what numbers are shown for key tracking."));
+                     .Tooltip(StringHelper::Translate("Customize what numbers are shown for key tracking.").c_str()));
     SohGui::mSohMenu->AddSearchWidget({ keyTracking, "Randomizer", "Item Tracker", "General Settings" });
 
     triforcePieceTracking = { .name = "Triforce Pieces", .type = WidgetType::WIDGET_CVAR_COMBOBOX };
@@ -2338,7 +2339,7 @@ void RegisterItemTrackerWidgets() {
                      .LabelPosition(LabelPositions::Far)
                      .Color(THEME_COLOR)
                      .ComboMap(itemTrackerTriforcePieceTrackOptions)
-                     .Tooltip("Customize what numbers are shown for triforce piece tracking."));
+                     .Tooltip(StringHelper::Translate("Customize what numbers are shown for triforce piece tracking.").c_str()));
     SohGui::mSohMenu->AddSearchWidget({ triforcePieceCount, "Randomizer", "Item Tracker", "General Settings" });
 
     ocarinaButtonTracking = { .name = "Ocarina Buttons", .type = WidgetType::WIDGET_CVAR_COMBOBOX };
@@ -2398,7 +2399,7 @@ void RegisterItemTrackerWidgets() {
     hookshotIdentWidget.CVar(CVAR_TRACKER_ITEM("HookshotIdentifier"))
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip("Shows an 'H' or an 'L' to more easily distinguish between Hookshot and Longshot."));
+                     .Tooltip(StringHelper::Translate("Shows an 'H' or an 'L' to more easily distinguish between Hookshot and Longshot.").c_str()));
     SohGui::mSohMenu->AddSearchWidget({ hookshotIdentWidget, "Randomizer", "Item Tracker", "General Settings" });
 }
 

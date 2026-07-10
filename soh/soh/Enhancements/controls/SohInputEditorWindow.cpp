@@ -167,7 +167,7 @@ void SohInputEditorWindow::DrawAnalogPreview(const char* label, ImVec2 stick, fl
     if (!gyro) {
         ImGui::SetCursorPos(
             ImVec2(ImGui::GetCursorPos().x - SCALE_IMGUI_SIZE(8), ImGui::GetCursorPos().y + SCALE_IMGUI_SIZE(72)));
-        ImGui::Text("X:%3d, Y:%3d", static_cast<int32_t>(stick.x), static_cast<int32_t>(stick.y));
+        ImGui::Text(StringHelper::Translate("X:%3d, Y:%3d").c_str(), static_cast<int32_t>(stick.x), static_cast<int32_t>(stick.y));
     }
     ImGui::EndChild();
 }
@@ -239,7 +239,7 @@ void SohInputEditorWindow::DrawButtonLineAddMappingButton(uint8_t port, N64Butto
 
     if (ImGui::BeginPopup(popupId.c_str())) {
         mInputEditorPopupOpen = true;
-        ImGui::Text("Press any button,\nmove any axis,\nor press any key\nto add mapping");
+        ImGui::Text(StringHelper::Translate("Press any button,\nmove any axis,\nor press any key\nto add mapping").c_str());
         if (ImGui::Button("Cancel")) {
             mInputEditorPopupOpen = false;
             ImGui::CloseCurrentPopup();
@@ -303,7 +303,7 @@ void SohInputEditorWindow::DrawButtonLineEditMappingButton(uint8_t port, N64Butt
 
     if (ImGui::BeginPopup(popupId.c_str())) {
         mInputEditorPopupOpen = true;
-        ImGui::Text("Press any button,\nmove any axis,\nor press any key\nto edit mapping");
+        ImGui::Text(StringHelper::Translate("Press any button,\nmove any axis,\nor press any key\nto edit mapping").c_str());
         if (ImGui::Button("Cancel")) {
             mInputEditorPopupOpen = false;
             ImGui::CloseCurrentPopup();
@@ -351,7 +351,7 @@ void SohInputEditorWindow::DrawButtonLineEditMappingButton(uint8_t port, N64Butt
             auto globalSettings = Ship::Context::GetInstance()->GetControlDeck()->GetGlobalSDLDeviceSettings();
 
             if (sdlAxisDirectionToButtonMapping->AxisIsStick()) {
-                ImGui::Text("Stick axis threshold:");
+                ImGui::Text(StringHelper::Translate("Stick axis threshold:").c_str());
 
                 int32_t stickAxisThreshold = globalSettings->GetStickAxisThresholdPercentage();
                 if (stickAxisThreshold == 0) {
@@ -389,7 +389,7 @@ void SohInputEditorWindow::DrawButtonLineEditMappingButton(uint8_t port, N64Butt
             }
 
             if (sdlAxisDirectionToButtonMapping->AxisIsTrigger()) {
-                ImGui::Text("Trigger axis threshold:");
+                ImGui::Text(StringHelper::Translate("Trigger axis threshold:").c_str());
 
                 int32_t triggerAxisThreshold = globalSettings->GetTriggerAxisThresholdPercentage();
                 if (triggerAxisThreshold == 0) {
@@ -482,7 +482,7 @@ void SohInputEditorWindow::DrawStickDirectionLineAddMappingButton(uint8_t port, 
 
     if (ImGui::BeginPopup(popupId.c_str())) {
         mInputEditorPopupOpen = true;
-        ImGui::Text("Press any button,\nmove any axis,\nor press any key\nto add mapping");
+        ImGui::Text(StringHelper::Translate("Press any button,\nmove any axis,\nor press any key\nto add mapping").c_str());
         if (ImGui::Button("Cancel")) {
             mInputEditorPopupOpen = false;
             ImGui::CloseCurrentPopup();
@@ -568,7 +568,7 @@ void SohInputEditorWindow::DrawStickDirectionLineEditMappingButton(uint8_t port,
 
     if (ImGui::BeginPopup(popupId.c_str())) {
         mInputEditorPopupOpen = true;
-        ImGui::Text("Press any button,\nmove any axis,\nor press any key\nto edit mapping");
+        ImGui::Text(StringHelper::Translate("Press any button,\nmove any axis,\nor press any key\nto edit mapping").c_str());
         if (ImGui::Button("Cancel")) {
             mInputEditorPopupOpen = false;
             ImGui::CloseCurrentPopup();
@@ -1312,7 +1312,7 @@ void SohInputEditorWindow::DrawMapping(CustomButtonMap& mapping, float labelWidt
     ImVec2 textSize = ImGui::CalcTextSize(mapping.label);
     ImGui::SetCursorPosY(cursorPos.y + textSize.y / 4);
     ImGui::SetCursorPosX(cursorPos.x + abs(textSize.x - labelWidth));
-    ImGui::Text("%s", mapping.label);
+    ImGui::Text(StringHelper::Translate("%s").c_str(), mapping.label);
     ImGui::SameLine();
     ImGui::SetCursorPosY(cursorPos.y);
 
@@ -1354,7 +1354,7 @@ void SohInputEditorWindow::DrawOcarinaControlPanel() {
     DrawButtonLine(ICON_FA_ARROW_UP " (D5)", 0, BTN_CUSTOM_OCARINA_NOTE_D5);
 
     ImGui::AlignTextToFramePadding();
-    ImGui::BulletText("Disable song detection");
+    ImGui::BulletText(StringHelper::Translate("Disable song detection").c_str());
     DrawButtonLine(ICON_FA_BAN "##DisableSongDetection", 0, BTN_CUSTOM_OCARINA_DISABLE_SONGS);
 
     ImGui::AlignTextToFramePadding();
@@ -1386,7 +1386,7 @@ void SohInputEditorWindow::DrawCameraControlPanel() {
                  CheckboxOptions({ { .disabled = !CVarGetInteger(CVAR_SETTING("Controls.RightStickAim"), 0),
                                      .disabledTooltip = "Forced off because Right Stick Aiming is disabled." } })
                      .Color(THEME_COLOR)
-                     .Tooltip("Changes the left stick to move the player while in first-person mode"));
+                     .Tooltip(StringHelper::Translate("Changes the left stick to move the player while in first-person mode").c_str()));
     CVarCheckbox(StringHelper::Translate("Invert Aiming X Axis").c_str(), CVAR_SETTING("Controls.InvertAimingXAxis"),
                  CheckboxOptions()
                      .Color(THEME_COLOR)
@@ -1398,10 +1398,10 @@ void SohInputEditorWindow::DrawCameraControlPanel() {
                      .Tooltip("Inverts the Camera Y Axis in:\n-First-Person/C-Up view\n-Weapon Aiming"));
     CVarCheckbox(StringHelper::Translate("Invert Shield Aiming X Axis").c_str(),
                  CVAR_SETTING("Controls.InvertShieldAimingXAxis"),
-                 CheckboxOptions().Color(THEME_COLOR).DefaultValue(true).Tooltip("Inverts the Shield Aiming X Axis"));
+                 CheckboxOptions().Color(THEME_COLOR).DefaultValue(true).Tooltip(StringHelper::Translate("Inverts the Shield Aiming X Axis").c_str()));
     CVarCheckbox(StringHelper::Translate("Invert Shield Aiming Y Axis").c_str(),
                  CVAR_SETTING("Controls.InvertShieldAimingYAxis"),
-                 CheckboxOptions().Color(THEME_COLOR).Tooltip("Inverts the Shield Aiming Y Axis"));
+                 CheckboxOptions().Color(THEME_COLOR).Tooltip(StringHelper::Translate("Inverts the Shield Aiming Y Axis").c_str()));
     CVarCheckbox(StringHelper::Translate("Invert Z-Weapon Aiming Y Axis").c_str(),
                  CVAR_SETTING("Controls.InvertZAimingYAxis"),
                  CheckboxOptions()
@@ -1412,7 +1412,7 @@ void SohInputEditorWindow::DrawCameraControlPanel() {
                  CVAR_SETTING("DisableFirstPersonAutoCenterView"),
                  CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip("Prevents the C-Up view from auto-centering, allowing for Gyro Aiming"));
+                     .Tooltip(StringHelper::Translate("Prevents the C-Up view from auto-centering, allowing for Gyro Aiming").c_str()));
     if (CVarCheckbox(StringHelper::Translate("Enable Custom Aiming/First-Person sensitivity").c_str(),
                      CVAR_SETTING("FirstPersonCameraSensitivity.Enabled"), CheckboxOptions().Color(THEME_COLOR))) {
         if (!CVarGetInteger(CVAR_SETTING("FirstPersonCameraSensitivity.Enabled"), 0)) {
@@ -1496,7 +1496,7 @@ void SohInputEditorWindow::DrawDpadControlPanel() {
                  CheckboxOptions()
                      .Color(THEME_COLOR)
                      .DefaultValue(true)
-                     .Tooltip("The cursor will only move a single space no matter how long a D-pad direction is held"));
+                     .Tooltip(StringHelper::Translate("The cursor will only move a single space no matter how long a D-pad direction is held").c_str()));
 
     if (!CVarGetInteger(CVAR_SETTING("DPadOnPause"), 0) && !CVarGetInteger(CVAR_SETTING("DpadInText"), 0)) {
         ImGui::EndDisabled();
@@ -1617,11 +1617,11 @@ void SohInputEditorWindow::DrawLinkTab() {
             DrawButtonLine(StringHelper::Translate("M2").c_str(), portIndex, BTN_CUSTOM_MODIFIER2);
         }
 
-        if (ImGui::CollapsingHeader("Ocarina Controls")) {
+        if (ImGui::CollapsingHeader(StringHelper::Translate("Ocarina Controls").c_str())) {
             DrawOcarinaControlPanel();
         }
 
-        if (ImGui::CollapsingHeader("Camera Controls")) {
+        if (ImGui::CollapsingHeader(StringHelper::Translate("Camera Controls").c_str())) {
             ImGui::PopStyleColor();
             ImGui::PopStyleColor();
             ImGui::PopStyleColor();
@@ -1868,7 +1868,7 @@ void SohInputEditorWindow::DrawElement() {
 void RegisterInputEditorWidgets() {
     dpadOcarina = { .name = "Dpad Ocarina Playback", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     dpadOcarina.CVar(CVAR_SETTING("CustomOcarina.Dpad")).Options(CheckboxOptions().Color(THEME_COLOR));
-    SohGui::mSohMenu->AddSearchWidget({ dpadOcarina, "Settings", "Controls", "Ocarina Controls", "" });
+    SohGui::mSohMenu->AddSearchWidget({ dpadOcarina, "Settings", "Controls", StringHelper::Translate("Ocarina Controls").c_str(), "" });
 
     freeLook = { .name = "Free Look", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     freeLook.CVar(CVAR_SETTING("FreeLook.Enabled"))
@@ -1880,7 +1880,7 @@ void RegisterInputEditorWidgets() {
                     "controller config menu, and map the camera stick to the right stick.\n"
                     "Doesn't work in areas were the game locks the camera.\n"
                     "Scene reload may be necessary to enable."));
-    SohGui::mSohMenu->AddSearchWidget({ freeLook, "Settings", "Controls", "Camera Controls" });
+    SohGui::mSohMenu->AddSearchWidget({ freeLook, "Settings", "Controls", StringHelper::Translate("Camera Controls").c_str() });
 
     mouseControl = { .name = "Enable Mouse Controls", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     mouseControl.CVar(CVAR_SETTING("EnableMouse"))
@@ -1896,7 +1896,7 @@ void RegisterInputEditorWidgets() {
                 .Tooltip("Allows for using the mouse to control the camera (must enable Free Look), "
                          "aim with the shield, and perform quickspin attacks (quickly rotate the mouse then press B)\n"
                          "Press F2 to toggle mouse capture manually."));
-    SohGui::mSohMenu->AddSearchWidget({ mouseControl, "Settings", "Controls", "Camera Controls" });
+    SohGui::mSohMenu->AddSearchWidget({ mouseControl, "Settings", "Controls", StringHelper::Translate("Camera Controls").c_str() });
 
     mouseAutoCapture = { .name = "Auto Capture Mouse Input", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     mouseAutoCapture.CVar(CVAR_SETTING("AutoCaptureMouse"))
@@ -1908,29 +1908,28 @@ void RegisterInputEditorWidgets() {
         })
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip("When Mouse Controls are enabled, this toggles whether the program will automatically "
+                     .Tooltip(StringHelper::Translate("When Mouse Controls are enabled, this toggles whether the program will automatically "
                               "hide the cursor "
-                              "and capture mouse input when closing the menu."));
-    SohGui::mSohMenu->AddSearchWidget({ mouseAutoCapture, "Settings", "Controls", "Camera Controls" });
+                              "and capture mouse input when closing the menu.").c_str()));
+    SohGui::mSohMenu->AddSearchWidget({ mouseAutoCapture, "Settings", "Controls", StringHelper::Translate("Camera Controls").c_str() });
 
     rightStickOcarina = { .name = "Right Stick Ocarina Playback", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     rightStickOcarina.CVar(CVAR_SETTING("CustomOcarina.RightStick")).Options(CheckboxOptions().Color(THEME_COLOR));
-    SohGui::mSohMenu->AddSearchWidget({ rightStickOcarina, "Settings", "Controls", "Ocarina Controls" });
+    SohGui::mSohMenu->AddSearchWidget({ rightStickOcarina, "Settings", "Controls", StringHelper::Translate("Ocarina Controls").c_str() });
 
     dpadPause = { .name = "D-pad Support on Pause Screen", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     dpadPause.CVar(CVAR_SETTING("DPadOnPause"))
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip("Navigate Pause with the D-pad\nIf used with \"D-pad as Equip Items\", you must hold "
-                              "C-Up to equip instead of navigate"));
+                    .Tooltip("Navigate Pause with the D-pad\nIf used with \"D-pad as Equip Items\", you must hold C-Up to equip instead of navigate"));
     SohGui::mSohMenu->AddSearchWidget({ dpadPause, "Settings", "Controls", "Dpad Controls" });
 
     dpadText = { .name = "D-pad Support in Text Boxes", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     dpadText.CVar(CVAR_SETTING("DpadInText"))
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip("Navigate choices in text boxes, shop item selection, and the file select / name entry "
-                              "screens with the D-pad"));
+                     .Tooltip(StringHelper::Translate("Navigate choices in text boxes, shop item selection, and the file select / name entry "
+                              "screens with the D-pad").c_str()));
     SohGui::mSohMenu->AddSearchWidget({ dpadText, "Settings", "Controls", "Dpad Controls" });
 }
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_mizu_water.c
  * Overlay: ovl_Bg_Mizu_Water
  * Description: Water plane in Water Temple. Changes height based on switches 0x1C, 0x1D, 0x1E.

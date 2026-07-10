@@ -1,4 +1,4 @@
-/*
+﻿/*
  * File: z_bg_spot01_idohashira.c
  * Overlay: Bg_Spot01_Idohashira
  * Description: Wooden beam above well in Kakariko Village

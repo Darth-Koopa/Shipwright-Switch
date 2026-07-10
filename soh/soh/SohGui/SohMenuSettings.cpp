@@ -1,4 +1,4 @@
-#include "SohMenu.h"
+﻿#include "SohMenu.h"
 #include "soh/Notification/Notification.h"
 #include "soh/Enhancements/enhancementTypes.h"
 #include "SohModals.h"
