@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_gm.c
  * Overlay: ovl_En_Gm
  * Description: Medi-Goron

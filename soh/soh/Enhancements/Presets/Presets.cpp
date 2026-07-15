@@ -1,5 +1,4 @@
 #include "Presets.h"
-#include <ship/utils/StringHelper.h>
 #include <string>
 #include <fstream>
 #include <ship/config/Config.h>
@@ -141,10 +140,10 @@ void DrawPresetSelector(std::vector<PresetSection> includeSections, std::string 
             }
         }
     }
-    ImGui::Text("Presets");
+    ImGui::Text(SohGui::L("Presets"));
     if (includedPresets.empty()) {
         ImGui::PushStyleColor(ImGuiCol_Text, UIWidgets::ColorValues.at(UIWidgets::Colors::Orange));
-        ImGui::Text(StringHelper::Translate("No presets with rando options. Make some in Settings -> Presets").c_str());
+        ImGui::Text(SohGui::L("No presets with rando options. Make some in Settings -> Presets"));
         ImGui::PopStyleColor();
         return;
     }
@@ -155,9 +154,9 @@ void DrawPresetSelector(std::vector<PresetSection> includeSections, std::string 
         CVarSetString(selectorCvar.c_str(), currentIndex.c_str());
     }
     UIWidgets::PushStyleCombobox(THEME_COLOR);
-    if (ImGui::BeginCombo("##PresetsComboBox", StringHelper::Translate(currentIndex).c_str())) {
+    if (ImGui::BeginCombo("##PresetsComboBox", currentIndex.c_str())) {
         for (auto iter = includedPresets.begin(); iter != includedPresets.end(); ++iter) {
-            if (ImGui::Selectable(StringHelper::Translate(*iter).c_str(), *iter == currentIndex)) {
+            if (ImGui::Selectable(iter->c_str(), *iter == currentIndex)) {
                 CVarSetString(selectorCvar.c_str(), iter->c_str());
                 currentIndex = *iter;
                 Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
@@ -171,7 +170,7 @@ void DrawPresetSelector(std::vector<PresetSection> includeSections, std::string 
 
     UIWidgets::PushStyleButton(THEME_COLOR);
     if (UIWidgets::Button(
-            ("Apply Preset##" + selectorCvar).c_str(),
+            (std::string(SohGui::L("Apply Preset")) + "##" + selectorCvar).c_str(),
             UIWidgets::ButtonOptions({ { .disabled = disabled } }).Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
         applyPreset(currentIndex, includeSections);
     }
@@ -265,7 +264,7 @@ static bool saveSection[PRESET_SECTION_MAX];
 
 void DrawNewPresetPopup() {
     bool nameExists = presets.contains(newPresetName);
-    UIWidgets::InputString(StringHelper::Translate("Preset Name").c_str(), &newPresetName,
+    UIWidgets::InputString("Preset Name", &newPresetName,
                            UIWidgets::InputOptions()
                                .Color(THEME_COLOR)
                                .Size({ 200, 40 })
@@ -285,12 +284,11 @@ void DrawNewPresetPopup() {
         (newPresetName.empty() ? "Preset name is empty"
                                : (noneSelected ? "No sections selected" : "Preset name already exists"));
     for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
-        UIWidgets::Checkbox(fmt::format("Save {}", StringHelper::Translate(blockInfo[i].names[0])).c_str(),
-                            &saveSection[i],
+        UIWidgets::Checkbox(SohGui::L(fmt::format("Save {}", blockInfo[i].names[0]).c_str()), &saveSection[i],
                             UIWidgets::CheckboxOptions().Color(THEME_COLOR).Padding({ 6.0f, 6.0f }));
     }
     if (UIWidgets::Button(
-            StringHelper::Translate("Save").c_str(), UIWidgets::ButtonOptions({ { .disabled = (nameExists || noneSelected || newPresetName.empty()),
+            "Save", UIWidgets::ButtonOptions({ { .disabled = (nameExists || noneSelected || newPresetName.empty()),
                                                  .disabledTooltip = disabledTooltip } })
                         .Padding({ 6.0f, 6.0f })
                         .Color(THEME_COLOR))) {
@@ -363,7 +361,7 @@ void DrawNewPresetPopup() {
 
 void PresetsCustomWidget(WidgetInfo& info) {
     ImGui::PushFont(OTRGlobals::Instance->fontMonoLarger);
-    if (UIWidgets::Button(StringHelper::Translate("New Preset").c_str(), UIWidgets::ButtonOptions(
+    if (UIWidgets::Button("New Preset", UIWidgets::ButtonOptions(
                                             { { .disabled = (CVarGetInteger(CVAR_SETTING("DisableChanges"), 0) != 0),
                                                 .disabledTooltip = "Disabled because of race lockout" } })
                                             .Size(UIWidgets::Sizes::Inline)
@@ -376,29 +374,28 @@ void PresetsCustomWidget(WidgetInfo& info) {
         DrawNewPresetPopup();
     }
     ImGui::SameLine();
-    UIWidgets::CVarCheckbox(StringHelper::Translate("Hide built-in presets").c_str(),
-                            CVAR_GENERAL("HideBuiltInPresets"),
+    UIWidgets::CVarCheckbox("Hide built-in presets", CVAR_GENERAL("HideBuiltInPresets"),
                             UIWidgets::CheckboxOptions().Color(THEME_COLOR));
     bool hideBuiltIn = CVarGetInteger(CVAR_GENERAL("HideBuiltInPresets"), 0);
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTable("PresetWidgetTable", PRESET_SECTION_MAX + 3)) {
-        ImGui::TableSetupColumn(StringHelper::Translate("Name").c_str(), ImGuiTableColumnFlags_WidthFixed, 400);
+        ImGui::TableSetupColumn("Name", ImGuiTableColumnFlags_WidthFixed, 400);
         for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
-            ImGui::TableSetupColumn(StringHelper::Translate(blockInfo[i].names[0]).c_str());
+            ImGui::TableSetupColumn(SohGui::L(blockInfo[i].names[0].c_str()));
         }
-        ImGui::TableSetupColumn(StringHelper::Translate("Apply").c_str(), ImGuiTableColumnFlags_WidthFixed,
-                                ImGui::CalcTextSize(StringHelper::Translate("Apply").c_str()).x +
-                                    ImGui::GetStyle().FramePadding.x * 2);
-        ImGui::TableSetupColumn(StringHelper::Translate("Delete").c_str(), ImGuiTableColumnFlags_WidthFixed,
-                                ImGui::CalcTextSize(StringHelper::Translate("Delete").c_str()).x +
-                                    ImGui::GetStyle().FramePadding.x * 2);
+        ImGui::TableSetupColumn("Apply", ImGuiTableColumnFlags_WidthFixed,
+                                ImGui::CalcTextSize("Apply").x + ImGui::GetStyle().FramePadding.x * 2);
+        ImGui::TableSetupColumn("Delete", ImGuiTableColumnFlags_WidthFixed,
+                                ImGui::CalcTextSize("Delete").x + ImGui::GetStyle().FramePadding.x * 2);
         BlankButton();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
         for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
             ImGui::TableNextColumn();
-            ImGui::Button(fmt::format("{}##header{}", blockInfo[i].icon, blockInfo[i].names[1]).c_str());
-            UIWidgets::Tooltip(StringHelper::Translate(blockInfo[i].names[0]).c_str());
+            ImGui::PushID(i);
+            ImGui::Button(fmt::format("{}##header", blockInfo[i].icon).c_str());
+            ImGui::PopID();
+            UIWidgets::Tooltip(SohGui::L(blockInfo[i].names[0].c_str()));
         }
         UIWidgets::PopStyleButton();
 
@@ -406,7 +403,7 @@ void PresetsCustomWidget(WidgetInfo& info) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::AlignTextToFramePadding();
-            ImGui::Text(StringHelper::Translate("No presets found.").c_str());
+            ImGui::Text(SohGui::L("No presets found."));
             ImGui::EndTable();
             UIWidgets::PopStyleTabs();
             ImGui::PopFont();
@@ -419,7 +416,7 @@ void PresetsCustomWidget(WidgetInfo& info) {
             ImGui::TableNextRow();
             ImGui::TableNextColumn();
             ImGui::AlignTextToFramePadding();
-            ImGui::Text("%s", StringHelper::Translate(name).c_str());
+            ImGui::Text("%s", SohGui::L(name.c_str()));
             for (int i = PRESET_SECTION_SETTINGS; i < PRESET_SECTION_MAX; i++) {
                 ImGui::TableNextColumn();
                 DrawSectionCheck(name, !info.presetValues["blocks"].contains(blockInfo[i].names[1]), &info.apply[i],
@@ -428,7 +425,7 @@ void PresetsCustomWidget(WidgetInfo& info) {
             ImGui::TableNextColumn();
             UIWidgets::PushStyleButton(THEME_COLOR);
             if (UIWidgets::Button(
-                    ("Apply##" + name).c_str(),
+                    (std::string(SohGui::L("Apply")) + "##" + name).c_str(),
                     UIWidgets::ButtonOptions({ { .disabled = (CVarGetInteger(CVAR_SETTING("DisableChanges"), 0) != 0),
                                                  .disabledTooltip = "Disabled because of race lockout" } })
                         .Padding({ 6.0f, 6.0f }))) {
@@ -461,7 +458,7 @@ void PresetsCustomWidget(WidgetInfo& info) {
 void RegisterPresetsWidgets() {
     SohGui::mSohMenu->AddSidebarEntry("Settings", "Presets", 1);
     WidgetPath path = { "Settings", "Presets", SECTION_COLUMN_1 };
-    SohGui::mSohMenu->AddWidget(path, StringHelper::Translate("PresetsWidget").c_str(), WIDGET_CUSTOM)
+    SohGui::mSohMenu->AddWidget(path, "PresetsWidget", WIDGET_CUSTOM)
         .CustomFunction(PresetsCustomWidget)
         .HideInSearch(true);
     presetFolder = Ship::Context::GetInstance()->GetPathRelativeToAppDirectory("presets");

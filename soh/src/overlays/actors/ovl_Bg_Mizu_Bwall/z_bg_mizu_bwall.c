@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_bg_mizu_bwall.c
  * Overlay: ovl_Bg_Mizu_Bwall
  * Description: Water Temple bombable walls

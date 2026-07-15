@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_bg_jya_bombiwa.c
  * Overlay: ovl_Bg_Jya_Bombiwa
  * Description: Spirit Temple top room bombable wall

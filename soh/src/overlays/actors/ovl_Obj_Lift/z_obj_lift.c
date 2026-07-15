@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_obj_lift.c
  * Overlay: ovl_Obj_Lift
  * Description: Square, collapsing platform

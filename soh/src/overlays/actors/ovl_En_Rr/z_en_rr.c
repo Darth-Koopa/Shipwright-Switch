@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_rr.c
  * Overlay: ovl_En_Rr
  * Description: Like Like

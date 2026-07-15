@@ -309,13 +309,13 @@ bool Option::RenderSlider() {
 }
 
 void Option::AddWidget(WidgetPath& path) {
-    auto widget = SohGui::mSohMenu->AddWidget(path, StringHelper::Translate(name).c_str(), widgetType)
+    auto widget = SohGui::mSohMenu->AddWidget(path, name, widgetType)
                       .Callback(callback)
                       .PreFunc([this](WidgetInfo& info) {
                           info.isHidden = this->IsHidden();
                           info.options->disabled = this->disabled;
                           info.options->disabledTooltip = this->disabledText.c_str();
-                          info.options->tooltip = StringHelper::Translate(this->description).c_str();
+                          info.options->tooltip = this->description.c_str();
                           if (info.type == WIDGET_CVAR_SLIDER_INT) {
                               UIWidgets::IntSliderOptions* sliderOpts =
                                   (UIWidgets::IntSliderOptions*)info.options.get();

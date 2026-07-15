@@ -1,4 +1,4 @@
-﻿#include "z_demo_effect.h"
+#include "z_demo_effect.h"
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_efc_crystal_light/object_efc_crystal_light.h"

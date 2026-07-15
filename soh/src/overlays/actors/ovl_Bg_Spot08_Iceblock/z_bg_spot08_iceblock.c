@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_bg_spot08_iceblock.c
  * Overlay: ovl_Bg_Spot08_Iceblock
  * Description: Floating ice platforms

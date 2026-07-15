@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_wonder_talk2.c
  * Overlay: ovl_En_Wonder_Talk2
  * Description: Dialog spot

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_obj_switch.c
  * Overlay: ovl_Obj_Switch
  * Description: Switches

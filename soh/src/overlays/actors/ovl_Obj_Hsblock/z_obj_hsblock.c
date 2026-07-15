@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_obj_hsblock.c
  * Overlay: ovl_Obj_Hsblock
  * Description: Stone Hookshot Target

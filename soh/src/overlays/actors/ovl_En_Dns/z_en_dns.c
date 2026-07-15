@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_dns.c
  * Overlay: En_Dns
  * Description: Deku Salesman

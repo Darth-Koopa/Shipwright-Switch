@@ -6,6 +6,7 @@
 //
 
 #include "SohGui.hpp"
+#include "Localization.h"
 
 #include <spdlog/spdlog.h>
 #include <imgui.h>
@@ -109,10 +110,10 @@ std::shared_ptr<SohMenu> GetSohMenu() {
 
 void SetupMenu() {
     auto gui = Ship::Context::GetInstance()->GetWindow()->GetGui();
-    mSohMenu = std::make_shared<SohMenu>(CVAR_WINDOW("Menu"), "Port Menu");
+    mSohMenu = std::make_shared<SohMenu>(CVAR_WINDOW("Menu"), SohGui::L("Port Menu"));
     gui->SetMenu(mSohMenu);
 
-    mModalWindow = std::make_shared<SohModalWindow>(CVAR_WINDOW("ModalWindow"), "Modal Window");
+    mModalWindow = std::make_shared<SohModalWindow>(CVAR_WINDOW("ModalWindow"), SohGui::L("Modal Window"));
     gui->AddGuiWindow(mModalWindow);
     mModalWindow->Show();
 }
@@ -124,6 +125,9 @@ void SetupMenuElements() {
 void SetupGuiElements() {
     auto gui = Ship::Context::GetInstance()->GetWindow()->GetGui();
 
+    // NOTE: Window titles are used as the GuiWindow map key and must stay in the
+    // original English string (matching the .WindowName used by WIDGET_WINDOW_BUTTON),
+    // otherwise GetGuiWindow() fails and the window renders blank. Do NOT wrap these in SohGui::L().
     mConsoleWindow = std::make_shared<SohConsoleWindow>(CVAR_WINDOW("SohConsole"), "Console##SoH", ImVec2(820, 630));
     gui->AddGuiWindow(mConsoleWindow);
 

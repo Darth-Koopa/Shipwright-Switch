@@ -1,4 +1,4 @@
-﻿#include "z_en_niw_lady.h"
+#include "z_en_niw_lady.h"
 #include "objects/object_ane/object_ane.h"
 #include "objects/object_os_anime/object_os_anime.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"

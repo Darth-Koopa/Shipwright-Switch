@@ -1,5 +1,4 @@
 #include <vector>
-#include <ship/utils/StringHelper.h>
 #include <fstream>
 
 #include <ship/Context.h>
@@ -331,7 +330,7 @@ void HandleDragAndDrop(std::vector<SplitObject>& objectList, int targetIndex, co
                        ImGuiDragDropFlags flags = ImGuiDragDropFlags_None) {
     if (ImGui::BeginDragDropSource(flags)) {
         ImGui::SetDragDropPayload("DragMove", &targetIndex, sizeof(uint32_t));
-        ImGui::Text(StringHelper::Translate("Move %s").c_str(), itemName.c_str());
+        ImGui::Text(SohGui::L("Move %s"), itemName.c_str());
         ImGui::EndDragDropSource();
     }
 
@@ -410,7 +409,7 @@ void TimeSplitsFileManagement(uint32_t action, const char* listEntry, std::vecto
             keys.push_back(data.key());
         }
         if (keys.size() == 0) {
-            keys.push_back("No Saved Lists");
+            keys.push_back(SohGui::L("No Saved Lists"));
         }
     }
 
@@ -444,14 +443,14 @@ void TimeSplitsPopUpContext() {
             ImGui::PushItemWidth(150.0f);
 
             ImGui::BeginGroup();
-            std::string MinusBTNName = " - ##Set Tokens";
+            std::string MinusBTNName = SohGui::L(" - ##Set Tokens");
             ImGui::SameLine();
             if (ImGui::Button(MinusBTNName.c_str()) && skullTokenCount > 0) {
                 skullTokenCount--;
             }
             ImGui::SameLine();
-            ImGui::SliderInt("##count", &skullTokenCount, 0, 100, "%d Tokens");
-            std::string PlusBTNName = " + ##Set Tokens";
+            ImGui::SliderInt("##count", &skullTokenCount, 0, 100, SohGui::L("%d Tokens"));
+            std::string PlusBTNName = SohGui::L(" + ##Set Tokens");
             ImGui::SameLine();
             if (ImGui::Button(PlusBTNName.c_str()) && skullTokenCount < 100) {
                 skullTokenCount++;
@@ -459,7 +458,7 @@ void TimeSplitsPopUpContext() {
             ImGui::EndGroup();
 
             ImGui::PopItemWidth();
-            if (ImGui::Button(StringHelper::Translate("Set Tokens").c_str())) {
+            if (ImGui::Button(SohGui::L("Set Tokens"))) {
                 auto findID = std::find_if(splitObjectList.begin(), splitObjectList.end(),
                                            [&](const SplitObject& obj) { return obj.splitID == ITEM_SKULL_TOKEN; });
                 SplitObject& buildTokenObject = *findID;
@@ -515,7 +514,7 @@ void TimeSplitsPopUpContext() {
                         ImGui::SetCursorScreenPos(textPos);
                         std::string upgSubstr = popupObject.splitName.substr(popupObject.splitName.size() - 4);
                         std::string upgOutput = removeSpecialCharacters(upgSubstr);
-                        ImGui::Text(StringHelper::Translate("%s").c_str(), upgOutput.c_str());
+                        ImGui::Text("%s", upgOutput.c_str());
                     }
                 }
                 ImGui::EndGroup();
@@ -644,12 +643,12 @@ void TimeSplitsDrawSplitsList() {
     ImGui::BeginChild("SplitTable", ImVec2(0.0f, ImGui::GetWindowHeight() - 128.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(4, 0));
     if (ImGui::BeginTable("Splits", 5, ImGuiTableFlags_Hideable | ImGuiTableFlags_Reorderable)) {
-        ImGui::TableSetupColumn(StringHelper::Translate("Item Image").c_str(), ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
+        ImGui::TableSetupColumn("Item Image", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
                                 34.0f);
-        ImGui::TableSetupColumn(StringHelper::Translate("Item Name").c_str());
-        ImGui::TableSetupColumn("Current Time");
+        ImGui::TableSetupColumn(SohGui::L("Item Name"));
+        ImGui::TableSetupColumn(SohGui::L("Current Time"));
         ImGui::TableSetupColumn("+/-");
-        ImGui::TableSetupColumn(StringHelper::Translate("Prev. Best").c_str());
+        ImGui::TableSetupColumn(SohGui::L("Prev. Best"));
         ImGui::TableHeadersRow();
 
         SplitsPushImageButtonStyle();
@@ -675,10 +674,10 @@ void TimeSplitsDrawSplitsList() {
             ImGui::TableNextColumn();
             ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 5.0f));
             ImGui::AlignTextToFramePadding();
-            ImGui::TextWrapped(StringHelper::Translate("%s").c_str(), split.splitName.c_str());
+            ImGui::TextWrapped("%s", SohGui::L(split.splitName.c_str()));
             ImGui::TableNextColumn();
             // Current Time
-            ImGui::Text(StringHelper::Translate("%s").c_str(), (split.splitTimeStatus == SPLIT_STATUS_ACTIVE)
+            ImGui::Text("%s", (split.splitTimeStatus == SPLIT_STATUS_ACTIVE)
                                   ? formatTimestampTimeSplit(GAMEPLAYSTAT_TOTAL_TIME).c_str()
                               : (split.splitTimeStatus == SPLIT_STATUS_COLLECTED)
                                   ? formatTimestampTimeSplit(split.splitTimeCurrent).c_str()
@@ -688,7 +687,7 @@ void TimeSplitsDrawSplitsList() {
             ImGui::TextColored(splitTimeColor, "%s", formatTimestampTimeSplit(splitBestTimeDisplay).c_str());
             ImGui::TableNextColumn();
             // Previous Best
-            ImGui::Text(StringHelper::Translate("%s").c_str(), (split.splitTimePreviousBest != 0)
+            ImGui::Text("%s", (split.splitTimePreviousBest != 0)
                                   ? formatTimestampTimeSplit(split.splitTimePreviousBest).c_str()
                                   : "--:--:-");
             ImGui::PopID();
@@ -728,11 +727,11 @@ void TimeSplitsDrawItemList(uint32_t type) {
     ImGui::BeginTable("Item List", tableSize);
     for (size_t i = 0; i < tableSize; i++) {
         if (i == 0) {
-            ImGui::TableSetupColumn(StringHelper::Translate("Item Image").c_str(),
+            ImGui::TableSetupColumn("Item Image",
                                     ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel, 39.0f);
         } else {
             if (type > SPLIT_TYPE_QUEST) {
-                ImGui::TableSetupColumn(StringHelper::Translate("Item Name").c_str());
+                ImGui::TableSetupColumn(SohGui::L("Item Name"));
             } else {
                 ImGui::TableSetupColumn(std::to_string(i).c_str(),
                                         ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel, 39.0f);
@@ -775,7 +774,7 @@ void TimeSplitsDrawItemList(uint32_t type) {
                 ImGui::TableNextColumn();
                 ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0.0f, 7.0f));
                 ImGui::AlignTextToFramePadding();
-                ImGui::Text(StringHelper::Translate("%s").c_str(), split.splitName.c_str());
+                ImGui::Text("%s", SohGui::L(split.splitName.c_str()));
                 ImGui::PopStyleVar(1);
             }
         }
@@ -792,14 +791,14 @@ void TimeSplitsUpdateWindowSize() {
 }
 
 void TimeSplitsDrawOptionsMenu() {
-    ImGui::SeparatorText(StringHelper::Translate("Window Options").c_str());
+    ImGui::SeparatorText(SohGui::L("Window Options"));
     Color_RGBA8 defaultColor = { 0, 0, 0, 255 };
-    if (CVarColorPicker("Background Color", CVAR_ENHANCEMENT("TimeSplits.WindowColor"), defaultColor, true, 0,
+    if (CVarColorPicker(SohGui::L("Background Color"), CVAR_ENHANCEMENT("TimeSplits.WindowColor"), defaultColor, true, 0,
                         THEME_COLOR)) {
         windowColor = VecFromRGBA8(CVarGetColor(CVAR_ENHANCEMENT("TimeSplits.WindowColor.Value"), defaultColor));
     }
 
-    if (CVarSliderFloat("Window Scale", CVAR_ENHANCEMENT("TimeSplits.WindowScale"),
+    if (CVarSliderFloat(SohGui::L("Window Scale"), CVAR_ENHANCEMENT("TimeSplits.WindowScale"),
                         FloatSliderOptions()
                             .Min(1.0f)
                             .Max(3.0f)
@@ -811,48 +810,48 @@ void TimeSplitsDrawOptionsMenu() {
         TimeSplitsUpdateWindowSize();
     }
 
-    ImGui::SeparatorText(StringHelper::Translate("Split List Management").c_str());
+    ImGui::SeparatorText(SohGui::L("Split List Management"));
 
-    ImGui::Text(StringHelper::Translate("New List Name: ").c_str());
+    ImGui::Text(SohGui::L("New List Name: "));
     ImGui::PushItemWidth(150.0f);
     PushStyleInput(THEME_COLOR);
     ImGui::InputText("##listName", listNameBuf, 25);
     PopStyleInput();
     ImGui::PopItemWidth();
     ImGui::SameLine();
-    if (Button("Create List", ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
+    if (Button(SohGui::L("Create List"), ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
         TimeSplitsFileManagement(SPLIT_ACTION_SAVE, listNameBuf, splitList);
     }
     UIWidgets::PaddedSeparator();
 
     TimeSplitsFileManagement(SPLIT_ACTION_COLLECT, "", emptyList);
     static uint32_t selectedItem = 0;
-    ImGui::Text(StringHelper::Translate("Select List to Load: ").c_str());
+    ImGui::Text(SohGui::L("Select List to Load: "));
     ImGui::PushItemWidth(150.0f);
     Combobox("", &selectedItem, keys, ComboboxOptions().Color(THEME_COLOR).LabelPosition(LabelPositions::Near));
     ImGui::PopItemWidth();
     ImGui::SameLine();
-    if (Button("Load List", ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
+    if (Button(SohGui::L("Load List"), ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
         TimeSplitsFileManagement(SPLIT_ACTION_LOAD, keys[selectedItem].c_str(), emptyList);
     }
     ImGui::SameLine();
-    if (Button("Save List", ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
+    if (Button(SohGui::L("Save List"), ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
         TimeSplitsFileManagement(SPLIT_ACTION_SAVE, keys[selectedItem].c_str(), splitList);
     }
     ImGui::SameLine();
-    if (Button("Delete List", ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
+    if (Button(SohGui::L("Delete List"), ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
         TimeSplitsFileManagement(SPLIT_ACTION_DELETE, keys[selectedItem].c_str(), emptyList);
     }
     UIWidgets::Separator(true, true, ImGui::GetStyle().ItemSpacing.y, ImGui::GetStyle().ItemSpacing.y);
 
-    if (Button("New Attempt", ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
+    if (Button(SohGui::L("New Attempt"), ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
         for (auto& data : splitList) {
             data.splitTimeStatus = SPLIT_STATUS_INACTIVE;
         }
         splitList[0].splitTimeStatus = SPLIT_STATUS_ACTIVE;
     }
     ImGui::SameLine();
-    if (Button("Update Splits", ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
+    if (Button(SohGui::L("Update Splits"), ButtonOptions().Color(THEME_COLOR).Size(Sizes::Inline))) {
         TimeSplitsFileManagement(SPLIT_ACTION_UPDATE, keys[selectedItem].c_str(), splitList);
     }
 }
@@ -869,7 +868,7 @@ void TimeSplitsDrawManageList() {
     ImGui::BeginChild("SplitTable", ImVec2(0.0f, ImGui::GetWindowHeight() - 128.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(4, 0));
     if (ImGui::BeginTable("List Management", 2, ImGuiTableFlags_BordersInnerV)) {
-        ImGui::TableSetupColumn(StringHelper::Translate("Preview").c_str(), ImGuiTableColumnFlags_WidthFixed, 120.0f);
+        ImGui::TableSetupColumn("Preview", ImGuiTableColumnFlags_WidthFixed, 120.0f);
         ImGui::TableSetupColumn("Options", ImGuiTableColumnFlags_NoHeaderLabel);
 
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 0.0f));
@@ -878,7 +877,7 @@ void TimeSplitsDrawManageList() {
 
         ImGui::TableNextColumn();
         ImGui::BeginTabBar("List Preview");
-        if (ImGui::BeginTabItem(StringHelper::Translate("Preview").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::L("Preview"))) {
             ImGui::BeginChild("PreviewChild");
             for (auto& data : splitList) {
                 float availableWidth = ImGui::GetContentRegionAvail().x;
@@ -910,27 +909,27 @@ void TimeSplitsDrawManageList() {
         ImGui::PopStyleColor(3);
         ImGui::TableNextColumn();
         ImGui::BeginTabBar("List Options");
-        if (ImGui::BeginTabItem("Equipment")) {
+        if (ImGui::BeginTabItem(SohGui::L("Equipment"))) {
             TimeSplitsDrawItemList(SPLIT_TYPE_EQUIPMENT);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Inventory")) {
+        if (ImGui::BeginTabItem(SohGui::L("Inventory"))) {
             TimeSplitsDrawItemList(SPLIT_TYPE_ITEM);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Quest").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::L("Quest"))) {
             TimeSplitsDrawItemList(SPLIT_TYPE_QUEST);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Entrances")) {
+        if (ImGui::BeginTabItem(SohGui::L("Entrances"))) {
             TimeSplitsDrawItemList(SPLIT_TYPE_ENTRANCE);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Bosses").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::L("Bosses"))) {
             TimeSplitsDrawItemList(SPLIT_TYPE_BOSS);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Miscellaneous")) {
+        if (ImGui::BeginTabItem(SohGui::L("Miscellaneous"))) {
             TimeSplitsDrawItemList(SPLIT_TYPE_MISC);
             ImGui::EndTabItem();
         }
@@ -957,15 +956,15 @@ void TimeSplitWindow::DrawElement() {
 
     PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("Split Tabs")) {
-        if (ImGui::BeginTabItem(StringHelper::Translate("Splits").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::L("Splits"))) {
             TimeSplitsDrawSplitsList();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Manage List").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::L("Manage List"))) {
             TimeSplitsDrawManageList();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Options")) {
+        if (ImGui::BeginTabItem(SohGui::L("Options"))) {
             TimeSplitsDrawOptionsMenu();
             ImGui::EndTabItem();
         }

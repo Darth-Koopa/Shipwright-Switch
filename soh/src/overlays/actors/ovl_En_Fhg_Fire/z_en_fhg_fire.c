@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_fhg_fire.c
  * Overlay: ovl_En_Fhg_Fire
  * Description: Phantom Ganon's Lighting Attack

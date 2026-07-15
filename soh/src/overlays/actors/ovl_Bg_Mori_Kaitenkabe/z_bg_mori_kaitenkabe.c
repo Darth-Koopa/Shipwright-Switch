@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_bg_mori_kaitenkabe.c
  * Overlay: ovl_Bg_Mori_Kaitenkabe
  * Description: Rotating wall in Forest Temple basement

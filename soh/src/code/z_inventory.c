@@ -1,4 +1,4 @@
-﻿#include "global.h"
+#include "global.h"
 #include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"
 #include "textures/icon_item_static/icon_item_static.h"
 #include "textures/icon_item_24_static/icon_item_24_static.h"

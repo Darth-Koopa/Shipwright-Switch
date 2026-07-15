@@ -1,4 +1,4 @@
-﻿#include "global.h"
+#include "global.h"
 #include "z64camera.h"
 
 #include <string.h>

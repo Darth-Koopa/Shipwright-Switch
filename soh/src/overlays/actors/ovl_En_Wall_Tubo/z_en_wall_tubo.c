@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_wall_tubo.c
  * Overlay: ovl_En_Wall_Tubo
  * Description: Bombchu Bowling Alley Bullseyes/Pits

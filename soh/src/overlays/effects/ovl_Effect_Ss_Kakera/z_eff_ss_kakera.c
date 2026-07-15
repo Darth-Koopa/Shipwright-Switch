@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_eff_ss_kakera.c
  * Overlay: ovl_Effect_Ss_Kakera
  * Description: Fragments. Appearance is determined by the supplied display list.

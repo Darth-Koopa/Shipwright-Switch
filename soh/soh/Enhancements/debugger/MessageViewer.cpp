@@ -1,5 +1,4 @@
-﻿#include "MessageViewer.h"
-#include <ship/utils/StringHelper.h>
+#include "MessageViewer.h"
 
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
@@ -35,13 +34,13 @@ MessageViewer::~MessageViewer() {
 
 void MessageViewer::DrawElement() {
     ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
-    ImGui::Text(StringHelper::Translate("Table ID").c_str());
+    ImGui::Text(SohGui::L("Table ID"));
     ImGui::SameLine();
     PushStyleInput(THEME_COLOR);
     ImGui::InputText("##TableID", mTableIdBuf, MAX_STRING_SIZE, ImGuiInputTextFlags_CallbackCharFilter,
                      UIWidgets::TextFilters::FilterAlphaNum);
     UIWidgets::InsertHelpHoverText("Leave blank for vanilla table");
-    ImGui::Text(StringHelper::Translate("Text ID").c_str());
+    ImGui::Text(SohGui::L("Text ID"));
     ImGui::SameLine();
     switch (mTextIdBase) {
         case DECIMAL:
@@ -57,11 +56,11 @@ void MessageViewer::DrawElement() {
     }
     PopStyleInput();
     PushStyleCheckbox(THEME_COLOR);
-    if (ImGui::RadioButton("Hexadecimal", &mTextIdBase, HEXADECIMAL)) {
+    if (ImGui::RadioButton(SohGui::L("Hexadecimal"), &mTextIdBase, HEXADECIMAL)) {
         memset(mTextIdBuf, 0, sizeof(char) * MAX_STRING_SIZE);
     }
     ImGui::SameLine();
-    if (ImGui::RadioButton("Decimal", &mTextIdBase, DECIMAL)) {
+    if (ImGui::RadioButton(SohGui::L("Decimal"), &mTextIdBase, DECIMAL)) {
         memset(mTextIdBuf, 0, sizeof(char) * MAX_STRING_SIZE);
     }
     PopStyleCheckbox();
@@ -70,19 +69,18 @@ void MessageViewer::DrawElement() {
                         UIWidgets::ComboboxOptions()
                             .Color(THEME_COLOR)
                             .DefaultIndex(0)
-                            .Tooltip(StringHelper::Translate("Which language to load from the selected text ID").c_str()));
+                            .Tooltip("Which language to load from the selected text ID"));
     PushStyleButton(THEME_COLOR);
-    if (ImGui::Button(StringHelper::Translate("Display Message##ExistingMessage").c_str())) {
+    if (ImGui::Button(SohGui::L("Display Message##ExistingMessage"))) {
         mDisplayExistingMessageClicked = true;
     }
-    ImGui::Text("Custom Message");
-    UIWidgets::InsertHelpHoverText("Enter a string using Custom Message Syntax to preview it in-game. "
-                                   "Any newline (\\n) characters inserted by the Enter key will be stripped "
-                                   "from the output.");
+    ImGui::Text(SohGui::L("Custom Message"));
+    UIWidgets::InsertHelpHoverText(
+        "Enter a string using Custom Message Syntax to preview it in-game. Any newline (\\n) characters inserted by the Enter key will be stripped from the output.");
     PushStyleInput(THEME_COLOR);
     ImGui::InputTextMultiline("##CustomMessage", mCustomMessageBuf, MAX_STRING_SIZE);
     PopStyleInput();
-    if (ImGui::Button(StringHelper::Translate("Display Message##CustomMessage").c_str())) {
+    if (ImGui::Button(SohGui::L("Display Message##CustomMessage"))) {
         mDisplayCustomMessageClicked = true;
     }
     PopStyleButton();

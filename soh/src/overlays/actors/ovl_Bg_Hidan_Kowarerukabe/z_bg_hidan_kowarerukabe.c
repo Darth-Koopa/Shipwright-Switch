@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_bg_hidan_kowarerukabe.c
  * Overlay: ovl_Bg_Hidan_Kowarerukabe
  * Description: Fire Temple Bombable Walls and Floors

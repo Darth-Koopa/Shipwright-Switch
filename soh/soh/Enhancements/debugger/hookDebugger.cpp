@@ -1,5 +1,4 @@
 #include "hookDebugger.h"
-#include <ship/utils/StringHelper.h>
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "soh/SohGui/UIWidgets.hpp"
@@ -20,42 +19,42 @@ void DrawHookRegisteringInfos(const char* hookName) {
     size_t numHooks = (*hookData[hookName]).size();
 
     if (numHooks == 0) {
-        ImGui::TextColored(grey, StringHelper::Translate("No hooks found").c_str());
+        ImGui::TextColored(grey, SohGui::L("No hooks found"));
         return;
     }
 
-    ImGui::Text(StringHelper::Translate("Total Registered: %d").c_str(), numHooks);
+    ImGui::Text("%s: %d", SohGui::L("Total Registered"), numHooks);
 
     if (ImGui::BeginTable(("Table##" + std::string(hookName)).c_str(), 4,
                           ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable |
                               ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit)) {
-        ImGui::TableSetupColumn("ID", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn(StringHelper::Translate("Type").c_str(), ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn(StringHelper::Translate("Registration Info").c_str(), ImGuiTableColumnFlags_WidthStretch);
-        ImGui::TableSetupColumn("# Calls", ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::L("ID"), ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::L("Type"), ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::L("Registration Info"), ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn(SohGui::L("# Calls"), ImGuiTableColumnFlags_WidthFixed);
         ImGui::TableHeadersRow();
         for (auto& [id, hookInfo] : (*hookData[hookName])) {
             ImGui::TableNextRow();
 
             ImGui::TableNextColumn();
-            ImGui::Text(StringHelper::Translate("%d").c_str(), id);
+            ImGui::Text("%d", id);
 
             ImGui::TableNextColumn();
             switch (hookInfo.registering.type) {
                 case HOOK_TYPE_NORMAL:
-                    ImGui::Text("Normal");
+                    ImGui::Text("%s", SohGui::L("Normal"));
                     break;
                 case HOOK_TYPE_ID:
-                    ImGui::Text(StringHelper::Translate("ID").c_str());
+                    ImGui::Text("%s", SohGui::L("ID"));
                     break;
                 case HOOK_TYPE_PTR:
-                    ImGui::Text(StringHelper::Translate("Ptr").c_str());
+                    ImGui::Text("%s", SohGui::L("Ptr"));
                     break;
                 case HOOK_TYPE_FILTER:
-                    ImGui::Text(StringHelper::Translate("Filter").c_str());
+                    ImGui::Text("%s", SohGui::L("Filter"));
                     break;
                 default:
-                    ImGui::TextColored(red, "[UNKNOWN]");
+                    ImGui::TextColored(red, "%s", SohGui::L("[UNKNOWN]"));
                     break;
             }
 
@@ -71,11 +70,11 @@ void DrawHookRegisteringInfos(const char* hookName) {
                 ImGui::TextWrapped("%s(%d:%d) <-\u00A0%s", hookInfo.registering.file, hookInfo.registering.line,
                                    hookInfo.registering.column, parentFunction.c_str());
             } else {
-                ImGui::TextColored(yellow, "[Unavailable]");
+                ImGui::TextColored(yellow, "%s", SohGui::L("[Unavailable]"));
             }
 
             ImGui::TableNextColumn();
-            ImGui::Text(StringHelper::Translate("%d").c_str(), hookInfo.calls);
+            ImGui::Text("%d", hookInfo.calls);
         }
         ImGui::EndTable();
     }
@@ -92,12 +91,12 @@ void HookDebuggerWindow::DrawElement() {
                                "(\"__cpp_lib_source_location\" not defined in \"<version>\").");
 #endif
 
-    if (UIWidgets::Button(StringHelper::Translate("Expand All").c_str(), UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
+    if (UIWidgets::Button("Expand All", UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
         hookOptCollapseAll = false;
         hookOptExpandAll = true;
     }
     ImGui::SameLine();
-    if (UIWidgets::Button(StringHelper::Translate("Collapse All").c_str(),
+    if (UIWidgets::Button("Collapse All",
                           UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
         hookOptExpandAll = false;
         hookOptCollapseAll = true;
@@ -115,7 +114,7 @@ void HookDebuggerWindow::DrawElement() {
             ImGui::SetNextItemOpen(collapseLogic, ImGuiCond_Always);
         }
 
-        if (ImGui::TreeNode(StringHelper::Translate(hookName).c_str())) {
+        if (ImGui::TreeNode(SohGui::L(hookName))) {
             DrawHookRegisteringInfos(hookName);
             ImGui::TreePop();
         }

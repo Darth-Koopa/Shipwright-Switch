@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_bg_spot01_objects2.c
  * Overlay: ovl_Bg_Spot01_Objects2
  * Description: Kakariko Village Set Pieces

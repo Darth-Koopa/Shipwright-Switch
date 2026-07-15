@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_dnt_jiji.c
  * Overlay: ovl_En_Dnt_Jiji
  * Description: Forest Stage scrub leader

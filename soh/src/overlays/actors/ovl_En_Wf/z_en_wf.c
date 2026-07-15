@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_wf.c
  * Overlay: ovl_En_Wf
  * Description: Wolfos (Normal and White)

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_arrow_fire.c
  * Overlay: ovl_Arrow_Fire
  * Description: Fire Arrow. Spawned as a child of a normal arrow.

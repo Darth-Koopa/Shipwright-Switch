@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_zl2.c
  * Overlay: ovl_En_Zl2
  * Description: Adult Zelda (Cutscenes)

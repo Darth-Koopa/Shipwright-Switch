@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_demo_ec.c
  * Overlay: ovl_Demo_Ec
  * Description: Credits revelers in Lon Lon

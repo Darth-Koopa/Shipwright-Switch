@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_owl.c
  * Overlay: ovl_En_Owl
  * Description: Owl

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_girla.c
  * Overlay: En_GirlA
  * Description: Shop Items

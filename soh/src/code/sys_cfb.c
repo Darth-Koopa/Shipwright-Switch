@@ -1,4 +1,4 @@
-﻿#include "global.h"
+#include "global.h"
 #include <stdlib.h>
 #include "soh/framebuffer_effects.h"
 

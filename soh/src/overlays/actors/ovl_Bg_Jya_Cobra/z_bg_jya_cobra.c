@@ -1,4 +1,4 @@
-﻿#include "z_bg_jya_cobra.h"
+#include "z_bg_jya_cobra.h"
 
 #include <string.h>
 

@@ -1,4 +1,4 @@
-﻿#include "z_en_syateki_itm.h"
+#include "z_en_syateki_itm.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Man/z_en_syateki_man.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"

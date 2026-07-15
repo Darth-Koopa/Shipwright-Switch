@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_bg_bdan_objects.c
  * Overlay: ovl_Bg_Bdan_Objects
  * Description: Lord Jabu-Jabu Objects

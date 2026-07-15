@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_rl.c
  * Overlay: En_Rl
  * Description: Rauru

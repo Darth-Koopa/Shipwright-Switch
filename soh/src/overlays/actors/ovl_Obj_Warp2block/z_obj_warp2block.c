@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_obj_warp2block.c
  * Overlay: ovl_Obj_Warp2Block
  * Description: Navi Infospot (Green, Time Block)

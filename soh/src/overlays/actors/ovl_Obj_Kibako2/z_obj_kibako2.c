@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_obj_kibako2.c
  * Overlay: ovl_Obj_Kibako2
  * Description: Large crate

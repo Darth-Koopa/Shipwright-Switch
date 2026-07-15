@@ -1,3 +1,0 @@
-Packing: soh.exe, DroidSansFallback.ttf, shipofharkinian.json, oot.o2r, soh.o2r, assets, mods, Save
-Created: e:\Shipwright-wind-waker-style-cel-shading\soh-cel-shading-release.zip
-Size (MB): 47.7

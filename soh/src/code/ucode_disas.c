@@ -1,4 +1,4 @@
-﻿#include "global.h"
+#include "global.h"
 #include <string.h>
 #if 0
 #define F3DZEX_CONST(name) \

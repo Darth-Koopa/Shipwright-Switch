@@ -217,7 +217,7 @@ void DrawPreviewButton(uint16_t sequenceId, std::string sfxKey, SeqType sequence
         if (UIWidgets::Button(stopButton.c_str(), UIWidgets::ButtonOptions()
                                                       .Size(UIWidgets::Sizes::Inline)
                                                       .Padding(ImVec2(10.0f, 6.0f))
-                                                      .Tooltip(StringHelper::Translate("Stop Preview").c_str())
+                                                      .Tooltip(SohGui::L("Stop Preview"))
                                                       .Color(THEME_COLOR))) {
             func_800F5C2C();
             CVarSetInteger(CVAR_AUDIO("Playing"), 0);
@@ -226,7 +226,7 @@ void DrawPreviewButton(uint16_t sequenceId, std::string sfxKey, SeqType sequence
         if (UIWidgets::Button(previewButton.c_str(), UIWidgets::ButtonOptions()
                                                          .Size(UIWidgets::Sizes::Inline)
                                                          .Padding(ImVec2(10.0f, 6.0f))
-                                                         .Tooltip(StringHelper::Translate("Play Preview").c_str())
+                                                         .Tooltip(SohGui::L("Play Preview"))
                                                          .Color(THEME_COLOR))) {
             if (CVarGetInteger(CVAR_AUDIO("Playing"), 0) != 0) {
                 func_800F5C2C();
@@ -251,12 +251,12 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
     const std::map<u16, SequenceInfo>& map = AudioCollection::Instance->GetAllSequences();
 
     const std::string hiddenTabId = "##" + tabId;
-    const std::string resetAllButton = "Reset All" + hiddenTabId;
-    const std::string randomizeAllButton = "Randomize All" + hiddenTabId;
-    const std::string lockAllButton = "Lock All" + hiddenTabId;
-    const std::string unlockAllButton = "Unlock All" + hiddenTabId;
+    const std::string resetAllButton = SohGui::L("Reset All") + hiddenTabId;
+    const std::string randomizeAllButton = SohGui::L("Randomize All") + hiddenTabId;
+    const std::string lockAllButton = SohGui::L("Lock All") + hiddenTabId;
+    const std::string unlockAllButton = SohGui::L("Unlock All") + hiddenTabId;
 
-    ImGui::SeparatorText(StringHelper::Translate(tabName).c_str());
+    ImGui::SeparatorText(tabName.c_str());
     if (UIWidgets::Button(resetAllButton.c_str(),
                           UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR))) {
         auto currentBGM = func_800FA0B4(SEQ_PLAYER_BGM_MAIN);
@@ -340,15 +340,15 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
         ImGui::TableNextColumn();
         if (isCurrentlyPlaying) {
             ImGui::TextColored(UIWidgets::ColorValues.at(UIWidgets::Colors::Yellow), "%s %s", ICON_FA_PLAY,
-                               seqData.label.c_str());
+                               SohGui::L(seqData.label.c_str()));
         } else {
-            ImGui::Text(StringHelper::Translate("%s").c_str(), seqData.label.c_str());
+            ImGui::Text("%s", SohGui::L(seqData.label.c_str()));
         }
         ImGui::TableNextColumn();
         ImGui::PushItemWidth(-FLT_MIN);
         const int initialValue = map.contains(currentValue) ? currentValue : defaultValue;
         UIWidgets::PushStyleCombobox(THEME_COLOR);
-        if (ImGui::BeginCombo(hiddenKey.c_str(), map.at(initialValue).label.c_str())) {
+        if (ImGui::BeginCombo(hiddenKey.c_str(), SohGui::L(map.at(initialValue).label.c_str()))) {
             for (const auto& [value, seqData] : map) {
                 // If excluded as a replacement sequence, don't show in other dropdowns except the effect's own
                 // dropdown.
@@ -357,7 +357,7 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
                     continue;
                 }
 
-                if (ImGui::Selectable(seqData.label.c_str())) {
+                if (ImGui::Selectable(SohGui::L(seqData.label.c_str()))) {
                     CVarSetInteger(cvarKey.c_str(), value);
                     Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
                     UpdateCurrentBGM(defaultValue, type);
@@ -394,7 +394,7 @@ void Draw_SfxTab(const std::string& tabId, SeqType type, const std::string& tabN
         if (UIWidgets::Button(randomizeButton.c_str(), UIWidgets::ButtonOptions()
                                                            .Size(UIWidgets::Sizes::Inline)
                                                            .Padding(ImVec2(10.0f, 6.0f))
-                                                           .Tooltip(StringHelper::Translate("Randomize this sound").c_str())
+                                                           .Tooltip("Randomize this sound")
                                                            .Color(THEME_COLOR))) {
             std::vector<SequenceInfo*> validSequences = {};
             for (const auto seqInfo : AudioCollection::Instance->GetIncludedSequences()) {
@@ -440,29 +440,29 @@ extern "C" u16 AudioEditor_GetReplacementSeq(u16 seqId) {
 std::string GetSequenceTypeName(SeqType type) {
     switch (type) {
         case SEQ_NOSHUFFLE:
-            return "No Shuffle";
+            return SohGui::L("No Shuffle");
         case SEQ_BGM_WORLD:
-            return "World";
+            return SohGui::L("World");
         case SEQ_BGM_EVENT:
-            return "Event";
+            return SohGui::L("Event");
         case SEQ_BGM_BATTLE:
-            return "Battle";
+            return SohGui::L("Battle");
         case SEQ_OCARINA:
-            return "Ocarina";
+            return SohGui::L("Ocarina");
         case SEQ_FANFARE:
-            return "Fanfare";
+            return SohGui::L("Fanfare");
         case SEQ_BGM_ERROR:
-            return "Error";
+            return SohGui::L("Error");
         case SEQ_SFX:
-            return "SFX";
+            return SohGui::L("SFX");
         case SEQ_VOICE:
-            return "Voice";
+            return SohGui::L("Voice");
         case SEQ_INSTRUMENT:
-            return "Instrument";
+            return SohGui::L("Instrument");
         case SEQ_BGM_CUSTOM:
-            return "Custom";
+            return SohGui::L("Custom");
         default:
-            return "No Sequence Type";
+            return SohGui::L("No Sequence Type");
     }
 }
 
@@ -539,33 +539,33 @@ void AudioEditor::DrawElement() {
     AudioCollection::Instance->InitializeShufflePool();
 
     UIWidgets::Separator();
-    if (UIWidgets::Button(StringHelper::Translate("Randomize All Groups").c_str(),
+    if (UIWidgets::Button(SohGui::L("Randomize All Groups"),
                           UIWidgets::ButtonOptions()
                               .Size(ImVec2(230.0f, 0.0f))
                               .Color(THEME_COLOR)
-                              .Tooltip(StringHelper::Translate("Randomizes all unlocked music and sound effects across tab groups").c_str()))) {
+                              .Tooltip(SohGui::L("Randomizes all unlocked music and sound effects across tab groups")))) {
         AudioEditor_RandomizeAll();
     }
     ImGui::SameLine();
-    if (UIWidgets::Button(StringHelper::Translate("Reset All Groups").c_str(),
+    if (UIWidgets::Button(SohGui::L("Reset All Groups"),
                           UIWidgets::ButtonOptions()
                               .Size(ImVec2(230.0f, 0.0f))
                               .Color(THEME_COLOR)
-                              .Tooltip(StringHelper::Translate("Resets all unlocked music and sound effects across tab groups").c_str()))) {
+                              .Tooltip(SohGui::L("Resets all unlocked music and sound effects across tab groups")))) {
         AudioEditor_ResetAll();
     }
     ImGui::SameLine();
-    if (UIWidgets::Button(StringHelper::Translate("Lock All Groups").c_str(), UIWidgets::ButtonOptions()
+    if (UIWidgets::Button(SohGui::L("Lock All Groups"), UIWidgets::ButtonOptions()
                                                  .Size(ImVec2(230.0f, 0.0f))
                                                  .Color(THEME_COLOR)
-                                                 .Tooltip(StringHelper::Translate("Locks all music and sound effects across tab groups").c_str()))) {
+                                                 .Tooltip(SohGui::L("Locks all music and sound effects across tab groups")))) {
         AudioEditor_LockAll();
     }
     ImGui::SameLine();
-    if (UIWidgets::Button(StringHelper::Translate("Unlock All Groups").c_str(), UIWidgets::ButtonOptions()
+    if (UIWidgets::Button(SohGui::L("Unlock All Groups"), UIWidgets::ButtonOptions()
                                                    .Size(ImVec2(230.0f, 0.0f))
                                                    .Color(THEME_COLOR)
-                                                   .Tooltip(StringHelper::Translate("Unlocks all music and sound effects across tab groups").c_str()))) {
+                                                   .Tooltip(SohGui::L("Unlocks all music and sound effects across tab groups")))) {
         AudioEditor_UnlockAll();
     }
     UIWidgets::Separator();
@@ -574,7 +574,7 @@ void AudioEditor::DrawElement() {
     if (ImGui::BeginTabBar("SfxContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
 
         static ImVec2 cellPadding(8.0f, 8.0f);
-        if (ImGui::BeginTabItem(StringHelper::Translate("Audio Options").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::L("Audio Options"))) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cellPadding);
             ImGui::BeginTable("Audio Options", 1, ImGuiTableFlags_SizingStretchSame);
             ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch);
@@ -593,7 +593,7 @@ void AudioEditor::DrawElement() {
                 SohGui::mSohMenu->MenuDrawItem(voicePitch, ImGui::GetContentRegionAvail().x, THEME_COLOR);
                 ImGui::SameLine();
                 ImGui::SetCursorPosY(ImGui::GetCursorPos().y + 40.f);
-                if (UIWidgets::Button("Reset##linkVoiceFreqMultiplier",
+                if (UIWidgets::Button(SohGui::L("Reset##linkVoiceFreqMultiplier"),
                                       UIWidgets::ButtonOptions().Size(ImVec2(80, 36)).Padding(ImVec2(5.0f, 0.0f)))) {
                     CVarSetFloat(CVAR_AUDIO("LinkVoiceFreqMultiplier"), 1.0f);
                 }
@@ -606,42 +606,42 @@ void AudioEditor::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem(StringHelper::Translate("Background Music").c_str())) {
-            Draw_SfxTab("backgroundMusic", SEQ_BGM_WORLD, "Background Music");
+        if (ImGui::BeginTabItem(SohGui::L("Background Music"))) {
+            Draw_SfxTab("backgroundMusic", SEQ_BGM_WORLD, SohGui::L("Background Music"));
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Fanfares").c_str())) {
-            Draw_SfxTab("fanfares", SEQ_FANFARE, "Fanfares");
+        if (ImGui::BeginTabItem(SohGui::L("Fanfares"))) {
+            Draw_SfxTab("fanfares", SEQ_FANFARE, SohGui::L("Fanfares"));
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Events").c_str())) {
-            Draw_SfxTab("event", SEQ_BGM_EVENT, "Events");
+        if (ImGui::BeginTabItem(SohGui::L("Events"))) {
+            Draw_SfxTab("event", SEQ_BGM_EVENT, SohGui::L("Events"));
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Battle Music").c_str())) {
-            Draw_SfxTab("battleMusic", SEQ_BGM_BATTLE, "Battle Music");
+        if (ImGui::BeginTabItem(SohGui::L("Battle Music"))) {
+            Draw_SfxTab("battleMusic", SEQ_BGM_BATTLE, SohGui::L("Battle Music"));
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Ending").c_str())) {
-            Draw_SfxTab("ending", SEQ_ENDING, "Ending");
+        if (ImGui::BeginTabItem(SohGui::L("Ending"))) {
+            Draw_SfxTab("ending", SEQ_ENDING, SohGui::L("Ending"));
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Ocarina").c_str())) {
-            Draw_SfxTab("instrument", SEQ_INSTRUMENT, "Instruments");
-            Draw_SfxTab("ocarina", SEQ_OCARINA, "Ocarina");
+        if (ImGui::BeginTabItem(SohGui::L("Ocarina"))) {
+            Draw_SfxTab("instrument", SEQ_INSTRUMENT, SohGui::L("Instruments"));
+            Draw_SfxTab("ocarina", SEQ_OCARINA, SohGui::L("Ocarina"));
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Sound Effects").c_str())) {
-            Draw_SfxTab("sfx", SEQ_SFX, "Sound Effects");
+        if (ImGui::BeginTabItem(SohGui::L("Sound Effects"))) {
+            Draw_SfxTab("sfx", SEQ_SFX, SohGui::L("Sound Effects"));
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem(StringHelper::Translate("Voices").c_str())) {
-            Draw_SfxTab("voice", SEQ_VOICE, "Voices");
+        if (ImGui::BeginTabItem(SohGui::L("Voices"))) {
+            Draw_SfxTab("voice", SEQ_VOICE, SohGui::L("Voices"));
             ImGui::EndTabItem();
         }
 
         static bool excludeTabOpen = false;
-        if (ImGui::BeginTabItem(StringHelper::Translate("Audio Shuffle Pool Management").c_str())) {
+        if (ImGui::BeginTabItem(SohGui::L("Audio Shuffle Pool Management"))) {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, cellPadding);
             if (!excludeTabOpen) {
                 excludeTabOpen = true;
@@ -659,10 +659,10 @@ void AudioEditor::DrawElement() {
 
             static ImGuiTextFilter sequenceSearch;
             UIWidgets::PushStyleInput(THEME_COLOR);
-            sequenceSearch.Draw("Filter (inc,-exc)", 490.0f);
+            sequenceSearch.Draw(SohGui::L("Filter (inc,-exc)"), 490.0f);
             UIWidgets::PopStyleInput();
             ImGui::SameLine();
-            if (UIWidgets::Button(StringHelper::Translate("Exclude All").c_str(),
+            if (UIWidgets::Button(SohGui::L("Exclude All"),
                                   UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR))) {
                 for (auto seqInfo : AudioCollection::Instance->GetIncludedSequences()) {
                     if (sequenceSearch.PassFilter(seqInfo->label.c_str()) && showType[seqInfo->category]) {
@@ -671,7 +671,7 @@ void AudioEditor::DrawElement() {
                 }
             }
             ImGui::SameLine();
-            if (UIWidgets::Button(StringHelper::Translate("Include All").c_str(),
+            if (UIWidgets::Button(SohGui::L("Include All"),
                                   UIWidgets::ButtonOptions().Size(UIWidgets::Sizes::Inline).Color(THEME_COLOR))) {
                 for (auto seqInfo : AudioCollection::Instance->GetExcludedSequences()) {
                     if (sequenceSearch.PassFilter(seqInfo->label.c_str()) && showType[seqInfo->category]) {
@@ -731,8 +731,8 @@ void AudioEditor::DrawElement() {
             ImGui::EndTable();
 
             if (ImGui::BeginTable("tableAllSequences", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-                ImGui::TableSetupColumn("Included", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-                ImGui::TableSetupColumn("Excluded", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+                ImGui::TableSetupColumn(SohGui::L("Included"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+                ImGui::TableSetupColumn(SohGui::L("Excluded"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
                 ImGui::TableHeadersRow();
                 ImGui::TableNextRow();
 
@@ -754,7 +754,7 @@ void AudioEditor::DrawElement() {
                         ImGui::SameLine();
                         DrawTypeChip(seqInfo->category, seqInfo->label);
                         ImGui::SameLine();
-                        ImGui::Text(StringHelper::Translate("%s").c_str(), seqInfo->label.c_str());
+                        ImGui::Text("%s", SohGui::L(seqInfo->label.c_str()));
                     }
                 }
                 ImGui::EndChild();
@@ -782,7 +782,7 @@ void AudioEditor::DrawElement() {
                         ImGui::SameLine();
                         DrawTypeChip(seqInfo->category, seqInfo->sfxKey);
                         ImGui::SameLine();
-                        ImGui::Text(StringHelper::Translate("%s").c_str(), seqInfo->label.c_str());
+                        ImGui::Text("%s", SohGui::L(seqInfo->label.c_str()));
                     }
                 }
                 ImGui::EndChild();
@@ -869,43 +869,43 @@ void AudioEditor_UnlockAll() {
 void RegisterAudioWidgets() {
     lowHpAlarm = { .name = "Mute Low HP Alarm", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     lowHpAlarm.CVar(CVAR_AUDIO("LowHpAlarm"))
-        .Options(CheckboxOptions().Color(THEME_COLOR).Tooltip(StringHelper::Translate("Disable the low HP beeping sound.").c_str()));
+        .Options(CheckboxOptions().Color(THEME_COLOR).Tooltip("Disable the low HP beeping sound."));
     SohGui::mSohMenu->AddSearchWidget({ lowHpAlarm, "Enhancements", "Audio Editor", "Audio Options" });
 
     naviCall = { .name = "Disable Navi Call Audio", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     naviCall.CVar(CVAR_AUDIO("DisableNaviCallAudio"))
-        .Options(CheckboxOptions().Color(THEME_COLOR).Tooltip(StringHelper::Translate("Disables the voice audio when Navi calls you.").c_str()));
+        .Options(CheckboxOptions().Color(THEME_COLOR).Tooltip("Disables the voice audio when Navi calls you."));
     SohGui::mSohMenu->AddSearchWidget({ naviCall, "Enhancements", "Audio Editor", "Audio Options" });
 
     enemyProx = { .name = "Disable Enemy Proximity Music", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     enemyProx.CVar(CVAR_AUDIO("EnemyBGMDisable"))
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip(StringHelper::Translate("Disables the music change when getting close to enemies. Useful for hearing "
-                              "your custom music for each scene more often.").c_str()));
+                     .Tooltip("Disables the music change when getting close to enemies. Useful for hearing "
+                              "your custom music for each scene more often."));
 
     leeverProx = { .name = "Enable Enemy Proximity Music for Leever", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     leeverProx.CVar(CVAR_AUDIO("LeeverEnemyBGM"))
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip(StringHelper::Translate("Plays the battle music when getting close to a Leever, like in Majora's Mask.").c_str()));
+                     .Tooltip("Plays the battle music when getting close to a Leever, like in Majora's Mask."));
 
     leadingMusic = { .name = "Disable Leading Music in Lost Woods", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     leadingMusic.CVar(CVAR_AUDIO("LostWoodsConsistentVolume"))
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip(StringHelper::Translate("Disables the volume shifting in the Lost Woods. Useful for hearing "
+                     .Tooltip("Disables the volume shifting in the Lost Woods. Useful for hearing "
                               "your custom music in the Lost Woods if you don't need the navigation assitance "
                               "the volume changing provides. If toggling this while in the Lost Woods, reload "
-                              "the area for the effect to kick in.").c_str()));
+                              "the area for the effect to kick in."));
     SohGui::mSohMenu->AddSearchWidget({ leadingMusic, "Enhancements", "Audio Editor", "Audio Options" });
 
     displaySeqName = { .name = "Display Sequence Name in Notifications", .type = WidgetType::WIDGET_CVAR_CHECKBOX };
     displaySeqName.CVar(CVAR_AUDIO("SeqNameNotification"))
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip(StringHelper::Translate("Emits a notification with the current song name whenever it changes. "
-                              "(does not apply to fanfares or enemy BGM).").c_str()));
+                     .Tooltip("Emits a notification with the current song name whenever it changes. "
+                              "(does not apply to fanfares or enemy BGM)."));
     SohGui::mSohMenu->AddSearchWidget({ displaySeqName, "Enhancements", "Audio Editor", "Audio Options" });
 
     ovlDuration = { .name = "Sequence Notification Duration: %d seconds", .type = WidgetType::WIDGET_CVAR_SLIDER_INT };
@@ -945,10 +945,10 @@ void RegisterAudioWidgets() {
     lowerOctaves.CVar(CVAR_AUDIO("ExperimentalOctaveDrop"))
         .Options(CheckboxOptions()
                      .Color(THEME_COLOR)
-                     .Tooltip(StringHelper::Translate("Some custom sequences may have notes that are too high for the game's audio "
+                     .Tooltip("Some custom sequences may have notes that are too high for the game's audio "
                               "engine to play. Enabling this checkbox will cause these notes to drop a "
                               "couple of octaves so they can still harmonize with the other notes of the "
-                              "sequence.").c_str()));
+                              "sequence."));
     SohGui::mSohMenu->AddSearchWidget({ lowerOctaves, "Enhancements", "Audio Editor", "Audio Options" });
 }
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_ko.c
  * Overlay: ovl_En_Ko
  * Description: Kokiri children, and Fado

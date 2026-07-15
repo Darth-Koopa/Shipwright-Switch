@@ -1,5 +1,4 @@
 #include "colViewer.h"
-#include <ship/utils/StringHelper.h>
 #include "soh/SohGui/UIWidgets.hpp"
 #include "soh/SohGui/SohGui.hpp"
 
@@ -70,16 +69,16 @@ void ColViewerWindow::DrawElement() {
 
     CVarCheckbox("Apply as decal", CVAR_DEVELOPER_TOOLS("ColViewer.Decal"),
                  checkOpt.DefaultValue(true).Tooltip(
-                     StringHelper::Translate("Applies the collision as a decal display. This can be useful if there is z-fighting occuring "
-                     "with the scene geometry, but can cause other artifacts.").c_str()));
+                     "Applies the collision as a decal display. This can be useful if there is z-fighting occuring "
+                     "with the scene geometry, but can cause other artifacts."));
     CVarCheckbox("Shaded", CVAR_DEVELOPER_TOOLS("ColViewer.Shaded"),
-                 checkOpt.DefaultValue(false).Tooltip(StringHelper::Translate("Applies the scene's shading to the collision display.").c_str()));
+                 checkOpt.DefaultValue(false).Tooltip("Applies the scene's shading to the collision display."));
 
     // This has to be duplicated in both code paths due to the nature of ImGui::IsItemHovered()
     const std::string colorHelpText = "View and change the colors used for collision display.";
     PushStyleHeader(THEME_COLOR);
-    if (ImGui::TreeNode("Colors")) {
-        UIWidgets::Tooltip(colorHelpText.c_str());
+    if (ImGui::TreeNode(SohGui::L("Colors"))) {
+        UIWidgets::Tooltip(SohGui::L(colorHelpText.c_str()));
 
         if (CVarColorPicker("Normal", CVAR_DEVELOPER_TOOLS("ColViewer.ColorNormal"), { 255, 255, 255, 255 }, false,
                             ColorPickerResetButton | ColorPickerRandomButton, THEME_COLOR)) {
@@ -142,7 +141,7 @@ void ColViewerWindow::DrawElement() {
 
         ImGui::TreePop();
     } else {
-        UIWidgets::Tooltip(colorHelpText.c_str());
+        UIWidgets::Tooltip(SohGui::L(colorHelpText.c_str()));
     }
     PopStyleHeader();
     ImGui::EndDisabled();

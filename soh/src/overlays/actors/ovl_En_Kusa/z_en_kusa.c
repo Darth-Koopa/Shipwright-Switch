@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_kusa.c
  * Overlay: ovl_en_kusa
  * Description: Bush

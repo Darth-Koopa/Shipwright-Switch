@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_ru2.c
  * Overlay: En_Ru2
  * Description: Adult Ruto

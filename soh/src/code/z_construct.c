@@ -1,4 +1,4 @@
-﻿#include "global.h"
+#include "global.h"
 #include <textures/do_action_static/do_action_static.h>
 #include <assert.h>
 #include "soh/ResourceManagerHelpers.h"

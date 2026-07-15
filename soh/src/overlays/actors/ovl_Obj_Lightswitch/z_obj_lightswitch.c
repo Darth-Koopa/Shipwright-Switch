@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_obj_lightswitch.c
  * Overlay: ovl_Obj_Lightswitch
  * Description: Sun Emblem Trigger (Spirit Temple)

@@ -472,6 +472,3 @@ soh/properties.h
 
 # Cloud textures extracted from the user's Wind Waker ROM (copyrighted; generated, not committed)
 /ww-cloud-assets/
-
-# Local build logs (backup noise)
-*.log

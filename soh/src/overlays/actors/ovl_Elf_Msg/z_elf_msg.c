@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_elf_msg.c
  * Overlay: ovl_Elf_Msg
  * Description: Readable Navi call spot

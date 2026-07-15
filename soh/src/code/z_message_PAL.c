@@ -1,4 +1,4 @@
-﻿#include "global.h"
+#include "global.h"
 #include "message_data_static.h"
 #include "vt.h"
 

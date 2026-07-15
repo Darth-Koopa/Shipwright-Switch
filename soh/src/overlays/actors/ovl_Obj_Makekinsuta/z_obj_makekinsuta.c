@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_obj_makekinsuta.c
  * Overlay: ovl_Obj_Makekinsuta
  * Description: Skulltula Sprouting from Bean Spot

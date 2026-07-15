@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_niw.c
  * Overlay: ovl_En_Niw
  * Description: Cucco

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_changer.c
  * Overlay: ovl_En_Changer
  * Description: Treasure Box Shop Minigame

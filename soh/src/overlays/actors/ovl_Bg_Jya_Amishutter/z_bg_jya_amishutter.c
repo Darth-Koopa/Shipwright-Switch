@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_bg_jya_amishutter.c
  * Overlay: Bg_Jya_Amishutter
  * Description: Circular metal grate. Lifts up when you get close to it.

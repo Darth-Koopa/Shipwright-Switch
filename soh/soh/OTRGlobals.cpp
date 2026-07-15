@@ -1,4 +1,4 @@
-﻿#include "OTRGlobals.h"
+#include "OTRGlobals.h"
 #include "OTRAudio.h"
 #include <algorithm>
 #include <atomic>
@@ -34,7 +34,6 @@
 #include "frame_interpolation.h"
 #include "SohGui/SohMenu.h"
 #include "SohGui/SohGui.hpp"
-#include "SohGui/Localization.h"
 #include "variables.h"
 #include "z64.h"
 #include "macros.h"
@@ -311,28 +310,15 @@ OTRGlobals::OTRGlobals() {
         overlay->LoadFont("Fipps", 32.0f, "fonts/Fipps-Regular.otf");
         overlay->SetCurrentFont(CVarGetString(CVAR_GAME_OVERLAY_FONT, "Press Start 2P"));
 
-        fontMonoSmall = CreateFontWithSize(14.0f, "fonts/Inconsolata-Regular.ttf");
-        fontMono = CreateFontWithSize(16.0f, "fonts/Inconsolata-Regular.ttf");
-        fontMonoLarger = CreateFontWithSize(20.0f, "fonts/Inconsolata-Regular.ttf");
-        fontMonoLargest = CreateFontWithSize(24.0f, "fonts/Inconsolata-Regular.ttf");
-        fontStandard = CreateFontWithSize(16.0f, "fonts/Montserrat-Regular.ttf");
-        fontStandardLarger = CreateFontWithSize(20.0f, "fonts/Montserrat-Regular.ttf");
-        fontStandardLargest = CreateFontWithSize(24.0f, "fonts/Montserrat-Regular.ttf");
+        fontMonoSmall = CreateFontWithSize(14.0f, "fonts/Inconsolata-Regular.ttf", false, true);
+        fontMono = CreateFontWithSize(16.0f, "fonts/Inconsolata-Regular.ttf", false, true);
+        fontMonoLarger = CreateFontWithSize(20.0f, "fonts/Inconsolata-Regular.ttf", false, true);
+        fontMonoLargest = CreateFontWithSize(24.0f, "fonts/Inconsolata-Regular.ttf", false, true);
+        fontStandard = CreateFontWithSize(16.0f, "fonts/Montserrat-Regular.ttf", false, true);
+        fontStandardLarger = CreateFontWithSize(20.0f, "fonts/Montserrat-Regular.ttf", false, true);
+        fontStandardLargest = CreateFontWithSize(24.0f, "fonts/Montserrat-Regular.ttf", false, true);
         fontJapanese = CreateFontWithSize(24.0f, "fonts/NotoSansJP-Regular.ttf", true);
         ImGui::GetIO().FontDefault = fontStandardLarger;
-
-        // Merge Simplified-Chinese glyphs into every UI font the menu can render with.
-        // These are separate ImFont objects from ImGui's built-in default font, so merging
-        // into the default font (as the libultraship font-setup callback does) would NOT
-        // make Chinese render in the menu. We merge into each actual font at its own size.
-        SohGui::MergeSimplifiedChineseInto(fontStandard, 16.0f);
-        SohGui::MergeSimplifiedChineseInto(fontStandardLarger, 20.0f);
-        SohGui::MergeSimplifiedChineseInto(fontStandardLargest, 24.0f);
-        SohGui::MergeSimplifiedChineseInto(fontMonoSmall, 14.0f);
-        SohGui::MergeSimplifiedChineseInto(fontMono, 16.0f);
-        SohGui::MergeSimplifiedChineseInto(fontMonoLarger, 20.0f);
-        SohGui::MergeSimplifiedChineseInto(fontMonoLargest, 24.0f);
-        // fontJapanese already covers CJK via GetGlyphRangesJapanese(), so no merge needed.
     }
 
     previousImGuiScaleIndex = -1;
@@ -755,7 +741,7 @@ void OTRGlobals::RunExtract(int argc, char* argv[]) {
                                                ImGuiWindowFlags_NoSavedSettings)) {
                     float progress = (totalExtract > 0.0f ? (float)extractCount / (float)totalExtract : 0) * 100.0f;
                     auto filename = std::filesystem::path(file).filename().string();
-                    ImGui::Text("Extracting %s...%s", filename.c_str(),
+                    ImGui::Text(SohGui::L("Extracting %s...%s"), filename.c_str(),
                                 roundf(progress) == 100.0f ? " Done. Finishing up." : "");
                     std::string overlay = extractCount > 0 ? fmt::format("{:.0f}%", progress) : "Starting Up";
                     ImGui::ProgressBar(progress / 100.0f, ImVec2(600.0f, 50.0f), overlay.c_str());
@@ -1899,7 +1885,7 @@ extern "C" SoundFontSample* ReadCustomSample(const char* path) {
     */
 }
 
-ImFont* OTRGlobals::CreateFontWithSize(float size, std::string fontPath, bool isJapaneseFont) {
+ImFont* OTRGlobals::CreateFontWithSize(float size, std::string fontPath, bool isJapaneseFont, bool mergeCJK) {
     auto mImGuiIo = &ImGui::GetIO();
     ImFont* font;
     if (fontPath == "") {
@@ -1930,6 +1916,81 @@ ImFont* OTRGlobals::CreateFontWithSize(float size, std::string fontPath, bool is
     iconsConfig.GlyphMinAdvanceX = iconFontSize;
     mImGuiIo->Fonts->AddFontFromMemoryCompressedBase85TTF(fontawesome_compressed_data_base85, iconFontSize,
                                                           &iconsConfig, sIconsRanges);
+
+    // Merge Simplified Chinese glyphs into this font so translated Chinese UI text renders correctly.
+    // The full CJK fallback font (DroidSansFallback.ttf) is loaded from the directory next to the
+    // executable; if it is missing we fall back to the bundled NotoSansJP subset. With MergeMode the
+    // glyphs are baked into the same ImFont used for Latin text, so no runtime font switching is needed.
+    if (mergeCJK) {
+        static const ImWchar sChineseGlyphRanges[] = {
+            0x0020, 0x00FF,   // Basic Latin + Latin-1 Supplement (incl. '·' and Latin)
+            0x2000, 0x206F,   // General Punctuation (— – ‘ ’ “ ” … • ‚ „)
+            0x2190, 0x21FF,   // Arrows (← → ↑ ↓ ↕)
+            0x3000, 0x303F,   // CJK Symbols and Punctuation (、 。)
+            0x4E00, 0x9FFF,   // CJK Unified Ideographs
+            0xFF00, 0xFFEF,   // Halfwidth and Fullwidth Forms (！ （ ） ： ， 。 ？ ～)
+            0,
+        };
+        bool cjkMerged = false;
+        std::string cjkFontPath =
+            Ship::Context::GetPathRelativeToAppDirectory("DroidSansFallback.ttf");
+        if (std::filesystem::exists(cjkFontPath)) {
+            ImFontConfig cjkConfig;
+            cjkConfig.MergeMode = true;
+            cjkConfig.PixelSnapH = true;
+            mImGuiIo->Fonts->AddFontFromFileTTF(cjkFontPath.c_str(), size, &cjkConfig, sChineseGlyphRanges);
+            cjkMerged = true;
+        } else {
+            // Fallback: reuse the bundled Noto Sans JP font from the resource pack.
+            auto cjkInitData = std::make_shared<Ship::ResourceInitData>();
+            cjkInitData->Format = RESOURCE_FORMAT_BINARY;
+            cjkInitData->Type = static_cast<uint32_t>(RESOURCE_TYPE_FONT);
+            cjkInitData->ResourceVersion = 0;
+            cjkInitData->Path = "fonts/NotoSansJP-Regular.ttf";
+            std::shared_ptr<Ship::Font> cjkFontData = std::static_pointer_cast<Ship::Font>(
+                Ship::Context::GetInstance()->GetResourceManager()->LoadResource("fonts/NotoSansJP-Regular.ttf", false,
+                                                                                 cjkInitData));
+            if (cjkFontData != nullptr && cjkFontData->Data != nullptr) {
+                ImFontConfig cjkConfig;
+                cjkConfig.MergeMode = true;
+                cjkConfig.FontDataOwnedByAtlas = false;
+                cjkConfig.PixelSnapH = true;
+                mImGuiIo->Fonts->AddFontFromMemoryTTF(cjkFontData->Data, cjkFontData->DataSize, size, &cjkConfig,
+                                                      sChineseGlyphRanges);
+                cjkMerged = true;
+            }
+        }
+        if (!cjkMerged) {
+            SPDLOG_WARN("Chinese font glyphs could not be loaded (looked for DroidSansFallback.ttf next to "
+                        "soh.exe and the bundled NotoSansJP). Chinese UI text will show as '?'.");
+        }
+
+        // Supplementary merge: DroidSansFallback.ttf lacks some Latin punctuation glyphs (e.g. the
+        // curly double quotes “ ” U+201C/U+201D), which then render as '?'. The bundled Noto Sans JP
+        // font does contain them, so merge the General Punctuation block from it as a guaranteed
+        // fallback so quotes/punctuation always render regardless of which primary CJK font is used.
+        static const ImWchar sPunctuationGlyphRanges[] = {
+            0x2000, 0x206F, // General Punctuation (“ ” ‘ ’ — – … • ‚ „ etc.)
+            0,
+        };
+        auto punctInitData = std::make_shared<Ship::ResourceInitData>();
+        punctInitData->Format = RESOURCE_FORMAT_BINARY;
+        punctInitData->Type = static_cast<uint32_t>(RESOURCE_TYPE_FONT);
+        punctInitData->ResourceVersion = 0;
+        punctInitData->Path = "fonts/NotoSansJP-Regular.ttf";
+        std::shared_ptr<Ship::Font> punctFontData = std::static_pointer_cast<Ship::Font>(
+            Ship::Context::GetInstance()->GetResourceManager()->LoadResource("fonts/NotoSansJP-Regular.ttf", false,
+                                                                             punctInitData));
+        if (punctFontData != nullptr && punctFontData->Data != nullptr) {
+            ImFontConfig punctConfig;
+            punctConfig.MergeMode = true;
+            punctConfig.FontDataOwnedByAtlas = false;
+            punctConfig.PixelSnapH = true;
+            mImGuiIo->Fonts->AddFontFromMemoryTTF(punctFontData->Data, punctFontData->DataSize, size, &punctConfig,
+                                                  sPunctuationGlyphRanges);
+        }
+    }
+
     return font;
 }
 

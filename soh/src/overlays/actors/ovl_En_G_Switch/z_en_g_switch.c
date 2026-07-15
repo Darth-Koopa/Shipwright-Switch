@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_g_switch.c
  * Overlay: ovl_En_G_Switch
  * Description: Silver rupees, shooting gallery targets, and horseback archery pots

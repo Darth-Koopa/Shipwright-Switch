@@ -1,4 +1,4 @@
-﻿#include "z_bg_spot18_basket.h"
+#include "z_bg_spot18_basket.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 #include "vt.h"
 #include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"

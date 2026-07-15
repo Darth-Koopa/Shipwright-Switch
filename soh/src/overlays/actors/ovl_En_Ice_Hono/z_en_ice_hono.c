@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_ice_hono.c
  * Overlay: ovl_En_Ice_Hono
  * Description: The various types of Blue Fire

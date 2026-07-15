@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_ta.c
  * Overlay: ovl_En_Ta
  * Description: Talon

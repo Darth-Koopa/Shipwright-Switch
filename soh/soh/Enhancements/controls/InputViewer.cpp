@@ -1,5 +1,4 @@
 #include "InputViewer.h"
-#include <ship/utils/StringHelper.h>
 
 #include <libultraship/bridge/consolevariablebridge.h>
 #include "libultraship/libultra/controller.h"
@@ -21,21 +20,41 @@ static Color_RGBA8 textColorDefault = { 255, 255, 255, 255 };
 static Color_RGBA8 range1ColorDefault = { 255, 178, 0, 255 };
 static Color_RGBA8 range2ColorDefault = { 0, 255, 0, 255 };
 
-static std::map<int32_t, const char*> buttonOutlineOptions = { { BUTTON_OUTLINE_ALWAYS_SHOWN, StringHelper::Translate("Always Shown").c_str() },
+static std::map<int32_t, const char*> buttonOutlineOptions = { { BUTTON_OUTLINE_ALWAYS_SHOWN, "Always Shown" },
                                                                { BUTTON_OUTLINE_NOT_PRESSED,
-                                                                 StringHelper::Translate("Shown Only While Not Pressed").c_str() },
-                                                               { BUTTON_OUTLINE_PRESSED, StringHelper::Translate("Shown Only While Pressed").c_str() },
-                                                               { BUTTON_OUTLINE_ALWAYS_HIDDEN, StringHelper::Translate("Always Hidden").c_str() } };
+                                                                 "Shown Only While Not Pressed" },
+                                                               { BUTTON_OUTLINE_PRESSED, "Shown Only While Pressed" },
+                                                               { BUTTON_OUTLINE_ALWAYS_HIDDEN, "Always Hidden" } };
 static std::map<int32_t, const char*> buttonOutlineOptionsVerbose = {
-    { BUTTON_OUTLINE_ALWAYS_SHOWN, StringHelper::Translate("Outline Always Shown").c_str() },
-    { BUTTON_OUTLINE_NOT_PRESSED, StringHelper::Translate("Outline Shown Only While Not Pressed").c_str() },
-    { BUTTON_OUTLINE_PRESSED, StringHelper::Translate("Outline Shown Only While Pressed").c_str() },
-    { BUTTON_OUTLINE_ALWAYS_HIDDEN, StringHelper::Translate("Outline Always Hidden").c_str() }
+    { BUTTON_OUTLINE_ALWAYS_SHOWN, "Outline Always Shown" },
+    { BUTTON_OUTLINE_NOT_PRESSED, "Outline Shown Only While Not Pressed" },
+    { BUTTON_OUTLINE_PRESSED, "Outline Shown Only While Pressed" },
+    { BUTTON_OUTLINE_ALWAYS_HIDDEN, "Outline Always Hidden" }
 };
 
 static std::map<int32_t, const char*> stickModeOptions = { { STICK_MODE_ALWAYS_SHOWN, "Always" },
                                                            { STICK_MODE_HIDDEN_IN_DEADZONE, "While In Use" },
                                                            { STICK_MODE_ALWAYS_HIDDEN, "Never" } };
+
+// Returns a copy of stickModeOptions with each display value localized via SohGui::L().
+// Re-evaluated per call so it honors runtime language switching.
+static std::map<int32_t, const char*> GetStickModeOptionsTranslated() {
+    std::map<int32_t, const char*> translated;
+    for (const auto& [key, val] : stickModeOptions) {
+        translated[key] = SohGui::L(val);
+    }
+    return translated;
+}
+
+// Returns a copy of buttonOutlineOptions with each display value localized via SohGui::L().
+// Re-evaluated per call so it honors runtime language switching.
+static std::map<int32_t, const char*> GetButtonOutlineOptionsTranslated() {
+    std::map<int32_t, const char*> translated;
+    for (const auto& [key, val] : buttonOutlineOptions) {
+        translated[key] = SohGui::L(val);
+    }
+    return translated;
+}
 
 InputViewer::~InputViewer() {
     SPDLOG_TRACE("destruct input viewer");
@@ -428,7 +447,7 @@ void InputViewer::DrawElement() {
                 }
 
                 // Render text
-                ImGui::Text(StringHelper::Translate("X: %-3d  Y: %-3d").c_str(), pads[0].stick_x, pads[0].stick_y);
+                ImGui::Text(SohGui::L("X: %-3d  Y: %-3d"), pads[0].stick_x, pads[0].stick_y);
                 // Restore original color
                 ImGui::PopStyleColor();
                 // Restore original font scale
@@ -450,42 +469,43 @@ InputViewerSettingsWindow::~InputViewerSettingsWindow() {
 
 void InputViewerSettingsWindow::DrawElement() {
     // gInputViewer.Scale
-    CVarSliderFloat(StringHelper::Translate("Input Viewer Scale: %.2f").c_str(), CVAR_INPUT_VIEWER("Scale"),
+    CVarSliderFloat("Input Viewer Scale: %.2f", CVAR_INPUT_VIEWER("Scale"),
                     FloatSliderOptions()
                         .Color(THEME_COLOR)
                         .DefaultValue(1.0f)
                         .Min(0.1f)
                         .Max(5.0f)
                         .ShowButtons(true)
-                        .Tooltip(StringHelper::Translate("Sets the on screen size of the input viewer").c_str()));
+                        .Tooltip("Sets the on screen size of the input viewer"));
 
     // gInputViewer.EnableDragging
-    CVarCheckbox(StringHelper::Translate("Enable Dragging").c_str(), CVAR_INPUT_VIEWER("EnableDragging"),
+    CVarCheckbox("Enable Dragging", CVAR_INPUT_VIEWER("EnableDragging"),
                  CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
 
     UIWidgets::PaddedSeparator(true, true);
 
     // gInputViewer.ShowBackground
-    CVarCheckbox(StringHelper::Translate("Show Background Layer").c_str(), CVAR_INPUT_VIEWER("ShowBackground"),
+    CVarCheckbox("Show Background Layer", CVAR_INPUT_VIEWER("ShowBackground"),
                  CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
 
     UIWidgets::PaddedSeparator(true, true);
 
     PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader(StringHelper::Translate("Buttons").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::L("Buttons"))) {
 
         // gInputViewer.ButtonOutlineMode
         CVarCombobox(
-            StringHelper::Translate("Button Outlines/Backgrounds").c_str(), CVAR_INPUT_VIEWER("ButtonOutlineMode"), buttonOutlineOptions,
+            "Button Outlines/Backgrounds", CVAR_INPUT_VIEWER("ButtonOutlineMode"),
+            GetButtonOutlineOptionsTranslated(),
             ComboboxOptions({ { .disabled = !CVarGetInteger(CVAR_INPUT_VIEWER("UseGlobalButtonOutlineMode"), 1),
                                 .disabledTooltip = "Disabled because Global Button Outline is off" } })
                 .Color(THEME_COLOR)
                 .DefaultIndex(BUTTON_OUTLINE_NOT_PRESSED)
-                .Tooltip(StringHelper::Translate("Sets the desired visibility behavior for the button outline/background layers. Useful for "
-                         "custom input viewers.").c_str()));
+                .Tooltip("Sets the desired visibility behavior for the button outline/background layers. Useful for "
+                         "custom input viewers."));
 
         // gInputViewer.UseGlobalButtonOutlineMode
-        CVarCheckbox(StringHelper::Translate("Use for all buttons").c_str(), CVAR_INPUT_VIEWER("UseGlobalButtonOutlineMode"),
+        CVarCheckbox("Use for all buttons", CVAR_INPUT_VIEWER("UseGlobalButtonOutlineMode"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
 
         UIWidgets::PaddedSeparator();
@@ -493,7 +513,7 @@ void InputViewerSettingsWindow::DrawElement() {
         bool useIndividualOutlines = !CVarGetInteger(CVAR_INPUT_VIEWER("UseGlobalButtonOutlineMode"), 1);
 
         // gInputViewer.ABtn
-        CVarCheckbox(StringHelper::Translate("Show A-Button Layers").c_str(), CVAR_INPUT_VIEWER("ABtn"),
+        CVarCheckbox("Show A-Button Layers", CVAR_INPUT_VIEWER("ABtn"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("ABtn"), 1)) {
             ImGui::Indent();
@@ -502,7 +522,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.BBtn
-        CVarCheckbox(StringHelper::Translate("Show B-Button Layers").c_str(), CVAR_INPUT_VIEWER("BBtn"),
+        CVarCheckbox("Show B-Button Layers", CVAR_INPUT_VIEWER("BBtn"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("BBtn"), 1)) {
             ImGui::Indent();
@@ -511,7 +531,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.CUp
-        CVarCheckbox(StringHelper::Translate("Show C-Up Layers").c_str(), CVAR_INPUT_VIEWER("CUp"),
+        CVarCheckbox("Show C-Up Layers", CVAR_INPUT_VIEWER("CUp"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("CUp"), 1)) {
             ImGui::Indent();
@@ -520,7 +540,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.CRight
-        CVarCheckbox(StringHelper::Translate("Show C-Right Layers").c_str(), CVAR_INPUT_VIEWER("CRight"),
+        CVarCheckbox("Show C-Right Layers", CVAR_INPUT_VIEWER("CRight"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("CRight"), 1)) {
             ImGui::Indent();
@@ -529,7 +549,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.CDown
-        CVarCheckbox(StringHelper::Translate("Show C-Down Layers").c_str(), CVAR_INPUT_VIEWER("CDown"),
+        CVarCheckbox("Show C-Down Layers", CVAR_INPUT_VIEWER("CDown"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("CDown"), 1)) {
             ImGui::Indent();
@@ -538,7 +558,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.CLeft
-        CVarCheckbox(StringHelper::Translate("Show C-Left Layers").c_str(), CVAR_INPUT_VIEWER("CLeft"),
+        CVarCheckbox("Show C-Left Layers", CVAR_INPUT_VIEWER("CLeft"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("CLeft"), 1)) {
             ImGui::Indent();
@@ -547,7 +567,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.LBtn
-        CVarCheckbox(StringHelper::Translate("Show L-Button Layers").c_str(), CVAR_INPUT_VIEWER("LBtn"),
+        CVarCheckbox("Show L-Button Layers", CVAR_INPUT_VIEWER("LBtn"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("LBtn"), 1)) {
             ImGui::Indent();
@@ -556,7 +576,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.RBtn
-        CVarCheckbox(StringHelper::Translate("Show R-Button Layers").c_str(), CVAR_INPUT_VIEWER("RBtn"),
+        CVarCheckbox("Show R-Button Layers", CVAR_INPUT_VIEWER("RBtn"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("RBtn"), 1)) {
             ImGui::Indent();
@@ -565,7 +585,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.ZBtn
-        CVarCheckbox(StringHelper::Translate("Show Z-Button Layers").c_str(), CVAR_INPUT_VIEWER("ZBtn"),
+        CVarCheckbox("Show Z-Button Layers", CVAR_INPUT_VIEWER("ZBtn"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("ZBtn"), 1)) {
             ImGui::Indent();
@@ -574,7 +594,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.StartBtn
-        CVarCheckbox(StringHelper::Translate("Show Start Button Layers").c_str(), CVAR_INPUT_VIEWER("StartBtn"),
+        CVarCheckbox("Show Start Button Layers", CVAR_INPUT_VIEWER("StartBtn"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("StartBtn"), 1)) {
             ImGui::Indent();
@@ -583,7 +603,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.Dpad
-        CVarCheckbox(StringHelper::Translate("Show D-Pad Layers").c_str(), CVAR_INPUT_VIEWER("Dpad"),
+        CVarCheckbox("Show D-Pad Layers", CVAR_INPUT_VIEWER("Dpad"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(false));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("Dpad"), 0)) {
             ImGui::Indent();
@@ -592,7 +612,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.Mod1
-        CVarCheckbox(StringHelper::Translate("Show Modifier Button 1 Layers").c_str(), CVAR_INPUT_VIEWER("Mod1"),
+        CVarCheckbox("Show Modifier Button 1 Layers", CVAR_INPUT_VIEWER("Mod1"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(false));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("Mod1"), 0)) {
             ImGui::Indent();
@@ -601,7 +621,7 @@ void InputViewerSettingsWindow::DrawElement() {
             ImGui::Unindent();
         }
         // gInputViewer.Mod2
-        CVarCheckbox(StringHelper::Translate("Show Modifier Button 2 Layers").c_str(), CVAR_INPUT_VIEWER("Mod2"),
+        CVarCheckbox("Show Modifier Button 2 Layers", CVAR_INPUT_VIEWER("Mod2"),
                      CheckboxOptions().Color(THEME_COLOR).DefaultValue(false));
         if (useIndividualOutlines && CVarGetInteger(CVAR_INPUT_VIEWER("Mod2"), 0)) {
             ImGui::Indent();
@@ -613,43 +633,43 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader(StringHelper::Translate("Analog Stick").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::L("Analog Stick"))) {
         // gInputViewer.AnalogStick.VisibilityMode
         CVarCombobox(
-            "Analog Stick Visibility", CVAR_INPUT_VIEWER("AnalogStick.VisibilityMode"), stickModeOptions,
+            "Analog Stick Visibility", CVAR_INPUT_VIEWER("AnalogStick.VisibilityMode"), GetStickModeOptionsTranslated(),
             ComboboxOptions()
                 .Color(THEME_COLOR)
                 .DefaultIndex(STICK_MODE_ALWAYS_SHOWN)
                 .Tooltip(
-                    StringHelper::Translate("Determines the conditions under which the moving layer of the analog stick texture is visible.").c_str()));
+                    "Determines the conditions under which the moving layer of the analog stick texture is visible."));
 
         // gInputViewer.AnalogStick.OutlineMode
         CVarCombobox(
             "Analog Stick Outline/Background Visibility", CVAR_INPUT_VIEWER("AnalogStick.OutlineMode"),
-            stickModeOptions,
+            GetStickModeOptionsTranslated(),
             ComboboxOptions()
                 .Color(THEME_COLOR)
                 .DefaultIndex(STICK_MODE_ALWAYS_SHOWN)
                 .Tooltip(
-                    StringHelper::Translate("Determines the conditions under which the analog stick outline/background texture is visible.").c_str()));
+                    "Determines the conditions under which the analog stick outline/background texture is visible."));
 
         // gInputViewer.AnalogStick.Movement
-        CVarSliderInt(StringHelper::Translate("Analog Stick Movement: %dpx").c_str(), CVAR_INPUT_VIEWER("AnalogStick.Movement"),
+        CVarSliderInt("Analog Stick Movement: %dpx", CVAR_INPUT_VIEWER("AnalogStick.Movement"),
                       IntSliderOptions()
                           .Color(THEME_COLOR)
                           .Min(0)
                           .Max(200)
                           .DefaultValue(12)
                           .ShowButtons(true)
-                          .Tooltip(StringHelper::Translate("Sets the distance to move the analog stick in the input viewer. Useful for custom "
-                                   "input viewers.").c_str()));
+                          .Tooltip("Sets the distance to move the analog stick in the input viewer. Useful for custom "
+                                   "input viewers."));
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader(StringHelper::Translate("Additional (\"Right\") Stick").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::L("Additional (\"Right\") Stick"))) {
         // gInputViewer.RightStick.VisibilityMode
         CVarCombobox(
-            "Right Stick Visibility", CVAR_INPUT_VIEWER("RightStick.VisibilityMode"), stickModeOptions,
+            "Right Stick Visibility", CVAR_INPUT_VIEWER("RightStick.VisibilityMode"), GetStickModeOptionsTranslated(),
             ComboboxOptions()
                 .Color(THEME_COLOR)
                 .DefaultIndex(STICK_MODE_ALWAYS_HIDDEN)
@@ -658,7 +678,8 @@ void InputViewerSettingsWindow::DrawElement() {
 
         // gInputViewer.RightStick.OutlineMode
         CVarCombobox(
-            "Right Stick Outline/Background Visibility", CVAR_INPUT_VIEWER("RightStick.OutlineMode"), stickModeOptions,
+            "Right Stick Outline/Background Visibility", CVAR_INPUT_VIEWER("RightStick.OutlineMode"),
+            GetStickModeOptionsTranslated(),
             ComboboxOptions()
                 .Color(THEME_COLOR)
                 .DefaultIndex(STICK_MODE_ALWAYS_HIDDEN)
@@ -667,7 +688,7 @@ void InputViewerSettingsWindow::DrawElement() {
 
         // gInputViewer.RightStick.Movement
         CVarSliderInt(
-            StringHelper::Translate("Right Stick Movement: %dpx").c_str(), CVAR_INPUT_VIEWER("RightStick.Movement"),
+            "Right Stick Movement: %dpx", CVAR_INPUT_VIEWER("RightStick.Movement"),
             IntSliderOptions()
                 .Color(THEME_COLOR)
                 .Min(0)
@@ -675,15 +696,15 @@ void InputViewerSettingsWindow::DrawElement() {
                 .DefaultValue(7)
                 .ShowButtons(true)
                 .Tooltip(
-                    StringHelper::Translate("Sets the distance to move the right stick in the input viewer. Useful for custom input viewers.").c_str()));
+                    "Sets the distance to move the right stick in the input viewer. Useful for custom input viewers."));
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader(StringHelper::Translate("Analog Angle Values").c_str())) {
+    if (ImGui::CollapsingHeader(SohGui::L("Analog Angle Values"))) {
         // gAnalogAngles
         CVarCheckbox(
-            StringHelper::Translate("Show Analog Stick Angle Values").c_str(), CVAR_INPUT_VIEWER("AnalogAngles.Enabled"),
-            CheckboxOptions().Color(THEME_COLOR).Tooltip(StringHelper::Translate("Displays analog stick angle values in the input viewer").c_str()));
+            "Show Analog Stick Angle Values", CVAR_INPUT_VIEWER("AnalogAngles.Enabled"),
+            CheckboxOptions().Color(THEME_COLOR).Tooltip("Displays analog stick angle values in the input viewer"));
         if (CVarGetInteger(CVAR_INPUT_VIEWER("AnalogAngles.Enabled"), 0)) {
             // gInputViewer.AnalogAngles.TextColor
             CVarColorPicker("Text Color", CVAR_INPUT_VIEWER("AnalogAngles.TextColor"), textColorDefault, true,
@@ -698,15 +719,15 @@ void InputViewerSettingsWindow::DrawElement() {
                                 .DefaultValue(1.0f)
                                 .ShowButtons(true));
             // gInputViewer.AnalogAngles.Offset
-            CVarSliderInt(StringHelper::Translate("Angle Text Offset: %dpx").c_str(), CVAR_INPUT_VIEWER("AnalogAngles.Offset"),
+            CVarSliderInt("Angle Text Offset: %dpx", CVAR_INPUT_VIEWER("AnalogAngles.Offset"),
                           IntSliderOptions()
                               .Color(THEME_COLOR)
                               .Min(0)
                               .Max(400)
                               .DefaultValue(0)
                               .ShowButtons(true)
-                              .Tooltip(StringHelper::Translate("Sets the distance to move the right stick in the input viewer. Useful for "
-                                       "custom input viewers.").c_str()));
+                              .Tooltip("Sets the distance to move the right stick in the input viewer. Useful for "
+                                       "custom input viewers."));
             UIWidgets::PaddedSeparator(true, true);
             // gInputViewer.AnalogAngles.Range1.Enabled
             CVarCheckbox(
@@ -714,7 +735,7 @@ void InputViewerSettingsWindow::DrawElement() {
                 CheckboxOptions()
                     .Color(THEME_COLOR)
                     .Tooltip(
-                        StringHelper::Translate("Highlights the angle value text when the analog stick is in ESS position (on flat ground)").c_str()));
+                        "Highlights the angle value text when the analog stick is in ESS position (on flat ground)"));
             if (CVarGetInteger(CVAR_INPUT_VIEWER("AnalogAngles.Range1.Enabled"), 0)) {
                 // gInputViewer.AnalogAngles.Range1.Color
                 CVarColorPicker("ESS Color", CVAR_INPUT_VIEWER("AnalogAngles.Range1.Color"), range1ColorDefault, true,
@@ -723,7 +744,7 @@ void InputViewerSettingsWindow::DrawElement() {
 
             UIWidgets::PaddedSeparator(true, true);
             // gInputViewer.AnalogAngles.Range2.Enabled
-            CVarCheckbox(StringHelper::Translate("Highlight Walking Speed Angles").c_str(), CVAR_INPUT_VIEWER("AnalogAngles.Range2.Enabled"),
+            CVarCheckbox("Highlight Walking Speed Angles", CVAR_INPUT_VIEWER("AnalogAngles.Range2.Enabled"),
                          CheckboxOptions()
                              .Color(THEME_COLOR)
                              .Tooltip("Highlights the angle value text when the analog stick is at an angle that would "

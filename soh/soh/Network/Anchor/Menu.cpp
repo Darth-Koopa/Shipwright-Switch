@@ -2,6 +2,7 @@
 #include <libultraship/libultraship.h>
 #include "soh/SohGui/SohGui.hpp"
 #include "soh/SohGui/SohMenu.h"
+#include "soh/SohGui/Localization.h"
 #include "soh/util.h"
 
 namespace SohGui {
@@ -24,10 +25,10 @@ void AnchorMainMenu(WidgetInfo& info) {
     bool isFormValid = !SohUtils::IsStringEmpty(host) && port > 1024 && port < 65535 &&
                        !SohUtils::IsStringEmpty(anchorRoomId) && !SohUtils::IsStringEmpty(anchorName);
 
-    ImGui::SeparatorText(StringHelper::Translate("Connection Settings").c_str());
+    ImGui::SeparatorText(SohGui::L("Connection Settings"));
 
     ImGui::BeginDisabled(anchor->isEnabled);
-    ImGui::Text(StringHelper::Translate("Host & Port").c_str());
+    ImGui::Text(SohGui::L("Host & Port"));
     if (UIWidgets::InputString("##Host", &host,
                                UIWidgets::InputOptions()
                                    .Size(ImGui::GetContentRegionAvail() -
@@ -46,7 +47,7 @@ void AnchorMainMenu(WidgetInfo& info) {
     }
     UIWidgets::PopStyleInput();
 
-    ImGui::Text(StringHelper::Translate("Name & Color").c_str());
+    ImGui::Text(SohGui::L("Name & Color"));
     static Color_RGBA8 defaultColor = { 100, 255, 100, 255 };
     UIWidgets::CVarColorPicker("##Color", CVAR_REMOTE_ANCHOR("Color"), defaultColor);
     ImGui::SameLine();
@@ -55,14 +56,14 @@ void AnchorMainMenu(WidgetInfo& info) {
         CVarSetString(CVAR_REMOTE_ANCHOR("Name"), anchorName.c_str());
         Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
-    ImGui::Text(StringHelper::Translate("Room ID").c_str());
+    ImGui::Text(SohGui::L("Room ID"));
     ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
     if (UIWidgets::InputString("##RoomId", &anchorRoomId,
                                UIWidgets::InputOptions().IsSecret(anchor->isEnabled).Color(THEME_COLOR))) {
         CVarSetString(CVAR_REMOTE_ANCHOR("RoomId"), anchorRoomId.c_str());
         Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
     }
-    ImGui::Text(StringHelper::Translate("Team ID (Items & Flags Shared)").c_str());
+    ImGui::Text(SohGui::L("Team ID (Items & Flags Shared)"));
     ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
     if (UIWidgets::InputString("##TeamId", &anchorTeamId, UIWidgets::InputOptions().Color(THEME_COLOR))) {
         CVarSetString(CVAR_REMOTE_ANCHOR("TeamId"), anchorTeamId.c_str());
@@ -70,7 +71,7 @@ void AnchorMainMenu(WidgetInfo& info) {
     }
     ImGui::Spacing();
 
-    if (UIWidgets::Button(StringHelper::Translate("Restore Defaults").c_str(), UIWidgets::ButtonOptions()
+    if (UIWidgets::Button("Restore Defaults", UIWidgets::ButtonOptions()
                                                   .Size(ImVec2(ImGui::GetContentRegionAvail().x / 2, 0))
                                                   .Color(UIWidgets::Colors::Red))) {
         CVarSetString(CVAR_REMOTE_ANCHOR("Host"), "anchor.hm64.org");
@@ -83,7 +84,7 @@ void AnchorMainMenu(WidgetInfo& info) {
 
     ImGui::SameLine();
 
-    if (UIWidgets::Button(StringHelper::Translate("Global Room").c_str(), UIWidgets::ButtonOptions()
+    if (UIWidgets::Button("Global Room", UIWidgets::ButtonOptions()
                                              .Color(UIWidgets::Colors::Blue)
                                              .Tooltip("Always-online public room so you don't have to experience "
                                                       "Hyrule alone. PVP and syncing are disabled."))) {
@@ -99,11 +100,10 @@ void AnchorMainMenu(WidgetInfo& info) {
     ImGui::Spacing();
 
     ImGui::BeginDisabled(!isFormValid);
-    const char* buttonLabel = anchor->isEnabled ? StringHelper::Translate("Disable").c_str()
-                                                  : StringHelper::Translate("Enable").c_str();
+    const char* buttonLabel = anchor->isEnabled ? "Disable" : "Enable";
     UIWidgets::PushStyleButton(anchor->isEnabled ? UIWidgets::ColorValues.at(UIWidgets::Colors::Red)
                                                  : UIWidgets::ColorValues.at(UIWidgets::Colors::Green));
-    if (ImGui::Button(buttonLabel, ImVec2(-1.0f, 0.0f))) {
+    if (ImGui::Button(SohGui::L(buttonLabel), ImVec2(-1.0f, 0.0f))) {
         if (anchor->isEnabled) {
             CVarClear(CVAR_REMOTE_ANCHOR("Enabled"));
             Ship::Context::GetInstance()->GetWindow()->GetGui()->SaveConsoleVariablesNextFrame();
@@ -123,23 +123,23 @@ void AnchorMainMenu(WidgetInfo& info) {
     }
 
     if (!anchor->isConnected) {
-        ImGui::Text("Connecting...");
+        ImGui::Text(SohGui::L("Connecting..."));
         return;
     }
 
-    ImGui::SeparatorText("Current Room");
-    ImGui::Text("%s Connected", ICON_FA_CHECK);
+    ImGui::SeparatorText(SohGui::L("Current Room"));
+    ImGui::Text(SohGui::L("%s Connected"), ICON_FA_CHECK);
 
     UIWidgets::PushStyleButton(THEME_COLOR);
-    if (ImGui::Button("Request Team State")) {
+    if (ImGui::Button(SohGui::L("Request Team State"))) {
         anchor->SendPacket_RequestTeamState();
     }
-    UIWidgets::Tooltip("Try this if you are missing items or flags that your team members have collected");
+    UIWidgets::Tooltip(SohGui::L("Try this if you are missing items or flags that your team members have collected"));
     UIWidgets::PopStyleButton();
 
     ImGui::SameLine();
 
-    UIWidgets::WindowButton("Toggle Anchor Room Window", CVAR_WINDOW("AnchorRoom"), SohGui::mAnchorRoomWindow);
+    UIWidgets::WindowButton(SohGui::L("Toggle Anchor Room Window"), CVAR_WINDOW("AnchorRoom"), SohGui::mAnchorRoomWindow);
     if (!SohGui::mAnchorRoomWindow->IsVisible()) {
         SohGui::mAnchorRoomWindow->DrawElement();
     }
@@ -154,10 +154,10 @@ void AnchorAdminMenu(WidgetInfo& info) {
         return;
     }
 
-    ImGui::SeparatorText("Room Settings (Admin Only)");
+    ImGui::SeparatorText(SohGui::L("Room Settings (Admin Only)"));
 
     UIWidgets::PushStyleButton(THEME_COLOR);
-    if (ImGui::Button("Clear All Team State")) {
+    if (ImGui::Button(SohGui::L("Clear All Team State"))) {
         std::set<std::string> teams;
         for (auto& [clientId, client] : Anchor::Instance->clients) {
             teams.insert(client.teamId);
@@ -199,43 +199,31 @@ void AnchorAdminMenu(WidgetInfo& info) {
 void AnchorInstructionsMenu(WidgetInfo& info) {
     auto anchor = Anchor::Instance;
 
-    ImGui::SeparatorText(StringHelper::Translate("Usage Instructions").c_str());
+    ImGui::SeparatorText(SohGui::L("Usage Instructions"));
 
-    ImGui::TextWrapped(StringHelper::Translate("1. All players involved should start at the file select screen").c_str());
+    ImGui::TextWrapped(SohGui::L("1. All players involved should start at the file select screen"));
 
-    ImGui::TextWrapped(
-        StringHelper::Translate("2. Come up with a unique Room ID (this is basically your password) and enter it, "
-                                "along with your desired player name and team ID and click Enable")
-            .c_str());
+    ImGui::TextWrapped(SohGui::L("2. Come up with a unique Room ID (this is basically your password) and enter it, along with "
+                                 "your desired player name and team ID and click Enable"));
 
-    ImGui::TextWrapped(
-        StringHelper::Translate("3. The host should configure the randomizer settings and generate a seed, then share "
-                                "the newly generated JSON spoiler file with other players.")
-            .c_str());
+    ImGui::TextWrapped(SohGui::L("3. The host should configure the randomizer settings and generate a seed, then share the newly "
+                                 "generated JSON spoiler file with other players."));
 
-    ImGui::TextWrapped(
-        StringHelper::Translate("4. All players should load the same JSON spoiler file (drag it into SoH window), make "
-                                "sure seed icons match, then create a new file.")
-            .c_str());
+    ImGui::TextWrapped(SohGui::L("4. All players should load the same JSON spoiler file (drag it into SoH window), make sure "
+                                 "seed icons match, then create a new file."));
 
-    ImGui::TextWrapped(
-        StringHelper::Translate("5. All players should now load into their game. IMPORTANT! If using an existing "
-                                "save/seed ensure the player with the most progress loads the file first.")
-            .c_str());
+    ImGui::TextWrapped(SohGui::L("5. All players should now load into their game. IMPORTANT! If using an existing save/seed "
+                                 "ensure the player with the most progress loads the file first."));
 
-    ImGui::TextWrapped(
-        StringHelper::Translate("6. After everyone has loaded in, verify on the network tab that it doesn't warn "
-                                "about anyone being on a wrong version or seed.")
-            .c_str());
+    ImGui::TextWrapped(SohGui::L("6. After everyone has loaded in, verify on the network tab that it doesn't warn about anyone "
+                                 "being on a wrong version or seed."));
 
     ImGui::Spacing();
 
     ImGui::TextWrapped(
-        StringHelper::Translate(
-            "Note: Team ID is used to group players together in the same team, sharing items and flags. Make sure all "
-            "players who want to share progress use the same Team ID. All players with the same Team ID should be using "
-            "the same randomizer seed, while players on different teams can use different seeds.")
-            .c_str());
+        SohGui::L("Note: Team ID is used to group players together in the same team, sharing items and flags. Make sure all "
+                  "players who want to share progress use the same Team ID. All players with the same Team ID should be using "
+                  "the same randomizer seed, while players on different teams can use different seeds."));
 }
 
 #ifdef ENABLE_REMOTE_CONTROL

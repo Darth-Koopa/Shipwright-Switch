@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_mm.c
  * Overlay: ovl_En_Mm
  * Description: Running Man (adult)

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_obj_tsubo.c
  * Overlay: ovl_Obj_Tsubo
  * Description: Breakable pot

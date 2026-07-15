@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_magic_wind.c
  * Overlay: ovl_Magic_Wind
  * Description: Farore's Wind

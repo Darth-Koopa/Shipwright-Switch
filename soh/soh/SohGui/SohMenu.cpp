@@ -1,5 +1,4 @@
 #include "SohMenu.h"
-#include "Localization.h"
 #include <ship/window/gui/GuiMenuBar.h>
 #include <ship/window/gui/GuiElement.h>
 #include <ship/utils/StringHelper.h>
@@ -105,7 +104,6 @@ void SohMenu::AddMenuElements() {
 }
 
 void SohMenu::InitElement() {
-    RegisterLocalization();
     Ship::Menu::InitElement();
 
     disabledMap = {

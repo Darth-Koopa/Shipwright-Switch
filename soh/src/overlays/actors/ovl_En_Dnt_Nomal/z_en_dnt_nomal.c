@@ -1,4 +1,4 @@
-﻿/*
+/*
  * File: z_en_dnt_nomal
  * Overlay: ovl_En_Dnt_Nomal
  * Description: Lost Woods minigame scrubs
