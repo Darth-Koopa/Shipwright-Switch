@@ -352,6 +352,13 @@ jobs:
         mv _packages/*.zip _packages/soh-windows.zip
     - name: Unzip package
       run: Expand-Archive -Path _packages/soh-windows.zip -DestinationPath soh-windows
+    
+    # 新增：复制字体文件到解压后的目录
+    - name: Copy DroidSansFallback.ttf
+      run: |
+        New-Item -ItemType Directory -Force -Path "soh-windows/soh/assets/custom/fonts"
+        Copy-Item -Path "soh/assets/custom/fonts/DroidSansFallback.ttf" -Destination "soh-windows/soh/assets/custom/fonts/"
+        
     - name: Upload build
       uses: actions/upload-artifact@v7
       with:
