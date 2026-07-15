@@ -6,7 +6,7 @@ name: generate-builds
 on:
   push:
     branches:
-      - wind-waker-style-cel-shading
+      - cel-cn-menu
     tags:
       - '*celshade*'
 concurrency:
