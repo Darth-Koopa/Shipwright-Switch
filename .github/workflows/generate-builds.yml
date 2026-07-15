@@ -357,7 +357,7 @@ jobs:
     - name: Copy DroidSansFallback.ttf
       run: |
         New-Item -ItemType Directory -Force -Path "soh-windows/soh/assets/custom/fonts"
-        Copy-Item -Path "soh/assets/custom/fonts/DroidSansFallback.ttf" -Destination "soh-windows/soh/assets/custom/fonts/"
+        Copy-Item -Path "soh/assets/custom/fonts/DroidSansFallback.ttf" -Destination "soh-windows/"
         
     - name: Upload build
       uses: actions/upload-artifact@v7
