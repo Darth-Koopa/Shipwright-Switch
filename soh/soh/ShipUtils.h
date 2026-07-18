@@ -5,6 +5,10 @@
 
 #ifdef __cplusplus
 
+#include <array>
+#include <set>
+#include <vector>
+
 void LoadGuiTextures();
 
 extern "C" {

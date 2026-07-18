@@ -35,19 +35,19 @@ typedef struct {
 } OptionsMenuTextureInfoNES; // size = 0x8
 
 static OptionsMenuTextureInfoNES sOptionsMenuHeaders[] = {
-    { { gFileSelOptionsJPNTex, gFileSelOptionsENGTex }, 128, 16 },
-    { { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex }, 64, 16 },
-    { { gFileSelLTargetingJPNTex, gFileSelLTargetingENGTex }, 64, 16 },
-    { { gFileSelCheckBrightnessJPNTex, gFileSelCheckBrightnessENGNTSCTex }, 96, 16 },
+    { { gFileSelOptionsCHITex, gFileSelOptionsENGTex }, 128, 16 },
+    { { gFileSelSOUNDCHITex, gFileSelSOUNDENGTex }, 64, 16 },
+    { { gFileSelZTargetingCHITex, gFileSelLTargetingENGTex }, 64, 16 },
+    { { gFileSelCheckBrightnessCHITex, gFileSelCheckBrightnessENGNTSCTex }, 96, 16 },
 };
 
 static OptionsMenuTextureInfoNES sOptionsMenuSettings[] = {
-    { { gFileSelStereoJPNTex, gFileSelStereoENGTex }, 48, 16 },
-    { { gFileSelMonoJPNTex, gFileSelMonoENGTex }, 48, 16 },
-    { { gFileSelHeadsetJPNTex, gFileSelHeadsetENGTex }, 48, 16 },
-    { { gFileSelSurroundJPNTex, gFileSelSurroundENGTex }, 48, 16 },
-    { { gFileSelSwitchJPNTex, gFileSelSwitchENGTex }, 48, 16 },
-    { { gFileSelHoldJPNTex, gFileSelHoldENGTex }, 48, 16 },
+    { { gFileSelStereoCHITex, gFileSelStereoENGTex }, 48, 16 },
+    { { gFileSelMonoCHITex, gFileSelMonoENGTex }, 48, 16 },
+    { { gFileSelHeadsetCHITex, gFileSelHeadsetENGTex }, 48, 16 },
+    { { gFileSelSurroundCHITex, gFileSelSurroundENGTex }, 48, 16 },
+    { { gFileSelSwitchCHITex, gFileSelSwitchENGTex }, 48, 16 },
+    { { gFileSelHoldCHITex, gFileSelHoldENGTex }, 48, 16 },
 };
 
 // CODE

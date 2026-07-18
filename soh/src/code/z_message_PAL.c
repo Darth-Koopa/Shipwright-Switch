@@ -51,6 +51,7 @@ MessageTableEntry* sFraMessageEntryTablePtr = NULL;
 MessageTableEntry* sJpnMessageEntryTablePtr = NULL;
 MessageTableEntry* sStaffMessageEntryTablePtr = NULL;
 MessageTableEntry* sChiMessageEntryTablePtr = NULL;
+extern MessageTableEntry* sChiStaffMessageEntryTablePtr; // SOH [Chinese] - embedded staff credits (method B)
 
 char* _message_0xFFFC_nes;
 
@@ -396,6 +397,12 @@ void Message_FindCreditsMessage(PlayState* play, u16 textId) {
     const char* nextSeg;
     const char* seg;
     MessageTableEntry* messageTableEntry = sStaffMessageEntryTablePtr;
+
+    // SOH [Chinese] - use the embedded CHI staff table when one is available
+    if (gSaveContext.language == LANGUAGE_CHI && sChiStaffMessageEntryTablePtr != NULL) {
+        messageTableEntry = sChiStaffMessageEntryTablePtr;
+    }
+
     Font* font;
 
     seg = messageTableEntry->segment;
@@ -1663,16 +1670,16 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem32XOffsets[language];
         R_TEXTBOX_ICON_YPOS = y + 6;
         R_TEXTBOX_ICON_SIZE = 32;
-        memcpy((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, gItemIcons[itemId],
-               strlen(gItemIcons[itemId]) + 1);
+        memcpy((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GetItemIcon(itemId),
+               strlen(GetItemIcon(itemId)) + 1);
         // "Item 32-0"
         osSyncPrintf("アイテム32-0\n");
     } else {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem24XOffsets[language];
         R_TEXTBOX_ICON_YPOS = y + 10;
         R_TEXTBOX_ICON_SIZE = 24;
-        memcpy((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, gItemIcons[itemId],
-               strlen(gItemIcons[itemId]) + 1);
+        memcpy((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GetItemIcon(itemId),
+               strlen(GetItemIcon(itemId)) + 1);
         // "Item 24"
         osSyncPrintf("アイテム24＝%d (%d) {%d}\n", itemId, itemId - ITEM_KOKIRI_EMERALD, 84);
     }
@@ -2720,7 +2727,7 @@ void Message_Decode(PlayState* play) {
             // 0xFE is safe because it is > 0x8B (max Font_LoadChar index),
             //   not a control code (0x01–0x1F), not an ASCII byte (0x20–0x7E),
             //   not extended Latin (0x80–0x9E), and not a button icon (0x9F–0xAB).
-            } else if (gSaveContext.language == LANGUAGE_CHI && !sTextIsCredits &&
+            } else if (gSaveContext.language == LANGUAGE_CHI &&
                        !sDisplayNextMessageAsEnglish && temp_s2 >= 0xA0) {
                 u8 lowByte = font->msgBuf[++msgCtx->msgBufPos];
                 u16 chiChar = (temp_s2 << 8) | lowByte;
