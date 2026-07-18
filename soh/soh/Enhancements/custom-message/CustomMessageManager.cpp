@@ -301,7 +301,7 @@ void CustomMessage::Replace(std::string&& oldStr, std::string&& newStr) {
 }
 
 void CustomMessage::Replace(std::string&& oldStr, CustomMessage newMessage) {
-    for (uint8_t language = 0; language < LANGUAGE_MAX - 1; language++) {
+    for (uint8_t language = 0; language < messages.size(); language++) {
         size_t position = messages[language].find(oldStr);
         std::string newMsg = newMessage.messages[language];
         if (language != LANGUAGE_ENG && newMsg == TODO_TRANSLATE) {
