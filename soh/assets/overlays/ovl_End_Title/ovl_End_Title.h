@@ -6,11 +6,26 @@
 #define dsTheLegendOfZeldaTex "__OTR__overlays/ovl_End_Title/sTheLegendOfZeldaTex"
 static const ALIGN_ASSET(2) char sTheLegendOfZeldaTex[] = dsTheLegendOfZeldaTex;
 
+#define dsTheLegendOfZeldaCHITex "__OTR__overlays/ovl_End_Title/sTheLegendOfZeldaCHITex"
+static const ALIGN_ASSET(2) char sTheLegendOfZeldaCHITex[] = dsTheLegendOfZeldaCHITex;
+
 #define dsOcarinaOfTimeTex "__OTR__overlays/ovl_End_Title/sOcarinaOfTimeTex"
 static const ALIGN_ASSET(2) char sOcarinaOfTimeTex[] = dsOcarinaOfTimeTex;
 
+#define dsOcarinaOfTimeCHITex "__OTR__overlays/ovl_End_Title/sOcarinaOfTimeCHITex"
+static const ALIGN_ASSET(2) char sOcarinaOfTimeCHITex[] = dsOcarinaOfTimeCHITex;
+
 #define dsTheEndTex "__OTR__overlays/ovl_End_Title/sTheEndTex"
 static const ALIGN_ASSET(2) char sTheEndTex[] = dsTheEndTex;
+
+#define dsTheEndCHITex "__OTR__overlays/ovl_End_Title/sTheEndCHITex"
+static const ALIGN_ASSET(2) char sTheEndCHITex[] = dsTheEndCHITex;
+
+#define dsIQueTop "__OTR__overlays/ovl_End_Title/sIQueTop"
+static const ALIGN_ASSET(2) char sIQueTop[] = dsIQueTop;
+
+#define dsIQueBottom "__OTR__overlays/ovl_End_Title/sIQueBottom"
+static const ALIGN_ASSET(2) char sIQueBottom[] = dsIQueBottom;
 
 #define dsNintendoLeftTex "__OTR__overlays/ovl_End_Title/sNintendoLeftTex"
 static const ALIGN_ASSET(2) char sNintendoLeftTex[] = dsNintendoLeftTex;

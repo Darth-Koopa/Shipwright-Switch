@@ -788,7 +788,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     gSPGrayscale(POLY_OPA_DISP++, true);
                 }
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx,
-                                                   gItemIcons[sChildUpgradeItemBases[i] + point - 1], 32, 32, 0);
+                                                   GetItemIcon(sChildUpgradeItemBases[i] + point - 1), 32, 32, 0);
                 gSPGrayscale(POLY_OPA_DISP++, false);
             }
         } else {
@@ -800,7 +800,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     gSPGrayscale(POLY_OPA_DISP++, true);
                 }
                 KaleidoScope_DrawQuadTextureRGBA32(
-                    play->state.gfxCtx, gItemIcons[sChildUpgradeItemBases[i] + CUR_UPG_VALUE(sChildUpgrades[i]) - 1],
+                    play->state.gfxCtx, GetItemIcon(sChildUpgradeItemBases[i] + CUR_UPG_VALUE(sChildUpgrades[i]) - 1),
                     32, 32, 0);
                 gSPGrayscale(POLY_OPA_DISP++, false);
             } else if (CUR_UPG_VALUE(sAdultUpgrades[i]) != 0) {
@@ -815,7 +815,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
                     gSPGrayscale(POLY_OPA_DISP++, true);
                 }
                 KaleidoScope_DrawQuadTextureRGBA32(
-                    play->state.gfxCtx, gItemIcons[sAdultUpgradeItemBases[i] + CUR_UPG_VALUE(sAdultUpgrades[i]) - 1],
+                    play->state.gfxCtx, GetItemIcon(sAdultUpgradeItemBases[i] + CUR_UPG_VALUE(sAdultUpgrades[i]) - 1),
                     32, 32, 0);
                 gSPGrayscale(POLY_OPA_DISP++, false);
             }
@@ -834,7 +834,7 @@ void KaleidoScope_DrawEquipment(PlayState* play) {
             } else if ((i == 0) && (k == 2) && (gBitFlags[bit + 1] & gSaveContext.inventory.equipment)) {
                 KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIconBrokenGiantsKnifeTex, 32, 32, point);
             } else if (gBitFlags[bit] & gSaveContext.inventory.equipment) {
-                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[itemId], 32, 32, point);
+                KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, GetItemIcon(itemId), 32, 32, point);
             }
             gSPGrayscale(POLY_OPA_DISP++, false);
         }

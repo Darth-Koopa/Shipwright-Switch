@@ -96,6 +96,11 @@ static const ALIGN_ASSET(2) char gNaviCUpJPTex[] = dgNaviCUpJPTex;
 #define dgNaviCUpENGTex "__OTR__textures/parameter_static/gNaviCUpENGTex"
 static const ALIGN_ASSET(2) char gNaviCUpENGTex[] = dgNaviCUpENGTex;
 
+// #region SOH [Chinese]
+#define dgNaviCUpCHITex "__OTR__textures/parameter_static/gNaviCUpCHITex"
+static const ALIGN_ASSET(2) char gNaviCUpCHITex[] = dgNaviCUpCHITex;
+// #endregion
+
 #define dgCounterDigit0Tex "__OTR__textures/parameter_static/gCounterDigit0Tex"
 static const ALIGN_ASSET(2) char gCounterDigit0Tex[] = dgCounterDigit0Tex;
 

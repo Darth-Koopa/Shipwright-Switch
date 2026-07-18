@@ -12,6 +12,15 @@ static const ALIGN_ASSET(2) char gGameOverP2Tex[] = dgGameOverP2Tex;
 #define dgGameOverP3Tex "__OTR__textures/icon_item_gameover_static/gGameOverP3Tex"
 static const ALIGN_ASSET(2) char gGameOverP3Tex[] = dgGameOverP3Tex;
 
+#define dgGameOverP1CHITex "__OTR__textures/icon_item_gameover_static/gGameOverP1CHITex"
+static const ALIGN_ASSET(2) char gGameOverP1CHITex[] = dgGameOverP1CHITex;
+
+#define dgGameOverP2CHITex "__OTR__textures/icon_item_gameover_static/gGameOverP2CHITex"
+static const ALIGN_ASSET(2) char gGameOverP2CHITex[] = dgGameOverP2CHITex;
+
+#define dgGameOverP3CHITex "__OTR__textures/icon_item_gameover_static/gGameOverP3CHITex"
+static const ALIGN_ASSET(2) char gGameOverP3CHITex[] = dgGameOverP3CHITex;
+
 #define dgGameOverMaskTex "__OTR__textures/icon_item_gameover_static/gGameOverMaskTex"
 static const ALIGN_ASSET(2) char gGameOverMaskTex[] = dgGameOverMaskTex;
 
@@ -26,5 +35,8 @@ static const ALIGN_ASSET(2) char gContinuePlayingFRATex[] = dgContinuePlayingFRA
 
 #define dgContinuePlayingJPNTex "__OTR__textures/icon_item_gameover_static/gContinuePlayingJPNTex"
 static const ALIGN_ASSET(2) char gContinuePlayingJPNTex[] = dgContinuePlayingJPNTex;
+
+#define dgContinuePlayingCHITex "__OTR__textures/icon_item_gameover_static/gContinuePlayingCHITex"
+static const ALIGN_ASSET(2) char gContinuePlayingCHITex[] = dgContinuePlayingCHITex;
 
 #endif // TEXTURES_ICON_ITEM_GAMEOVER_STATIC_H
