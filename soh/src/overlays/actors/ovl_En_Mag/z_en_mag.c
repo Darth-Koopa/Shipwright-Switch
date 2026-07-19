@@ -608,6 +608,9 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
             if (gSaveContext.language == LANGUAGE_JPN || ResourceMgr_GetGameVersion(0) == OOT_NTSC_JP_MQ) {
                 EnMag_DrawImageRGBA32(&gfx, 235, 149, (u8*)gTitleUraLogoTex, 40, 40);
+            } else if (gSaveContext.language == LANGUAGE_CHI &&
+                       CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
+                EnMag_DrawImageRGBA32(&gfx, 235, 149, (u8*)gTitleUraLogoCHITex, 40, 40);
             } else {
                 EnMag_DrawImageRGBA32(&gfx, 174, 145, (u8*)gTitleMasterQuestSubtitleTex, 128, 32);
             }
@@ -686,9 +689,13 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
     if ((s16)this->copyrightAlpha != 0) {
         if (gSaveContext.language == LANGUAGE_CHI) {
-            // iQue copyright (RGBA32, 128x32) shown in Chinese mode
-            gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->copyrightAlpha);
-            EnMag_DrawImageRGBA32(&gfx, 158, 214, (u8*)gTitleCopyright19982003IQueTex, 128, 32);
+            // iQue copyright (IA8, 128x32) shown in Chinese mode
+            gDPLoadTextureBlock(gfx++, gTitleCopyright19982003IQueTex, G_IM_FMT_IA, G_IM_SIZ_8b, 128, 32, 0,
+                                G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                                G_TX_NOLOD, G_TX_NOLOD);
+
+            gSPTextureRectangle(gfx++, 94 << 2, 190 << 2, (94 + 128) << 2, (190 + 32) << 2,
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         } else {
             gDPLoadTextureBlock(gfx++, COPYRIGHT_TEX, G_IM_FMT_IA, G_IM_SIZ_8b, COPYRIGHT_TEX_WIDTH, 16, 0,
                                 G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,

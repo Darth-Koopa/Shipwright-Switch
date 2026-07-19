@@ -70,6 +70,9 @@ static const ALIGN_ASSET(2) char gTitleOcarinaOfTimeTMTextTex[] = dgTitleOcarina
 #define dgTitleUraLogoTex "__OTR__objects/object_mag/gTitleUraLogoTex"
 static const ALIGN_ASSET(2) char gTitleUraLogoTex[] = dgTitleUraLogoTex;
 
+#define dgTitleUraLogoCHITex "__OTR__objects/object_mag/gTitleUraLogoCHITex"
+static const ALIGN_ASSET(2) char gTitleUraLogoCHITex[] = dgTitleUraLogoCHITex;
+
 #define dgTitleDiskTex "__OTR__objects/object_mag/gTitleDiskTex"
 static const ALIGN_ASSET(2) char gTitleDiskTex[] = dgTitleDiskTex;
 
@@ -86,11 +89,11 @@ static const ALIGN_ASSET(2) char gTitleTitleCHNTex[] = dgTitleTitleCHNTex;
 static const ALIGN_ASSET(2) char gTitleCopyright19982003IQueTex[] = dgTitleCopyright19982003IQueTex;
 
 // Chinese "PRESS" prompt (RGBA32, 16x16) replacing PRESS START text in CHI mode
-#define dgTitlePressCHNTex "__OTR__textures/overlays/ovl_En_Mag_ique/gTitlePressCHN"
+#define dgTitlePressCHNTex "__OTR__overlays/ovl_En_Mag_ique/gTitlePressCHN"
 static const ALIGN_ASSET(2) char gTitlePressCHNTex[] = dgTitlePressCHNTex;
 
 // Chinese "按 START" prompt (RGBA32, 128x16) replacing PRESS START text in CHI mode
-#define dgTitlePressStartCHNTex "__OTR__textures/overlays/ovl_En_Mag_ique/gTitlePressStartCHN"
+#define dgTitlePressStartCHNTex "__OTR__overlays/ovl_En_Mag_ique/gTitlePressStartCHN"
 static const ALIGN_ASSET(2) char gTitlePressStartCHNTex[] = dgTitlePressStartCHNTex;
 // #endregion
 
