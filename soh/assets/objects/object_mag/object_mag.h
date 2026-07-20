@@ -93,8 +93,8 @@ static const ALIGN_ASSET(2) char gTitleCopyright19982003IQueTex[] = dgTitleCopyr
 static const ALIGN_ASSET(2) char gTitlePressCHNTex[] = dgTitlePressCHNTex;
 
 // Chinese "按 START" prompt (RGBA32, 128x16) replacing PRESS START text in CHI mode
-#define dgTitlePressStartCHNTex "__OTR__overlays/ovl_En_Mag_ique/gTitlePressStartCHN"
-static const ALIGN_ASSET(2) char gTitlePressStartCHNTex[] = dgTitlePressStartCHNTex;
+//#define dgTitlePressStartCHNTex "__OTR__overlays/ovl_En_Mag_ique/gTitlePressStartCHN"
+//static const ALIGN_ASSET(2) char gTitlePressStartCHNTex[] = dgTitlePressStartCHNTex;
 // #endregion
 
 #endif // OBJECTS_OBJECT_MAG_H
