@@ -1,7 +1,14 @@
 name: generate-builds
+# SOH [fork] Build on pushes to the default branch (warms the ccache/deps/vcpkg/macports caches, since
+# those only `save` when github.ref_name == the default branch) and on release tags. Our tags follow
+# <SoH-version>-celshade<X.Y> (e.g. 9.2.3-celshade0.4), so match anything containing "celshade".
+# Release tags branch off wind-waker-style-cel-shading and restore the branch-warmed caches.
 on:
   push:
-  pull_request:
+    branches:
+      - cel-cn-menu
+    tags:
+      - '*celshade*'
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -345,6 +352,13 @@ jobs:
         mv _packages/*.zip _packages/soh-windows.zip
     - name: Unzip package
       run: Expand-Archive -Path _packages/soh-windows.zip -DestinationPath soh-windows
+    
+    # 新增：复制字体文件到解压后的目录
+    - name: Copy DroidSansFallback.ttf
+      run: |
+        New-Item -ItemType Directory -Force -Path "soh-windows/soh/assets/custom/fonts"
+        Copy-Item -Path "soh/assets/custom/fonts/DroidSansFallback.ttf" -Destination "soh-windows/"
+        
     - name: Upload build
       uses: actions/upload-artifact@v7
       with:
@@ -356,3 +370,40 @@ jobs:
       with:
         key: ${{ steps.restore-cache-vcpkg.outputs.cache-primary-key }}
         path: vcpkg
+
+  # Fork-only: publish a GitHub Release when a *celshade* tag is pushed.
+  release:
+    needs: [build-macos, build-linux, build-windows]
+    if: contains(github.ref, 'celshade')
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+    - name: Download macOS build
+      uses: actions/download-artifact@v7
+      with:
+        name: soh-mac
+        path: rel/mac
+    - name: Download Linux build
+      uses: actions/download-artifact@v7
+      with:
+        name: soh-linux
+        path: rel/linux
+    - name: Download Windows build
+      uses: actions/download-artifact@v7
+      with:
+        name: soh-windows
+        path: rel/windows
+    - name: Package release assets
+      run: |
+        TAG="${GITHUB_REF_NAME}"
+        mkdir -p dist
+        cp "rel/mac/SoH.dmg" "dist/SoH-${TAG}-Mac.dmg"
+        cp "rel/linux/soh.appimage" "dist/SoH-${TAG}-Linux.appimage"
+        (cd rel/windows && zip -r "../../dist/SoH-${TAG}-Win64.zip" .)
+    - name: Publish GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        name: "SoH (cel-shading fork) ${{ github.ref_name }}"
+        generate_release_notes: true
+        files: dist/*

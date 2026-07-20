@@ -5,6 +5,7 @@
 #include "assets/textures/parameter_static/parameter_static.h"
 #include "assets/soh_assets.h"
 #include "soh/SohGui/ImGuiUtils.h"
+#include "soh/SohGui/SohGui.hpp"
 
 extern "C" {
 #include "macros.h"
@@ -179,7 +180,7 @@ void TimeDisplayWindow::Draw() {
                      ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoScrollbar);
     ImGui::SetWindowFontScale(fontScale);
     if (activeTimers.size() == 0) {
-        ImGui::Text("No Enabled Timers...");
+        ImGui::Text(SohGui::L("No Enabled Timers..."));
     } else {
         ImGui::BeginTable("Timer List", 2, ImGuiTableFlags_NoClip);
         for (auto& timers : activeTimers) {

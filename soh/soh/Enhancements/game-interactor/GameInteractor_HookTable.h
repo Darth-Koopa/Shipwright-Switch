@@ -38,6 +38,7 @@ DEFINE_HOOK(OnActorInit, (void* actor));
 DEFINE_HOOK(OnActorSpawn, (void* actor));
 DEFINE_HOOK(ShouldActorUpdate, (void* actor, bool* result));
 DEFINE_HOOK(OnActorUpdate, (void* actor));
+DEFINE_HOOK(OnActorDraw, (void* actor));
 DEFINE_HOOK(OnActorKill, (void* actor));
 DEFINE_HOOK(OnActorDestroy, (void* actor));
 DEFINE_HOOK(OnEnemyDefeat, (void* actor));
@@ -54,6 +55,21 @@ DEFINE_HOOK(OnPlayerShieldControl, (float* sp50, float* sp54));
 DEFINE_HOOK(OnPlayDestroy, ());
 DEFINE_HOOK(OnPlayDrawBegin, ());
 DEFINE_HOOK(OnPlayDrawEnd, ());
+// SOH [Enhancement] Fires inside Play_Draw after the room is drawn but before actors, so a handler can
+// cast Wind Waker-style light pools onto the world (under the actors). See Graphics/WorldLighting.cpp.
+DEFINE_HOOK(OnPlayDrawWorldLights, (void* play));
+// SOH [Enhancement] Fires inside Play_Draw right after the skybox is drawn, before OnPlayDrawSky (stars) and
+// the sun/moon/world, so a handler can draw a Wind Waker-style gradient sky dome over OoT's textured sky. See
+// Graphics/WWSkyGradient.cpp.
+DEFINE_HOOK(OnPlayDrawSkyGradient, (void* play));
+// SOH [Enhancement] Fires inside Play_Draw right after the skybox is drawn but before the sun/moon and the
+// world geometry, so a handler can draw a Wind Waker-style twinkling starfield over the night sky (the moon
+// and terrain then draw on top and occlude it). See Graphics/WWNightSky.cpp.
+DEFINE_HOOK(OnPlayDrawSky, (void* play));
+// SOH [Enhancement] Fires inside Play_Draw after the gradient/stars but before the sun/moon and world, so a
+// handler can draw Wind Waker-style scrolling cloud layers in front of the sky and stars. See
+// Graphics/WWClouds.cpp.
+DEFINE_HOOK(OnPlayDrawSkyClouds, (void* play));
 DEFINE_HOOK(OnVanillaBehavior, (GIVanillaBehavior flag, bool* result, va_list originalArgs));
 DEFINE_HOOK(OnSaveFile, (int32_t fileNum, int32_t sectionID));
 DEFINE_HOOK(OnLoadFile, (int32_t fileNum));

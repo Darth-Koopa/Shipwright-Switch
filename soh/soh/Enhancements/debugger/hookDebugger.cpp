@@ -19,19 +19,19 @@ void DrawHookRegisteringInfos(const char* hookName) {
     size_t numHooks = (*hookData[hookName]).size();
 
     if (numHooks == 0) {
-        ImGui::TextColored(grey, "No hooks found");
+        ImGui::TextColored(grey, SohGui::L("No hooks found"));
         return;
     }
 
-    ImGui::Text("Total Registered: %d", numHooks);
+    ImGui::Text("%s: %d", SohGui::L("Total Registered"), numHooks);
 
     if (ImGui::BeginTable(("Table##" + std::string(hookName)).c_str(), 4,
                           ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable |
                               ImGuiTableFlags_Borders | ImGuiTableFlags_SizingFixedFit)) {
-        ImGui::TableSetupColumn("ID", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Registration Info", ImGuiTableColumnFlags_WidthStretch);
-        ImGui::TableSetupColumn("# Calls", ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::L("ID"), ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::L("Type"), ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn(SohGui::L("Registration Info"), ImGuiTableColumnFlags_WidthStretch);
+        ImGui::TableSetupColumn(SohGui::L("# Calls"), ImGuiTableColumnFlags_WidthFixed);
         ImGui::TableHeadersRow();
         for (auto& [id, hookInfo] : (*hookData[hookName])) {
             ImGui::TableNextRow();
@@ -42,19 +42,19 @@ void DrawHookRegisteringInfos(const char* hookName) {
             ImGui::TableNextColumn();
             switch (hookInfo.registering.type) {
                 case HOOK_TYPE_NORMAL:
-                    ImGui::Text("Normal");
+                    ImGui::Text("%s", SohGui::L("Normal"));
                     break;
                 case HOOK_TYPE_ID:
-                    ImGui::Text("ID");
+                    ImGui::Text("%s", SohGui::L("ID"));
                     break;
                 case HOOK_TYPE_PTR:
-                    ImGui::Text("Ptr");
+                    ImGui::Text("%s", SohGui::L("Ptr"));
                     break;
                 case HOOK_TYPE_FILTER:
-                    ImGui::Text("Filter");
+                    ImGui::Text("%s", SohGui::L("Filter"));
                     break;
                 default:
-                    ImGui::TextColored(red, "[UNKNOWN]");
+                    ImGui::TextColored(red, "%s", SohGui::L("[UNKNOWN]"));
                     break;
             }
 
@@ -70,7 +70,7 @@ void DrawHookRegisteringInfos(const char* hookName) {
                 ImGui::TextWrapped("%s(%d:%d) <-\u00A0%s", hookInfo.registering.file, hookInfo.registering.line,
                                    hookInfo.registering.column, parentFunction.c_str());
             } else {
-                ImGui::TextColored(yellow, "[Unavailable]");
+                ImGui::TextColored(yellow, "%s", SohGui::L("[Unavailable]"));
             }
 
             ImGui::TableNextColumn();
@@ -114,7 +114,7 @@ void HookDebuggerWindow::DrawElement() {
             ImGui::SetNextItemOpen(collapseLogic, ImGuiCond_Always);
         }
 
-        if (ImGui::TreeNode(hookName)) {
+        if (ImGui::TreeNode(SohGui::L(hookName))) {
             DrawHookRegisteringInfos(hookName);
             ImGui::TreePop();
         }

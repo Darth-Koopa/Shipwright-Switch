@@ -8,6 +8,7 @@
 #include <spdlog/spdlog.h>
 #include "Enhancements/randomizer/randomizerTypes.h"
 #include <variables.h>
+#include "SohGui/Localization.h"
 
 std::string invalidString = "";
 
@@ -123,6 +124,120 @@ std::vector<std::string> sceneNames = {
     "Sasa Test",
     "Treasure Chest Room",
     "Unknown",
+};
+
+std::vector<std::string> sceneNamesChi = {
+    "迪库树内部",
+    "多东哥洞窟",
+    "巨鲸腹中",
+    "森林神殿",
+    "火之神殿",
+    "水之神殿",
+    "灵魂神殿",
+    "暗影神殿",
+    "井底",
+    "冰之洞窟",
+    "加农之塔",
+    "盖鲁多训练场",
+    "盗贼藏身处",
+    "加农城堡内部",
+    "加农之塔（崩塌）",
+    "加农城堡内部（崩塌）",
+    "宝箱商店",
+    "戈玛巢穴",
+    "多东哥王巢穴",
+    "巴里内德巢穴",
+    "幻影加农巢穴",
+    "沃尔加亚巢穴",
+    "莫尔法巢穴",
+    "特温罗瓦巢穴",
+    "邦戈邦戈巢穴",
+    "加农多夫巢穴",
+    "高塔崩塌外部",
+    "集市入口（幼年·白天）",
+    "集市入口（幼年·夜晚）",
+    "集市入口（废墟）",
+    "后巷（幼年·白天）",
+    "后巷（幼年·夜晚）",
+    "集市（幼年·白天）",
+    "集市（幼年·夜晚）",
+    "集市（废墟）",
+    "时之神殿外部（幼年·白天）",
+    "时之神殿外部（幼年·夜晚）",
+    "时之神殿外部（废墟）",
+    "万事通兄弟之家",
+    "双胞胎之家",
+    "米多之家",
+    "莎莉亚之家",
+    "木匠头目之家",
+    "后巷之家（绿衣男子）",
+    "杂货店",
+    "科奇里商店",
+    "戈隆商店",
+    "佐拉商店",
+    "卡卡利科药水店",
+    "集市药水店",
+    "炸弹鼠商店",
+    "快乐面具屋",
+    "林克之家",
+    "后巷之家（爱狗女士）",
+    "马厩",
+    "英帕之家",
+    "湖畔实验室",
+    "木匠帐篷",
+    "守墓人小屋",
+    "大妖精之泉（升级）",
+    "妖精之泉",
+    "大妖精之泉（魔法）",
+    "洞穴",
+    "坟墓（僵尸）",
+    "坟墓（妖精之泉）",
+    "王室陵墓",
+    "射击场",
+    "时之神殿",
+    "贤者之间",
+    "城堡树篱迷宫（白天）",
+    "城堡树篱迷宫（夜晚）",
+    "过场地图",
+    "达姆佩之墓与风车",
+    "钓鱼池",
+    "城堡庭院",
+    "炸弹鼠保龄球馆",
+    "牧场小屋与筒仓",
+    "警卫室",
+    "老婆婆药水店",
+    "加农之塔崩塌与竞技场",
+    "骷髅蜘蛛之家",
+    "海拉鲁平原",
+    "卡卡利科村",
+    "墓地",
+    "佐拉河",
+    "科奇里森林",
+    "神圣森林草地",
+    "海利亚湖",
+    "佐拉领地",
+    "佐拉喷泉",
+    "盖鲁多山谷",
+    "迷失森林",
+    "沙漠巨像",
+    "盖鲁多要塞",
+    "幽灵荒野",
+    "海拉鲁城堡",
+    "死亡之山山道",
+    "死亡之山火山口",
+    "戈隆城",
+    "拉恩拉恩牧场",
+    "加农城堡外部",
+    "攀爬架",
+    "加农多夫测试房间",
+    "深度测试",
+    "骷髅战士小BOSS房间",
+    "骷髅战士BOSS房间",
+    "斯塔鲁",
+    "城堡树篱迷宫（早期）",
+    "萨萨测试",
+    "宝箱房间",
+    "未知",
 };
 
 std::vector<std::string> itemNamesEng = {
@@ -602,6 +717,165 @@ std::vector<std::string> itemNamesGer = {
     "Deku-Nuß-Kapazität (40)",
 };
 
+std::vector<std::string> itemNamesChi = {
+    "迪库木棒",
+    "迪库果",
+    "炸弹",
+    "妖精之弓",
+    "火焰箭",
+    "蒂恩的火焰",
+    "妖精弹弓",
+    "妖精陶笛",
+    "时之陶笛",
+    "炸弹鼠",
+    "钩爪",
+    "长钩爪",
+    "冰霜箭",
+    "弗萝拉的风",
+    "回旋镖",
+    "真实之镜",
+    "魔法豆",
+    "巨力锤",
+    "光之箭",
+    "娜露的爱",
+    "空瓶",
+    "红药水",
+    "绿药水",
+    "蓝药水",
+    "瓶装妖精",
+    "鱼",
+    "拉恩拉恩牛奶与瓶子",
+    "露朵的信",
+    "蓝色火焰",
+    "虫子",
+    "大波族",
+    "拉恩拉恩牛奶（半瓶）",
+    "波族",
+    "奇怪的蛋",
+    "小鸡",
+    "塞尔达的信",
+    "狐狸面具",
+    "骷髅面具",
+    "幽灵面具",
+    "兔子头套",
+    "戈隆面具",
+    "佐拉面具",
+    "盖鲁多面具",
+    "真实面具",
+    "售罄",
+    "口袋蛋",
+    "口袋库克鸡",
+    "科吉洛",
+    "奇怪的蘑菇",
+    "奇怪的药水",
+    "偷猎者的锯子",
+    "戈隆之剑（损坏）",
+    "处方",
+    "眼球青蛙",
+    "眼药水",
+    "领取凭证",
+    "妖精之弓与火焰箭",
+    "妖精之弓与冰霜箭",
+    "妖精之弓与光之箭",
+    "科奇里之剑",
+    "大师之剑",
+    "巨人之刀与大戈隆之剑",
+    "迪库盾",
+    "海利亚盾",
+    "明镜盾",
+    "科奇里衣",
+    "戈隆衣",
+    "佐拉衣",
+    "科奇里靴",
+    "铁靴",
+    "悬浮靴",
+    "弹药袋（30）",
+    "弹药袋（40）",
+    "弹药袋（50）",
+    "箭袋（30）",
+    "大箭袋（40）",
+    "特大箭袋（50）",
+    "炸弹袋（20）",
+    "大炸弹袋（30）",
+    "特大炸弹袋（40）",
+    "戈隆手镯",
+    "白银护手",
+    "黄金护手",
+    "白银鳞片",
+    "黄金鳞片",
+    "巨人之刀（损坏）",
+    "成人钱包",
+    "巨人钱包",
+    "迪库种子（5）",
+    "钓鱼竿",
+    "森林小步舞曲",
+    "火焰波莱罗舞曲",
+    "流水小夜曲",
+    "灵魂安魂曲",
+    "暗影夜想曲",
+    "光明前奏曲",
+    "塞尔达摇篮曲",
+    "艾波娜之歌",
+    "莎莉亚之歌",
+    "太阳之歌",
+    "时之歌",
+    "暴风雨之歌",
+    "森林勋章",
+    "火焰勋章",
+    "流水勋章",
+    "灵魂勋章",
+    "暗影勋章",
+    "光明勋章",
+    "科奇里祖母绿",
+    "戈隆红宝石",
+    "佐拉蓝宝石",
+    "苦恼之石",
+    "盖鲁多会员卡",
+    "黄金骷髅蜘蛛徽章",
+    "心之容器",
+    "心之碎片",
+    "BOSS钥匙",
+    "罗盘",
+    "迷宫地图",
+    "小钥匙",
+    "小魔法罐",
+    "大魔法罐",
+    "心之碎片",
+    "[已移除]",
+    "[已移除]",
+    "[已移除]",
+    "[已移除]",
+    "[已移除]",
+    "[已移除]",
+    "[已移除]",
+    "拉恩拉恩牛奶",
+    "恢复之心",
+    "绿卢比",
+    "蓝卢比",
+    "红卢比",
+    "紫卢比",
+    "巨型卢比",
+    "[已移除]",
+    "迪库木棒（5）",
+    "迪库木棒（10）",
+    "迪库果（5）",
+    "迪库果（10）",
+    "炸弹（5）",
+    "炸弹（10）",
+    "炸弹（20）",
+    "炸弹（30）",
+    "箭（小）",
+    "箭（中）",
+    "箭（大）",
+    "迪库种子（30）",
+    "炸弹鼠（5）",
+    "炸弹鼠（20）",
+    "迪库木棒升级（20）",
+    "迪库木棒升级（30）",
+    "迪库果升级（30）",
+    "迪库果升级（40）",
+};
+
 std::vector<std::string> questItemNamesEng = {
     "Forest Medallion",   "Fire Medallion",   "Water Medallion", "Spirit Medallion",     "Shadow Medallion",
     "Light Medallion",    "Minuet of Forest", "Bolero of Fire",  "Serenade of Water",    "Requiem of Spirit",
@@ -646,6 +920,14 @@ std::vector<std::string> questItemNamesGer = {
     "Goldenes Skulltula-Symbol",
 };
 
+std::vector<std::string> questItemNamesChi = {
+    "森林勋章",   "火焰勋章",       "流水勋章",     "灵魂勋章",         "暗影勋章",
+    "光明勋章",   "森林小步舞曲",   "火焰波莱罗舞曲", "流水小夜曲",       "灵魂安魂曲",
+    "暗影夜想曲", "光明前奏曲",     "塞尔达摇篮曲",   "艾波娜之歌",       "莎莉亚之歌",
+    "太阳之歌",   "时之歌",         "暴风雨之歌",     "科奇里祖母绿",     "戈隆红宝石",
+    "佐拉蓝宝石", "苦恼之石",       "盖鲁多会员卡",   "黄金骷髅蜘蛛徽章",
+};
+
 std::array<std::string, RA_MAX> rcareaPrefixes = {
     "KF",
     "LW",
@@ -688,23 +970,31 @@ const std::string& SohUtils::GetSceneName(int32_t scene) {
         return invalidString;
     }
 
+    if (SohGui::IsMenuChinese() && scene < sceneNamesChi.size()) {
+        return sceneNamesChi[scene];
+    }
+
     return sceneNames[scene];
 }
 
 const std::string& SohUtils::GetItemName(int32_t item) {
     const std::vector<std::string>* currentItemNames = nullptr;
 
-    switch (gSaveContext.language) {
-        case LANGUAGE_FRA:
-            currentItemNames = &itemNamesFra;
-            break;
-        case LANGUAGE_GER:
-            currentItemNames = &itemNamesGer;
-            break;
-        case LANGUAGE_ENG:
-        default:
-            currentItemNames = &itemNamesEng;
-            break;
+    if (SohGui::IsMenuChinese()) {
+        currentItemNames = &itemNamesChi;
+    } else {
+        switch (gSaveContext.language) {
+            case LANGUAGE_FRA:
+                currentItemNames = &itemNamesFra;
+                break;
+            case LANGUAGE_GER:
+                currentItemNames = &itemNamesGer;
+                break;
+            case LANGUAGE_ENG:
+            default:
+                currentItemNames = &itemNamesEng;
+                break;
+        }
     }
 
     if (item >= currentItemNames->size()) {
@@ -719,17 +1009,21 @@ const std::string& SohUtils::GetItemName(int32_t item) {
 const std::string& SohUtils::GetQuestItemName(int32_t item) {
     const std::vector<std::string>* currentQuestItemNames = nullptr;
 
-    switch (gSaveContext.language) {
-        case LANGUAGE_FRA:
-            currentQuestItemNames = &questItemNamesFra;
-            break;
-        case LANGUAGE_GER:
-            currentQuestItemNames = &questItemNamesGer;
-            break;
-        case LANGUAGE_ENG:
-        default:
-            currentQuestItemNames = &questItemNamesEng;
-            break;
+    if (SohGui::IsMenuChinese()) {
+        currentQuestItemNames = &questItemNamesChi;
+    } else {
+        switch (gSaveContext.language) {
+            case LANGUAGE_FRA:
+                currentQuestItemNames = &questItemNamesFra;
+                break;
+            case LANGUAGE_GER:
+                currentQuestItemNames = &questItemNamesGer;
+                break;
+            case LANGUAGE_ENG:
+            default:
+                currentQuestItemNames = &questItemNamesEng;
+                break;
+        }
     }
     if (item > questItemNamesEng.size()) {
         SPDLOG_WARN("Passed invalid quest item id to SohUtils::GetQuestItemName: ({})", item);

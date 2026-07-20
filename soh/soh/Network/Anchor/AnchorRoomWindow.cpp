@@ -1,5 +1,6 @@
 #include "Anchor.h"
 #include "soh/OTRGlobals.h"
+#include "soh/SohGui/SohGui.hpp"
 
 extern "C" {
 #include "variables.h"
@@ -43,7 +44,7 @@ void AnchorRoomWindow::DrawElement() {
                 activeClients++;
             }
         }
-        ImGui::Text("Players Online: %d", activeClients);
+        ImGui::Text(SohGui::L("Players Online: %d"), activeClients);
         return;
     }
 
@@ -104,9 +105,9 @@ void AnchorRoomWindow::DrawElement() {
                 ImGui::TextColored(ImVec4(1, 0, 0, 1), ICON_FA_EXCLAMATION_TRIANGLE);
                 if (ImGui::IsItemHovered()) {
                     ImGui::BeginTooltip();
-                    ImGui::Text("Incompatible version! Will not work together!");
-                    ImGui::Text("Yours: %s", Anchor::clientVersion.c_str());
-                    ImGui::Text("Theirs: %s", client.clientVersion.c_str());
+                    ImGui::Text(SohGui::L("Incompatible version! Will not work together!"));
+                    ImGui::Text(SohGui::L("Yours: %s"), Anchor::clientVersion.c_str());
+                    ImGui::Text(SohGui::L("Theirs: %s"), client.clientVersion.c_str());
                     ImGui::EndTooltip();
                 }
             }
@@ -117,9 +118,9 @@ void AnchorRoomWindow::DrawElement() {
                 ImGui::TextColored(ImVec4(1, 0, 0, 1), ICON_FA_EXCLAMATION_TRIANGLE);
                 if (ImGui::IsItemHovered()) {
                     ImGui::BeginTooltip();
-                    ImGui::Text("Seed mismatch! Continuing will break things!");
-                    ImGui::Text("Yours: %u", seed);
-                    ImGui::Text("Theirs: %u", client.seed);
+                    ImGui::Text(SohGui::L("Seed mismatch! Continuing will break things!"));
+                    ImGui::Text(SohGui::L("Yours: %u"), seed);
+                    ImGui::Text(SohGui::L("Theirs: %u"), client.seed);
                     ImGui::EndTooltip();
                 }
             }

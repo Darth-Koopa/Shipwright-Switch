@@ -403,42 +403,42 @@ const char* ResolveSceneID(int sceneID, int roomID) {
     if (sceneID == SCENE_GROTTOS) {
         switch (roomID) {
             case 0:
-                return "Generic Grotto";
+                return SohGui::L("Generic Grotto");
             case 1:
-                return "Lake Hylia Scrub Grotto";
+                return SohGui::L("Lake Hylia Scrub Grotto");
             case 2:
-                return "Redead Grotto";
+                return SohGui::L("Redead Grotto");
             case 3:
-                return "Cow Grotto";
+                return SohGui::L("Cow Grotto");
             case 4:
-                return "Scrub Trio";
+                return SohGui::L("Scrub Trio");
             case 5:
-                return "Flooded Grotto";
+                return SohGui::L("Flooded Grotto");
             case 6:
-                return "Scrub Duo (Upgrade)";
+                return SohGui::L("Scrub Duo (Upgrade)");
             case 7:
-                return "Wolfos Grotto";
+                return SohGui::L("Wolfos Grotto");
             case 8:
-                return "Hyrule Castle Storms Grotto";
+                return SohGui::L("Hyrule Castle Storms Grotto");
             case 9:
-                return "Scrub Duo";
+                return SohGui::L("Scrub Duo");
             case 10:
-                return "Tektite Grotto";
+                return SohGui::L("Tektite Grotto");
             case 11:
-                return "Forest Stage";
+                return SohGui::L("Forest Stage");
             case 12:
-                return "Webbed Grotto";
+                return SohGui::L("Webbed Grotto");
             case 13:
-                return "Big Skulltula Grotto";
+                return SohGui::L("Big Skulltula Grotto");
         };
     } else if (sceneID == SCENE_WINDMILL_AND_DAMPES_GRAVE) {
         // Only the last room of Dampe's Grave (rm 6) is considered the windmill.
-        return roomID == 6 ? "Windmill" : "Dampe's Grave";
+        return roomID == 6 ? SohGui::L("Windmill") : SohGui::L("Dampe's Grave");
     } else if (sceneID < SCENE_ID_MAX) {
-        return sceneMappings[sceneID];
+        return SohGui::L(sceneMappings[sceneID]);
     }
 
-    return "???";
+    return SohGui::L("???");
 }
 
 void DrawGameplayStatsHeader() {
@@ -447,35 +447,35 @@ void DrawGameplayStatsHeader() {
     ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
     // if tag is empty (not a release build)
     if (gGitCommitTag[0] == 0) {
-        GameplayStatsRow("Git Branch:", (char*)gGitBranch);
-        GameplayStatsRow("Git Commit Hash:", (char*)gGitCommitHash);
+        GameplayStatsRow(SohGui::L("Git Branch:"), (char*)gGitBranch);
+        GameplayStatsRow(SohGui::L("Git Commit Hash:"), (char*)gGitCommitHash);
     } else {
-        GameplayStatsRow("Build Version:", (char*)gBuildVersion);
+        GameplayStatsRow(SohGui::L("Build Version:"), (char*)gBuildVersion);
     }
     if (gSaveContext.ship.stats.rtaTiming) {
-        GameplayStatsRow("Total Time (RTA):", formatTimestampGameplayStat(GAMEPLAYSTAT_TOTAL_TIME),
+        GameplayStatsRow(SohGui::L("Total Time (RTA):"), formatTimestampGameplayStat(GAMEPLAYSTAT_TOTAL_TIME),
                          gSaveContext.ship.stats.gameComplete ? COLOR_GREEN : COLOR_WHITE);
     } else {
-        GameplayStatsRow("Total Game Time:", formatTimestampGameplayStat(GAMEPLAYSTAT_TOTAL_TIME),
+        GameplayStatsRow(SohGui::L("Total Game Time:"), formatTimestampGameplayStat(GAMEPLAYSTAT_TOTAL_TIME),
                          gSaveContext.ship.stats.gameComplete ? COLOR_GREEN : COLOR_WHITE);
     }
     if (CVarGetInteger(CVAR_GAMEPLAY_STATS("ShowAdditionalTimers"), 0)) { // !Only display total game time
-        GameplayStatsRow("Gameplay Time:", formatTimestampGameplayStat(gSaveContext.ship.stats.playTimer / 2),
+        GameplayStatsRow(SohGui::L("Gameplay Time:"), formatTimestampGameplayStat(gSaveContext.ship.stats.playTimer / 2),
                          COLOR_GREY);
-        GameplayStatsRow("Pause Menu Time:", formatTimestampGameplayStat(gSaveContext.ship.stats.pauseTimer / 3),
+        GameplayStatsRow(SohGui::L("Pause Menu Time:"), formatTimestampGameplayStat(gSaveContext.ship.stats.pauseTimer / 3),
                          COLOR_GREY);
-        GameplayStatsRow("Time in scene:", formatTimestampGameplayStat(gSaveContext.ship.stats.sceneTimer / 2),
+        GameplayStatsRow(SohGui::L("Time in scene:"), formatTimestampGameplayStat(gSaveContext.ship.stats.sceneTimer / 2),
                          COLOR_LIGHT_BLUE);
-        GameplayStatsRow("Time in room:", formatTimestampGameplayStat(gSaveContext.ship.stats.roomTimer / 2),
+        GameplayStatsRow(SohGui::L("Time in room:"), formatTimestampGameplayStat(gSaveContext.ship.stats.roomTimer / 2),
                          COLOR_LIGHT_BLUE);
     }
     if (gPlayState != NULL && CVarGetInteger(CVAR_GAMEPLAY_STATS("ShowDebugInfo"), 0)) { // && display debug info
-        GameplayStatsRow("play->sceneNum:", formatHexGameplayStat(gPlayState->sceneNum), COLOR_YELLOW);
-        GameplayStatsRow("gSaveContext.entranceIndex:", formatHexGameplayStat(gSaveContext.entranceIndex),
+        GameplayStatsRow(SohGui::L("play->sceneNum:"), formatHexGameplayStat(gPlayState->sceneNum), COLOR_YELLOW);
+        GameplayStatsRow(SohGui::L("gSaveContext.entranceIndex:"), formatHexGameplayStat(gSaveContext.entranceIndex),
                          COLOR_YELLOW);
-        GameplayStatsRow("gSaveContext.cutsceneIndex:", formatHexOnlyGameplayStat(gSaveContext.cutsceneIndex),
+        GameplayStatsRow(SohGui::L("gSaveContext.cutsceneIndex:"), formatHexOnlyGameplayStat(gSaveContext.cutsceneIndex),
                          COLOR_YELLOW);
-        GameplayStatsRow("play->roomCtx.curRoom.num:", formatIntGameplayStat(gPlayState->roomCtx.curRoom.num),
+        GameplayStatsRow(SohGui::L("play->roomCtx.curRoom.num:"), formatIntGameplayStat(gPlayState->roomCtx.curRoom.num),
                          COLOR_YELLOW);
     }
     ImGui::EndTable();
@@ -498,7 +498,11 @@ void DrawGameplayStatsTimestampsTab() {
     for (int i = 0; i < TIMESTAMP_MAX; i++) {
         // To be shown, the entry must have a non-zero time and a string for its display name
         if (itemTimestampDisplay[i].time > 0 && strnlen(itemTimestampDisplay[i].name, 21) > 1) {
-            GameplayStatsRow(itemTimestampDisplay[i].name, formatTimestampGameplayStat(itemTimestampDisplay[i].time),
+            std::string tsName = itemTimestampDisplay[i].name;
+            while (!tsName.empty() && tsName.back() == ' ') {
+                tsName.pop_back();
+            }
+            GameplayStatsRow(SohGui::L(tsName.c_str()), formatTimestampGameplayStat(itemTimestampDisplay[i].time),
                              itemTimestampDisplay[i].color);
         }
     }
@@ -532,58 +536,58 @@ void DrawGameplayStatsCountsTab() {
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 4.0f, 4.0f });
     ImGui::BeginTable("gameplayStatsCounts", 1, ImGuiTableFlags_BordersOuter);
     ImGui::TableSetupColumn("stat", ImGuiTableColumnFlags_WidthStretch);
-    GameplayStatsRow("Enemies Defeated:", formatIntGameplayStat(enemiesDefeated));
+    GameplayStatsRow(SohGui::L("Enemies Defeated:"), formatIntGameplayStat(enemiesDefeated));
     if (enemiesDefeated > 0) {
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        if (ImGui::TreeNodeEx("Enemy Details...", ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+        if (ImGui::TreeNodeEx(SohGui::L("Enemy Details..."), ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
             for (int i = COUNT_ENEMIES_DEFEATED_ANUBIS; i <= COUNT_ENEMIES_DEFEATED_WOLFOS; i++) {
                 if (i == COUNT_ENEMIES_DEFEATED_FLOORMASTER) {
-                    GameplayStatsRow(countMappings[i], formatIntGameplayStat(gSaveContext.ship.stats.count[i] / 3));
+                    GameplayStatsRow(SohGui::L(countMappings[i]), formatIntGameplayStat(gSaveContext.ship.stats.count[i] / 3));
                 } else {
-                    GameplayStatsRow(countMappings[i], formatIntGameplayStat(gSaveContext.ship.stats.count[i]));
+                    GameplayStatsRow(SohGui::L(countMappings[i]), formatIntGameplayStat(gSaveContext.ship.stats.count[i]));
                 }
             }
         }
     }
-    GameplayStatsRow("Rupees Collected:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_RUPEES_COLLECTED]),
-                     COLOR_WHITE, "Includes rupees collected with a full wallet.");
-    GameplayStatsRow("Rupees Spent:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_RUPEES_SPENT]));
-    GameplayStatsRow("Chests Opened:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_CHESTS_OPENED]));
-    GameplayStatsRow("Ammo Used:", formatIntGameplayStat(ammoUsed));
+    GameplayStatsRow(SohGui::L("Rupees Collected:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_RUPEES_COLLECTED]),
+                     COLOR_WHITE, SohGui::L("Includes rupees collected with a full wallet."));
+    GameplayStatsRow(SohGui::L("Rupees Spent:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_RUPEES_SPENT]));
+    GameplayStatsRow(SohGui::L("Chests Opened:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_CHESTS_OPENED]));
+    GameplayStatsRow(SohGui::L("Ammo Used:"), formatIntGameplayStat(ammoUsed));
     if (ammoUsed > 0) {
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        if (ImGui::TreeNodeEx("Ammo Details...", ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+        if (ImGui::TreeNodeEx(SohGui::L("Ammo Details..."), ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
             for (int i = COUNT_AMMO_USED_STICK; i <= COUNT_AMMO_USED_BEAN; i++) {
-                GameplayStatsRow(countMappings[i], formatIntGameplayStat(gSaveContext.ship.stats.count[i]));
+                GameplayStatsRow(SohGui::L(countMappings[i]), formatIntGameplayStat(gSaveContext.ship.stats.count[i]));
             }
         }
     }
-    GameplayStatsRow("Damage Taken:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_DAMAGE_TAKEN]));
-    GameplayStatsRow("Sword Swings:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_SWORD_SWINGS]));
-    GameplayStatsRow("Steps Taken:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_STEPS]));
+    GameplayStatsRow(SohGui::L("Damage Taken:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_DAMAGE_TAKEN]));
+    GameplayStatsRow(SohGui::L("Sword Swings:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_SWORD_SWINGS]));
+    GameplayStatsRow(SohGui::L("Steps Taken:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_STEPS]));
     // If using MM Bunny Hood enhancement, show how long it's been equipped (not counting pause time)
     if (CVarGetInteger(CVAR_ENHANCEMENT("MMBunnyHood"), BUNNY_HOOD_VANILLA) != BUNNY_HOOD_VANILLA ||
         gSaveContext.ship.stats.count[COUNT_TIME_BUNNY_HOOD] > 0) {
-        GameplayStatsRow("Bunny Hood Time:",
+        GameplayStatsRow(SohGui::L("Bunny Hood Time:"),
                          formatTimestampGameplayStat(gSaveContext.ship.stats.count[COUNT_TIME_BUNNY_HOOD] / 2));
     }
-    GameplayStatsRow("Rolls:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_ROLLS]));
-    GameplayStatsRow("Bonks:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_BONKS]));
-    GameplayStatsRow("Sidehops:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_SIDEHOPS]));
-    GameplayStatsRow("Backflips:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_BACKFLIPS]));
-    GameplayStatsRow("Ice Traps:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_ICE_TRAPS]));
-    GameplayStatsRow("Pauses:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_PAUSES]));
-    GameplayStatsRow("Pots Smashed:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_POTS_BROKEN]));
-    GameplayStatsRow("Bushes Cut:", formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_BUSHES_CUT]));
-    GameplayStatsRow("Buttons Pressed:", formatIntGameplayStat(buttonPresses));
+    GameplayStatsRow(SohGui::L("Rolls:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_ROLLS]));
+    GameplayStatsRow(SohGui::L("Bonks:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_BONKS]));
+    GameplayStatsRow(SohGui::L("Sidehops:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_SIDEHOPS]));
+    GameplayStatsRow(SohGui::L("Backflips:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_BACKFLIPS]));
+    GameplayStatsRow(SohGui::L("Ice Traps:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_ICE_TRAPS]));
+    GameplayStatsRow(SohGui::L("Pauses:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_PAUSES]));
+    GameplayStatsRow(SohGui::L("Pots Smashed:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_POTS_BROKEN]));
+    GameplayStatsRow(SohGui::L("Bushes Cut:"), formatIntGameplayStat(gSaveContext.ship.stats.count[COUNT_BUSHES_CUT]));
+    GameplayStatsRow(SohGui::L("Buttons Pressed:"), formatIntGameplayStat(buttonPresses));
     if (buttonPresses > 0) {
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
-        if (ImGui::TreeNodeEx("Buttons...", ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
+        if (ImGui::TreeNodeEx(SohGui::L("Buttons..."), ImGuiTreeNodeFlags_NoTreePushOnOpen)) {
             for (int i = COUNT_BUTTON_PRESSES_A; i <= COUNT_BUTTON_PRESSES_START; i++) {
-                GameplayStatsRow(countMappings[i], formatIntGameplayStat(gSaveContext.ship.stats.count[i]));
+                GameplayStatsRow(SohGui::L(countMappings[i]), formatIntGameplayStat(gSaveContext.ship.stats.count[i]));
             }
         }
     }
@@ -598,7 +602,7 @@ void DrawGameplayStatsBreakdownTab() {
         std::string name;
         if (CVarGetInteger(CVAR_GAMEPLAY_STATS("RoomBreakdown"), 0) &&
             gSaveContext.ship.stats.sceneTimestamps[i].scene != SCENE_GROTTOS) {
-            name = fmt::format("{:s} Room {:d}", sceneName, gSaveContext.ship.stats.sceneTimestamps[i].room);
+            name = fmt::format("{:s} {} {:d}", sceneName, SohGui::L("Room"), gSaveContext.ship.stats.sceneTimestamps[i].room);
         } else {
             name = sceneName;
         }
@@ -622,8 +626,9 @@ void DrawGameplayStatsBreakdownTab() {
     }
     std::string toPass;
     if (CVarGetInteger(CVAR_GAMEPLAY_STATS("RoomBreakdown"), 0) && gSaveContext.ship.stats.sceneNum != SCENE_GROTTOS) {
-        toPass = fmt::format("{:s} Room {:d}",
+        toPass = fmt::format("{:s} {} {:d}",
                              ResolveSceneID(gSaveContext.ship.stats.sceneNum, gSaveContext.ship.stats.roomNum),
+                             SohGui::L("Room"),
                              gSaveContext.ship.stats.roomNum);
     } else {
         toPass = ResolveSceneID(gSaveContext.ship.stats.sceneNum, gSaveContext.ship.stats.roomNum);
@@ -634,27 +639,27 @@ void DrawGameplayStatsBreakdownTab() {
 }
 
 void DrawGameplayStatsOptionsTab() {
-    UIWidgets::CVarCheckbox("Show in-game total timer", CVAR_GAMEPLAY_STATS("ShowIngameTimer"),
+    UIWidgets::CVarCheckbox(SohGui::L("Show in-game total timer"), CVAR_GAMEPLAY_STATS("ShowIngameTimer"),
                             UIWidgets::CheckboxOptions()
-                                .Tooltip("Keep track of the timer as an in-game HUD element. The position of the "
-                                         "timer can be changed in the Cosmetics Editor.")
+                                .Tooltip(SohGui::L("Keep track of the timer as an in-game HUD element. The position of the "
+                                         "timer can be changed in the Cosmetics Editor."))
                                 .Color(THEME_COLOR));
-    UIWidgets::CVarCheckbox("Show latest timestamps on top", CVAR_GAMEPLAY_STATS("ReverseTimestamps"),
+    UIWidgets::CVarCheckbox(SohGui::L("Show latest timestamps on top"), CVAR_GAMEPLAY_STATS("ReverseTimestamps"),
                             UIWidgets::CheckboxOptions().Color(THEME_COLOR));
-    UIWidgets::CVarCheckbox("Room Breakdown", CVAR_GAMEPLAY_STATS("RoomBreakdown"),
+    UIWidgets::CVarCheckbox(SohGui::L("Room Breakdown"), CVAR_GAMEPLAY_STATS("RoomBreakdown"),
                             UIWidgets::CheckboxOptions()
-                                .Tooltip("Allows a more in-depth perspective of time spent in a certain map.")
+                                .Tooltip(SohGui::L("Allows a more in-depth perspective of time spent in a certain map."))
                                 .Color(THEME_COLOR));
-    UIWidgets::CVarCheckbox("RTA Timing on new files", CVAR_GAMEPLAY_STATS("RTATiming"),
+    UIWidgets::CVarCheckbox(SohGui::L("RTA Timing on new files"), CVAR_GAMEPLAY_STATS("RTATiming"),
                             UIWidgets::CheckboxOptions()
-                                .Tooltip("Timestamps are relative to starting timestamp rather than in game time, "
+                                .Tooltip(SohGui::L("Timestamps are relative to starting timestamp rather than in game time, "
                                          "usually necessary for races/speedruns.\n\n"
                                          "Starting timestamp is on first non-C-up input after intro cutscene.\n\n"
-                                         "NOTE: THIS NEEDS TO BE SET BEFORE CREATING A FILE TO TAKE EFFECT")
+                                         "NOTE: THIS NEEDS TO BE SET BEFORE CREATING A FILE TO TAKE EFFECT"))
                                 .Color(THEME_COLOR));
-    UIWidgets::CVarCheckbox("Show additional detail timers", CVAR_GAMEPLAY_STATS("ShowAdditionalTimers"),
+    UIWidgets::CVarCheckbox(SohGui::L("Show additional detail timers"), CVAR_GAMEPLAY_STATS("ShowAdditionalTimers"),
                             UIWidgets::CheckboxOptions().Color(THEME_COLOR));
-    UIWidgets::CVarCheckbox("Show Debug Info", CVAR_GAMEPLAY_STATS("ShowDebugInfo"),
+    UIWidgets::CVarCheckbox(SohGui::L("Show Debug Info"), CVAR_GAMEPLAY_STATS("ShowDebugInfo"),
                             UIWidgets::CheckboxOptions().Color(THEME_COLOR));
 }
 
@@ -665,19 +670,19 @@ void GameplayStatsWindow::DrawElement() {
     UIWidgets::PushStyleTabs(THEME_COLOR);
 
     if (ImGui::BeginTabBar("Stats", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
-        if (ImGui::BeginTabItem("Timestamps")) {
+        if (ImGui::BeginTabItem(SohGui::L("Timestamps"))) {
             DrawGameplayStatsTimestampsTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Counts")) {
+        if (ImGui::BeginTabItem(SohGui::L("Counts"))) {
             DrawGameplayStatsCountsTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Breakdown")) {
+        if (ImGui::BeginTabItem(SohGui::L("Breakdown"))) {
             DrawGameplayStatsBreakdownTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Options")) {
+        if (ImGui::BeginTabItem(SohGui::L("Options"))) {
             DrawGameplayStatsOptionsTab();
             ImGui::EndTabItem();
         }
@@ -687,7 +692,7 @@ void GameplayStatsWindow::DrawElement() {
     UIWidgets::PopStyleTabs();
     ImGui::PopFont();
 
-    ImGui::Text("Note: Gameplay stats are saved to the current file and will be\nlost if you quit without saving.");
+    ImGui::Text(SohGui::L("Note: Gameplay stats are saved to the current file and will be\nlost if you quit without saving."));
 }
 void InitStats(bool isDebug) {
     gSaveContext.ship.stats.heartPieces = isDebug ? 8 : 0;

@@ -879,7 +879,7 @@ void ActorViewerWindow::DrawElement() {
             bool toggled = false;
             bool optionChange = false;
 
-            ImGui::SeparatorText("Options");
+            ImGui::SeparatorText(SohGui::L("Options"));
 
             toggled = UIWidgets::CVarCheckbox("Actor Name Tags", CVAR_ACTOR_NAME_TAGS("Enabled"),
                                               { { .tooltip = "Adds \"name tags\" above actors for identification" } });
@@ -889,7 +889,7 @@ void ActorViewerWindow::DrawElement() {
             UIWidgets::Button("Display Items", { { .tooltip = "Click to add display items on the name tags" } });
 
             if (ImGui::BeginPopupContextItem(nullptr, ImGuiPopupFlags_MouseButtonLeft | ImGuiPopupFlags_NoReopen)) {
-                optionChange |= UIWidgets::CVarCheckbox("ID", CVAR_ACTOR_NAME_TAGS("DisplayID"));
+                optionChange |= UIWidgets::CVarCheckbox(SohGui::L("ID"), CVAR_ACTOR_NAME_TAGS("DisplayID"));
                 optionChange |= UIWidgets::CVarCheckbox("Description", CVAR_ACTOR_NAME_TAGS("DisplayDescription"));
                 optionChange |= UIWidgets::CVarCheckbox("Category", CVAR_ACTOR_NAME_TAGS("DisplayCategory"));
                 optionChange |= UIWidgets::CVarCheckbox("Params", CVAR_ACTOR_NAME_TAGS("DisplayParams"));
@@ -927,9 +927,9 @@ void ActorViewerWindow::DrawElement() {
         ImGui::EndChild();
 
         PushStyleCombobox(THEME_COLOR);
-        if (ImGui::BeginCombo("Actor Type", acMapping[category])) {
+        if (ImGui::BeginCombo(SohGui::L("Actor Type"), SohGui::L(acMapping[category]))) {
             for (int i = 0; i < acMapping.size(); i++) {
-                if (ImGui::Selectable(acMapping[i])) {
+                if (ImGui::Selectable(SohGui::L(acMapping[i]))) {
                     category = i;
                     PopulateActorDropdown(category, list);
                     break;
@@ -942,7 +942,7 @@ void ActorViewerWindow::DrawElement() {
             filler = "Please select";
         }
 
-        if (ImGui::BeginCombo("Actor", filler.c_str())) {
+        if (ImGui::BeginCombo(SohGui::L("Actor"), SohGui::L(filler.c_str()))) {
             for (int i = 0; i < list.size(); i++) {
                 std::string label = std::to_string(i) + ": " + ActorDB::Instance->RetrieveEntry(list[i]->id).name;
                 std::string description = GetActorDescription(list[i]->id);
@@ -960,16 +960,17 @@ void ActorViewerWindow::DrawElement() {
         PopStyleCombobox();
 
         PushStyleHeader(THEME_COLOR);
-        if (ImGui::TreeNode("Selected Actor")) {
+        if (ImGui::TreeNode(SohGui::L("Selected Actor"))) {
             if (display != nullptr) {
                 DrawGroupWithBorder(
                     [&]() {
-                        ImGui::Text("Name: %s", ActorDB::Instance->RetrieveEntry(display->id).name.c_str());
-                        ImGui::Text("Description: %s", GetActorDescription(display->id).c_str());
-                        ImGui::Text("Category: %s", acMapping[display->category]);
-                        ImGui::Text("ID: %d", display->id);
-                        ImGui::Text("Parameters: %d", display->params);
-                        ImGui::Text("Actor List Index: %d", GetActorListIndex(display));
+                        ImGui::Text("%s: %s", SohGui::L("Name"),
+                                    SohGui::L(ActorDB::Instance->RetrieveEntry(display->id).name.c_str()));
+                        ImGui::Text("%s: %s", SohGui::L("Description"), GetActorDescription(display->id).c_str());
+                        ImGui::Text("%s: %s", SohGui::L("Category"), acMapping[display->category]);
+                        ImGui::Text("%s: %d", SohGui::L("ID"), display->id);
+                        ImGui::Text("%s: %d", SohGui::L("Parameters"), display->params);
+                        ImGui::Text("%s: %d", SohGui::L("Actor List Index"), GetActorListIndex(display));
                     },
                     "Selected Actor");
                 ImGui::SameLine();
@@ -979,7 +980,7 @@ void ActorViewerWindow::DrawElement() {
                     [&]() {
                         ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                         PushStyleInput(THEME_COLOR);
-                        ImGui::Text("Actor Position");
+                        ImGui::Text("%s", SohGui::L("Actor Position"));
                         ImGui::InputScalar("X##CurPos", ImGuiDataType_Float, &display->world.pos.x);
                         ImGui::InputScalar("Y##CurPos", ImGuiDataType_Float, &display->world.pos.y);
                         ImGui::InputScalar("Z##CurPos", ImGuiDataType_Float, &display->world.pos.z);
@@ -992,7 +993,7 @@ void ActorViewerWindow::DrawElement() {
                     [&]() {
                         PushStyleInput(THEME_COLOR);
                         ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
-                        ImGui::Text("Actor Rotation");
+                        ImGui::Text("%s", SohGui::L("Actor Rotation"));
                         ImGui::InputScalar("X##CurRot", ImGuiDataType_S16, &display->world.rot.x);
                         ImGui::InputScalar("Y##CurRot", ImGuiDataType_S16, &display->world.rot.y);
                         ImGui::InputScalar("Z##CurRot", ImGuiDataType_S16, &display->world.rot.z);
@@ -1003,7 +1004,7 @@ void ActorViewerWindow::DrawElement() {
 
                 if (display->category == ACTORCAT_BOSS || display->category == ACTORCAT_ENEMY) {
                     PushStyleInput(THEME_COLOR);
-                    ImGui::InputScalar("Enemy Health", ImGuiDataType_U8, &display->colChkInfo.health);
+                    ImGui::InputScalar(SohGui::L("Enemy Health"), ImGuiDataType_U8, &display->colChkInfo.health);
                     PopStyleInput();
                     UIWidgets::InsertHelpHoverText("Some actors might not use this!");
                 }
@@ -1030,7 +1031,7 @@ void ActorViewerWindow::DrawElement() {
                     Math_Vec3f_Copy(&player->actor.home.pos, &player->actor.world.pos);
                 }
             } else {
-                ImGui::Text("Select an actor to display information.");
+                ImGui::Text("%s", SohGui::L("Select an actor to display information."));
             }
 
             if (Button("Fetch from Target",
@@ -1066,7 +1067,7 @@ void ActorViewerWindow::DrawElement() {
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("New...")) {
+        if (ImGui::TreeNode(SohGui::L("New..."))) {
             // ImGui::PushItemWidth(ImGui::GetFontSize() * 10);
 
             if (InputString("Search Actor", &searchString, InputOptions().Color(THEME_COLOR))) {
@@ -1094,27 +1095,27 @@ void ActorViewerWindow::DrawElement() {
             }
 
             ImGui::Text("%s", GetActorDescription(newActor.id).c_str());
-            if (ImGui::InputScalar("ID", ImGuiDataType_S16, &newActor.id, &one)) {
+            if (ImGui::InputScalar(SohGui::L("ID"), ImGuiDataType_S16, &newActor.id, &one)) {
                 newActor.params = 0;
             }
 
-            CVarCheckbox("Advanced mode", CVAR_DEVELOPER_TOOLS("ActorViewer.AdvancedParams"),
+            CVarCheckbox(SohGui::L("Advanced mode"), CVAR_DEVELOPER_TOOLS("ActorViewer.AdvancedParams"),
                          CheckboxOptions().Tooltip("Changes the actor specific param menus with a direct input"));
 
             if (CVarGetInteger(CVAR_DEVELOPER_TOOLS("ActorViewer.AdvancedParams"), 0)) {
                 PushStyleInput(THEME_COLOR);
-                ImGui::InputScalar("params", ImGuiDataType_S16, &newActor.params, &one);
+                ImGui::InputScalar(SohGui::L("params"), ImGuiDataType_S16, &newActor.params, &one);
                 PopStyleInput();
             } else if (std::find(noParamsActors.begin(), noParamsActors.end(), newActor.id) == noParamsActors.end()) {
                 CreateActorSpecificData();
                 if (actorSpecificData.find(newActor.id) == actorSpecificData.end()) {
                     PushStyleInput(THEME_COLOR);
-                    ImGui::InputScalar("params", ImGuiDataType_S16, &newActor.params, &one);
+                    ImGui::InputScalar(SohGui::L("params"), ImGuiDataType_S16, &newActor.params, &one);
                     PopStyleInput();
                 } else {
                     DrawGroupWithBorder(
                         [&]() {
-                            ImGui::Text("Actor Specific Data");
+                            ImGui::Text("%s", SohGui::L("Actor Specific Data"));
                             newActor.params = actorSpecificData[newActor.id](newActor.params);
                         },
                         "Actor Specific Data");
@@ -1126,7 +1127,7 @@ void ActorViewerWindow::DrawElement() {
             DrawGroupWithBorder(
                 [&]() {
                     PushStyleInput(THEME_COLOR);
-                    ImGui::Text("New Actor Position");
+                    ImGui::Text("%s", SohGui::L("New Actor Position"));
                     ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                     ImGui::InputScalar("X##NewPos", ImGuiDataType_Float, &newActor.pos.x);
                     ImGui::InputScalar("Y##NewPos", ImGuiDataType_Float, &newActor.pos.y);
@@ -1139,7 +1140,7 @@ void ActorViewerWindow::DrawElement() {
             DrawGroupWithBorder(
                 [&]() {
                     PushStyleInput(THEME_COLOR);
-                    ImGui::Text("New Actor Rotation");
+                    ImGui::Text("%s", SohGui::L("New Actor Rotation"));
                     ImGui::PushItemWidth(ImGui::GetFontSize() * 6);
                     ImGui::InputScalar("X##NewRot", ImGuiDataType_S16, &newActor.rot.x);
                     ImGui::InputScalar("Y##NewRot", ImGuiDataType_S16, &newActor.rot.y);
@@ -1188,7 +1189,7 @@ void ActorViewerWindow::DrawElement() {
         }
         PopStyleHeader();
     } else {
-        ImGui::Text("Global Context needed for actor info!");
+        ImGui::Text("%s", SohGui::L("Global Context needed for actor info!"));
     }
     ImGui::EndDisabled();
 }

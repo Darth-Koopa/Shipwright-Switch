@@ -1017,7 +1017,7 @@ void CheckTrackerWindow::DrawElement() {
             static_cast<TrackerWindowType>(CVarGetInteger(CVAR_TRACKER_CHECK("WindowType"), TRACKER_WINDOW_WINDOW)),
             CVarGetInteger(CVAR_TRACKER_CHECK("Draggable"), 1), ImGuiWindowFlags_NoScrollbar)) {
         if (!GameInteractor::IsSaveLoaded() || !initialized) {
-            ImGui::Text("Waiting for file load..."); // TODO Language
+            ImGui::Text(SohGui::L("Waiting for file load...")); // TODO Language
             Trackers::EndFloatWindows();
             return;
         }
@@ -1989,7 +1989,7 @@ void ImGuiDrawTwoColorPickerSection(const char* text, const char* cvarMainName, 
     extra_color = cvarExtraColor;
 
     UIWidgets::PushStyleCombobox(theme);
-    if (ImGui::CollapsingHeader(text)) {
+    if (ImGui::CollapsingHeader(SohGui::L(text))) {
         if (*cvarHideName != '\0') {
             std::string label = cvarHideName;
             label += "##Hidden";
@@ -2021,7 +2021,7 @@ void ImGuiDrawTwoColorPickerSection(const char* text, const char* cvarMainName, 
     if (tooltip != NULL && strlen(tooltip) != 0) {
         ImGui::SameLine();
         ImGui::Text(" ?");
-        UIWidgets::Tooltip(tooltip);
+        UIWidgets::Tooltip(SohGui::L(tooltip));
     }
     UIWidgets::PopStyleCombobox();
 }
@@ -2123,8 +2123,8 @@ void CheckTrackerWindow::Draw() {
 void CheckTrackerSettingsWindow::DrawElement() {
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 8.0f, 8.0f });
     if (ImGui::BeginTable("CheckTrackerSettingsTable", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("General settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Section settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::L("General settings"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::L("Section settings"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::TableHeadersRow();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
@@ -2191,7 +2191,7 @@ void CheckTrackerSettingsWindow::DrawElement() {
                 .Color(THEME_COLOR)
                 .DefaultValue(true));
 
-        ImGui::SeparatorText("Tracker Header Visibility");
+        ImGui::SeparatorText(SohGui::L("Tracker Header Visibility"));
         UIWidgets::CVarCheckbox("Hidden Items Toggle", CVAR_TRACKER_CHECK("HiddenItemsToggleVisible"),
                                 UIWidgets::CheckboxOptions().Color(THEME_COLOR).DefaultValue(true));
         UIWidgets::CVarCheckbox("Available Checks Toggle", CVAR_TRACKER_CHECK("AvailableChecksToggleVisible"),

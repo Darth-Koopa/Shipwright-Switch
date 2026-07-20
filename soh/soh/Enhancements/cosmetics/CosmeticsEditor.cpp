@@ -1532,7 +1532,7 @@ void Table_InitHeader(bool has_header = true) {
 void DrawUseMarginsSlider(const std::string ElementName, const std::string CvarName) {
     std::string CvarLabel = CvarName + ".UseMargins";
     std::string Label = ElementName + " use margins";
-    UIWidgets::CVarCheckbox(Label.c_str(), CvarLabel.c_str(),
+    UIWidgets::CVarCheckbox(SohGui::L(Label.c_str()), CvarLabel.c_str(),
                             UIWidgets::CheckboxOptions()
                                 .Color(THEME_COLOR)
                                 .Tooltip("Using this allow you move the element with General margins sliders"));
@@ -1540,28 +1540,30 @@ void DrawUseMarginsSlider(const std::string ElementName, const std::string CvarN
 
 void DrawPositionsRadioBoxes(const std::string CvarName, bool NoAnchorEnabled = true) {
     std::string CvarLabel = CvarName + ".PosType";
-    UIWidgets::CVarRadioButton("Original position", CvarLabel.c_str(), 0,
+    ImGui::PushID(CvarLabel.c_str());
+    UIWidgets::CVarRadioButton(SohGui::L("Original position"), CvarLabel.c_str(), 0,
                                UIWidgets::RadioButtonsOptions()
                                    .Color(THEME_COLOR)
                                    .Tooltip("This will use original intended elements position"));
-    UIWidgets::CVarRadioButton("Anchor to the left", CvarLabel.c_str(), 1,
+    UIWidgets::CVarRadioButton(SohGui::L("Anchor to the left"), CvarLabel.c_str(), 1,
                                UIWidgets::RadioButtonsOptions()
                                    .Color(THEME_COLOR)
                                    .Tooltip("This will make your elements follow the left side of your game window"));
-    UIWidgets::CVarRadioButton("Anchor to the right", CvarLabel.c_str(), 2,
+    UIWidgets::CVarRadioButton(SohGui::L("Anchor to the right"), CvarLabel.c_str(), 2,
                                UIWidgets::RadioButtonsOptions()
                                    .Color(THEME_COLOR)
                                    .Tooltip("This will make your elements follow the right side of your game window"));
     if (NoAnchorEnabled) {
         UIWidgets::CVarRadioButton(
-            "No anchors", CvarLabel.c_str(), 3,
+            SohGui::L("No anchors"), CvarLabel.c_str(), 3,
             UIWidgets::RadioButtonsOptions()
                 .Color(THEME_COLOR)
                 .Tooltip("This will make your elements to not follow any side\nBetter used for center elements"));
     }
     UIWidgets::CVarRadioButton(
-        "Hidden", CvarLabel.c_str(), 4,
+        SohGui::L("Hidden"), CvarLabel.c_str(), 4,
         UIWidgets::RadioButtonsOptions().Color(THEME_COLOR).Tooltip("This will make your elements hidden"));
+    ImGui::PopID();
 }
 
 void DrawPositionSlider(const std::string CvarName, int MinY, int MaxY, int MinX, int MaxX) {
@@ -1599,7 +1601,7 @@ void Draw_Table_Dropdown(const char* Header_Title, const char* Table_ID, const c
                          const char* Slider_Title, const char* Slider_ID, int MinY, int MaxY, int MinX, int MaxX,
                          float Default_Value) {
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader(Header_Title)) {
+    if (ImGui::CollapsingHeader(SohGui::L(Header_Title))) {
         if (ImGui::BeginTable(Table_ID, 1, FlagsTable)) {
             ImGui::TableSetupColumn(Column_Title, FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1617,7 +1619,7 @@ void C_Button_Dropdown(const char* Header_Title, const char* Table_ID, const cha
                        const char* Slider_Title, const char* Slider_ID, const char* Int_Type,
                        float Slider_Scale_Value) {
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader(Header_Title)) {
+    if (ImGui::CollapsingHeader(SohGui::L(Header_Title))) {
         if (ImGui::BeginTable(Table_ID, 1, FlagsTable)) {
             ImGui::TableSetupColumn(Column_Title, FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1657,29 +1659,29 @@ void C_Button_Dropdown(const char* Header_Title, const char* Table_ID, const cha
 
 void Draw_Placements() {
     UIWidgets::PushStyleHeader(THEME_COLOR);
-    ImGui::SeparatorText("General Margins Settings");
-    UIWidgets::CVarSliderInt("Top: %dpx", CVAR_COSMETIC("HUD.Margin.T"),
+    ImGui::SeparatorText(SohGui::L("General Margins Settings"));
+    UIWidgets::CVarSliderInt(SohGui::L("Top: %dpx"), CVAR_COSMETIC("HUD.Margin.T"),
                              UIWidgets::IntSliderOptions()
                                  .Min(static_cast<s16>(ImGui::GetWindowViewport()->Size.y / 2) * -1)
                                  .Max(25)
                                  .DefaultValue(0)
                                  .Size(ImVec2(300.0f, 0.0f))
                                  .Color(THEME_COLOR));
-    UIWidgets::CVarSliderInt("Left: %dpx", CVAR_COSMETIC("HUD.Margin.L"),
+    UIWidgets::CVarSliderInt(SohGui::L("Left: %dpx"), CVAR_COSMETIC("HUD.Margin.L"),
                              UIWidgets::IntSliderOptions()
                                  .Min(-25)
                                  .Max(static_cast<s16>(ImGui::GetWindowViewport()->Size.x))
                                  .DefaultValue(0)
                                  .Size(ImVec2(300.0f, 0.0f))
                                  .Color(THEME_COLOR));
-    UIWidgets::CVarSliderInt("Right: %dpx", CVAR_COSMETIC("HUD.Margin.R"),
+    UIWidgets::CVarSliderInt(SohGui::L("Right: %dpx"), CVAR_COSMETIC("HUD.Margin.R"),
                              UIWidgets::IntSliderOptions()
                                  .Min(static_cast<s16>(ImGui::GetWindowViewport()->Size.x) * -1)
                                  .Max(25)
                                  .DefaultValue(0)
                                  .Size(ImVec2(300.0f, 0.0f))
                                  .Color(THEME_COLOR));
-    UIWidgets::CVarSliderInt("Bottom: %dpx", CVAR_COSMETIC("HUD.Margin.B"),
+    UIWidgets::CVarSliderInt(SohGui::L("Bottom: %dpx"), CVAR_COSMETIC("HUD.Margin.B"),
                              UIWidgets::IntSliderOptions()
                                  .Min(static_cast<s16>(ImGui::GetWindowViewport()->Size.y / 2) * -1)
                                  .Max(25)
@@ -1694,7 +1696,7 @@ void Draw_Placements() {
     ImGui::SameLine();
     ResetPositionAll();
     UIWidgets::Separator(true, true, 2.0f, 2.0f);
-    if (ImGui::CollapsingHeader("Hearts count position")) {
+    if (ImGui::CollapsingHeader(SohGui::L("Hearts count position"))) {
         if (ImGui::BeginTable("tableHeartsCounts", 1, FlagsTable)) {
             ImGui::TableSetupColumn("Hearts counts settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1716,14 +1718,14 @@ void Draw_Placements() {
             ImGui::EndTable();
         }
     }
-    if (ImGui::CollapsingHeader("Magic Meter position")) {
+    if (ImGui::CollapsingHeader(SohGui::L("Magic Meter position"))) {
         if (ImGui::BeginTable("tablemmpos", 1, FlagsTable)) {
             ImGui::TableSetupColumn("Magic meter settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             DrawUseMarginsSlider("Magic meter", CVAR_COSMETIC("HUD.MagicBar"));
             DrawPositionsRadioBoxes(CVAR_COSMETIC("HUD.MagicBar"));
             UIWidgets::CVarRadioButton(
-                "Anchor to life bar", CVAR_COSMETIC("HUD.MagicBar.PosType"), 5,
+                SohGui::L("Anchor to life bar"), CVAR_COSMETIC("HUD.MagicBar.PosType"), 5,
                 UIWidgets::RadioButtonsOptions()
                     .Color(THEME_COLOR)
                     .Tooltip("This will make your elements follow the bottom of the life meter"));
@@ -1735,7 +1737,7 @@ void Draw_Placements() {
         }
     }
     if (CVarGetInteger(CVAR_ENHANCEMENT("VisualAgony"), 0) &&
-        ImGui::CollapsingHeader("Visual stone of agony position")) {
+        ImGui::CollapsingHeader(SohGui::L("Visual stone of agony position"))) {
         if (ImGui::BeginTable("tabledvisualstoneofagony", 1, FlagsTable)) {
             ImGui::TableSetupColumn("Visual stone of agony settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1771,7 +1773,7 @@ void Draw_Placements() {
                       CVAR_COSMETIC("HUD.CLeftButton"), CVAR_COSMETIC("HUD.CLeftButton.PosType"), 0.87f);
     C_Button_Dropdown("C Button Right position", "tablecrbtn", "C Button Right settings", "C Button Right",
                       CVAR_COSMETIC("HUD.CRightButton"), CVAR_COSMETIC("HUD.CRightButton.PosType"), 0.87f);
-    if (CVarGetInteger(CVAR_ENHANCEMENT("DpadEquips"), 0) && ImGui::CollapsingHeader("DPad items position")) {
+    if (CVarGetInteger(CVAR_ENHANCEMENT("DpadEquips"), 0) && ImGui::CollapsingHeader(SohGui::L("DPad items position"))) {
         if (ImGui::BeginTable("tabledpaditems", 1, FlagsTable)) {
             ImGui::TableSetupColumn("DPad items settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
@@ -1823,21 +1825,21 @@ void Draw_Placements() {
                         "In-game Gameplay Timer", CVAR_COSMETIC("HUD.IGT"), 0,
                         static_cast<int>(ImGui::GetWindowViewport()->Size.y / 2), -50,
                         static_cast<int>(ImGui::GetWindowViewport()->Size.x / 2) + 10, 1.0f);
-    if (ImGui::CollapsingHeader("Enemy Health Bar position")) {
+    if (ImGui::CollapsingHeader(SohGui::L("Enemy Health Bar position"))) {
         if (ImGui::BeginTable("enemyhealthbar", 1, FlagsTable)) {
             ImGui::TableSetupColumn("Enemy Health Bar settings", FlagsCell, TablesCellsWidth);
             Table_InitHeader(false);
             std::string posTypeCVar = CVAR_COSMETIC("HUD.EnemyHealthBar.PosType");
             UIWidgets::CVarRadioButton(
-                "Anchor to Enemy", CVAR_COSMETIC("HUD.EnemyHealthBar.PosType"), ENEMYHEALTH_ANCHOR_ACTOR,
+                SohGui::L("Anchor to Enemy"), CVAR_COSMETIC("HUD.EnemyHealthBar.PosType"), ENEMYHEALTH_ANCHOR_ACTOR,
                 UIWidgets::RadioButtonsOptions().Color(THEME_COLOR).Tooltip("This will use enemy on screen position"));
             UIWidgets::CVarRadioButton(
-                "Anchor to the top", CVAR_COSMETIC("HUD.EnemyHealthBar.PosType"), ENEMYHEALTH_ANCHOR_TOP,
+                SohGui::L("Anchor to the top"), CVAR_COSMETIC("HUD.EnemyHealthBar.PosType"), ENEMYHEALTH_ANCHOR_TOP,
                 UIWidgets::RadioButtonsOptions()
                     .Color(THEME_COLOR)
                     .Tooltip("This will make your elements follow the top edge of your game window"));
             UIWidgets::CVarRadioButton(
-                "Anchor to the bottom", CVAR_COSMETIC("HUD.EnemyHealthBar.PosType"), ENEMYHEALTH_ANCHOR_BOTTOM,
+                SohGui::L("Anchor to the bottom"), CVAR_COSMETIC("HUD.EnemyHealthBar.PosType"), ENEMYHEALTH_ANCHOR_BOTTOM,
                 UIWidgets::RadioButtonsOptions()
                     .Color(THEME_COLOR)
                     .Tooltip("This will make your elements follow the bottom edge of your game window"));
@@ -2210,8 +2212,10 @@ void ResetColor(CosmeticOption& cosmeticOption) {
 }
 
 void DrawCosmeticRow(CosmeticOption& cosmeticOption) {
-    if (UIWidgets::CVarColorPicker(cosmeticOption.label.c_str(), cosmeticOption.cvar, cosmeticOption.defaultColor,
-                                   cosmeticOption.supportsAlpha, 0, THEME_COLOR)) {
+    if (UIWidgets::CVarColorPicker((std::string(SohGui::L(cosmeticOption.label.c_str())) + "##" + cosmeticOption.label)
+                                       .c_str(),
+                                   cosmeticOption.cvar, cosmeticOption.defaultColor, cosmeticOption.supportsAlpha, 0,
+                                   THEME_COLOR)) {
         CVarSetInteger((cosmeticOption.rainbowCvar), 0);
         CVarSetInteger((cosmeticOption.changedCvar), 1);
         ApplySideEffects(cosmeticOption);
@@ -2229,7 +2233,8 @@ void DrawCosmeticRow(CosmeticOption& cosmeticOption) {
     }
     if (cosmeticOption.supportsRainbow) {
         ImGui::SameLine();
-        if (UIWidgets::CVarCheckbox(("Rainbow##" + cosmeticOption.label).c_str(), cosmeticOption.rainbowCvar,
+        if (UIWidgets::CVarCheckbox((std::string(SohGui::L("Rainbow")) + "##" + cosmeticOption.label).c_str(),
+                                    cosmeticOption.rainbowCvar,
                                     UIWidgets::CheckboxOptions().Color(THEME_COLOR))) {
             CVarSetInteger((cosmeticOption.changedCvar), 1);
             ApplySideEffects(cosmeticOption);
@@ -2239,8 +2244,8 @@ void DrawCosmeticRow(CosmeticOption& cosmeticOption) {
     }
     ImGui::SameLine();
 
-    UIWidgets::CVarCheckbox(("Locked##" + cosmeticOption.label).c_str(), cosmeticOption.lockedCvar,
-                            UIWidgets::CheckboxOptions().Color(THEME_COLOR));
+    UIWidgets::CVarCheckbox((std::string(SohGui::L("Locked")) + "##" + cosmeticOption.label).c_str(),
+                            cosmeticOption.lockedCvar, UIWidgets::CheckboxOptions().Color(THEME_COLOR));
 
     if (CVarGetInteger((cosmeticOption.changedCvar), 0)) {
         ImGui::SameLine();
@@ -2255,7 +2260,7 @@ void DrawCosmeticRow(CosmeticOption& cosmeticOption) {
 
 void DrawCosmeticGroup(CosmeticGroup cosmeticGroup) {
     std::string label = groupLabels.at(cosmeticGroup);
-    ImGui::Text("%s", label.c_str());
+    ImGui::Text("%s", SohGui::L(label.c_str()));
     // the longest option name
     ImGui::SameLine((ImGui::CalcTextSize("Message Light Blue (None No Shadow)").x * 1.0f) + 60.0f);
     if (UIWidgets::Button(
@@ -2444,16 +2449,16 @@ void CosmeticsEditorWindow::DrawElement() {
         }
     }
     ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
-    if (UIWidgets::Button("Randomize All", UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
+    if (UIWidgets::Button(SohGui::L("Randomize All"), UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
         CosmeticsEditor_RandomizeAll();
     }
     ImGui::EndDisabled();
 
     ImGui::SameLine();
-    if (UIWidgets::Button("Reset All", UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
+    if (UIWidgets::Button(SohGui::L("Reset All"), UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
         CosmeticsEditor_ResetAll();
     }
-    if (UIWidgets::Button("Lock All", UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
+    if (UIWidgets::Button(SohGui::L("Lock All"), UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
         for (auto& [id, cosmeticOption] : cosmeticOptions) {
             if (!cosmeticOption.advancedOption || CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0)) {
                 CVarSetInteger(cosmeticOption.lockedCvar, 1);
@@ -2461,7 +2466,7 @@ void CosmeticsEditorWindow::DrawElement() {
         }
     }
     ImGui::SameLine();
-    if (UIWidgets::Button("Unlock All", UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
+    if (UIWidgets::Button(SohGui::L("Unlock All"), UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
         for (auto& [id, cosmeticOption] : cosmeticOptions) {
             if (!cosmeticOption.advancedOption || CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0)) {
                 CVarSetInteger(cosmeticOption.lockedCvar, 0);
@@ -2470,7 +2475,7 @@ void CosmeticsEditorWindow::DrawElement() {
     }
 
     ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
-    if (UIWidgets::Button("Rainbow All", UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
+    if (UIWidgets::Button(SohGui::L("Rainbow All"), UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
         for (auto& [id, cosmeticOption] : cosmeticOptions) {
             if (!CVarGetInteger(cosmeticOption.lockedCvar, 0) &&
                 (!cosmeticOption.advancedOption || CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0))) {
@@ -2482,7 +2487,7 @@ void CosmeticsEditorWindow::DrawElement() {
     ImGui::EndDisabled();
 
     ImGui::SameLine();
-    if (UIWidgets::Button("Un-Rainbow All", UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
+    if (UIWidgets::Button(SohGui::L("Un-Rainbow All"), UIWidgets::ButtonOptions().Size(ImVec2(250.0f, 0.0f)).Color(THEME_COLOR))) {
         for (auto& [id, cosmeticOption] : cosmeticOptions) {
             if (!CVarGetInteger(cosmeticOption.lockedCvar, 0) &&
                 (!cosmeticOption.advancedOption || CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0))) {
@@ -2495,7 +2500,7 @@ void CosmeticsEditorWindow::DrawElement() {
 
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("CosmeticsContextTabBar", ImGuiTabBarFlags_NoCloseWithMiddleMouseButton)) {
-        if (ImGui::BeginTabItem("Link & Items")) {
+        if (ImGui::BeginTabItem(SohGui::L("Link & Items"))) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2508,12 +2513,12 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("Keys")) {
+        if (ImGui::BeginTabItem(SohGui::L("Keys"))) {
 
             ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
-            if (UIWidgets::Button("Give all keys dungeon-specific colors",
+            if (UIWidgets::Button(SohGui::L("Give all keys dungeon-specific colors"),
                                   UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
                 ApplyDungeonKeyColors();
             }
@@ -2528,7 +2533,7 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("Effects")) {
+        if (ImGui::BeginTabItem(SohGui::L("Effects"))) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2536,7 +2541,7 @@ void CosmeticsEditorWindow::DrawElement() {
             DrawCosmeticGroup(COSMETICS_GROUP_ARROWS);
             DrawCosmeticGroup(COSMETICS_GROUP_SPIN_ATTACK);
             DrawCosmeticGroup(COSMETICS_GROUP_TRAILS);
-            if (UIWidgets::CVarSliderInt("Trails Duration: %d", CVAR_COSMETIC("Trails.Duration.Value"),
+            if (UIWidgets::CVarSliderInt(SohGui::L("Trails Duration: %d"), CVAR_COSMETIC("Trails.Duration.Value"),
                                          UIWidgets::IntSliderOptions()
                                              .Min(2)
                                              .Max(20)
@@ -2547,7 +2552,7 @@ void CosmeticsEditorWindow::DrawElement() {
             }
             ImGui::SameLine();
             ImGui::SetCursorPosY(ImGui::GetCursorPosY() + (ImGui::CalcTextSize("g").y * 2));
-            if (UIWidgets::Button("Reset##Trails_Duration",
+            if (UIWidgets::Button(SohGui::L("Reset##Trails_Duration"),
                                   UIWidgets::ButtonOptions().Size(ImVec2(80, 36)).Padding(ImVec2(5.0f, 0.0f)))) {
                 CVarClear(CVAR_COSMETIC("Trails.Duration.Value"));
                 CVarClear(CVAR_COSMETIC("Trails.Duration.Changed"));
@@ -2557,7 +2562,7 @@ void CosmeticsEditorWindow::DrawElement() {
 
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("World & NPCs")) {
+        if (ImGui::BeginTabItem(SohGui::L("World & NPCs"))) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2567,11 +2572,11 @@ void CosmeticsEditorWindow::DrawElement() {
             DrawCosmeticGroup(COSMETICS_GROUP_NPC);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Silly")) {
+        if (ImGui::BeginTabItem(SohGui::L("Silly"))) {
             DrawSillyTab();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("HUD")) {
+        if (ImGui::BeginTabItem(SohGui::L("HUD"))) {
 
             UIWidgets::Separator(true, true, 2.0f, 2.0f);
 
@@ -2580,13 +2585,13 @@ void CosmeticsEditorWindow::DrawElement() {
             ImGui::EndTabItem();
         }
 
-        if (ImGui::BeginTabItem("HUD Placement")) {
+        if (ImGui::BeginTabItem(SohGui::L("HUD Placement"))) {
             Draw_Placements();
             ImGui::EndTabItem();
         }
 
         if (CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0)) {
-            if (ImGui::BeginTabItem("Pause Menu")) {
+            if (ImGui::BeginTabItem(SohGui::L("Pause Menu"))) {
                 UIWidgets::Separator(true, true, 2.0f, 2.0f);
                 DrawCosmeticGroup(COSMETICS_GROUP_KALEIDO);
                 ImGui::EndTabItem();
@@ -2594,7 +2599,7 @@ void CosmeticsEditorWindow::DrawElement() {
         }
 
         if (CVarGetInteger(CVAR_COSMETIC("AdvancedMode"), 0)) {
-            if (ImGui::BeginTabItem("Message")) {
+            if (ImGui::BeginTabItem(SohGui::L("Message"))) {
                 UIWidgets::Separator(true, true, 2.0f, 2.0f);
                 DrawCosmeticGroup(COSMETICS_GROUP_MESSAGE);
                 ImGui::EndTabItem();

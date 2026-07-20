@@ -1424,7 +1424,7 @@ void DrawTotalChecks() {
     } else {
         ImGui::SetWindowFontScale(1);
     }
-    ImGui::Text("Checks: %d/%d", totalChecksGotten, totalChecks);
+    ImGui::Text(SohGui::L("Checks: %d/%d"), totalChecksGotten, totalChecks);
     ImGui::EndGroup();
 }
 
@@ -1999,7 +1999,7 @@ void ItemTrackerWindow::DrawElement() {
         if (CVarGetInteger("gTrackers.ItemTracker.TotalChecks.DisplayType", SECTION_DISPLAY_MINIMAL_HIDDEN) ==
             SECTION_DISPLAY_MINIMAL_SEPARATE) {
             ImGui::SetNextWindowSize(ImVec2(450, 300), ImGuiCond_FirstUseEver);
-            BeginFloatingWindows("Total Checks");
+            BeginFloatingWindows(SohGui::L("Total Checks"));
             DrawTotalChecks();
             EndFloatingWindows();
         }
@@ -2043,8 +2043,8 @@ static std::map<int32_t, const char*> minimalDisplayTypes = { { SECTION_DISPLAY_
 void ItemTrackerSettingsWindow::DrawElement() {
     ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, { 8.0f, 8.0f });
     if (ImGui::BeginTable("itemTrackerSettingsTable", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("General settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Section settings", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::L("General settings"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::L("Section settings"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::TableHeadersRow();
         ImGui::TableNextRow();
         ImGui::TableNextColumn();
@@ -2090,11 +2090,11 @@ void ItemTrackerSettingsWindow::DrawElement() {
             }
         }
         ImGui::Separator();
-        CVarSliderInt("Icon size : %dpx", CVAR_TRACKER_ITEM("IconSize"),
+        CVarSliderInt(SohGui::L("Icon size : %dpx"), CVAR_TRACKER_ITEM("IconSize"),
                       IntSliderOptions().Min(25).Max(128).DefaultValue(36).Color(THEME_COLOR));
-        CVarSliderInt("Icon margins : %dpx", CVAR_TRACKER_ITEM("IconSpacing"),
+        CVarSliderInt(SohGui::L("Icon margins : %dpx"), CVAR_TRACKER_ITEM("IconSpacing"),
                       IntSliderOptions().Min(-5).Max(50).DefaultValue(12).Color(THEME_COLOR));
-        CVarSliderInt("Text size : %dpx", CVAR_TRACKER_ITEM("TextSize"),
+        CVarSliderInt(SohGui::L("Text size : %dpx"), CVAR_TRACKER_ITEM("TextSize"),
                       IntSliderOptions().Min(1).Max(30).DefaultValue(13).Color(THEME_COLOR));
 
         ImGui::NewLine();

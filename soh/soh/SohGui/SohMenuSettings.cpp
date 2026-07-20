@@ -6,6 +6,7 @@
 #include <soh/GameVersions.h>
 #include "soh/ResourceManagerHelpers.h"
 #include "UIWidgets.hpp"
+#include "Localization.h"
 #include <spdlog/fmt/fmt.h>
 
 extern "C" {
@@ -51,6 +52,11 @@ static const std::map<int32_t, const char*> textureFilteringMap = {
 
 static const std::map<int32_t, const char*> notificationPosition = {
     { 0, "Top Left" }, { 1, "Top Right" }, { 2, "Bottom Left" }, { 3, "Bottom Right" }, { 4, "Hidden" },
+};
+
+static const std::map<int32_t, const char*> menuLanguageOptions = {
+    { 0, "English" },
+    { 1, "中文" },
 };
 
 static const std::map<int32_t, const char*> bootSequenceLabels = {
@@ -219,6 +225,18 @@ void SohMenu::AddMenuSettings() {
                               "Warp Point: Skip to active warp point (if set), see Dev Tools -> General"));
 
     AddWidget(path, "Languages", WIDGET_SEPARATOR_TEXT);
+    AddWidget(path, "Menu Language", WIDGET_CVAR_COMBOBOX)
+        .CVar(CVAR_SETTING("Menu.Language"))
+        .RaceDisable(false)
+        .Options(ComboboxOptions()
+                     .LabelPosition(LabelPositions::Far)
+                     .ComponentAlignment(ComponentAlignments::Right)
+                     .ComboMap(menuLanguageOptions)
+                     .DefaultIndex(0)
+                     .Tooltip("Sets the language used for the settings/menu interface."))
+        .Callback([](WidgetInfo& info) {
+            SetMenuLanguage(CVarGetInteger(CVAR_SETTING("Menu.Language"), 0) == 1);
+        });
     AddWidget(path, "Translate Title Screen", WIDGET_CVAR_CHECKBOX)
         .CVar(CVAR_SETTING("TitleScreenTranslation"))
         .RaceDisable(false);

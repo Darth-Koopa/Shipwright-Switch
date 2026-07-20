@@ -159,8 +159,8 @@ void ValueViewerWindow::DrawElement() {
 
     ImGui::BeginGroup();
     static int selectedElement = -1;
-    std::string selectedElementText = (selectedElement == -1) ? "Select a value"
-                                                              : (std::string(valueTable[selectedElement].name) + " (" +
+    std::string selectedElementText = (selectedElement == -1) ? SohGui::L("Select a value")
+                                                              : (std::string(SohGui::L(valueTable[selectedElement].name)) + " (" +
                                                                  std::string(valueTable[selectedElement].path) + ")");
     UIWidgets::PushStyleCombobox(THEME_COLOR);
     if (ImGui::BeginCombo("##valueViewerElement", selectedElementText.c_str())) {
@@ -168,7 +168,7 @@ void ValueViewerWindow::DrawElement() {
             if (valueTable[i].isActive)
                 continue;
             bool isSelected = (selectedElement == i);
-            std::string elementText = (std::string(valueTable[i].name) + " (" + std::string(valueTable[i].path) + ")");
+            std::string elementText = (std::string(SohGui::L(valueTable[i].name)) + " (" + std::string(valueTable[i].path) + ")");
             if (ImGui::Selectable(elementText.c_str(), isSelected)) {
                 selectedElement = i;
             }
@@ -202,7 +202,7 @@ void ValueViewerWindow::DrawElement() {
         UIWidgets::PopStyleCheckbox();
         UIWidgets::PopStyleButton();
         ImGui::SameLine();
-        ImGui::Text("%s:", element.name);
+        ImGui::Text("%s:", SohGui::L(element.name));
         ImGui::SameLine();
         switch (element.type) {
             case TYPE_S8:

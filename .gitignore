@@ -61,6 +61,9 @@ graphs/
 
 # Docs
 !docs/tutorial/
+# Allow images embedded in the Wind Waker-style design docs (the *.png/*.jpg rules above ignore them).
+!wind-waker-style-docs/**/*.png
+!wind-waker-style-docs/**/*.jpg
 
 # Per-user configuration
 .python-version
@@ -460,3 +463,12 @@ soh/properties.h
 /clang-format
 /clang-format.exe
 *.o2r
+
+# Third-party repos (research only, not part of the build)
+/third-party/
+
+# Unpacked Wind Waker ROM (user-supplied game data for extracting reference assets)
+/wind-waker-unpacked/
+
+# Cloud textures extracted from the user's Wind Waker ROM (copyrighted; generated, not committed)
+/ww-cloud-assets/

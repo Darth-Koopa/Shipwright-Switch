@@ -1514,6 +1514,13 @@ void Play_Draw(PlayState* play) {
             }
         }
 
+        // SOH [Enhancement] Wind Waker-style sky: first the gradient dome (opaque, replaces OoT's textured
+        // sky look), then the twinkling starfield over it. Both draw before the sun/moon and the world, so
+        // the moon and terrain draw on top and occlude them.
+        GameInteractor_ExecuteOnPlayDrawSkyGradient(play);
+        GameInteractor_ExecuteOnPlayDrawSky(play);
+        GameInteractor_ExecuteOnPlayDrawSkyClouds(play);
+
         if ((HREG(80) != 10) || (HREG(90) & 2)) {
             if (!play->envCtx.sunMoonDisabled) {
                 Environment_DrawSunAndMoon(play);
@@ -1549,6 +1556,12 @@ void Play_Draw(PlayState* play) {
                 Room_Draw(play, &play->roomCtx.prevRoom, roomDrawFlags & 3);
             }
         }
+
+        // SOH [Enhancement] Wind Waker-style light casting: the point-light pool pass (OnPlayDrawWorldLights)
+        // used to fire here, after the room and before the actor loop. It now fires from inside func_800315AC,
+        // right after the walkable-floor receiver pre-pass, so pools fall on those floor actors (drawbridge,
+        // Shadow Temple trap floor, ...) too — they aren't in the depth buffer yet at this point. It still runs
+        // before the rest of the actors, so pools stay under them.
 
         if ((HREG(80) != 10) || (HREG(83) != 0)) {
             if ((play->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(play)->setting != CAM_SET_PREREND_FIXED)) {

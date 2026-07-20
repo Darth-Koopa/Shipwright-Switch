@@ -287,9 +287,10 @@ void ModMenuWindow::DrawElement() {
 
     ImGui::TextColored(
         UIWidgets::ColorValues.at(UIWidgets::Colors::Yellow),
-        "Mods are currently not reloaded at runtime. Close and re-open Ship for the changes to take effect.\n"
-        "Drag ordering for the enabled list is available.\nMod priority is top to bottom. They override mods listed "
-        "below them.");
+        SohGui::L(
+            "Mods are currently not reloaded at runtime. Close and re-open Ship for the changes to take effect.\n"
+            "Drag ordering for the enabled list is available.\nMod priority is top to bottom. They override mods "
+            "listed below them."));
 
     // if (UIWidgets::Button(
     //         "Update", UIWidgets::ButtonOptions({ { .disabled = editing, .disabledTooltip = "Currently editing..." }
@@ -341,7 +342,7 @@ void ModMenuWindow::DrawElement() {
     }
     ImGui::BeginDisabled(!editing);
     if (ImGui::BeginTable("tableMods", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("Enabled Mods", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::L("Enabled Mods"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         // ImGui::TableSetupColumn("Disabled Mods", ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::TableHeadersRow();

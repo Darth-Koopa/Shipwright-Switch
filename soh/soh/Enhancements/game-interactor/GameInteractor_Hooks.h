@@ -39,6 +39,7 @@ void GameInteractor_ExecuteOnActorInit(void* actor);
 void GameInteractor_ExecuteOnActorSpawn(void* actor);
 bool GameInteractor_ShouldActorUpdate(void* actor);
 void GameInteractor_ExecuteOnActorUpdate(void* actor);
+void GameInteractor_ExecuteOnActorDraw(void* actor);
 void GameInteractor_ExecuteOnActorKill(void* actor);
 void GameInteractor_ExecuteOnActorDestroy(void* actor);
 void GameInteractor_ExecuteOnEnemyDefeat(void* actor);
@@ -57,6 +58,10 @@ void GameInteractor_ExecuteOnDungeonKeyUsedHooks(uint16_t mapIndex);
 void GameInteractor_ExecuteOnPlayDestroy();
 void GameInteractor_ExecuteOnPlayDrawBegin();
 void GameInteractor_ExecuteOnPlayDrawEnd();
+void GameInteractor_ExecuteOnPlayDrawWorldLights(void* play);
+void GameInteractor_ExecuteOnPlayDrawSkyGradient(void* play);
+void GameInteractor_ExecuteOnPlayDrawSky(void* play);
+void GameInteractor_ExecuteOnPlayDrawSkyClouds(void* play);
 bool GameInteractor_Should(GIVanillaBehavior flag, uint32_t result, ...);
 
 // MARK: -  Save Files

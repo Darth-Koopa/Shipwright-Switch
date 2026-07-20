@@ -95,7 +95,7 @@ void DLViewerWindow::DrawElement() {
     UIWidgets::PushStyleInput(THEME_COLOR);
     ImGui::PushFont(OTRGlobals::Instance->fontMonoLarger);
 
-    if (ImGui::InputText("Search Display Lists", searchString, ARRAY_COUNT(searchString))) {
+    if (ImGui::InputText(SohGui::L("Search Display Lists"), searchString, ARRAY_COUNT(searchString))) {
         doSearch = true;
         searchDebounceFrames = 30;
     }
@@ -111,7 +111,7 @@ void DLViewerWindow::DrawElement() {
     }
 
     UIWidgets::PushStyleCombobox(THEME_COLOR);
-    if (ImGui::BeginCombo("Active Display List", activeDisplayList.c_str())) {
+    if (ImGui::BeginCombo(SohGui::L("Active Display List"), activeDisplayList.c_str())) {
         for (size_t i = 0; i < displayListSearchResults.size(); i++) {
             if (ImGui::Selectable(displayListSearchResults[i].c_str())) {
                 activeDisplayList = displayListSearchResults[i];
@@ -133,7 +133,7 @@ void DLViewerWindow::DrawElement() {
             Ship::Context::GetInstance()->GetResourceManager()->LoadResource(activeDisplayList));
 
         if (res->GetInitData()->Type != static_cast<uint32_t>(Fast::ResourceType::DisplayList)) {
-            ImGui::Text("Resource type is not a Display List. Please choose another.");
+            ImGui::Text("%s", SohGui::L("Resource type is not a Display List. Please choose another."));
             ImGui::PopFont();
             ImGui::EndDisabled();
             return;
@@ -330,7 +330,7 @@ void DLViewerWindow::DrawElement() {
             }
             ImGui::EndGroup();
         }
-    } catch (const std::exception& e) { ImGui::Text("Error displaying DL instructions."); }
+    } catch (const std::exception& e) { ImGui::Text("%s", SohGui::L("Error displaying DL instructions.")); }
 
     ImGui::PopFont();
     ImGui::EndDisabled();

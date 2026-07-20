@@ -62,8 +62,8 @@ void DrawLocationsMenu(WidgetInfo& info) {
     }
 
     if (ImGui::BeginTable("tableRandoLocations", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("Included", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Excluded", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::L("Included"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(SohGui::L("Excluded"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::TableHeadersRow();
         ImGui::PopItemFlag();
@@ -92,7 +92,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
 
             if (hasItems) {
                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                if (ImGui::TreeNode(RandomizerCheckObjects::GetRCAreaName(rcArea).c_str())) {
+                if (ImGui::TreeNode(SohGui::L(RandomizerCheckObjects::GetRCAreaName(rcArea).c_str()))) {
                     for (auto& location : locations) {
                         if (ctx->GetItemLocation(location)->IsVisible() && !excludedLocations.count(location) &&
                             locationSearch.PassFilter(Rando::StaticData::GetLocation(location)->GetName().c_str())) {
@@ -114,7 +114,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
                             }
                             UIWidgets::PopStyleButton();
                             ImGui::SameLine();
-                            ImGui::Text("%s", Rando::StaticData::GetLocation(location)->GetShortName().c_str());
+                            ImGui::Text("%s", SohGui::L(Rando::StaticData::GetLocation(location)->GetShortName().c_str()));
                         }
                     }
                     ImGui::TreePop();
@@ -139,7 +139,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
 
             if (hasItems) {
                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                if (ImGui::TreeNode(RandomizerCheckObjects::GetRCAreaName(rcArea).c_str())) {
+                if (ImGui::TreeNode(SohGui::L(RandomizerCheckObjects::GetRCAreaName(rcArea).c_str()))) {
                     for (auto& location : locations) {
                         auto elfound = excludedLocations.find(location);
                         if (ctx->GetItemLocation(location)->IsVisible() && elfound != excludedLocations.end()) {
@@ -165,7 +165,7 @@ void DrawLocationsMenu(WidgetInfo& info) {
                             }
                             UIWidgets::PopStyleButton();
                             ImGui::SameLine();
-                            ImGui::Text("%s", Rando::StaticData::GetLocation(location)->GetShortName().c_str());
+                            ImGui::Text("%s", SohGui::L(Rando::StaticData::GetLocation(location)->GetShortName().c_str()));
                         }
                     }
                     ImGui::TreePop();
@@ -310,7 +310,7 @@ void DrawTricksMenu(WidgetInfo& info) {
 
     static ImGuiTextFilter trickSearch;
     UIWidgets::PushStyleInput(THEME_COLOR);
-    trickSearch.Draw("Filter (inc,-exc)", 490.0f);
+    trickSearch.Draw(SohGui::L("Filter (inc,-exc)"), 490.0f);
     UIWidgets::PopStyleInput();
     if (CVarGetInteger(CVAR_RANDOMIZER_SETTING("LogicRules"), RO_LOGIC_GLITCHLESS) != RO_LOGIC_NO_LOGIC) {
         ImGui::SameLine();
@@ -343,15 +343,15 @@ void DrawTricksMenu(WidgetInfo& info) {
                 ImGui::PushStyleColor(ImGuiCol_Text, { 1.0f, 1.0f, 1.0f, 1.0f });
             }
             ImGui::PushStyleColor(ImGuiCol_Header, Rando::Tricks::GetTagColor(rtTag));
-            ImGui::Selectable(Rando::Tricks::GetTagName(rtTag).c_str(), &showTag[rtTag]);
+            ImGui::Selectable(L(Rando::Tricks::GetTagName(rtTag).c_str()), &showTag[rtTag]);
             ImGui::PopStyleColor(2);
         }
         ImGui::EndTable();
     }
 
     if (ImGui::BeginTable("tableRandoTricks", 2, ImGuiTableFlags_BordersH | ImGuiTableFlags_BordersV)) {
-        ImGui::TableSetupColumn("Disabled Tricks", ImGuiTableColumnFlags_WidthStretch, 200.0f);
-        ImGui::TableSetupColumn("Enabled Tricks", ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(::SohGui::L("Disabled Tricks"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
+        ImGui::TableSetupColumn(::SohGui::L("Enabled Tricks"), ImGuiTableColumnFlags_WidthStretch, 200.0f);
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::TableHeadersRow();
         ImGui::PopItemFlag();
@@ -405,13 +405,13 @@ void DrawTricksMenu(WidgetInfo& info) {
                     ImGui::TreeNodeSetOpen(ImGui::GetID((Rando::Tricks::GetAreaName(area) + "##disabled").c_str()),
                                            areaTreeDisabled[area]);
                     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                    if (ImGui::TreeNode((Rando::Tricks::GetAreaName(area) + "##disabled").c_str())) {
+                    if (ImGui::TreeNode(L((Rando::Tricks::GetAreaName(area) + "##disabled").c_str()))) {
                         for (auto rt : trickIds) {
                             auto option = randoSettings->GetTrickSetting(rt);
                             if (!option.IsHidden() && trickSearch.PassFilter(option.GetName().c_str()) &&
                                 !enabledTricks.count(rt) && Rando::Tricks::CheckTags(showTag, option.GetTags())) {
                                 ImGui::TreeNodeSetOpen(
-                                    ImGui::GetID((Rando::Tricks::GetAreaName(option.GetArea()) + "##disabled").c_str()),
+                                    ImGui::GetID(L((Rando::Tricks::GetAreaName(option.GetArea()) + "##disabled").c_str())),
                                     areaTreeDisabled[option.GetArea()]);
                                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
                                 UIWidgets::PushStyleButton(THEME_COLOR, ImVec2(7.f, 5.f));
@@ -422,8 +422,8 @@ void DrawTricksMenu(WidgetInfo& info) {
                                 UIWidgets::PopStyleButton();
                                 Rando::Tricks::DrawTagChips(option.GetTags(), option.GetName());
                                 ImGui::SameLine();
-                                ImGui::Text("%s", option.GetName().c_str());
-                                UIWidgets::Tooltip(option.GetDescription().c_str());
+                                ImGui::Text("%s", L(option.GetName().c_str()));
+                                UIWidgets::Tooltip(L(option.GetDescription().c_str()));
                             }
                         }
                         areaTreeDisabled[area] = true;
@@ -479,16 +479,16 @@ void DrawTricksMenu(WidgetInfo& info) {
                     }
                 }
                 if (hasTricks) {
-                    ImGui::TreeNodeSetOpen(ImGui::GetID((Rando::Tricks::GetAreaName(area) + "##enabled").c_str()),
+                    ImGui::TreeNodeSetOpen(ImGui::GetID(L((Rando::Tricks::GetAreaName(area) + "##enabled").c_str())),
                                            areaTreeEnabled[area]);
                     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-                    if (ImGui::TreeNode((Rando::Tricks::GetAreaName(area) + "##enabled").c_str())) {
+                    if (ImGui::TreeNode(L((Rando::Tricks::GetAreaName(area) + "##enabled").c_str()))) {
                         for (auto rt : trickIds) {
                             auto option = randoSettings->GetTrickSetting(rt);
                             if (!option.IsHidden() && trickSearch.PassFilter(option.GetName().c_str()) &&
                                 enabledTricks.count(rt) && Rando::Tricks::CheckTags(showTag, option.GetTags())) {
                                 ImGui::TreeNodeSetOpen(
-                                    ImGui::GetID((Rando::Tricks::GetAreaName(option.GetArea()) + "##enabled").c_str()),
+                                    ImGui::GetID(L((Rando::Tricks::GetAreaName(option.GetArea()) + "##enabled").c_str())),
                                     areaTreeEnabled[option.GetArea()]);
                                 ImGui::SetNextItemOpen(true, ImGuiCond_Once);
                                 UIWidgets::PushStyleButton(THEME_COLOR, ImVec2(7.f, 5.f));
@@ -499,8 +499,8 @@ void DrawTricksMenu(WidgetInfo& info) {
                                 UIWidgets::PopStyleButton();
                                 Rando::Tricks::DrawTagChips(option.GetTags(), option.GetName());
                                 ImGui::SameLine();
-                                ImGui::Text("%s", option.GetName().c_str());
-                                UIWidgets::Tooltip(option.GetDescription().c_str());
+                                ImGui::Text("%s", L(option.GetName().c_str()));
+                                UIWidgets::Tooltip(L(option.GetDescription().c_str()));
                             }
                         }
                         areaTreeEnabled[area] = true;
@@ -590,7 +590,7 @@ void SohMenu::AddMenuRandomizer() {
             JoinRandoGenerationThread();
             if (!CVarGetInteger(CVAR_RANDOMIZER_SETTING("DontGenerateSpoiler"), 0)) {
                 std::string spoilerfilepath = CVarGetString(CVAR_GENERAL("SpoilerLog"), "");
-                ImGui::Text("Spoiler File: %s", spoilerfilepath.c_str());
+                ImGui::Text(SohGui::L("Spoiler File: %s"), spoilerfilepath.c_str());
             }
         })
         .SameLine(true);

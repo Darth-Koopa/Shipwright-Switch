@@ -36,6 +36,26 @@ static std::map<int32_t, const char*> stickModeOptions = { { STICK_MODE_ALWAYS_S
                                                            { STICK_MODE_HIDDEN_IN_DEADZONE, "While In Use" },
                                                            { STICK_MODE_ALWAYS_HIDDEN, "Never" } };
 
+// Returns a copy of stickModeOptions with each display value localized via SohGui::L().
+// Re-evaluated per call so it honors runtime language switching.
+static std::map<int32_t, const char*> GetStickModeOptionsTranslated() {
+    std::map<int32_t, const char*> translated;
+    for (const auto& [key, val] : stickModeOptions) {
+        translated[key] = SohGui::L(val);
+    }
+    return translated;
+}
+
+// Returns a copy of buttonOutlineOptions with each display value localized via SohGui::L().
+// Re-evaluated per call so it honors runtime language switching.
+static std::map<int32_t, const char*> GetButtonOutlineOptionsTranslated() {
+    std::map<int32_t, const char*> translated;
+    for (const auto& [key, val] : buttonOutlineOptions) {
+        translated[key] = SohGui::L(val);
+    }
+    return translated;
+}
+
 InputViewer::~InputViewer() {
     SPDLOG_TRACE("destruct input viewer");
 }
@@ -427,7 +447,7 @@ void InputViewer::DrawElement() {
                 }
 
                 // Render text
-                ImGui::Text("X: %-3d  Y: %-3d", pads[0].stick_x, pads[0].stick_y);
+                ImGui::Text(SohGui::L("X: %-3d  Y: %-3d"), pads[0].stick_x, pads[0].stick_y);
                 // Restore original color
                 ImGui::PopStyleColor();
                 // Restore original font scale
@@ -471,11 +491,12 @@ void InputViewerSettingsWindow::DrawElement() {
     UIWidgets::PaddedSeparator(true, true);
 
     PushStyleHeader(THEME_COLOR);
-    if (ImGui::CollapsingHeader("Buttons")) {
+    if (ImGui::CollapsingHeader(SohGui::L("Buttons"))) {
 
         // gInputViewer.ButtonOutlineMode
         CVarCombobox(
-            "Button Outlines/Backgrounds", CVAR_INPUT_VIEWER("ButtonOutlineMode"), buttonOutlineOptions,
+            "Button Outlines/Backgrounds", CVAR_INPUT_VIEWER("ButtonOutlineMode"),
+            GetButtonOutlineOptionsTranslated(),
             ComboboxOptions({ { .disabled = !CVarGetInteger(CVAR_INPUT_VIEWER("UseGlobalButtonOutlineMode"), 1),
                                 .disabledTooltip = "Disabled because Global Button Outline is off" } })
                 .Color(THEME_COLOR)
@@ -612,10 +633,10 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Analog Stick")) {
+    if (ImGui::CollapsingHeader(SohGui::L("Analog Stick"))) {
         // gInputViewer.AnalogStick.VisibilityMode
         CVarCombobox(
-            "Analog Stick Visibility", CVAR_INPUT_VIEWER("AnalogStick.VisibilityMode"), stickModeOptions,
+            "Analog Stick Visibility", CVAR_INPUT_VIEWER("AnalogStick.VisibilityMode"), GetStickModeOptionsTranslated(),
             ComboboxOptions()
                 .Color(THEME_COLOR)
                 .DefaultIndex(STICK_MODE_ALWAYS_SHOWN)
@@ -625,7 +646,7 @@ void InputViewerSettingsWindow::DrawElement() {
         // gInputViewer.AnalogStick.OutlineMode
         CVarCombobox(
             "Analog Stick Outline/Background Visibility", CVAR_INPUT_VIEWER("AnalogStick.OutlineMode"),
-            stickModeOptions,
+            GetStickModeOptionsTranslated(),
             ComboboxOptions()
                 .Color(THEME_COLOR)
                 .DefaultIndex(STICK_MODE_ALWAYS_SHOWN)
@@ -645,10 +666,10 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Additional (\"Right\") Stick")) {
+    if (ImGui::CollapsingHeader(SohGui::L("Additional (\"Right\") Stick"))) {
         // gInputViewer.RightStick.VisibilityMode
         CVarCombobox(
-            "Right Stick Visibility", CVAR_INPUT_VIEWER("RightStick.VisibilityMode"), stickModeOptions,
+            "Right Stick Visibility", CVAR_INPUT_VIEWER("RightStick.VisibilityMode"), GetStickModeOptionsTranslated(),
             ComboboxOptions()
                 .Color(THEME_COLOR)
                 .DefaultIndex(STICK_MODE_ALWAYS_HIDDEN)
@@ -657,7 +678,8 @@ void InputViewerSettingsWindow::DrawElement() {
 
         // gInputViewer.RightStick.OutlineMode
         CVarCombobox(
-            "Right Stick Outline/Background Visibility", CVAR_INPUT_VIEWER("RightStick.OutlineMode"), stickModeOptions,
+            "Right Stick Outline/Background Visibility", CVAR_INPUT_VIEWER("RightStick.OutlineMode"),
+            GetStickModeOptionsTranslated(),
             ComboboxOptions()
                 .Color(THEME_COLOR)
                 .DefaultIndex(STICK_MODE_ALWAYS_HIDDEN)
@@ -678,7 +700,7 @@ void InputViewerSettingsWindow::DrawElement() {
         UIWidgets::PaddedSeparator(true, true);
     }
 
-    if (ImGui::CollapsingHeader("Analog Angle Values")) {
+    if (ImGui::CollapsingHeader(SohGui::L("Analog Angle Values"))) {
         // gAnalogAngles
         CVarCheckbox(
             "Show Analog Stick Angle Values", CVAR_INPUT_VIEWER("AnalogAngles.Enabled"),

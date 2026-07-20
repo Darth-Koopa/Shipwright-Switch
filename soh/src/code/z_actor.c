@@ -17,6 +17,7 @@
 
 #include "soh/ActorDB.h"
 #include "soh/OTRGlobals.h"
+#include "soh/Enhancements/Graphics/ToonLighting.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -98,10 +99,24 @@ void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw,
     shape->shadowAlpha = 255;
 }
 
+// SOH [Enhancement] Actor shadows: the Wind Waker-style shape shadow (see
+// soh/soh/Enhancements/Graphics/ToonLighting.cpp) replaces the vanilla actor shadows — Link's multi-light
+// feet, the NPC circle shadows, the horse shadow, the sign/cobra texture shadows. When the feature is on
+// AND set to suppress, early-return the vanilla draws that funnel through these helpers. Tied to the shadow
+// feature's own CVars (not cel shading), so the two can be toggled independently.
+static s32 ActorShadow_Suppressed(void) {
+    return CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0) &&
+           CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.SuppressVanillaShadows"), 1);
+}
+
 void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist, Color_RGBA8* color) {
     f32 temp1;
     f32 temp2;
     MtxF sp60;
+
+    if (ActorShadow_Suppressed()) {
+        return;
+    }
 
     if (actor->floorPoly != NULL) {
         temp1 = actor->world.pos.y - actor->floorHeight;
@@ -181,6 +196,10 @@ void ActorShadow_DrawFoot(PlayState* play, Light* light, MtxF* arg2, s32 arg3, f
 
 void ActorShadow_DrawFeet(Actor* actor, Lights* lights, PlayState* play) {
     f32 distToFloor = actor->world.pos.y - actor->floorHeight;
+
+    if (ActorShadow_Suppressed()) {
+        return;
+    }
 
     if (distToFloor > 20.0f) {
         f32 shadowScale = actor->shape.shadowScale;
@@ -2767,6 +2786,16 @@ void Actor_Draw(PlayState* play, Actor* actor) {
                    (actor->flags & ACTOR_FLAG_IGNORE_POINTLIGHTS) ? NULL : &actor->world.pos);
     Lights_Draw(lights, play->state.gfxCtx);
 
+    // SOH [Enhancement] Toon lighting / actor shadows: let the enhancement choose and emit this actor's key
+    // light (selection/easing live in soh/soh/Enhancements/Graphics/ToonLighting.cpp). The actor shadow
+    // reuses that same key, so fire the hook when EITHER cel shading OR actor shadows is on; the handler
+    // gates the relight and the shadow independently. Guarded so the hook is never invoked per-actor when
+    // both are off.
+    if (CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1) ||
+        CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0)) {
+        GameInteractor_ExecuteOnActorDraw(actor);
+    }
+
     FrameInterpolation_RecordActorPosRotMatrix();
     if (actor->flags & ACTOR_FLAG_IGNORE_QUAKE) {
         Matrix_SetTranslateRotateYXZ(
@@ -3044,6 +3073,80 @@ s32 Ship_CalcShouldDrawAndUpdate(PlayState* play, Actor* actor, Vec3f* projected
 }
 // #endregion
 
+// SOH [Enhancement] Factored out of func_800315AC's actor-draw loop so the actor-shadow receiver pre-pass and
+// the main loop share one draw path (projection + sfx + extended culling + lens deferral + draw). Behaviour is
+// byte-for-byte the vanilla loop body; the only change is that it now runs from two call sites. `listIndex` is
+// the actor category (the loop's `i`), reported to the debug NoOp string and HREG(66) exactly as before.
+static void Actor_DrawListEntry(PlayState* play, Actor* actor, s32 listIndex, Actor** invisibleActors,
+                                s32* invisibleActorCounter) {
+    OPEN_DISPS(play->state.gfxCtx);
+
+    char* actorName = ActorDB_Retrieve(actor->id)->name;
+
+    gDPNoOpString(POLY_OPA_DISP++, actorName, listIndex);
+    gDPNoOpString(POLY_XLU_DISP++, actorName, listIndex);
+
+    HREG(66) = listIndex;
+
+    if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
+        SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &actor->world.pos, &actor->projectedPos,
+                                     &actor->projectedW);
+    }
+
+    if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {
+        if (actor->sfx != 0) {
+            func_80030ED8(actor);
+        }
+    }
+
+    // #region SOH [Enhancement] Extended culling updates
+    bool shipShouldDraw = false;
+    bool shipShouldUpdate = false;
+    if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(70) == 0)) {
+        if (CVarGetInteger(CVAR_ENHANCEMENT("DisableDrawDistance"), 1) > 1 ||
+            CVarGetInteger(CVAR_ENHANCEMENT("WidescreenActorCulling"), 0)) {
+            Ship_CalcShouldDrawAndUpdate(play, actor, &actor->projectedPos, actor->projectedW, &shipShouldDraw,
+                                         &shipShouldUpdate);
+
+            if (shipShouldUpdate) {
+                actor->flags |= ACTOR_FLAG_INSIDE_CULLING_VOLUME;
+            } else {
+                actor->flags &= ~ACTOR_FLAG_INSIDE_CULLING_VOLUME;
+            }
+        } else {
+            if (func_800314B0(play, actor)) {
+                actor->flags |= ACTOR_FLAG_INSIDE_CULLING_VOLUME;
+            } else {
+                actor->flags &= ~ACTOR_FLAG_INSIDE_CULLING_VOLUME;
+            }
+        }
+    }
+
+    actor->isDrawn = false;
+
+    if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
+        if ((actor->init == NULL) && (actor->draw != NULL) &&
+            ((actor->flags & (ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_INSIDE_CULLING_VOLUME)) ||
+             shipShouldDraw)) {
+            // #endregion
+            if ((actor->flags & ACTOR_FLAG_REACT_TO_LENS) &&
+                ((play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) || play->actorCtx.lensActive ||
+                 (actor->room != play->roomCtx.curRoom.num))) {
+                assert(*invisibleActorCounter < INVISIBLE_ACTOR_MAX);
+                invisibleActors[*invisibleActorCounter] = actor;
+                (*invisibleActorCounter)++;
+            } else {
+                if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(72) == 0)) {
+                    Actor_Draw(play, actor);
+                    actor->isDrawn = true;
+                }
+            }
+        }
+    }
+
+    CLOSE_DISPS(play->state.gfxCtx);
+}
+
 void func_800315AC(PlayState* play, ActorContext* actorCtx) {
     s32 invisibleActorCounter;
     Actor* invisibleActors[INVISIBLE_ACTOR_MAX];
@@ -3055,77 +3158,65 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 
     OPEN_DISPS(play->state.gfxCtx);
 
+    // SOH [Enhancement] Toon lighting: mark all actor draws so the renderer applies the toon ramp to
+    // objects only (the static scene is never bracketed). Gated by the CVar so it is a no-op when off.
+    if (CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1)) {
+        gSPToon(POLY_OPA_DISP++, true);
+        gSPToon(POLY_XLU_DISP++, true);
+    }
+
+    // SOH [Enhancement] WW actor shadows/light casting: walkable-floor receiver pre-pass.
+    // A few "floors" are actors, not room mesh (drawbridge, Gerudo Valley bridge, some dungeon platforms).
+    // Drawn here, BEFORE the light-pool and shadow flushes below, their surfaces enter the depth buffer so both
+    // world effects land on them just like the static scene; they are skipped in the main loop below so each
+    // still draws exactly once. The flushes must sit between this pre-pass and the rest of the actors (which
+    // must NOT receive shadows, to avoid self-shadowing the casters) — that ordering is why they live here.
+    bool shadowsEnabled = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0);
+    bool receiversActive = shadowsEnabled && CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.ReceiverActors"), 1);
+
+    if (receiversActive) {
+        actorListEntry = &actorCtx->actorLists[0];
+        for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, actorListEntry++) {
+            for (actor = actorListEntry->head; actor != NULL; actor = actor->next) {
+                if (ToonLighting_IsShadowReceiver(actor)) {
+                    Actor_DrawListEntry(play, actor, i, invisibleActors, &invisibleActorCounter);
+                }
+            }
+        }
+    }
+
+    // SOH [Enhancement] WW light casting: cast the point-light pools here (moved from Play_Draw). Running it
+    // after the receiver pre-pass lets torch/fairy pools fall on the walkable-floor actors too, not just the
+    // room — and still before the rest of the actors below, so pools stay under them. No-op unless the feature
+    // is enabled (COND_HOOK). The pools clear G_LIGHTING, so the open toon bracket above does not shade them.
+    GameInteractor_ExecuteOnPlayDrawWorldLights(play);
+
+    if (shadowsEnabled) {
+        gSPToonShadowFlush(POLY_OPA_DISP++);
+    }
+
     actorListEntry = &actorCtx->actorLists[0];
 
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, actorListEntry++) {
         actor = actorListEntry->head;
 
         while (actor != NULL) {
-            char* actorName = ActorDB_Retrieve(actor->id)->name;
-
-            gDPNoOpString(POLY_OPA_DISP++, actorName, i);
-            gDPNoOpString(POLY_XLU_DISP++, actorName, i);
-
-            HREG(66) = i;
-
-            if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(68) == 0)) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &actor->world.pos, &actor->projectedPos,
-                                             &actor->projectedW);
+            // Receivers were already drawn in the pre-pass above; skip them so they draw exactly once.
+            if (receiversActive && ToonLighting_IsShadowReceiver(actor)) {
+                actor = actor->next;
+                continue;
             }
 
-            if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(69) == 0)) {
-                if (actor->sfx != 0) {
-                    func_80030ED8(actor);
-                }
-            }
-
-            // #region SOH [Enhancement] Extended culling updates
-            bool shipShouldDraw = false;
-            bool shipShouldUpdate = false;
-            if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(70) == 0)) {
-                if (CVarGetInteger(CVAR_ENHANCEMENT("DisableDrawDistance"), 1) > 1 ||
-                    CVarGetInteger(CVAR_ENHANCEMENT("WidescreenActorCulling"), 0)) {
-                    Ship_CalcShouldDrawAndUpdate(play, actor, &actor->projectedPos, actor->projectedW, &shipShouldDraw,
-                                                 &shipShouldUpdate);
-
-                    if (shipShouldUpdate) {
-                        actor->flags |= ACTOR_FLAG_INSIDE_CULLING_VOLUME;
-                    } else {
-                        actor->flags &= ~ACTOR_FLAG_INSIDE_CULLING_VOLUME;
-                    }
-                } else {
-                    if (func_800314B0(play, actor)) {
-                        actor->flags |= ACTOR_FLAG_INSIDE_CULLING_VOLUME;
-                    } else {
-                        actor->flags &= ~ACTOR_FLAG_INSIDE_CULLING_VOLUME;
-                    }
-                }
-            }
-
-            actor->isDrawn = false;
-
-            if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
-                if ((actor->init == NULL) && (actor->draw != NULL) &&
-                    ((actor->flags & (ACTOR_FLAG_DRAW_CULLING_DISABLED | ACTOR_FLAG_INSIDE_CULLING_VOLUME)) ||
-                     shipShouldDraw)) {
-                    // #endregion
-                    if ((actor->flags & ACTOR_FLAG_REACT_TO_LENS) &&
-                        ((play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) || play->actorCtx.lensActive ||
-                         (actor->room != play->roomCtx.curRoom.num))) {
-                        assert(invisibleActorCounter < INVISIBLE_ACTOR_MAX);
-                        invisibleActors[invisibleActorCounter] = actor;
-                        invisibleActorCounter++;
-                    } else {
-                        if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(72) == 0)) {
-                            Actor_Draw(play, actor);
-                            actor->isDrawn = true;
-                        }
-                    }
-                }
-            }
+            Actor_DrawListEntry(play, actor, i, invisibleActors, &invisibleActorCounter);
 
             actor = actor->next;
         }
+    }
+
+    // SOH [Enhancement] Toon lighting: end the actor bracket before effects/lens/UI are drawn.
+    if (CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1)) {
+        gSPToon(POLY_OPA_DISP++, false);
+        gSPToon(POLY_XLU_DISP++, false);
     }
 
     if ((HREG(64) != 1) || (HREG(73) != 0)) {

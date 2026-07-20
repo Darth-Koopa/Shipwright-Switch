@@ -4,6 +4,7 @@
 #include "soh/ShipInit.hpp"
 #include "functions.h"
 #include "soh/SohGui/MenuTypes.h"
+#include "soh/SohGui/Localization.h"
 #include "soh/util.h"
 
 extern "C" {
@@ -99,7 +100,7 @@ void Warp(WarpPoint& warpPoint) {
 static std::string warpNameInput = "";
 
 void WarpPointsWidget(WidgetInfo& info) {
-    ImGui::SeparatorText("Warp Points");
+    ImGui::SeparatorText(SohGui::L("Warp Points"));
     if (gPlayState != NULL && GET_PLAYER(gPlayState) != NULL) {
         UIWidgets::InputString("##WarpPointNameInput", &warpNameInput,
                                {

@@ -1,5 +1,6 @@
 #include "tricks.h"
 #include "soh/SohGui/UIWidgets.hpp"
+#include "soh/SohGui/Localization.h"
 #include <unordered_map>
 
 namespace Rando {
@@ -100,7 +101,7 @@ const ImVec4 Tricks::GetTagColor(const Tag tag) {
 
 void Tricks::DrawTagChips(const std::set<Tag>& rtTags, std::string trickName) {
     for (const Tag rtTag : rtTags) {
-        std::string tagId = GetTagName(rtTag) + "##" + trickName;
+        std::string tagId = std::string(::SohGui::L(GetTagName(rtTag))) + "##" + trickName;
         ImGui::SameLine();
         ImGui::BeginDisabled();
         UIWidgets::PushStyleButton(GetTagColor(rtTag));

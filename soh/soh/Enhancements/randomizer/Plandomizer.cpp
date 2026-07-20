@@ -699,7 +699,7 @@ void PlandomizerOverlayText(std::pair<Rando::Item, uint32_t> drawObject) {
 void PlandomizerDrawItemPopup(uint32_t index) {
     if (shouldPopup && ImGui::BeginPopup("ItemList")) {
         PlandoPushImageButtonStyle();
-        ImGui::SeparatorText("Resources");
+        ImGui::SeparatorText(SohGui::L("Resources"));
         ImGui::BeginTable("Infinite Item Table", 7);
         for (auto& item : infiniteItemList) {
             ImGui::PushID(item);
@@ -724,7 +724,7 @@ void PlandomizerDrawItemPopup(uint32_t index) {
         }
 
         ImGui::EndTable();
-        ImGui::SeparatorText("Spoiler Log Rewards");
+        ImGui::SeparatorText(SohGui::L("Spoiler Log Rewards"));
         ImGui::BeginTable("Item Button Table", 8);
         uint32_t itemIndex = 0;
 
@@ -868,7 +868,7 @@ void PlandomizerDrawIceTrapSetup(uint32_t index) {
     PlandomizerDrawIceTrapPopUp(index);
     ImGui::SameLine();
     ImGui::TableNextColumn();
-    ImGui::Text("Name: ");
+    ImGui::Text(SohGui::L("Name: "));
     ImGui::SameLine();
     if (plandoLogData[index].iceTrapModel.GetRandomizerGet() != RG_NONE &&
         plandoLogData[index].iceTrapModel.GetRandomizerGet() != RG_SOLD_OUT) {
@@ -936,7 +936,7 @@ void PlandomizerDrawOptions() {
         ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch);
         ImGui::TableNextColumn();
-        ImGui::SeparatorText("Load/Save Spoiler Log");
+        ImGui::SeparatorText(SohGui::L("Load/Save Spoiler Log"));
         PlandomizerPopulateSeedList();
         static size_t selectedList = 0;
         if (existingSeedList.size() != 0) {
@@ -944,7 +944,7 @@ void PlandomizerDrawOptions() {
                 "##JsonFiles", &selectedList, existingSeedList,
                 UIWidgets::ComboboxOptions().Color(THEME_COLOR).LabelPosition(UIWidgets::LabelPositions::None));
         } else {
-            ImGui::Text("No Spoiler Logs found.");
+            ImGui::Text(SohGui::L("No Spoiler Logs found."));
         }
         ImGui::BeginDisabled(existingSeedList.empty());
         if (UIWidgets::Button("Load", UIWidgets::ButtonOptions().Color(THEME_COLOR).Size(UIWidgets::Sizes::Inline))) {
@@ -960,7 +960,7 @@ void PlandomizerDrawOptions() {
         ImGui::EndDisabled();
 
         ImGui::TableNextColumn();
-        ImGui::SeparatorText("Current Seed Hash");
+        ImGui::SeparatorText(SohGui::L("Current Seed Hash"));
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (ImGui::GetContentRegionAvail().x * 0.5f) - (34.0f * 5.0f));
         if (spoilerLogData.size() > 0) {
             if (ImGui::BeginTable("HashIcons", 5)) {
@@ -1012,14 +1012,14 @@ void PlandomizerDrawOptions() {
                 ImGui::EndTable();
             }
         } else {
-            ImGui::Text("No Spoiler Log Loaded");
+            ImGui::Text(SohGui::L("No Spoiler Log Loaded"));
         }
         ImGui::EndTable();
     }
 
-    ImGui::SeparatorText("Options");
+    ImGui::SeparatorText(SohGui::L("Options"));
     if (plandoLogData.size() == 0) {
-        ImGui::Text("Please Load Spoiler Data...");
+        ImGui::Text(SohGui::L("Please Load Spoiler Data..."));
         return;
     }
 
@@ -1058,7 +1058,7 @@ void PlandomizerDrawHintsWindow() {
 
     ImGui::BeginChild("Hints");
     if (ImGui::BeginTable("Hints Window", 1, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_ScrollY)) {
-        ImGui::TableSetupColumn("Hint Entries");
+        ImGui::TableSetupColumn(SohGui::L("Hint Entries"));
         ImGui::TableSetupScrollFreeze(0, 1);
         ImGui::TableHeadersRow();
 
@@ -1066,14 +1066,14 @@ void PlandomizerDrawHintsWindow() {
             ImGui::PushID(index);
             ImGui::TableNextColumn();
             ImGui::SeparatorText(hintData.hintName.c_str());
-            ImGui::Text("Current Hint: ");
+            ImGui::Text(SohGui::L("Current Hint: "));
             ImGui::SameLine();
             ImGui::TextWrapped("%s", hintData.hintText.c_str());
 
             if (spoilerHintData.size() > 0) {
                 hintInputText = plandoHintData[index].hintText.c_str();
             }
-            ImGui::Text("New Hint:     ");
+            ImGui::Text(SohGui::L("New Hint:     "));
             ImGui::SameLine();
             if (UIWidgets::Button(randomizeButton.c_str(), UIWidgets::ButtonOptions()
                                                                .Color(THEME_COLOR)
@@ -1104,11 +1104,11 @@ void PlandomizerDrawLocationsWindow(RandomizerCheckArea rcArea) {
     uint32_t index = 0;
     ImGui::BeginChild("Locations");
     if (ImGui::BeginTable("Locations Window", 4, ImGuiTableFlags_BordersInnerV | ImGuiTableFlags_ScrollY)) {
-        ImGui::TableSetupColumn("Spoiler Log Check Name", ImGuiTableColumnFlags_WidthFixed, 250.0f);
-        ImGui::TableSetupColumn("Spoiler Log Reward", ImGuiTableColumnFlags_WidthFixed, 190.0f);
+        ImGui::TableSetupColumn(SohGui::L("Spoiler Log Check Name"), ImGuiTableColumnFlags_WidthFixed, 250.0f);
+        ImGui::TableSetupColumn(SohGui::L("Spoiler Log Reward"), ImGuiTableColumnFlags_WidthFixed, 190.0f);
         ImGui::TableSetupColumn("New Reward", ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_NoHeaderLabel,
                                 34.0f);
-        ImGui::TableSetupColumn("Additional Options");
+        ImGui::TableSetupColumn(SohGui::L("Additional Options"));
         ImGui::TableSetupScrollFreeze(0, 1);
         ImGui::TableHeadersRow();
 
@@ -1148,12 +1148,12 @@ void PlandomizerDrawSpoilerTable() {
     ImGui::BeginChild("Main");
     UIWidgets::PushStyleTabs(THEME_COLOR);
     if (ImGui::BeginTabBar("Check Tabs")) {
-        if (ImGui::BeginTabItem("Gossip Stones")) {
+        if (ImGui::BeginTabItem(SohGui::L("Gossip Stones"))) {
             getTabID = TAB_HINTS;
             PlandomizerDrawHintsWindow();
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Locations")) {
+        if (ImGui::BeginTabItem(SohGui::L("Locations"))) {
             getTabID = TAB_LOCATIONS;
             PlandomizerDrawLocationsWindow(selectedArea);
             ImGui::EndTabItem();

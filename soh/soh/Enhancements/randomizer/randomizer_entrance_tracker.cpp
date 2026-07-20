@@ -711,7 +711,7 @@ void InitEntranceTrackingData() {
 
 void EntranceTrackerSettingsWindow::DrawElement() {
 
-    ImGui::TextWrapped("The entrance tracker will only track shuffled entrances");
+    ImGui::TextWrapped(SohGui::L("The entrance tracker will only track shuffled entrances"));
     Spacer(0);
 
     ImGui::TableNextColumn();
@@ -753,7 +753,7 @@ void EntranceTrackerSettingsWindow::DrawElement() {
 
         ImGui::TableNextColumn();
 
-        ImGui::Text("Sort By");
+        ImGui::Text(SohGui::L("Sort By"));
         CVarRadioButton(
             "To", CVAR_TRACKER_ENTRANCE("SortBy"), 0,
             RadioButtonsOptions().Color(THEME_COLOR).Tooltip("Sort entrances by the original source entrance"));
@@ -761,7 +761,7 @@ void EntranceTrackerSettingsWindow::DrawElement() {
             "From", CVAR_TRACKER_ENTRANCE("SortBy"), 1,
             RadioButtonsOptions().Color(THEME_COLOR).Tooltip("Sort entrances by the overrided destination"));
 
-        ImGui::Text("List Items");
+        ImGui::Text(SohGui::L("List Items"));
         CVarCheckbox("Auto scroll", CVAR_TRACKER_ENTRANCE("AutoScroll"),
                      CheckboxOptions()
                          .Tooltip("Automatically scroll to the first available entrance in the current scene")
@@ -791,13 +791,13 @@ void EntranceTrackerSettingsWindow::DrawElement() {
 
         ImGui::TableNextColumn();
 
-        ImGui::Text("Group By");
+        ImGui::Text(SohGui::L("Group By"));
         CVarRadioButton("Area", CVAR_TRACKER_ENTRANCE("GroupBy"), 0,
                         RadioButtonsOptions().Color(THEME_COLOR).Tooltip("Group entrances by their area"));
         CVarRadioButton("Type", CVAR_TRACKER_ENTRANCE("GroupBy"), 1,
                         RadioButtonsOptions().Color(THEME_COLOR).Tooltip("Group entrances by their entrance type"));
 
-        ImGui::Text("Spoiler Reveal");
+        ImGui::Text(SohGui::L("Spoiler Reveal"));
         ImGui::BeginDisabled(CVarGetInteger(CVAR_SETTING("DisableChanges"), 0));
         CVarCheckbox("Show Source", CVAR_TRACKER_ENTRANCE("ShowFrom"),
                      CheckboxOptions().Tooltip("Reveal the source for undiscovered entrances").Color(THEME_COLOR));
@@ -808,7 +808,7 @@ void EntranceTrackerSettingsWindow::DrawElement() {
     }
 
     ImGui::SetNextItemOpen(false, ImGuiCond_Once);
-    if (ImGui::TreeNode("Legend")) {
+    if (ImGui::TreeNode(SohGui::L("Legend"))) {
         ImGui::TextColored(ImColor(COLOR_ORANGE), "Last Entrance");
         ImGui::TextColored(ImColor(COLOR_GREEN), "Available Entrances");
         ImGui::TextColored(ImColor(COLOR_GRAY), "Undiscovered Entrances");
@@ -861,7 +861,7 @@ void EntranceTrackerWindow::DrawElement() {
             static_cast<TrackerWindowType>(CVarGetInteger(CVAR_TRACKER_ENTRANCE("WindowType"), TRACKER_WINDOW_WINDOW)),
             CVarGetInteger(CVAR_TRACKER_ENTRANCE("Draggable"), 1), ImGuiWindowFlags_NoScrollbar)) {
         if (!GameInteractor::IsSaveLoaded()) {
-            ImGui::Text("Waiting for file load..."); // TODO Language
+            ImGui::Text(SohGui::L("Waiting for file load...")); // TODO Language
             Trackers::EndFloatWindows();
             return;
         }
@@ -1058,7 +1058,7 @@ void EntranceTrackerWindow::DrawElement() {
                     if (!locationSearch.IsActive() && undiscovered > 0) {
                         Spacer(0);
                         ImGui::PushStyleColor(ImGuiCol_Text, COLOR_GRAY);
-                        ImGui::TextWrapped("%d Undiscovered", undiscovered);
+                        ImGui::TextWrapped(SohGui::L("%d Undiscovered"), undiscovered);
                         ImGui::PopStyleColor();
                     }
 
