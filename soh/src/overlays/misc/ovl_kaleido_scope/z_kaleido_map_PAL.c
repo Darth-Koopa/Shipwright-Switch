@@ -444,7 +444,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
         gPauseCurrentPositionGERTex,
         gPauseCurrentPositionFRATex,
         gPauseCurrentPositionJPNTex,
-        gPauseCurrentPositionENGTex, // LANGUAGE_CHI uses ENG
+        gPauseCurrentPositionCHITex, // LANGUAGE_CHI uses CHI
     };
     static u16 D_8082A6D4 = 0;
     PauseContext* pauseCtx = &play->pauseCtx;
@@ -820,9 +820,18 @@ void KaleidoScope_DrawWorldMap(PlayState* play, GraphicsContext* gfxCtx) {
                       PRIMITIVE, 0);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, pauseCtx->alpha);
 
-    gDPLoadTextureBlock_4b(POLY_OPA_DISP++, currentPosTitleTexs[gSaveContext.language], G_IM_FMT_I, 64, 8, 0,
-                           G_TX_WRAP | mirrorMode, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                           G_TX_NOLOD);
+    if (gSaveContext.language == LANGUAGE_CHI) {
+        // Chinese "current position" texture is IA8 (grayscale + alpha) so the
+        // shape/anti-aliasing is preserved; reuse the same combine (black text,
+        // alpha from texture * prim alpha).
+        gDPLoadTextureBlock(POLY_OPA_DISP++, currentPosTitleTexs[gSaveContext.language], G_IM_FMT_IA, G_IM_SIZ_8b, 64,
+                            8, 0, G_TX_WRAP | mirrorMode, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
+    } else {
+        gDPLoadTextureBlock_4b(POLY_OPA_DISP++, currentPosTitleTexs[gSaveContext.language], G_IM_FMT_I, 64, 8, 0,
+                               G_TX_WRAP | mirrorMode, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                               G_TX_NOLOD);
+    }
 
     gSP1Quadrangle(POLY_OPA_DISP++, 8, 10, 11, 9, 0);
 

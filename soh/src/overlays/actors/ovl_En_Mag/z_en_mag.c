@@ -482,8 +482,13 @@ bool EnMag_ShouldDrawPressStart(Font* font, Gfx** gfxP, bool isActualText) {
 // #endregion
 
 // Title logo is shifted to the left in Master Quest
-#define LOGO_X_SHIFT (isMQ ? 0 : -8)
-#define LOGO_TEX (isMQ ? gTitleZeldaShieldLogoMQTex : gTitleZeldaShieldLogoTex)
+#define LOGO_X_SHIFT (isMQ ? -8 : 0)
+#define TITLE_X_SHIFT (isMQ ? -8 : 0)
+#define LOGO_TEX                                                                                                    \
+    (isMQ ? gTitleZeldaShieldLogoMQTex                                                                              \
+          : (gSaveContext.language == LANGUAGE_CHI && CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)     \
+                 ? gTitleZeldaShieldLogoCHITex                                                                      \
+                 : gTitleZeldaShieldLogoTex))
 // Copyright texture is different depending on the version
 // JPN CE displays two slightly different 2004 copyrights when lang is jpn or not
 // Otherwise the other GC JPN versions either display 2002 for JPN or 2003 for others
@@ -604,6 +609,9 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
             if (gSaveContext.language == LANGUAGE_JPN || ResourceMgr_GetGameVersion(0) == OOT_NTSC_JP_MQ) {
                 EnMag_DrawImageRGBA32(&gfx, 235, 149, (u8*)gTitleUraLogoTex, 40, 40);
+            } else if (gSaveContext.language == LANGUAGE_CHI &&
+                       CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
+                EnMag_DrawImageRGBA32(&gfx, 235, 149, (u8*)gTitleUraLogoCHITex, 40, 40);
             } else {
                 EnMag_DrawImageRGBA32(&gfx, 174, 145, (u8*)gTitleMasterQuestSubtitleTex, 128, 32);
             }
@@ -637,7 +645,37 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 1);
             gDPSetTileSize(gfx++, 1, this->unk_E30C & 0x7F, this->effectScroll & 0x7F,
                            (this->unk_E30C & 0x7F) + ((32 - 1) << 2), (this->effectScroll & 0x7F) + ((32 - 1) << 2));
-            gSPTextureRectangle(gfx++, 106 << 2, 144 << 2, (106 + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
+            gSPTextureRectangle(gfx++, (106 + TITLE_X_SHIFT) << 2, 144 << 2, ((106 + TITLE_X_SHIFT) + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
+                                1 << 10, 1 << 10);
+        }
+    } else if (gSaveContext.language == LANGUAGE_CHI && CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
+        // Chinese title with flame effect, same pipeline as JPN
+        this->unk_E30C++;
+        gDPPipeSync(gfx++);
+        gDPSetCycleType(gfx++, G_CYC_2CYCLE);
+        if ((s16)this->subAlpha < 100) {
+            gDPSetRenderMode(gfx++, G_RM_PASS, G_RM_CLD_SURF2);
+        } else {
+            gDPSetRenderMode(gfx++, G_RM_PASS, G_RM_XLU_SURF2);
+        }
+        gDPSetCombineLERP(gfx++, TEXEL1, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE, ENVIRONMENT,
+                          COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
+        if (!isMQ) {
+            gDPSetPrimColor(gfx++, 0, 0x80, 255, 255, 170, (s16)this->subAlpha);
+            gDPSetEnvColor(gfx++, 255, 150, 0, 255);
+        } else {
+            gDPSetPrimColor(gfx++, 0, 0x80, 170, 255, 255, (s16)this->subAlpha);
+            gDPSetEnvColor(gfx++, ZREG(34), 100 + ZREG(35), 255 + ZREG(36), 255);
+        }
+        if ((s16)this->subAlpha != 0) {
+            gDPLoadTextureBlock(gfx++, gTitleTitleCHNTex, G_IM_FMT_I, G_IM_SIZ_8b, 128, 16, 0,
+                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
+                                G_TX_NOMASK, G_TX_NOLOD);
+            gDPLoadMultiBlock(gfx++, gTitleFlameEffectTex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+                              G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 1);
+            gDPSetTileSize(gfx++, 1, this->unk_E30C & 0x7F, this->effectScroll & 0x7F,
+                           (this->unk_E30C & 0x7F) + ((32 - 1) << 2), (this->effectScroll & 0x7F) + ((32 - 1) << 2));
+            gSPTextureRectangle(gfx++, (106 + TITLE_X_SHIFT) << 2, 144 << 2, ((106 + TITLE_X_SHIFT) + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
                                 1 << 10, 1 << 10);
         }
     }
@@ -651,12 +689,23 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                     (s16)this->copyrightAlpha);
 
     if ((s16)this->copyrightAlpha != 0) {
-        gDPLoadTextureBlock(gfx++, COPYRIGHT_TEX, G_IM_FMT_IA, G_IM_SIZ_8b, COPYRIGHT_TEX_WIDTH, 16, 0,
-                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
+        if (gSaveContext.language == LANGUAGE_CHI) {
+            // iQue copyright (IA8, 128x32) shown in Chinese mode
+            gDPLoadTextureBlock(gfx++, gTitleCopyright19982003IQueTex, G_IM_FMT_IA, G_IM_SIZ_8b, 128, 32, 0,
+                                G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                                G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(gfx++, COPYRIGHT_TEX_LEFT << 2, 198 << 2, (COPYRIGHT_TEX_LEFT + COPYRIGHT_TEX_WIDTH) << 2,
-                            (198 + 16) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            gSPTextureRectangle(gfx++, 94 << 2, 198 << 2, (94 + 128) << 2, (198 + 32) << 2,
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        } else {
+            gDPLoadTextureBlock(gfx++, COPYRIGHT_TEX, G_IM_FMT_IA, G_IM_SIZ_8b, COPYRIGHT_TEX_WIDTH, 16, 0,
+                                G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                                G_TX_NOLOD, G_TX_NOLOD);
+
+            gSPTextureRectangle(gfx++, COPYRIGHT_TEX_LEFT << 2, 198 << 2,
+                                (COPYRIGHT_TEX_LEFT + COPYRIGHT_TEX_WIDTH) << 2, (198 + 16) << 2, G_TX_RENDERTILE, 0,
+                                0, 1 << 10, 1 << 10);
+        }
     }
 
     if (gSaveContext.fileNum == 0xFEDC) {
@@ -712,7 +761,19 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                           0);
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
-        if (EnMag_ShouldDrawPressStart(font, &gfx, false)) {
+        if (gSaveContext.language == LANGUAGE_CHI &&
+            CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
+            // 绘制 "按" 字符（阴影）
+            u16 rectLeft = YREG(7) + 1 + (YREG(8) * 2);
+            EnMag_DrawCharTexture(&gfx, (u8*)gTitlePressCHNTex, rectLeft, YREG(10) + 172);
+            rectLeft += YREG(9) + YREG(8); // 跳到 "START" 起始位置
+            // 绘制 "START"（阴影），从 pressStartFontIndices 取后5个字符
+            for (i = 5; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
+                EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[sFontType][i] * FONT_CHAR_TEX_SIZE,
+                                    rectLeft, YREG(10) + 172);
+                rectLeft += YREG(8);
+            }
+        } else if (EnMag_ShouldDrawPressStart(font, &gfx, false)) {
             rectLeft = YREG(7) + 1;
             for (i = 0; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
                 EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[sFontType][i] * FONT_CHAR_TEX_SIZE,
@@ -728,7 +789,19 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, YREG(4), YREG(5), YREG(6), textAlpha);
 
-        if (EnMag_ShouldDrawPressStart(font, &gfx, true)) {
+        if (gSaveContext.language == LANGUAGE_CHI &&
+            CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
+            // 绘制 "按" 字符（实际文本）
+            u16 rectLeft = YREG(7) + (YREG(8) * 2);
+            EnMag_DrawCharTexture(&gfx, (u8*)gTitlePressCHNTex, rectLeft, YREG(10) + 171);
+            rectLeft += YREG(9) + YREG(8);
+            // 绘制 "START"（实际文本）
+            for (i = 5; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
+                EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[sFontType][i] * FONT_CHAR_TEX_SIZE,
+                                    rectLeft, YREG(10) + 171);
+                rectLeft += YREG(8);
+            }
+        } else if (EnMag_ShouldDrawPressStart(font, &gfx, true)) {
             rectLeft = YREG(7);
             for (i = 0; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
                 EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[sFontType][i] * FONT_CHAR_TEX_SIZE,

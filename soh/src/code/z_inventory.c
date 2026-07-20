@@ -201,6 +201,15 @@ void* gItemIcons[] = {
     gRocsFeatherTex,
 };
 
+// Returns the item icon texture for the given item ID, falling back to the Chinese
+// "sold out" icon when the language is Chinese and the item is ITEM_SOLD_OUT.
+void* GetItemIcon(s16 itemId) {
+    if (itemId == ITEM_SOLD_OUT && gSaveContext.language == LANGUAGE_CHI) {
+        return gItemIconSoldOutCHITex;
+    }
+    return gItemIcons[itemId];
+}
+
 // Used to map item IDs to inventory slots
 u8 gItemSlots[] = {
     SLOT_STICK,       SLOT_NUT,          SLOT_BOMB,        SLOT_BOW,         SLOT_ARROW_FIRE,  SLOT_DINS_FIRE,
