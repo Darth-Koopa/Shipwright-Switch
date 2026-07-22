@@ -41,15 +41,24 @@ RESOURCE_TYPE_TEXTURE = 0x4F544558   # "OTEX" little-endian
 TEXTURE_TYPE_GRAYSCALE_4BPP = 5      # I4 original format identifier
 TEX_FLAG_LOAD_AS_RAW = 1
 
-# HD texture parameters (same as sxunix's original)
+# HD texture parameters - adjusted to match generate_assets.py's 16x16 I4 glyphs
 HD_SIZE = 128
 RENDER_SIZE = 256                    # 2× supersampling for sharper strokes
-FONT_SIZE = 216                      # ~108pt × 2 for the 2× canvas
+FONT_SIZE = 192                      # 12 pt × (128/16) × 2 = 192 (matches original)
 GLYPH_COLOR = (210, 210, 210, 255)  # gray210, matches OoT Reloaded kanji style
 
 # Scale factors: original 16×16 I4 → HD 128×128 RGBA32
 H_BYTE_SCALE = 64.0
 V_PIXEL_SCALE = 8.0
+
+# Vertical offsets for specific characters (same as generate_assets.py, scaled ×16)
+_HD_Y_OFFSET: dict[str, int] = {
+    "一": 32,  "，": 48,  "。": 48,  "…": 32,  "．": 48,  "、": 48,
+}
+
+# Horizontal offset: generate_assets.py uses a fixed -2 px on 16x16 canvas.
+# Scaled to 256x256 render canvas: -2 * 16 = -32.
+HD_X_OFFSET = -32
 
 def parse_char_entries(tbl_path: Path) -> list[tuple[str, str]]:
     """Parse z_kanfont_chinese_tbl.inc → [(tex_name, char), ...] for all
@@ -73,12 +82,6 @@ def parse_char_entries(tbl_path: Path) -> list[tuple[str, str]]:
     return entries
 
 
-# Same offsets as generate_assets.py, scaled 16× (256px render ÷ 16px I4)
-_HD_Y_OFFSET: dict[str, int] = {
-    "一": 32,  "，": 48,  "。": 48,  "…": 32,  "．": 48,  "、": 48,
-}
-
-
 def generate_rgba_image(char: str, font, size: int) -> bytes:
     """Render char at 2× resolution, LANCZOS downscale to target size.
 
@@ -90,9 +93,8 @@ def generate_rgba_image(char: str, font, size: int) -> bytes:
     bbox = font.getbbox(char)
     char_w = bbox[2] - bbox[0]
     char_h = bbox[3] - bbox[1]
-    x = (RENDER_SIZE - char_w) // 2 - bbox[0]
-    y = (RENDER_SIZE - char_h) // 2 - bbox[1]
-    y += _HD_Y_OFFSET.get(char, 0)
+    x = (RENDER_SIZE - char_w) // 2 - bbox[0] + HD_X_OFFSET   # apply horizontal offset
+    y = (RENDER_SIZE - char_h) // 2 - bbox[1] + _HD_Y_OFFSET.get(char, 0)
 
     draw.text((x, y), char, fill=GLYPH_COLOR, font=font)
     img = img.resize((size, size), Image.LANCZOS)
