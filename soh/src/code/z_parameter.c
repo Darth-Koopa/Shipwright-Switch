@@ -4247,32 +4247,25 @@ void Interface_DrawItemButtons(PlayState* play) {
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-            // The Chinese C-Up label is authored at 48x16 (do-action size) while the original is
-            // 32x8. Load the full native texture, but draw it scaled down to keep the CHI text legible
-            // without overflowing. It is positioned at the original left-anchored spot (button left edge
-            // minus LabelX_Navi) like ENG/JPN, so it sits just to the left of the button.
-            s32 texWidth = (gSaveContext.language == LANGUAGE_CHI) ? 48 : 32;
-            s32 texHeight = (gSaveContext.language == LANGUAGE_CHI) ? 16 : 8;
-            s32 drawWidth = (gSaveContext.language == LANGUAGE_CHI) ? 33 : 32;
-            s32 drawHeight = (gSaveContext.language == LANGUAGE_CHI) ? 11 : 8;
-            s32 naviLabelYOff = LabelY_Navi - ((gSaveContext.language == LANGUAGE_CHI) ? 2 : 0);
-
-            gDPLoadTextureBlock(OVERLAY_DISP++, cUpLabelTextures[gSaveContext.language], G_IM_FMT_IA,
-                                G_IM_SIZ_4b, texWidth, texHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-            // All languages start at the original left-anchored position (button left edge minus
-            // LabelX_Navi). CHI is nudged a few pixels further left for better placement.
-            s32 labelLeft = C_Up_BTN_Pos[0] - LabelX_Navi - ((gSaveContext.language == LANGUAGE_CHI) ? 2 : 0);
-            s32 dsdx = (texWidth << 10) / drawWidth;
-            s32 dtdy = (texHeight << 10) / drawHeight;
-
-            gSPWideTextureRectangle(OVERLAY_DISP++, labelLeft << 2,
-                                    (C_Up_BTN_Pos[1] + naviLabelYOff) << 2,
-                                    (labelLeft + drawWidth) << 2,
-                                    (C_Up_BTN_Pos[1] + naviLabelYOff + drawHeight) << 2, G_TX_RENDERTILE, 0, 0,
-                                    dsdx, dtdy);
+            if (gSaveContext.language == LANGUAGE_CHI) {
+                // iQue 中文样式：48x16 纹理，绘制于偏移位置
+                gDPLoadTextureBlock_4b(OVERLAY_DISP++, cUpLabelTextures[gSaveContext.language], G_IM_FMT_IA, 48, 16, 0,
+                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                       G_TX_NOLOD, G_TX_NOLOD);
+                gSPWideTextureRectangle(OVERLAY_DISP++, C_Up_BTN_Pos[0] - LabelX_Navi -8 << 2,
+                                        C_Up_BTN_Pos[1] + LabelY_Navi -4 << 2, (C_Up_BTN_Pos[0] - LabelX_Navi + 40) << 2,
+                                        (C_Up_BTN_Pos[1] + LabelY_Navi + 12) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            } else {
+                // 普通版本（非 CHI）：32x8 纹理，绘制于原始位置
+                gDPLoadTextureBlock_4b(OVERLAY_DISP++, cUpLabelTextures[gSaveContext.language], G_IM_FMT_IA, 32, 8, 0,
+                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                       G_TX_NOLOD, G_TX_NOLOD);
+                gSPWideTextureRectangle(OVERLAY_DISP++, C_Up_BTN_Pos[0] - LabelX_Navi << 2,
+                                        C_Up_BTN_Pos[1] + LabelY_Navi << 2, (C_Up_BTN_Pos[0] - LabelX_Navi + 32) << 2,
+                                        (C_Up_BTN_Pos[1] + LabelY_Navi + 8) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            }
         }
+
 
         sCUpTimer--;
         if (sCUpTimer == 0) {
