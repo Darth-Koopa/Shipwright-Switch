@@ -483,7 +483,11 @@ bool EnMag_ShouldDrawPressStart(Font* font, Gfx** gfxP, bool isActualText) {
 
 // Title logo is shifted to the left in Master Quest
 #define LOGO_X_SHIFT (isMQ ? 0 : -8)
-#define LOGO_TEX (isMQ ? gTitleZeldaShieldLogoMQTex : gTitleZeldaShieldLogoTex)
+#define LOGO_TEX                                                                                                    \
+    (isMQ ? gTitleZeldaShieldLogoMQTex                                                                              \
+          : (gSaveContext.language == LANGUAGE_CHI && CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)     \
+                 ? gTitleZeldaShieldLogoCHITex                                                                      \
+                 : gTitleZeldaShieldLogoTex))
 // Copyright texture is different depending on the version
 // JPN CE displays two slightly different 2004 copyrights when lang is jpn or not
 // Otherwise the other GC JPN versions either display 2002 for JPN or 2003 for others
@@ -640,6 +644,36 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
             gSPTextureRectangle(gfx++, 106 << 2, 144 << 2, (106 + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
                                 1 << 10, 1 << 10);
         }
+    } else if (gSaveContext.language == LANGUAGE_CHI && CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
+        // Chinese title with flame effect, same pipeline as JPN
+        this->unk_E30C++;
+        gDPPipeSync(gfx++);
+        gDPSetCycleType(gfx++, G_CYC_2CYCLE);
+        if ((s16)this->subAlpha < 100) {
+            gDPSetRenderMode(gfx++, G_RM_PASS, G_RM_CLD_SURF2);
+        } else {
+            gDPSetRenderMode(gfx++, G_RM_PASS, G_RM_XLU_SURF2);
+        }
+        gDPSetCombineLERP(gfx++, TEXEL1, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE, ENVIRONMENT,
+                          COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
+        if (!isMQ) {
+            gDPSetPrimColor(gfx++, 0, 0x80, 255, 255, 170, (s16)this->subAlpha);
+            gDPSetEnvColor(gfx++, 255, 150, 0, 255);
+        } else {
+            gDPSetPrimColor(gfx++, 0, 0x80, 170, 255, 255, (s16)this->subAlpha);
+            gDPSetEnvColor(gfx++, ZREG(34), 100 + ZREG(35), 255 + ZREG(36), 255);
+        }
+        if ((s16)this->subAlpha != 0) {
+            gDPLoadTextureBlock(gfx++, gTitleTitleCHNTex, G_IM_FMT_I, G_IM_SIZ_8b, 128, 16, 0,
+                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
+                                G_TX_NOMASK, G_TX_NOLOD);
+            gDPLoadMultiBlock(gfx++, gTitleFlameEffectTex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+                              G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 1);
+            gDPSetTileSize(gfx++, 1, this->unk_E30C & 0x7F, this->effectScroll & 0x7F,
+                           (this->unk_E30C & 0x7F) + ((32 - 1) << 2), (this->effectScroll & 0x7F) + ((32 - 1) << 2));
+            gSPTextureRectangle(gfx++, 106 << 2, 144 << 2, (106 + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
+                                1 << 10, 1 << 10);
+        }
     }
 
     Gfx_SetupDL_39Ptr(&gfx);
@@ -651,12 +685,19 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                     (s16)this->copyrightAlpha);
 
     if ((s16)this->copyrightAlpha != 0) {
-        gDPLoadTextureBlock(gfx++, COPYRIGHT_TEX, G_IM_FMT_IA, G_IM_SIZ_8b, COPYRIGHT_TEX_WIDTH, 16, 0,
-                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
+        if (gSaveContext.language == LANGUAGE_CHI) {
+            // iQue copyright (RGBA32, 128x32) shown in Chinese mode
+            gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->copyrightAlpha);
+            EnMag_DrawImageRGBA32(&gfx, 158, 214, (u8*)gTitleCopyright19982003IQueTex, 128, 32);
+        } else {
+            gDPLoadTextureBlock(gfx++, COPYRIGHT_TEX, G_IM_FMT_IA, G_IM_SIZ_8b, COPYRIGHT_TEX_WIDTH, 16, 0,
+                                G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                                G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(gfx++, COPYRIGHT_TEX_LEFT << 2, 198 << 2, (COPYRIGHT_TEX_LEFT + COPYRIGHT_TEX_WIDTH) << 2,
-                            (198 + 16) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            gSPTextureRectangle(gfx++, COPYRIGHT_TEX_LEFT << 2, 198 << 2,
+                                (COPYRIGHT_TEX_LEFT + COPYRIGHT_TEX_WIDTH) << 2, (198 + 16) << 2, G_TX_RENDERTILE, 0,
+                                0, 1 << 10, 1 << 10);
+        }
     }
 
     if (gSaveContext.fileNum == 0xFEDC) {
@@ -712,7 +753,11 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                           0);
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
-        if (EnMag_ShouldDrawPressStart(font, &gfx, false)) {
+        if (gSaveContext.language == LANGUAGE_CHI &&
+            CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
+            // Chinese "\u6309 START" image (white) drawn red via prim color in the actual-text pass below
+            EnMag_DrawImageRGBA32(&gfx, 161, 183, (u8*)gTitlePressStartCHNTex, 104, 13);
+        } else if (EnMag_ShouldDrawPressStart(font, &gfx, false)) {
             rectLeft = YREG(7) + 1;
             for (i = 0; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
                 EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[sFontType][i] * FONT_CHAR_TEX_SIZE,
@@ -728,7 +773,11 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, YREG(4), YREG(5), YREG(6), textAlpha);
 
-        if (EnMag_ShouldDrawPressStart(font, &gfx, true)) {
+        if (gSaveContext.language == LANGUAGE_CHI &&
+            CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
+            // Chinese "\u6309 START" image tinted with the same red as the PRESS START text (YREG 4/5/6 = 255,30,30)
+            EnMag_DrawImageRGBA32(&gfx, 160, 182, (u8*)gTitlePressStartCHNTex, 104, 13);
+        } else if (EnMag_ShouldDrawPressStart(font, &gfx, true)) {
             rectLeft = YREG(7);
             for (i = 0; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
                 EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[sFontType][i] * FONT_CHAR_TEX_SIZE,

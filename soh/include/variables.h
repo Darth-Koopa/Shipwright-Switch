@@ -104,6 +104,7 @@ extern "C"
 	extern u32 gGsFlagsMasks[4];
 	extern u32 gGsFlagsShifts[4];
 	extern void* gItemIcons[158];
+	void* GetItemIcon(s16 itemId);
 	extern u8 gItemAgeReqs[];
 	extern u8 gSlotAgeReqs[];
 	extern u8 gItemSlots[56];

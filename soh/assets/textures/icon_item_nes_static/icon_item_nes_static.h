@@ -128,5 +128,68 @@ static const ALIGN_ASSET(2) char gPauseSpiritTitleCHITex[] = dgPauseSpiritTitleC
 #define dgPauseWaterTitleCHITex "__OTR__textures/icon_item_nes_static/gPauseWaterTitleCHITex"
 static const ALIGN_ASSET(2) char gPauseWaterTitleCHITex[] = dgPauseWaterTitleCHITex;
 
+#define dgPauseQuestStatus00CHITex "__OTR__textures/icon_item_nes_static/gPauseQuestStatus00CHITex"
+static const ALIGN_ASSET(2) char gPauseQuestStatus00CHITex[] = dgPauseQuestStatus00CHITex;
+
+#define dgPauseQuestStatus10CHITex "__OTR__textures/icon_item_nes_static/gPauseQuestStatus10CHITex"
+static const ALIGN_ASSET(2) char gPauseQuestStatus10CHITex[] = dgPauseQuestStatus10CHITex;
+
+#define dgPauseQuestStatus20CHITex "__OTR__textures/icon_item_nes_static/gPauseQuestStatus20CHITex"
+static const ALIGN_ASSET(2) char gPauseQuestStatus20CHITex[] = dgPauseQuestStatus20CHITex;
+
+#define dgPauseToQuestStatusCHITex "__OTR__textures/icon_item_nes_static/gPauseToQuestStatusCHITex"
+static const ALIGN_ASSET(2) char gPauseToQuestStatusCHITex[] = dgPauseToQuestStatusCHITex;
+
+#define dgPauseEquipment10CHITex "__OTR__textures/icon_item_nes_static/gPauseEquipment10CHITex"
+static const ALIGN_ASSET(2) char gPauseEquipment10CHITex[] = dgPauseEquipment10CHITex;
+
+#define dgPauseSelectItem00CHITex "__OTR__textures/icon_item_nes_static/gPauseSelectItem00CHITex"
+static const ALIGN_ASSET(2) char gPauseSelectItem00CHITex[] = dgPauseSelectItem00CHITex;
+
+#define dgPauseSelectItem10CHITex "__OTR__textures/icon_item_nes_static/gPauseSelectItem10CHITex"
+static const ALIGN_ASSET(2) char gPauseSelectItem10CHITex[] = dgPauseSelectItem10CHITex;
+
+#define dgPauseSelectItem20CHITex "__OTR__textures/icon_item_nes_static/gPauseSelectItem20CHITex"
+static const ALIGN_ASSET(2) char gPauseSelectItem20CHITex[] = dgPauseSelectItem20CHITex;
+
+#define dgPauseMap10CHITex "__OTR__textures/icon_item_nes_static/gPauseMap10CHITex"
+static const ALIGN_ASSET(2) char gPauseMap10CHITex[] = dgPauseMap10CHITex;
+
+#define dgPauseToMapCHITex "__OTR__textures/icon_item_nes_static/gPauseToMapCHITex"
+static const ALIGN_ASSET(2) char gPauseToMapCHITex[] = dgPauseToMapCHITex;
+
+#define dgPauseToEquipmentCHITex "__OTR__textures/icon_item_nes_static/gPauseToEquipmentCHITex"
+static const ALIGN_ASSET(2) char gPauseToEquipmentCHITex[] = dgPauseToEquipmentCHITex;
+
+#define dgPauseToSelectItemCHITex "__OTR__textures/icon_item_nes_static/gPauseToSelectItemCHITex"
+static const ALIGN_ASSET(2) char gPauseToSelectItemCHITex[] = dgPauseToSelectItemCHITex;
+
+#define dgPauseSave10CHITex "__OTR__textures/icon_item_nes_static/gPauseSave10CHITex"
+static const ALIGN_ASSET(2) char gPauseSave10CHITex[] = dgPauseSave10CHITex;
+
+#define dgPauseSavePromptCHITex "__OTR__textures/icon_item_nes_static/gPauseSavePromptCHITex"
+static const ALIGN_ASSET(2) char gPauseSavePromptCHITex[] = dgPauseSavePromptCHITex;
+
+#define dgPauseSaveConfirmationCHITex "__OTR__textures/icon_item_nes_static/gPauseSaveConfirmationCHITex"
+static const ALIGN_ASSET(2) char gPauseSaveConfirmationCHITex[] = dgPauseSaveConfirmationCHITex;
+
+#define dgPauseYesCHITex "__OTR__textures/icon_item_nes_static/gPauseYesCHITex"
+static const ALIGN_ASSET(2) char gPauseYesCHITex[] = dgPauseYesCHITex;
+
+#define dgPauseNoCHITex "__OTR__textures/icon_item_nes_static/gPauseNoCHITex"
+static const ALIGN_ASSET(2) char gPauseNoCHITex[] = dgPauseNoCHITex;
+
+#define dgPauseToDecideCHITex "__OTR__textures/icon_item_nes_static/gPauseToDecideCHITex"
+static const ALIGN_ASSET(2) char gPauseToDecideCHITex[] = dgPauseToDecideCHITex;
+
+#define dgPauseToEquipCHITex "__OTR__textures/icon_item_nes_static/gPauseToEquipCHITex"
+static const ALIGN_ASSET(2) char gPauseToEquipCHITex[] = dgPauseToEquipCHITex;
+
+#define dgPauseToPlayMelodyCHITex "__OTR__textures/icon_item_nes_static/gPauseToPlayMelodyCHITex"
+static const ALIGN_ASSET(2) char gPauseToPlayMelodyCHITex[] = dgPauseToPlayMelodyCHITex;
+
+#define dgPauseCurrentPositionCHITex "__OTR__textures/icon_item_nes_static/gPauseCurrentPositionCHITex"
+static const ALIGN_ASSET(2) char gPauseCurrentPositionCHITex[] = dgPauseCurrentPositionCHITex;
+
 // #endregion
 #endif // TEXTURES_ICON_ITEM_NES_STATIC_H

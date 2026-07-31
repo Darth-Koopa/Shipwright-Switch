@@ -40,22 +40,31 @@ TEX_FLAG_LOAD_AS_RAW = 1
 # IA4: G_IM_FMT_IA | G_IM_SIZ_4b  (4bpp, 0.5 B/px)
 # IA8: G_IM_FMT_IA | G_IM_SIZ_8b  (8bpp, 1 B/px)
 # I8:  G_IM_FMT_I  | G_IM_SIZ_8b  (8bpp, 1 B/px)
-IA4 = 6
-IA8 = 7
-I8  = 5
+# Fast::TextureType (libultraship/include/fast/resource/type/Texture.h)
+I4   = 5
+I8   = 6
+IA4  = 7
+IA8  = 8
+IA16 = 9
 
 
 def tex_type_from_png_name(png_name: str) -> int:
     """Return the N64 texture type based on the PNG format suffix."""
+    if ".ia16." in png_name:
+        return IA16
     if ".ia8." in png_name:
         return IA8
     if ".i8." in png_name:
         return I8
+    if ".i4." in png_name:
+        return I4
     return IA4
 
 
 def orig_bytes_per_row(orig_w: int, tex_type: int) -> float:
     """Original bytes per row for the given N64 texture type."""
+    if tex_type == IA16:        # 16bpp: 2 bytes/pixel
+        return orig_w * 2.0
     if tex_type in (IA8, I8):   # 8bpp: 1 byte/pixel
         return orig_w * 1.0
     else:                       # IA4 / I4: 4bpp: 0.5 byte/pixel
