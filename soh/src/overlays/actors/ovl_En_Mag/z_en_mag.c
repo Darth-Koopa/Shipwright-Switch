@@ -482,7 +482,8 @@ bool EnMag_ShouldDrawPressStart(Font* font, Gfx** gfxP, bool isActualText) {
 // #endregion
 
 // Title logo is shifted to the left in Master Quest
-#define LOGO_X_SHIFT (isMQ ? 0 : -8)
+#define LOGO_X_SHIFT (isMQ ? -8 : 0)
+#define TITLE_X_SHIFT (isMQ ? -8 : 0)
 #define LOGO_TEX                                                                                                    \
     (isMQ ? gTitleZeldaShieldLogoMQTex                                                                              \
           : (gSaveContext.language == LANGUAGE_CHI && CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)     \
@@ -644,7 +645,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 1);
             gDPSetTileSize(gfx++, 1, this->unk_E30C & 0x7F, this->effectScroll & 0x7F,
                            (this->unk_E30C & 0x7F) + ((32 - 1) << 2), (this->effectScroll & 0x7F) + ((32 - 1) << 2));
-            gSPTextureRectangle(gfx++, 106 << 2, 144 << 2, (106 + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
+            gSPTextureRectangle(gfx++, (106 + TITLE_X_SHIFT) << 2, 144 << 2, ((106 + TITLE_X_SHIFT) + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
                                 1 << 10, 1 << 10);
         }
     } else if (gSaveContext.language == LANGUAGE_CHI && CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
@@ -674,7 +675,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 1);
             gDPSetTileSize(gfx++, 1, this->unk_E30C & 0x7F, this->effectScroll & 0x7F,
                            (this->unk_E30C & 0x7F) + ((32 - 1) << 2), (this->effectScroll & 0x7F) + ((32 - 1) << 2));
-            gSPTextureRectangle(gfx++, 106 << 2, 144 << 2, (106 + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
+            gSPTextureRectangle(gfx++, (106 + TITLE_X_SHIFT) << 2, 144 << 2, ((106 + TITLE_X_SHIFT) + 128) << 2, (144 + 16) << 2, G_TX_RENDERTILE, 0, 0,
                                 1 << 10, 1 << 10);
         }
     }
@@ -694,7 +695,7 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
                                 G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(gfx++, 94 << 2, 190 << 2, (94 + 128) << 2, (190 + 32) << 2,
+            gSPTextureRectangle(gfx++, 94 << 2, 198 << 2, (94 + 128) << 2, (198 + 32) << 2,
                                 G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         } else {
             gDPLoadTextureBlock(gfx++, COPYRIGHT_TEX, G_IM_FMT_IA, G_IM_SIZ_8b, COPYRIGHT_TEX_WIDTH, 16, 0,
@@ -762,8 +763,16 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
         if (gSaveContext.language == LANGUAGE_CHI &&
             CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
-            // Chinese "\u6309 START" image (white) drawn red via prim color in the actual-text pass below
-            EnMag_DrawImageRGBA32(&gfx, 161, 183, (u8*)gTitlePressStartCHNTex, 104, 13);
+            // 绘制 "按" 字符（阴影）
+            u16 rectLeft = YREG(7) + 1 + (YREG(8) * 2);
+            EnMag_DrawCharTexture(&gfx, (u8*)gTitlePressCHNTex, rectLeft, YREG(10) + 172);
+            rectLeft += YREG(9) + YREG(8); // 跳到 "START" 起始位置
+            // 绘制 "START"（阴影），从 pressStartFontIndices 取后5个字符
+            for (i = 5; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
+                EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[sFontType][i] * FONT_CHAR_TEX_SIZE,
+                                    rectLeft, YREG(10) + 172);
+                rectLeft += YREG(8);
+            }
         } else if (EnMag_ShouldDrawPressStart(font, &gfx, false)) {
             rectLeft = YREG(7) + 1;
             for (i = 0; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
@@ -782,8 +791,16 @@ void EnMag_DrawInner(Actor* thisx, PlayState* play, Gfx** gfxP) {
 
         if (gSaveContext.language == LANGUAGE_CHI &&
             CVarGetInteger(CVAR_SETTING("TitleScreenTranslation"), 0)) {
-            // Chinese "\u6309 START" image tinted with the same red as the PRESS START text (YREG 4/5/6 = 255,30,30)
-            EnMag_DrawImageRGBA32(&gfx, 160, 182, (u8*)gTitlePressStartCHNTex, 104, 13);
+            // 绘制 "按" 字符（实际文本）
+            u16 rectLeft = YREG(7) + (YREG(8) * 2);
+            EnMag_DrawCharTexture(&gfx, (u8*)gTitlePressCHNTex, rectLeft, YREG(10) + 171);
+            rectLeft += YREG(9) + YREG(8);
+            // 绘制 "START"（实际文本）
+            for (i = 5; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
+                EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[sFontType][i] * FONT_CHAR_TEX_SIZE,
+                                    rectLeft, YREG(10) + 171);
+                rectLeft += YREG(8);
+            }
         } else if (EnMag_ShouldDrawPressStart(font, &gfx, true)) {
             rectLeft = YREG(7);
             for (i = 0; i < ARRAY_COUNT(pressStartFontIndices[sFontType]); i++) {
