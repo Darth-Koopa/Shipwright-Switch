@@ -4221,61 +4221,6 @@ void Interface_DrawItemButtons(PlayState* play) {
         }
     }
 
-    if (interfaceCtx->naviCalling && (play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) &&
-        (play->csCtx.state == CS_STATE_IDLE)) {
-        if (!sCUpInvisible) {
-            // C-Up Button Texture, Color & Label (Navi Text)
-            gDPPipeSync(OVERLAY_DISP++);
-
-            if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5)) {
-                temp = 0;
-            } else if ((player->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER) ||
-                       (Player_GetEnvironmentalHazard(play) == 4) || (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
-                temp = 70;
-            } else {
-                temp = interfaceCtx->healthAlpha;
-            }
-
-            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, cUpButtonColor.r, cUpButtonColor.g, cUpButtonColor.b, temp);
-            gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-            gSPWideTextureRectangle(OVERLAY_DISP++, C_Up_BTN_Pos[0] << 2, C_Up_BTN_Pos[1] << 2,
-                                    (C_Up_BTN_Pos[0] + 16) << 2, (C_Up_BTN_Pos[1] + 16) << 2, G_TX_RENDERTILE, 0, 0,
-                                    2 << 10, 2 << 10);
-            gDPPipeSync(OVERLAY_DISP++);
-            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, temp);
-            gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
-            gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
-                              PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-
-            if (gSaveContext.language == LANGUAGE_CHI) {
-                // iQue 中文样式：48x16 纹理，绘制于偏移位置
-                gDPLoadTextureBlock_4b(OVERLAY_DISP++, cUpLabelTextures[gSaveContext.language], G_IM_FMT_IA, 48, 16, 0,
-                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                       G_TX_NOLOD, G_TX_NOLOD);
-                gSPWideTextureRectangle(OVERLAY_DISP++, C_Up_BTN_Pos[0] - LabelX_Navi -8 << 2,
-                                        C_Up_BTN_Pos[1] + LabelY_Navi -4 << 2, (C_Up_BTN_Pos[0] - LabelX_Navi + 40) << 2,
-                                        (C_Up_BTN_Pos[1] + LabelY_Navi + 12) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
-            } else {
-                // 普通版本（非 CHI）：32x8 纹理，绘制于原始位置
-                gDPLoadTextureBlock_4b(OVERLAY_DISP++, cUpLabelTextures[gSaveContext.language], G_IM_FMT_IA, 32, 8, 0,
-                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                       G_TX_NOLOD, G_TX_NOLOD);
-                gSPWideTextureRectangle(OVERLAY_DISP++, C_Up_BTN_Pos[0] - LabelX_Navi << 2,
-                                        C_Up_BTN_Pos[1] + LabelY_Navi << 2, (C_Up_BTN_Pos[0] - LabelX_Navi + 32) << 2,
-                                        (C_Up_BTN_Pos[1] + LabelY_Navi + 8) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
-            }
-        }
-
-
-        sCUpTimer--;
-        if (sCUpTimer == 0) {
-            sCUpInvisible ^= 1;
-            sCUpTimer = 10;
-        }
-    }
-
-    gDPPipeSync(OVERLAY_DISP++);
-
     // Empty C Button Arrows
     for (temp = 1; temp < 4; temp++) {
         if (gSaveContext.equips.buttonItems[temp] > 0xF0) {
@@ -4419,6 +4364,65 @@ void Interface_DrawItemButtons(PlayState* play) {
                                           ItemIconPos[temp - 1][1], ItemIconWidthFactor[temp - 1][0],
                                           ItemIconWidthFactor[temp - 1][0], ItemIconWidthFactor[temp - 1][1],
                                           ItemIconWidthFactor[temp - 1][1]);
+        }
+    }
+
+    gDPPipeSync(OVERLAY_DISP++);
+
+    if (interfaceCtx->naviCalling && (play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) &&
+        (play->csCtx.state == CS_STATE_IDLE)) {
+        if (!sCUpInvisible) {
+            // C-Up Button Texture, Color & Label (Navi Text)
+            gDPPipeSync(OVERLAY_DISP++);
+
+            if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5)) {
+                temp = 0;
+            } else if ((player->stateFlags1 & PLAYER_STATE1_CLIMBING_LADDER) ||
+                       (Player_GetEnvironmentalHazard(play) == 4) || (player->stateFlags2 & PLAYER_STATE2_CRAWLING)) {
+                temp = 70;
+            } else {
+                temp = interfaceCtx->healthAlpha;
+            }
+
+            gDPLoadTextureBlock(OVERLAY_DISP++, gButtonBackgroundTex, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
+                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                                G_TX_NOLOD);
+
+            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, cUpButtonColor.r, cUpButtonColor.g, cUpButtonColor.b, temp);
+            gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+            gSPWideTextureRectangle(OVERLAY_DISP++, C_Up_BTN_Pos[0] << 2, C_Up_BTN_Pos[1] << 2,
+                                    (C_Up_BTN_Pos[0] + 16) << 2, (C_Up_BTN_Pos[1] + 16) << 2, G_TX_RENDERTILE, 0, 0,
+                                    2 << 10, 2 << 10);
+            gDPPipeSync(OVERLAY_DISP++);
+            gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, temp);
+            gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 0);
+            gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
+                              PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
+
+            if (gSaveContext.language == LANGUAGE_CHI) {
+                // iQue 中文样式：48x16 纹理，绘制于偏移位置
+                gDPLoadTextureBlock_4b(OVERLAY_DISP++, cUpLabelTextures[gSaveContext.language], G_IM_FMT_IA, 48, 16, 0,
+                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                       G_TX_NOLOD, G_TX_NOLOD);
+                gSPWideTextureRectangle(OVERLAY_DISP++, C_Up_BTN_Pos[0] - LabelX_Navi -8 << 2,
+                                        C_Up_BTN_Pos[1] + LabelY_Navi -4 << 2, (C_Up_BTN_Pos[0] - LabelX_Navi + 40) << 2,
+                                        (C_Up_BTN_Pos[1] + LabelY_Navi + 12) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            } else {
+                // 普通版本（非 CHI）：32x8 纹理，绘制于原始位置
+                gDPLoadTextureBlock_4b(OVERLAY_DISP++, cUpLabelTextures[gSaveContext.language], G_IM_FMT_IA, 32, 8, 0,
+                                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                       G_TX_NOLOD, G_TX_NOLOD);
+                gSPWideTextureRectangle(OVERLAY_DISP++, C_Up_BTN_Pos[0] - LabelX_Navi << 2,
+                                        C_Up_BTN_Pos[1] + LabelY_Navi << 2, (C_Up_BTN_Pos[0] - LabelX_Navi + 32) << 2,
+                                        (C_Up_BTN_Pos[1] + LabelY_Navi + 8) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            }
+        }
+
+
+        sCUpTimer--;
+        if (sCUpTimer == 0) {
+            sCUpInvisible ^= 1;
+            sCUpTimer = 10;
         }
     }
 
