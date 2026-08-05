@@ -1,228 +1,210 @@
 # Wind Waker-style Light Casting
 
-A developer/agent orientation for the **light-casting** feature on the `wind-waker-style-cel-shading`
-branch. Read this instead of the diffs to get caught up. References are by **file + symbol** (not line
-numbers, which drift). Start with [`README.md`](./README.md) for how this fits the other two features.
+Developer notes for the light-casting feature on the `wind-waker-style-cel-shading` branch.
+References are by file + symbol (line numbers drift). Start with [`README.md`](./README.md) for how
+this fits the other features.
 
-This is the companion to [`wind-waker-style-cel-shading.md`](./wind-waker-style-cel-shading.md):
-**cel shading lights the _objects_** (Link, NPCs, items) via a forward per-object relight; **light
-casting lights the _world_** (floors, walls) via point-light pools. The two are independent and scoped
-to opposite halves of the scene.
+Cel shading lights the *objects*; light casting lights the *world*: each point light casts a pool
+onto floors and walls. The two are independent and scoped to opposite halves of the scene.
 
-> **Naming note:** the user-facing GUI says **"Light Casting"**, but every internal identifier — code,
-> CVars, the GBI command — uses **`WorldLighting`** / **`Stencil`**. CVar keys are
+> **Naming:** the GUI says **"Light Casting"** (page: **Wind Waker Style → Lights**); internal
+> identifiers use **`WorldLighting`** / **`Stencil`**. CVar keys are
 > `gEnhancements.Graphics.WorldLighting.*`.
-
----
 
 ## What it does
 
-Each in-range **point light** (torch, fairy, bomb flash, …) casts a **pool of light onto the static
-world geometry** around it, the way Wind Waker's "Bonbori" torch lights do: a **faceted, slowly
-tumbling, gently pulsing polygon of light** that **conforms to and is occluded by** the surfaces inside
-the light's reach. It is scoped to the **world only** — placed objects/actors keep their own cel
-shading (and are *not* tinted by the pools). Off by default (experimental).
+Each in-range point light (torch, fairy, bomb flash, held Deku stick, …) casts a pool of light onto
+the world geometry around it, the way Wind Waker's "Bonbori" torch lights do: a faceted, slowly
+tumbling, gently pulsing polygon of light that conforms to — and is occluded by — the surfaces
+inside its reach. World only: actors keep their cel shading and are never tinted by the pools. Off
+by default.
 
-It also includes a **Wind Waker flame flicker** that replaces OoT's jagged per-frame torch flicker
-(white noise) with a slow, eased random-walk — applied at the light *source*, so it calms the scene
-lighting, the vanilla glow, and the cast pools together.
+The page also carries two effects that work even with casting off:
 
-The look and timing are matched to the **noclip.website** reproduction of WW; see
-[`wind-waker-bonbori-light.md`](./wind-waker-bonbori-light.md) for the
-reverse-engineered reference this feature targets.
+- **Improve Flame Flicker** — replaces OoT's per-frame white-noise torch flicker with Wind Waker's
+  slow eased random-walk, applied at the light *source*, so the scene lighting, the vanilla glow,
+  and the cast pools all calm down together.
+- **Navi's Light Tint** — tints Navi's emitted light toward her targeting colour at the source
+  (`EnElf_UpdateLights`), so cel shading, her cast pool, and vanilla scene lighting share one colour.
+
+The flicker/tumble model is matched to the noclip.website reproduction of WW; the measured constants
+are in [`wind-waker-bonbori-light.md`](./wind-waker-bonbori-light.md).
 
 ## The technique: stencil light volumes
 
-The pool is **not** a soft point light. It is the **screen-space intersection of a low-poly icosphere
-with the world**, found with a classic **stencil light-volume (shadow-volume-style z-fail) pass**, then
-tinted additively. Per light, three passes:
+The pool is not a soft point light. It is the screen-space intersection of a low-poly icosphere with
+the world, found with a stencil light-volume (z-fail) pass, then tinted. Per light, three passes:
 
-1. **Mask A** — render the icosphere **back** faces, depth-tested vs the scene, **stencil += 1 on
-   depth-fail** (z-fail). Color/depth writes off.
-2. **Mask B** — render the icosphere **front** faces, same, **stencil −= 1 on depth-fail**.
-   → stencil = 1 **exactly where a world surface lies inside the icosphere volume** (the faceted
-   polygon cross-section, correctly self-occluded).
-3. **Composite** — render the icosphere **back** faces with **no depth test**, **stencil test == ref(0)
-   → draw, zero-on-pass** (self-clearing), additively-ish blending the light color × intensity. Back
-   faces avoid near-plane clipping when the camera is inside the volume; the stencil mask alone confines
-   the fill to the right pixels.
+1. **Mask A** — icosphere **back** faces, depth-tested vs the scene, stencil += 1 on depth-fail.
+   Colour/depth writes off.
+2. **Mask B** — icosphere **front** faces, stencil −= 1 on depth-fail. Stencil is now nonzero
+   exactly where a world surface lies inside the volume (the faceted cross-section, correctly
+   self-occluded).
+3. **Composite** — icosphere back faces, no depth test, draw where stencil != 0 and zero it on pass
+   (self-clearing), blending the light's colour × intensity. Back faces avoid near-plane clipping
+   when the camera is inside the volume.
 
-Emitted into **`POLY_OPA`** *after the room is drawn but before the bulk of the actor loop*, so at draw time
-the depth buffer holds **world-only** depth — pools clip to the world, are occluded by (and never tint)
-opaque actors, and our passes write no depth so actor depth-testing is unaffected.
-
-> **Note (receiver pre-pass):** the `OnPlayDrawWorldLights` flush now fires from inside the actor loop
-> (`func_800315AC`), just after the actor-shadow **walkable-floor receiver pre-pass** rather than from
-> `Play_Draw`. This lets pools also fall on the few floors that are actors (drawbridge, trap floor, …) while
-> still preceding every other actor. See `wind-waker-actor-shadows.md` → "Shadow & light receivers."
-
----
-
-## Architecture: two layers (same split as cel shading)
-
-| Layer | Repo | Responsibility |
-|-------|------|----------------|
-| **Policy** (game-side) | `soh/` | Which lights cast, where (world-space), the icosphere geometry, the 3-pass sequence, the WW tumble/flicker model, Navi handling, the GUI. |
-| **Transport** (renderer) | `libultraship/` (Fast3D) | A generic **stencil-mode** the interpreter can set per draw, applied across all three backends. Knows nothing OoT-specific. |
+Emitted into `POLY_OPA` after the room but before the actors, so the depth buffer holds world-only
+depth: pools conform to walls/floors, are occluded by actors, and never tint them.
 
 ## Data flow (one frame)
 
-1. **Source flame flicker (during actor Updates).** Flame actors set their light color every update
-   (`Obj_Syokudai` etc. → `Lights_PointSetColorAndRadius`). That function is intercepted in
-   `soh/src/code/z_lights.c` (CVar-gated): `WorldLighting_ApplyFlameFlicker` replaces the white-noise
-   brightness with a slow random-walk **for lights it detects as flickering** (large per-frame jump),
-   leaving steady/smooth lights (e.g. the mirror-shield beam) alone.
-2. **Cast pools (during the actor loop).** From `func_800315AC`, after the room + actor-shadow receiver
-   pre-pass and before the rest of the actors, the `OnPlayDrawWorldLights` GameInteractor hook fires
-   (CVar-gated). `DrawWorldLights`
-   (`WorldLighting.cpp`) walks `play->lightCtx.listHead` and, per point light, emits the 3-pass stencil
-   volume into `POLY_OPA`, tinted by the light's live color, sized/spun by the WW model.
+1. **Source flame flicker (actor updates).** Flame actors set their light colour every update via
+   `Lights_PointSetColorAndRadius` (`soh/src/code/z_lights.c`), which calls
+   `WorldLighting_ApplyFlameFlicker` when "Improve Flame Flicker" is on. It replaces the white-noise
+   brightness with a slow random-walk for lights it detects as flickering (large per-frame jump),
+   leaving steady lights (e.g. the mirror-shield beam) alone.
+2. **Cast pools (actor draw loop).** `func_800315AC` (`z_actor.c`) fires `OnPlayDrawWorldLights`
+   after the room and the actor-shadow receiver pre-pass, before the rest of the actors — so pools
+   also land on the few walkable floors that are actors (drawbridge, trap floor; see the actor-
+   shadows doc, "Shadow & light receivers"). `DrawWorldLights` (`WorldLighting.cpp`) walks
+   `play->lightCtx.listHead` and emits the 3-pass volume per point light, tinted by the light's live
+   colour, sized/spun by the WW model.
 3. **Stencil state crosses to the renderer.** Each pass emits `gSPStencil(mode)`; the interpreter's
-   `gfx_set_stencil_handler_custom` **flushes the pending batch then `SetStencilMode(mode)`**; each
-   backend applies the matching stencil + color-write state in `DrawTriangles`. A final
+   `gfx_set_stencil_handler_custom` flushes the pending batch then calls `SetStencilMode(mode)`;
+   each backend applies the matching stencil + colour-write state in `DrawTriangles`. A final
    `gSPStencil(OFF)` resets before the actors draw.
 
----
+## Per-source treatment
+
+`DrawWorldLights` identifies special sources by `LightInfo*` address and gives each its own size,
+intensity, and enable:
+
+| Source | Enable | Size / intensity CVars |
+|---|---|---|
+| Torches & other point lights | `Enabled` | `SphereSize`, `Intensity` |
+| Navi | `UseNaviLight` | `NaviSphereSize`, `NaviIntensity` |
+| Wild fairies (Kokiri ambient, healing fairies) | `OtherFairyLights` | `WildFairySphereSize`, `WildFairyIntensity` |
+| Held lit Deku stick | `DekuStickLight` | `DekuStickSphereSize` (see below) |
+
+## The held Deku stick light (`DekuStickLight.cpp`)
+
+Vanilla OoT draws a flame on a lit Deku stick but emits no light. `DekuStickLight.cpp` registers a
+point light at the burning tip (`meleeWeaponInfo[0].tip`) from the `OnPlayerUpdate` hook (reset on
+`OnSceneInit` — a new scene rebuilds `lightCtx`). Because all three WW features read the engine's
+point-light list, the one light feeds them all: it can become a cel key, it casts a pool, and
+shadows follow it.
+
+It is torch-equivalent by construction: radius matched to the wall torch (`obj_syokudai`), and the
+same per-frame white-noise brightness a torch has, so the flame-flicker hook smooths it identically.
+Its colour is asset-driven: an optional texture (`textures/wind-waker/deku_stick_light_color`,
+absent from vanilla archives) is averaged into the light's RGB; without it the light falls back to
+OoT's canonical fire colour `{255, 200, 0}`. A texture pack can add that one asset to recolor the
+light.
 
 ## Where the code lives
 
 ### SoH (game-side policy)
 
-- **`soh/soh/Enhancements/Graphics/WorldLighting.cpp`** — the brain. Key symbols:
-  - `BuildIcosphere` / `EmitIcosphere` — generates a **level-2 icosphere** (42 unique verts, 80 faces)
-    expanded to **240 per-face verts** (so each `gSPVertex` load ≤ the 32-vertex cache) and emits it in
-    **8 chunks of 30** live during draw.
-  - `WorldLighting_ApplyFlameFlicker` (`extern "C"`, called from `z_lights.c`) — the **source** flame
-    flicker: per-light slow random-walk, jump-based flame detection, hue-preserving brightness replace.
-  - `WWEase` — Wind Waker's `cLib_addCalc2` easing (first-order exp + per-tick slew cap), frame-rate
-    corrected from WW's 30 Hz to our 20 Hz.
-  - `WorldLightGetState` — get-or-create per-light animation state (tumble angles + size/alpha
-    random-walks), keyed by the frame-stable `LightInfo*`, pruned each frame by generation.
-  - `WorldLightLoadMatrix` — centers on the light, applies the **two-axis tumble** (Y then X), scales.
-  - `WorldLightMaskPass` / `WorldLightCompositePass` / `DrawLightPool` — the 3-pass stencil sequence.
-  - `DrawWorldLights` — the per-frame light walk; advances tumble + size/alpha flicker; selects Navi.
-  - `RegisterWorldLighting` + `RegisterShipInitFunc initFunc(...)` — `COND_HOOK`s `OnPlayDrawWorldLights`
-    only while `Enabled` (default 0).
-- **`soh/src/code/z_actor.c`** — `func_800315AC` fires `GameInteractor_ExecuteOnPlayDrawWorldLights(play)`
-  just after the actor-shadow receiver pre-pass (moved here from `z_play.c` so pools also reach the walkable
-  floor actors; see `wind-waker-actor-shadows.md`). The old `z_play.c` call site now only carries a breadcrumb.
-- **`soh/src/code/z_lights.c`** — two `// SOH [Enhancement]` edits:
-  - `Lights_PointSetColorAndRadius` — the flame-flicker interception (calls `WorldLighting_ApplyFlameFlicker`).
-  - `Lights_DrawGlow` — early-returns to **hide the vanilla billboarded glow circles** while light
-    casting is on (unless `ShowVanillaGlow`).
-- **GameInteractor hook `OnPlayDrawWorldLights`** — `GameInteractor_{HookTable.h,Hooks.h,Hooks.cpp}`.
-- **`soh/soh/SohGui/SohMenuSettings.cpp`** — the **Settings → Light Casting** page (sliders + Reset).
+- `soh/soh/Enhancements/Graphics/WorldLighting.cpp` — the brain:
+  - `BuildIcosphere` / `EmitIcosphere` — a level-2 icosphere (42 verts, 80 faces) expanded to 240
+    per-face verts so each `gSPVertex` load fits the 32-vertex cache; emitted in chunks of 30, live
+    during draw.
+  - `WorldLighting_ApplyFlameFlicker` (`extern "C"`, called from `z_lights.c`) — the source flame
+    flicker: slow random-walk, jump-based flame detection, hue-preserving brightness replace.
+  - `WWEase` — WW's `cLib_addCalc2` easing (first-order exp + slew cap), frame-rate corrected from
+    WW's 30 Hz to our 20 Hz.
+  - `WorldLightGetState` — per-light animation state (tumble angles + size/alpha random-walks),
+    keyed by the frame-stable `LightInfo*`, pruned each frame by generation.
+  - `WorldLightLoadMatrix` — centres on the light, applies the two-axis tumble, scales.
+  - `WorldLightMaskPass` / `WorldLightCompositePass` / `DrawLightPool` — the 3-pass sequence.
+  - `DrawWorldLights` — the per-frame light walk + per-source dispatch.
+- `soh/soh/Enhancements/Graphics/DekuStickLight.cpp/.h` — the stick light (above).
+- `soh/src/code/z_lights.c` — `Lights_PointSetColorAndRadius` (flame-flicker call) and
+  `Lights_DrawGlow` (early-return that hides the vanilla billboarded glow circles when
+  `HideVanillaGlow` is on).
+- `soh/src/code/z_actor.c` — the `OnPlayDrawWorldLights` callout in `func_800315AC`.
+- `soh/src/overlays/actors/ovl_En_Elf/z_en_elf.c` — the Navi light tint (`NaviSaturation`).
+- GUI: `soh/soh/SohGui/SohMenuWindWakerStyle.cpp`, page **Wind Waker Style → Lights**.
 
 ### libultraship (renderer transport)
 
-- **GBI command** — `include/libultraship/libultra/gbi.h`: `G_SETSTENCIL 0x46` + the `gSPStencil(pkt,
-  mode)` macro (mirrors `gSPToon`). `include/fast/lus_gbi.h`: `OTR_G_SETSTENCIL = OPCODE(0x46)`.
-- **`src/fast/interpreter.cpp`** — `gfx_set_stencil_handler_custom` (flush-then-`SetStencilMode`) +
-  its entry in the `otrHandlers` table.
-- **`include/fast/backends/gfx_rendering_api.h`** — `enum class StencilMode { Off, VolumeIncr,
-  VolumeDecr, Composite }`, the base `SetStencilMode(int)` + `mStencilMode` member.
-- **Per-backend stencil application** (read `mStencilMode` in `DrawTriangles`):
-  - `gfx_opengl.cpp` — already had `GL_DEPTH24_STENCIL8`; just adds `glStencilFunc`/`glStencilOp`.
-  - `gfx_metal.cpp` (+`gfx_metal.h`) — a **separate `Stencil8` texture** as the render pass's
-    `stencilAttachment` (the depth texture and `GetPixelDepth` are left untouched), + stencil ops on the
-    per-draw `DepthStencilDescriptor`.
-  - `gfx_direct3d11.cpp` (+`gfx_direct3d_common.h`) — unified all feature levels to combined
-    **`R24G8` / `D24_UNORM_S8_UINT`** (so a stencil plane always exists; `GetPixelDepth` reads the
-    `R24_UNORM_X8` SRV), + stencil ops in the depth-stencil state.
+- GBI: `include/libultraship/libultra/gbi.h` — `G_SETSTENCIL 0x46` + `gSPStencil(pkt, mode)`.
+  `include/fast/lus_gbi.h` — `OTR_G_SETSTENCIL`.
+- `src/fast/interpreter.cpp` — `gfx_set_stencil_handler_custom` (flush, then `SetStencilMode`).
+- `include/fast/backends/gfx_rendering_api.h` — `enum class StencilMode`, the base
+  `SetStencilMode` + `mStencilMode`.
+- Per-backend stencil application (`DrawTriangles`):
+  - `gfx_opengl.cpp` — `glStencilFunc`/`glStencilOp` (GL already had `GL_DEPTH24_STENCIL8`).
+  - `gfx_metal.cpp/.h` — a separate `Stencil8` texture as the render pass's `stencilAttachment`
+    (the depth texture and `GetPixelDepth` are untouched) + stencil ops on the per-draw
+    `DepthStencilDescriptor`.
+  - `gfx_direct3d11.cpp` + `gfx_direct3d_common.h` — combined `R24G8`/`D24_UNORM_S8_UINT` on all
+    feature levels so a stencil plane always exists (`GetPixelDepth` reads the `R24_UNORM_X8` SRV).
 
-No shader/asset changes — the pool uses the existing flat-color combiner + render modes, so **no
-`soh.o2r` regen is needed** (unlike cel shading).
-
----
+No shader/asset changes — the pool uses the existing flat-colour combiner, so no `soh.o2r` regen.
 
 ## CVars
 
-Internal prefix is `WorldLighting`; the GUI shows "Light Casting".
+`gEnhancements.Graphics.WorldLighting.*`. Slider defaults live in the GUI AND as `kDefault*`
+constants in `WorldLighting.cpp` — keep them in sync.
 
-| CVar (`gEnhancements.Graphics.WorldLighting.*`) | Default | Meaning |
+| CVar | Default | Meaning |
 |---|---|---|
-| `Enabled` | **0** | Master toggle (also gates the always-on flame flicker). |
-| `SphereSize` | 1.0 | Pool size, × the light's radius. |
-| `RotationSpeed` | 1.0 | × the Wind Waker two-axis tumble rate (1 = authentic). |
-| `Intensity` | 1.0 | Pool brightness (→ composite blend alpha). |
-| `SizeFlicker` | 1.0 | Depth of the WW size pulse (1 = authentic ±5%; 0 = steady). The dominant flicker. |
-| `UseNaviLight` | 0 | Also cast a pool from Navi (off: her fast movement pops). |
-| `NaviSphereSize` | 0.6 | Navi pool size (× radius), separate from torches. Shown when Navi is on. |
-| `NaviIntensity` | 0.6 | Navi pool brightness (white reads brighter than torch yellow). Shown when Navi is on. |
-| `NaviRotationSpeed` | 0.5 | Navi tumble rate (× WW rate). Shown when Navi is on. |
-| `ShowVanillaGlow` | 0 | Off hides the vanilla billboarded torch glow circles (they clash with the pools). |
-| `FlickerSpeed` | 1.0 | Rate of the WW flame flicker (× authentic). |
-| `DekuStickLight` | **1** | Register a point light at a lit held Deku stick's burning tip, so it lights objects (cel), casts shadows, and (with casting on) casts a pool — like a torch. Works even when casting is off (feeds cel/shadows). See README → "Shared light sources" and `DekuStickLight.cpp`. |
-| `DekuStickSphereSize` | 0.5 | The Deku stick pool's size (× radius), separate from `SphereSize`. `DrawWorldLights` identifies the stick light by address (`DekuStickLight_GetActiveLightInfo()`) and substitutes this for the global size. |
+| `Enabled` | **0** | Light casting master toggle. |
+| `WWDefaultMovement` | 1 | Use WW's authentic tumble/pulse rates; off reveals the two sliders below. |
+| `RotationSpeed` | 1.0 | × the WW two-axis tumble rate. |
+| `SizeFlicker` | 1.0 | Depth of the WW size pulse (1 = authentic ±5%). |
+| `SphereSize` | 0.5 | Pool size, × the light's radius. |
+| `Intensity` | 0.2 | Pool brightness. |
+| `UseNaviLight` | 1 | Also cast a pool from Navi. |
+| `NaviSphereSize` | 0.75 | Navi pool size. |
+| `NaviIntensity` | 0.2 | Navi pool brightness. |
+| `OtherFairyLights` | 0 | Cast pools from wild fairies too. |
+| `WildFairySphereSize` | 0.75 | Wild-fairy pool size. |
+| `WildFairyIntensity` | 0.2 | Wild-fairy pool brightness. |
+| `DekuStickLight` | 1 | Register the held-Deku-stick light (feeds cel/shadows even with casting off). |
+| `DekuStickSphereSize` | 0.5 | The stick's pool size. |
+| `HideVanillaGlow` | 1 | Hide the vanilla billboarded glow circles while casting is on. |
+| `ImproveFlameFlicker` | 1 | The WW flame flicker at the source (independent of casting). |
+| `FlickerSpeed` | 1.0 | Rate of the WW flame flicker. |
+| `gDeveloperTools.WorldLighting.ShowLightSpheres` | 0 | Draw the icosphere volumes visibly. |
 
-Slider defaults live in the GUI `Options` AND as `kDefault*` constants in `WorldLighting.cpp` — keep
-them in sync. (Orphaned keys from removed controls — `FlickerSmoothing`, `WindWakerFlicker`,
-`SizeBrightness` — may linger in old configs; harmless.)
+## The Wind Waker flicker model
 
-## The Wind Waker flicker model (matched to noclip)
+All per-frame values are converted from WW's 30 Hz to our 20 Hz by running in seconds with
+`WWEase`'s `dt*30` correction. Random source is uniform `Rand_ZeroOne()`. Measured values and their
+derivation: [`wind-waker-bonbori-light.md`](./wind-waker-bonbori-light.md).
 
-All "per-frame" values below are converted from WW's **30 Hz** to our **20 Hz** by running in *seconds*
-+ `WWEase`'s `dt*30` correction. Random source is uniform `Rand_ZeroOne()`.
+- **Two-axis tumble**: Y ≈ 0.598 rad/s, X ≈ 0.736 rad/s (non-harmonic 16:13, never visibly loops),
+  no Z.
+- **Size flicker** (the dominant pulse): re-roll a target every 0.10–0.30 s to 1.0 ± 5% ×
+  `SizeFlicker`, ease with `WWEase(0.4, 0.05)`. Decoupled from the brightness noise — that
+  decoupling is what makes it read slow and organic instead of jagged.
+- **Brightness flicker** (fine grain): re-roll the pool alpha every 0–0.167 s to [0.90, 1.0], ease
+  with `WWEase(1.0, 0.08)`.
+- **Source flame flicker** (`WorldLighting_ApplyFlameFlicker`): slow random-walk in [0.60, 1.0] of
+  full bright, new target every `0.25 s / FlickerSpeed`; flame detection = per-frame brightness jump
+  > 12 with a sticky hold, so only white-noise flames are transformed; hue preserved by scaling
+  channels.
+- **Navi** is excluded from the size/alpha flicker (her light is constant; any jitter is her
+  movement).
 
-- **Two-axis tumble** (`WorldLightLoadMatrix`): Y `kWWRotYRate ≈ 0.598 rad/s`, X `kWWRotXRate ≈ 0.736
-  rad/s` (non-harmonic 16:13 → never visibly loops), no Z; scaled by `RotationSpeed`.
-- **Size flicker** (dominant pulse): re-roll a target every **0.10–0.30 s** to **1.0 ± 5%·`SizeFlicker`**,
-  ease with `WWEase(0.4, 0.05)`. Drives the icosphere scale. *Decoupled from the brightness noise* —
-  this is the fix that made it read "slow/organic" instead of jagged.
-- **Brightness flicker** (subtle fine grain): re-roll the pool alpha every **0–0.167 s** to **[0.90,
-  1.0]**, ease with `WWEase(1.0, 0.08)`.
-- **Source flame flicker** (`WorldLighting_ApplyFlameFlicker`): slow random-walk in **[0.60, 1.0]** of
-  full bright, new target every `0.25 s / FlickerSpeed`; **flame detection** = per-frame brightness jump
-  `> 12` (with an 8-update sticky hold) so only white-noise flames are transformed; hue preserved by
-  scaling channels.
-- **Navi** is excluded from the size/alpha flicker (her light is constant white — confirmed in
-  `En_Elf`); any jitter is her movement.
+## Invariants & gotchas
 
----
-
-## Invariants & gotchas (don't break these)
-
-- **Emit into `POLY_OPA`, not `POLY_XLU`.** That's what makes the depth buffer world-only at our pass
-  (actors not yet drawn) → pools don't tint actors and actors correctly occlude pools. Moving it to XLU
-  reintroduces actor-tinting.
+- **Emit into `POLY_OPA`, not `POLY_XLU`.** That is what makes the depth buffer world-only at our
+  pass — pools don't tint actors, and actors occlude pools. Moving it to XLU reintroduces
+  actor-tinting.
 - **`StencilMode` values must match** the `WL_STENCIL_*` defines in `WorldLighting.cpp`
   (Off=0, VolumeIncr=1, VolumeDecr=2, Composite=3).
-- **Reset stencil to OFF** at the end of `DrawWorldLights` (before actors), every frame.
-- **Mask passes are invisible via prim alpha 0 + no alpha-compare** (`G_RM_AA_ZB_XLU_SURF`), *not* a
-  color-write mask — Fast3D's Metal/D3D11 bake color-write/blend into the pipeline, so they can't be
-  toggled per-draw. Same reason there's **no true additive blend**: overlapping pools alpha-blend (they
-  don't super-brighten). Adding additive would need a per-backend pipeline variant (deferred).
-- **Face culling is CPU-side** in Fast3D (GPU cull is `None`), so the mask passes select back/front
-  faces with `G_CULL_FRONT` / `G_CULL_BACK` geometry-mode and Fast3D's CPU culler honors it.
-- **Metal:** the stencil plane is a **separate `Stencil8` texture** (depth + `GetPixelDepth`
-  untouched). `MTL::TextureDescriptor::texture2DDescriptor(...)` returns an **autoreleased** object —
-  **do not `->release()` it** (doing so double-frees → SIGBUS at startup; this bit us once).
-- **D3D11:** combined `D24S8` on all feature levels; the depth SRV for `GetPixelDepth` is
-  `R24_UNORM_X8_TYPELESS`. (Compiles on macOS but only runs on Windows — Metal is the macOS runtime.)
-- **Icosphere stride:** emit via `gSPVertex(POLY_OPA_DISP++, (uintptr_t)&sIcoVtx[...], 30, 0)` — the
-  game-side `gSPVertex` is a wrapper taking a `uintptr_t` (cast required) that also runs an OTR
-  resource-sig check, so emit it **live during draw** (never bake it into a DL at init).
+- **Reset stencil to OFF** at the end of `DrawWorldLights`, every frame, before the actors draw.
+- **Mask passes are invisible via prim alpha 0 + no alpha-compare** (`G_RM_AA_ZB_XLU_SURF`), not a
+  colour-write mask — Fast3D's Metal/D3D11 bake colour-write/blend into the pipeline, so they can't
+  be toggled per draw. Same reason there is no true additive blend: overlapping pools alpha-blend
+  (they don't super-brighten); adding additive would need a per-backend pipeline variant.
+- **Face culling is CPU-side** in Fast3D, so the mask passes select back/front faces with
+  `G_CULL_FRONT`/`G_CULL_BACK` geometry mode and Fast3D's CPU culler honours it.
+- **Metal:** `MTL::TextureDescriptor::texture2DDescriptor(...)` returns an **autoreleased** object —
+  do not `->release()` it (double-free → SIGBUS at startup).
+- **Icosphere emission:** the game-side `gSPVertex` is a `uintptr_t` wrapper that runs an OTR
+  resource-sig check — emit the sphere live during draw, never bake it into a DL at init.
 - **Per-light state** is keyed by `LightInfo*` (actor-owned, frame-stable), pruned each frame by a
   generation counter; the flicker map is cap-cleared at 256 entries.
 
----
-
 ## Build & test (macOS)
 
-Build per [`README.md`](./README.md#build--test-macos) — **no `GenerateSohOtr`** (no shader changes;
-fixed-function stencil + the existing flat-color combiner). Enable **Settings → Light Casting**, go
-to a torch/fairy/bomb flash; the pool should be a faceted polygon conforming to the floor/wall, slowly
-tumbling and pulsing, occluded by (and not tinting) actors, with the vanilla glow circle hidden. Good
-checks: a lit torch (size pulse + tumble), two nearby torches (overlap), Lake Hylia/dungeon torches.
-
-## Status & next
-
-- **Done:** the full stencil light-volume pipeline across all 3 backends; the WW flicker model matched
-  to noclip; Navi controls; vanilla-glow suppression.
-- **Known/deferred:** overlapping pools alpha-blend rather than additively brighten (needs a per-backend
-  additive pipeline variant); the pool tint uses each light's color rather than WW's fixed warm orange
-  (kept general on purpose); the torch *flame sprite* still animates on its own (only the *light* is
-  re-flickered).
-- **Next phase — shadows:** the stencil buffer + per-light-volume machinery here (the `StencilMode`
-  API, the `gSPStencil` opcode, the icosphere/volume emission, the world-only-depth `POLY_OPA`
-  insertion point) is the foundation for casting **shadows** on the environment.
+Build per [`README.md`](./README.md#build--test-macos) — no `GenerateSohOtr`. Enable **Wind Waker
+Style → Lights → Enable Light Casting**, visit a torch: the pool should be a faceted polygon
+conforming to the floor/wall, slowly tumbling and pulsing, occluded by (and not tinting) actors,
+with the vanilla glow circle hidden. Good checks: two nearby torches (overlap), a lit Deku stick,
+Navi against a wall, the Castle-Town drawbridge at night (pool on a walkable actor).

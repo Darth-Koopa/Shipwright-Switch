@@ -9,8 +9,8 @@ extern std::shared_ptr<SohMenu> mSohMenu;
 using namespace UIWidgets;
 
 // "Wind Waker Style" — the home for the Wind Waker-flavoured rendering features. The internal CVar keys
-// keep their original "ToonLighting" / "WorldLighting" names so existing settings/saves are unaffected;
-// only the navigation moved here from Settings.
+// keep their original "ToonLighting" / "WorldLighting" names (predating the GUI labels) so existing
+// settings/saves are unaffected by label changes.
 void SohMenu::AddMenuWindWakerStyle() {
     AddMenuEntry("Wind Waker Style", CVAR_SETTING("Menu.WindWakerStyleSidebarSection"));
 
@@ -251,9 +251,8 @@ void SohMenu::AddMenuWindWakerStyle() {
             }
         });
     };
-    // Light Casting fills the LEFT column now (Misc moved to the right). Grouped per light source — each
-    // group is [enable] + its cast size/intensity, divided by a separator; the global pool-movement controls
-    // sit at the end.
+    // Light Casting fills the left column, grouped per light source — each group is [enable] + its cast
+    // size/intensity, divided by a separator; the global pool-movement controls sit at the end.
     path.column = SECTION_COLUMN_1;
     AddWidget(path, "Light Casting", WIDGET_SEPARATOR_TEXT);
     AddWidget(path, "Enable Light Casting", WIDGET_CVAR_CHECKBOX)
@@ -389,22 +388,13 @@ void SohMenu::AddMenuWindWakerStyle() {
             "Hide the original game's actor shadows (Link's feet, the NPC/enemy circles, the horse shadow, "
             "the sign and snake-statue texture shadows) so only the new shape shadows show. Turn off to draw "
             "both."));
-    AddWidget(path, "Shadows on Walkable Actors", WIDGET_CVAR_CHECKBOX)
-        .CVar(CVAR_ENHANCEMENT("Graphics.WorldShadows.ReceiverActors"))
-        .RaceDisable(false)
-        .PreFunc(hideUnlessShadowsEnabled)
-        .Options(CheckboxOptions().DefaultValue(true).Tooltip(
-            "Let shadows fall on a few \"floors\" that the game spawns as actors instead of room geometry — the "
-            "castle-town drawbridge, the Gerudo Valley bridge, and some dungeon platforms. They are drawn just "
-            "before the shadows so the shadows land on them like normal ground. Off = those surfaces show no "
-            "shadow (the original behaviour)."));
     AddWidget(path, "Options", WIDGET_SEPARATOR_TEXT).PreFunc(hideUnlessShadowsEnabled);
     AddWidget(path, "Reset All to Defaults", WIDGET_BUTTON)
         .PreFunc(hideUnlessShadowsEnabled)
         .Callback([](WidgetInfo& info) {
             CVarClear(CVAR_ENHANCEMENT("Graphics.WorldShadows.SuppressVanillaShadows"));
-            CVarClear(CVAR_ENHANCEMENT("Graphics.WorldShadows.ReceiverActors"));
             CVarClear(CVAR_ENHANCEMENT("Graphics.WorldShadows.Opacity"));
+            CVarClear(CVAR_ENHANCEMENT("Graphics.WorldShadows.EdgeSoftness"));
             CVarClear(CVAR_ENHANCEMENT("Graphics.WorldShadows.Length"));
             CVarClear(CVAR_ENHANCEMENT("Graphics.WorldShadows.SlabDepth"));
             CVarClear(CVAR_ENHANCEMENT("Graphics.WorldShadows.SlabRise"));
@@ -422,6 +412,19 @@ void SohMenu::AddMenuWindWakerStyle() {
                      .Max(1.0f)
                      .DefaultValue(0.2f)
                      .IsPercentage());
+    AddWidget(path, "Edge Softness", WIDGET_CVAR_SLIDER_INT)
+        .CVar(CVAR_ENHANCEMENT("Graphics.WorldShadows.EdgeSoftness"))
+        .RaceDisable(false)
+        .PreFunc(hideUnlessShadowsEnabled)
+        .Options(IntSliderOptions()
+                     .Tooltip("Smooths the shadow's outline: edge cells the silhouette only partially covers "
+                              "render lighter, anti-aliasing the shape. 0 = hard edge; 1 = one lighter step; "
+                              "2 = a finer ramp plus a slightly wider fringe.")
+                     .Min(0)
+                     .Max(2)
+                     .DefaultValue(0)
+                     .ShowButtons(true)
+                     .Format("%d"));
     AddWidget(path, "Length", WIDGET_CVAR_SLIDER_FLOAT)
         .CVar(CVAR_ENHANCEMENT("Graphics.WorldShadows.Length"))
         .RaceDisable(false)
@@ -468,12 +471,12 @@ void SohMenu::AddMenuWindWakerStyle() {
         .PreFunc(hideUnlessShadowsEnabled)
         .Options(IntSliderOptions()
                      .Tooltip("Performance: actors farther than this from the camera get no shape shadow (each "
-                              "shadow redraws the actor's whole silhouette once per tap, so distant ones cost "
+                              "shadow rebuilds and redraws the actor's whole silhouette, so distant ones cost "
                               "more than they're worth). Lower to gain frames in crowded scenes; raise for "
                               "shadows that stay visible into the distance.")
                      .Min(300)
                      .Max(5000)
-                     .DefaultValue(900)
+                     .DefaultValue(550)
                      .ShowButtons(true)
                      .Format("%d"));
     AddWidget(path, "Debug", WIDGET_SEPARATOR_TEXT).PreFunc(hideUnlessShadowsEnabled);

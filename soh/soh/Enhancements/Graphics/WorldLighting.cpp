@@ -163,7 +163,7 @@ extern "C" void WorldLighting_ApplyFlameFlicker(LightInfo* info, u8* r, u8* g, u
         f.nextTarget = FlickerRandomTarget();
     }
     f32 t = (interval > 0.0001f) ? (f.phase / interval) : 1.0f;
-    f32 eased = t * t * (3.0f - (2.0f * t)); // smoothstep — natural ease (vs linear); easy to revisit
+    f32 eased = t * t * (3.0f - (2.0f * t)); // smoothstep between the two targets
     f.cur = f.prevTarget + ((f.nextTarget - f.prevTarget) * eased);
 
     // Replace the incoming (white-noise) magnitude with our tweened level, preserving hue.

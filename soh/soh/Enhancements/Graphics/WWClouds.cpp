@@ -159,8 +159,8 @@ static u8 ClampU8(float v) {
 
 // WW's cLib_addCalc: ease src toward target; the step magnitude is clamped into [minVel, maxVel], and if
 // the step would overshoot, snap EXACTLY to the target. The snap matters: vrkumo_move switches a cloud to
-// its fast "invisible" drift only when alpha == 0, so an asymptotic ease (no snap) strands faded clouds at
-// the disk rim forever — the old "all clouds eventually disappear" bug.
+// its fast "invisible" drift only when alpha == 0, so an asymptotic ease (no snap) would strand faded
+// clouds at the disk rim forever.
 static float AddCalc(float src, float target, float speed, float maxVel, float minVel) {
     float delta = target - src;
     float vel = speed * delta;

@@ -43,7 +43,7 @@ static constexpr float kDefaultBrightness = 1.0f; // overall multiplier on the p
 
 // The kasumi haze band's extent, measured from vr_sky.bdl's baked vertex alpha: full haze at the
 // horizon, fading out by +6.6° elevation. Fixed, like WW's mesh — the drama at sunset comes from the
-// haze COLOUR turning vivid, not from the band growing (which is why the old Haze Band slider is gone).
+// haze COLOUR turning vivid, not from the band growing, so this is deliberately not a slider.
 static constexpr float kKasumiTopDeg = 6.6f;
 
 // Dome tessellation: latitude rows placed non-uniformly so the thin haze band and the horizon line get

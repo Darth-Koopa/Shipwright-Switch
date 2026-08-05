@@ -1,8 +1,7 @@
-// Shared weather/environment sampling for the Wind Waker-style sky features (gradient, clouds, stars).
-//
-// Phase 1 of the per-scene sky plan (see wind-waker-style-docs/wind-waker-sky-scene-profiles-plan.md):
-// derive a smooth cloudiness/storm signal and the scene's current fog colour from OoT's environment
-// state, so the whole sky reacts to weather with no per-scene authoring.
+// Shared plumbing for the Wind Waker-style sky features (gradient, clouds, stars, wisps): WW's
+// sea-stage palette, sun-driven time of day, a smooth cloudiness/storm signal and the scene's current
+// fog colour derived from OoT's environment state (so the whole sky reacts to weather with no
+// per-scene authoring), wind, the shared horizon line, and the split-screen debug.
 
 #pragma once
 

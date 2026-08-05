@@ -105,8 +105,8 @@ void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw,
 // AND set to suppress, early-return the vanilla draws that funnel through these helpers. Tied to the shadow
 // feature's own CVars (not cel shading), so the two can be toggled independently.
 static s32 ActorShadow_Suppressed(void) {
-    return CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0) &&
-           CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.SuppressVanillaShadows"), 1);
+    // Cached per-frame switch — this runs for every shadowed actor every frame, so no CVar lookups here.
+    return ToonLighting_SuppressVanillaShadows();
 }
 
 void ActorShadow_Draw(Actor* actor, Lights* lights, PlayState* play, Gfx* dlist, Color_RGBA8* color) {
@@ -2791,8 +2791,7 @@ void Actor_Draw(PlayState* play, Actor* actor) {
     // reuses that same key, so fire the hook when EITHER cel shading OR actor shadows is on; the handler
     // gates the relight and the shadow independently. Guarded so the hook is never invoked per-actor when
     // both are off.
-    if (CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1) ||
-        CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0)) {
+    if (ToonLighting_FeaturesActive()) {
         GameInteractor_ExecuteOnActorDraw(actor);
     }
 
@@ -3073,10 +3072,9 @@ s32 Ship_CalcShouldDrawAndUpdate(PlayState* play, Actor* actor, Vec3f* projected
 }
 // #endregion
 
-// SOH [Enhancement] Factored out of func_800315AC's actor-draw loop so the actor-shadow receiver pre-pass and
-// the main loop share one draw path (projection + sfx + extended culling + lens deferral + draw). Behaviour is
-// byte-for-byte the vanilla loop body; the only change is that it now runs from two call sites. `listIndex` is
-// the actor category (the loop's `i`), reported to the debug NoOp string and HREG(66) exactly as before.
+// SOH [Enhancement] The body of func_800315AC's actor-draw loop (projection + sfx + extended culling + lens
+// deferral + draw), shared by the actor-shadow receiver pre-pass and the main loop so both draw actors the
+// same way. `listIndex` is the actor category (the loop's `i`), reported to the debug NoOp string and HREG(66).
 static void Actor_DrawListEntry(PlayState* play, Actor* actor, s32 listIndex, Actor** invisibleActors,
                                 s32* invisibleActorCounter) {
     OPEN_DISPS(play->state.gfxCtx);
@@ -3159,8 +3157,10 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
     OPEN_DISPS(play->state.gfxCtx);
 
     // SOH [Enhancement] Toon lighting: mark all actor draws so the renderer applies the toon ramp to
-    // objects only (the static scene is never bracketed). Gated by the CVar so it is a no-op when off.
-    if (CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1)) {
+    // objects only (the static scene is never bracketed). Read once and reused at the close below so
+    // the bracket can never be left unbalanced by a mid-frame CVar change.
+    bool celEnabled = ToonLighting_CelEnabled();
+    if (celEnabled) {
         gSPToon(POLY_OPA_DISP++, true);
         gSPToon(POLY_XLU_DISP++, true);
     }
@@ -3171,24 +3171,27 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
     // world effects land on them just like the static scene; they are skipped in the main loop below so each
     // still draws exactly once. The flushes must sit between this pre-pass and the rest of the actors (which
     // must NOT receive shadows, to avoid self-shadowing the casters) — that ordering is why they live here.
-    bool shadowsEnabled = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0);
-    bool receiversActive = shadowsEnabled && CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.ReceiverActors"), 1);
+    bool shadowsEnabled = ToonLighting_ShadowsEnabled();
+    bool receiversActive = shadowsEnabled; // the pre-pass rides with the feature (no separate toggle)
 
     if (receiversActive) {
-        actorListEntry = &actorCtx->actorLists[0];
-        for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++, actorListEntry++) {
+        // Every receiver id lives in the BG, PROP or SWITCH category (asserted by a note at the
+        // whitelist, ToonShadowReceiver), so this per-frame scan skips the other lists.
+        static const u8 receiverCats[] = { ACTORCAT_BG, ACTORCAT_PROP, ACTORCAT_SWITCH };
+        for (i = 0; i < ARRAY_COUNT(receiverCats); i++) {
+            actorListEntry = &actorCtx->actorLists[receiverCats[i]];
             for (actor = actorListEntry->head; actor != NULL; actor = actor->next) {
                 if (ToonLighting_IsShadowReceiver(actor)) {
-                    Actor_DrawListEntry(play, actor, i, invisibleActors, &invisibleActorCounter);
+                    Actor_DrawListEntry(play, actor, receiverCats[i], invisibleActors, &invisibleActorCounter);
                 }
             }
         }
     }
 
-    // SOH [Enhancement] WW light casting: cast the point-light pools here (moved from Play_Draw). Running it
-    // after the receiver pre-pass lets torch/fairy pools fall on the walkable-floor actors too, not just the
-    // room — and still before the rest of the actors below, so pools stay under them. No-op unless the feature
-    // is enabled (COND_HOOK). The pools clear G_LIGHTING, so the open toon bracket above does not shade them.
+    // SOH [Enhancement] WW light casting: cast the point-light pools. Running after the receiver pre-pass lets
+    // torch/fairy pools fall on the walkable-floor actors too, not just the room — and still before the rest of
+    // the actors below, so pools stay under them. No-op unless the feature is enabled (COND_HOOK). The pools
+    // clear G_LIGHTING, so the open toon bracket above does not shade them.
     GameInteractor_ExecuteOnPlayDrawWorldLights(play);
 
     if (shadowsEnabled) {
@@ -3214,9 +3217,15 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
     }
 
     // SOH [Enhancement] Toon lighting: end the actor bracket before effects/lens/UI are drawn.
-    if (CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1)) {
+    if (celEnabled) {
         gSPToon(POLY_OPA_DISP++, false);
         gSPToon(POLY_XLU_DISP++, false);
+    }
+    // SOH [Enhancement] WW actor shadows: mark the LAST actor's object boundary explicitly. With cel
+    // shading off there is no closing bracket edge above to flush+disarm the capture, and later lit
+    // geometry (effects, the XLU stream) would leak into the last actor's silhouette.
+    if (shadowsEnabled && !celEnabled) {
+        gSPToonShadow(POLY_OPA_DISP++, 0, 0, 0, 0.0f);
     }
 
     if ((HREG(64) != 1) || (HREG(73) != 0)) {
@@ -3229,7 +3238,12 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
 
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
         if (play->actorCtx.lensActive) {
+            // SOH [Enhancement] Toon lighting / actor shadows: lens actors draw through Actor_Draw
+            // after the bracket above closed — re-open it around them so they are cel shaded like any
+            // other actor and the module's stream tracking stays in sync (see ToonLighting.h).
+            ToonLighting_LensBracketBegin(play->state.gfxCtx);
             Actor_DrawLensActors(play, invisibleActorCounter, invisibleActors);
+            ToonLighting_LensBracketEnd(play->state.gfxCtx);
             if ((play->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(play)) {
                 Actor_DisableLens(play);
             }

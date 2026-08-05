@@ -17,6 +17,7 @@
 #include "soh/ShipInit.hpp"
 #include "soh/cvar_prefixes.h"
 #include "soh/ActorDB.h" // SOH [Enhancement] actor-name lookup for the cel-shading blacklist
+#include "soh/Enhancements/Graphics/ToonLighting.h"
 // Declares the FrameInterpolation_Record* functions (with C linkage) that the OPEN_DISPS/CLOSE_DISPS
 // macros call, so their references in this TU match the definitions. Must precede any OPEN_DISPS use.
 #include "soh/frame_interpolation.h"
@@ -59,8 +60,65 @@ static constexpr float kDefaultShadowOpacity = 0.2f;
 static constexpr float kDefaultShadowLength = 0.2f;
 static constexpr float kDefaultShadowSlabDepth = 8.0f; // stencil-volume depth below the feet (ground band)
 static constexpr float kDefaultShadowSlabRise = 8.0f;  // stencil-volume height above the feet (uphill ground)
-static constexpr int kDefaultShadowMaxDistance = 900; // camera-forward distance past which shadows are culled
+static constexpr int kDefaultShadowEdgeSoftness = 0;  // penumbra rings around the silhouette (0 = hard edge)
+static constexpr int kDefaultShadowMaxDistance = 550; // camera-forward distance past which shadows are culled
 static constexpr float kShadowFadeTime = 0.15f; // seconds to ease the shadow size in/out (anti-pop, like Navi)
+
+// Per-frame snapshot of every CVar the per-actor hot path reads. CVarGet* is a string-keyed hash-map
+// lookup that heap-allocates for keys this long, and HandleActorDraw runs for EVERY drawn actor every
+// frame — reading them once per frame here removes thousands of lookups (and allocations) per second.
+// Refreshed at the top of each game frame (OnToonFrameUpdate) and by RegisterToonLighting, so both menu
+// and console changes take effect within a frame.
+static struct {
+    bool cel = true;
+    bool shadows = false;
+    bool suppressVanilla = true;
+    bool useNaviLight = true;
+    bool showDebug = false;
+    f32 pointRange = kDefaultPointLightRange;
+    f32 transitionTime = kDefaultTransitionTime;
+    f32 maxDist = (f32)kDefaultShadowMaxDistance;
+} sParams;
+
+static void RefreshFrameParams() {
+    sParams.cel = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1) != 0;
+    sParams.shadows = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0) != 0;
+    sParams.suppressVanilla =
+        CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.SuppressVanillaShadows"), 1) != 0;
+    sParams.useNaviLight = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.UseNaviLight"), 1) != 0;
+    sParams.showDebug = CVarGetInteger(CVAR_DEVELOPER_TOOLS("ToonLighting.ShowDebug"), 0) != 0;
+    sParams.pointRange = CVarGetFloat(CVAR_ENHANCEMENT("Graphics.ToonLighting.PointLightRange"), kDefaultPointLightRange);
+    sParams.transitionTime =
+        CVarGetFloat(CVAR_ENHANCEMENT("Graphics.ToonLighting.TransitionTime"), kDefaultTransitionTime);
+    sParams.maxDist =
+        (f32)CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.MaxDistance"), kDefaultShadowMaxDistance);
+}
+
+// Frame-constant easing terms (they depend only on R_UPDATE_RATE and the transition-time CVar, so
+// computing them per actor repaid an expf for every drawn actor every frame). Refreshed in
+// OnToonFrameUpdate alongside sParams.
+static f32 sToonKeyDt = 3.0f / 60.0f; // seconds per game draw
+static f32 sToonKeyAlpha = 0.2f;      // per-draw slerp fraction; reaches ~99% in transitionTime seconds
+
+// Navi's two emitted lights, resolved once per frame when the player opted her out of key selection
+// (identical for every actor; see ToonClosestPointLight). Compared by address only, never dereferenced.
+static LightInfo* sNaviGlow = NULL;
+static LightInfo* sNaviNoGlow = NULL;
+
+// C-callable getters (see ToonLighting.h): the decompiled draw code asks these instead of doing its own
+// per-actor CVar lookups, and they keep the bracket/hook decisions consistent within a frame.
+extern "C" int ToonLighting_FeaturesActive(void) {
+    return sParams.cel || sParams.shadows;
+}
+extern "C" int ToonLighting_CelEnabled(void) {
+    return sParams.cel;
+}
+extern "C" int ToonLighting_ShadowsEnabled(void) {
+    return sParams.shadows;
+}
+extern "C" int ToonLighting_SuppressVanillaShadows(void) {
+    return sParams.shadows && sParams.suppressVanilla;
+}
 
 // Actors the cel system skips entirely: they look wrong relit AND wrong casting a flattened shadow
 // (doors, the Great Deku Tree, water-box surfaces). Data-driven so it's easy to extend after seeing what
@@ -75,6 +133,9 @@ static bool ToonActorExcluded(Actor* actor) {
         case ACTOR_BG_MIZU_WATER: // water-box surfaces
         case ACTOR_BG_HAKA_WATER:
         case ACTOR_EN_WOOD02:     // trees / bushes / leaf scenery
+        case ACTOR_OBJ_SWITCH:    // floor/crystal/eye switches — environment fixtures, not relit objects.
+        case ACTOR_OBJ_BEAN:      // magic bean plant/platform — same. Both are also RECEIVERS below, so
+                                  // they still catch other actors' shadows like the ground does.
             return true;
         default:
             break;
@@ -82,8 +143,15 @@ static bool ToonActorExcluded(Actor* actor) {
     // All Bg_Spot* overworld scenery (bridges, fences, gates, rocks, well/oasis water, ...) reads as part of the
     // environment, not a relit actor. Matched by name prefix so every Bg_Spot variant is covered without listing
     // ~30 scattered actor IDs. RetrieveEntry is bounds-safe and returns an empty name for unknown ids.
-    if (ActorDB::Instance != nullptr && ActorDB::Instance->RetrieveEntry(actor->id).name.rfind("Bg_Spot", 0) == 0) {
-        return true;
+    // The verdict is cached per id (this runs for every drawn actor every frame; ids are stable, so the
+    // string lookup+compare only ever happens once per actor type).
+    if (ActorDB::Instance != nullptr) {
+        static std::unordered_map<s32, bool> sBgSpotVerdicts;
+        auto [it, isNew] = sBgSpotVerdicts.try_emplace((s32)actor->id, false);
+        if (isNew) {
+            it->second = ActorDB::Instance->RetrieveEntry(actor->id).name.rfind("Bg_Spot", 0) == 0;
+        }
+        return it->second;
     }
     return false;
 }
@@ -103,6 +171,9 @@ static bool ToonShadowDeepRooted(Actor* actor) {
 // the depth buffer and catch shadows like the static scene. Curated by id on purpose — only flat, broadly
 // static, genuinely-walked-on pieces belong here (a moving platform would show the shadow's one-frame lag).
 // Extend cautiously and verify per actor; candidates to try next are noted inline.
+// NOTE: the receiver pre-pass in z_actor.c only scans the BG, PROP and SWITCH actor lists — every id
+// below is in one of those categories. If a receiver from another category is ever added here, extend
+// that scan or the new receiver will silently never pre-draw.
 static bool ToonShadowReceiver(Actor* actor) {
     switch (actor->id) {
         case ACTOR_BG_SPOT00_HANEBASI: // Hyrule Field <-> Castle Town drawbridge (the planks you cross)
@@ -112,6 +183,8 @@ static bool ToonShadowReceiver(Actor* actor) {
         case ACTOR_BG_MENKURI_KAITEN:  // Large rotating stone ring (Gerudo Training Ground + Forest Temple).
                                        // Genuinely rotates while ridden, so the shadow shows a one-frame lag
                                        // during motion — the test case for whether moving receivers look OK.
+        case ACTOR_OBJ_SWITCH:         // floor switches are stood on (SWITCH category — see the pre-pass note)
+        case ACTOR_OBJ_BEAN:           // the bean platform is ridden; excluded from relight too (above)
             return true;
         case ACTOR_BG_HAKA_GATE: {
             // Shadow Temple. One overlay drives four different things; the variant is the low byte of params
@@ -131,12 +204,19 @@ static bool ToonShadowReceiver(Actor* actor) {
     }
 }
 
-// Actors that keep cel relight but should NOT cast a drop shadow (unlike ToonActorExcluded, which drops both).
-// Small cuttable grass (En_Kusa) is everywhere and tiny, so a blob under every tuft reads wrong and is wasteful.
-// Shadow receivers are excluded too: a walkable floor casting its own silhouette down into the void below reads
-// wrong, and (now that it sits in the depth buffer at flush time) could self-shadow.
+// Actors that keep cel relight but should NOT cast a drop shadow (unlike ToonActorExcluded, which drops both) —
+// rationale per id inline. Shadow receivers are excluded too: a walkable floor casting its own silhouette down
+// into the void below reads wrong, and (now that it sits in the depth buffer at flush time) could self-shadow.
 static bool ToonShadowExcluded(Actor* actor) {
-    return actor->id == ACTOR_EN_KUSA || ToonShadowReceiver(actor);
+    switch (actor->id) {
+        case ACTOR_EN_KUSA:      // small cuttable grass — everywhere and tiny, a blob per tuft reads wrong
+        case ACTOR_EN_SKJ:       // Skull Kid
+        case ACTOR_EN_DNT_NOMAL: // Deku Scrub mound dwellers
+        case ACTOR_EN_KZ:        // King Zora
+            return true;
+        default:
+            return ToonShadowReceiver(actor);
+    }
 }
 
 // C-callable export (see ToonLighting.h): lets the decompiled actor draw loop reorder receivers ahead of the
@@ -182,15 +262,46 @@ static bool sHaveLastKey = false;
 static s8 sLastKeyDir[3];
 static u8 sLastKeyCol[3];
 
+static void ToonClearKeyStates(); // defined with the key-state map below
+
 // Runs once per frame (game-frame-update hook, after the frame's draw). Pushes the frame-global ramp
 // shape to the renderer and clears the per-pass key-dedup state so the next frame's first actor
 // re-emits. The ramp is pure look-tuning, so it lives in SoH's CVars; reading it here (once per frame)
 // keeps those strings out of the framework.
 static void OnToonFrameUpdate() {
+    // Refresh the per-frame CVar snapshot first: everything below (and every HandleActorDraw this
+    // frame) reads the cached values, so a toggle from the menu OR the console lands within a frame.
+    RefreshFrameParams();
     // Clear before any early-out, so the dedup state resets even on a headless window (no renderer).
     sHaveLastKey = false;
     // The bracket re-opens toon ON each frame; match it so the first blacklisted actor toggles correctly.
     sToonEnabled = true;
+    if (!sParams.cel && !sParams.shadows) {
+        // Both features off (possibly via console, which never re-runs RegisterToonLighting): nothing
+        // below is needed, and the eased per-actor state must not go stale while disabled.
+        ToonClearKeyStates();
+        return;
+    }
+
+    // Frame-constant easing terms (see the statics above).
+    sToonKeyDt = (R_UPDATE_RATE > 0 ? R_UPDATE_RATE : 3) / 60.0f;
+    {
+        f32 tt = sParams.transitionTime < 0.05f ? 0.05f : sParams.transitionTime;
+        sToonKeyAlpha = 1.0f - expf(-4.6f * sToonKeyDt / tt);
+    }
+
+    // Navi's opt-out lights (see the statics above). Identification matches the light-casting feature:
+    // player->naviActor, an En_Elf with FAIRY_NAVI params.
+    sNaviGlow = sNaviNoGlow = NULL;
+    if (!sParams.useNaviLight && gPlayState != NULL) {
+        Player* player = GET_PLAYER(gPlayState);
+        if ((player != NULL) && (player->naviActor != NULL) && (player->naviActor->id == ACTOR_EN_ELF) &&
+            (player->naviActor->params == FAIRY_NAVI)) {
+            EnElf* navi = (EnElf*)player->naviActor;
+            sNaviGlow = &navi->lightInfoGlow;
+            sNaviNoGlow = &navi->lightInfoNoGlow;
+        }
+    }
 
     // Actor shadow look tuning (global, not per object): core blend strength, the slab depth/rise that bound
     // the conforming ground band, and a "length" slider mapped to the minimum grazing angle that bounds how
@@ -201,12 +312,14 @@ static void OnToonFrameUpdate() {
         f32 length = CVarGetFloat(CVAR_ENHANCEMENT("Graphics.WorldShadows.Length"), kDefaultShadowLength);
         f32 slabDepth = CVarGetFloat(CVAR_ENHANCEMENT("Graphics.WorldShadows.SlabDepth"), kDefaultShadowSlabDepth);
         f32 slabRise = CVarGetFloat(CVAR_ENHANCEMENT("Graphics.WorldShadows.SlabRise"), kDefaultShadowSlabRise);
+        s32 edgeSoftness =
+            CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.EdgeSoftness"), kDefaultShadowEdgeSoftness);
         bool showVolume = CVarGetInteger(CVAR_DEVELOPER_TOOLS("WorldShadows.ShowVolume"), 0);
         // Map the Length slider to how steeply the key light is forced before projecting: low Length = steep
         // (short shadow tucked under the actor), high Length = lets a low key cast a long lean. 0 => 0.95, 1 => 0.10.
         f32 minElevation = 0.95f - (CLAMP(length, 0.0f, 1.0f) * 0.85f);
         // Slab Depth/Rise: how far below/above the feet the stencil volume reaches (the band of ground it conforms to).
-        interp->SetToonShadowParams(opacity, minElevation, slabDepth, slabRise, showVolume);
+        interp->SetToonShadowParams(opacity, minElevation, slabDepth, slabRise, edgeSoftness, showVolume);
     }
 
     Fast::GfxRenderingAPI* rapi = GetRenderingApi();
@@ -239,9 +352,23 @@ typedef struct {
     f32 colVel[3];
     f32 shadowScale;    // actor-shadow size, eased 0..1 so it grows in / shrinks out instead of popping
     f32 shadowScaleVel; // SmoothDamp velocity for shadowScale
+    // Cached floor raycast, for actors that never run a bg check (floorPoly stays NULL): a static
+    // actor pays ONE raycast ever instead of one per frame; movers re-sample after ~4 units of drift.
+    f32 floorY;      // cached raycast result (only meaningful when floorSampled)
+    f32 floorPos[3]; // world position the raycast was sampled at
+    u8 floorValid;   // the cached raycast hit a floor
+    u8 floorSampled; // a raycast has been cached
 } ToonKeyState;
 
 static std::unordered_map<Actor*, ToonKeyState> sToonKeyStates;
+
+// The eased state must not survive a disabled stretch (it would be stale on re-enable); cleared from
+// the frame hook when both features are off. Prototyped above OnToonFrameUpdate.
+static void ToonClearKeyStates() {
+    if (!sToonKeyStates.empty()) {
+        sToonKeyStates.clear();
+    }
+}
 
 // Critically-damped smoothing (Unity-style SmoothDamp): eases a value toward a moving target with no
 // overshoot, accelerating then decelerating, for a smooth toon-key "travel".
@@ -322,20 +449,11 @@ static void ToonSlerp(f32 from[3], f32 to[3], f32 t, f32 out[3]) {
 // alone decides — so flickering torches are perfectly stable and the nearer of two always wins. A
 // light is "in range" out to its radius × pointRange (raise pointRange to extend reach).
 static bool ToonClosestPointLight(PlayState* play, Actor* actor, f32 pointRange, f32 dirOut[3], f32 colOut[3]) {
-    // When the player opts Navi out, identify her two emitted lights by address so the selection skips them.
-    // Navi blinks on/off and orbits Link, so otherwise she constantly steals the key light. Same identification
-    // the light-casting feature uses (player->naviActor, an En_Elf with FAIRY_NAVI params).
-    LightInfo* naviGlow = NULL;
-    LightInfo* naviNoGlow = NULL;
-    if (!CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.UseNaviLight"), 1)) {
-        Player* player = GET_PLAYER(play);
-        if ((player != NULL) && (player->naviActor != NULL) && (player->naviActor->id == ACTOR_EN_ELF) &&
-            (player->naviActor->params == FAIRY_NAVI)) {
-            EnElf* navi = (EnElf*)player->naviActor;
-            naviGlow = &navi->lightInfoGlow;
-            naviNoGlow = &navi->lightInfoNoGlow;
-        }
-    }
+    // When the player opts Navi out, her two emitted lights are skipped by address (she blinks on/off
+    // and orbits Link, so she'd constantly steal the key light). Resolved once per frame in
+    // OnToonFrameUpdate — identical for every actor.
+    LightInfo* naviGlow = sNaviGlow;
+    LightInfo* naviNoGlow = sNaviNoGlow;
 
     LightNode* node = play->lightCtx.listHead;
     f32 bestDistSq = -1.0f;
@@ -577,8 +695,11 @@ static void HandleActorDraw(void* actorPtr) {
         return;
     }
 
-    bool celEnabled = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1);
-    bool shadowsEnabled = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0);
+    bool celEnabled = sParams.cel;
+    bool shadowsEnabled = sParams.shadows;
+    if (!celEnabled && !shadowsEnabled) {
+        return; // hooks stay registered so console toggles work; the per-frame snapshot gates the work
+    }
 
     // Blacklist (doors/trees/water): excluded actors get neither cel relight nor a shadow. When cel shading
     // is on, flip its bracket OFF around them (deduped via sToonEnabled) so they keep vanilla lighting; the
@@ -598,15 +719,23 @@ static void HandleActorDraw(void* actorPtr) {
         sHaveLastKey = false;
     }
     if (!wantToon) {
+        // Excluded actors must still mark the per-object shadow boundary. With cel shading on, the
+        // bracket edge above flushes+disarms the capture; with cel OFF there is no edge, and without
+        // this disarm the PREVIOUS actor's silhouette would keep accumulating this actor's lit
+        // geometry (a door or tree merging into a nearby NPC's shadow).
+        if (shadowsEnabled) {
+            OPEN_DISPS(play->state.gfxCtx);
+            gSPToonShadow(POLY_OPA_DISP++, 0, 0, 0, 0.0f);
+            CLOSE_DISPS(play->state.gfxCtx);
+        }
         return;
     }
 
     f32 targetDir[3] = { 0.0f, 1.0f, 0.0f }; // default: lit from above
     f32 targetCol[3] = { 1.0f, 1.0f, 1.0f };
     // How far a point light reaches (× its radius) for selection, and how long the eased travel takes.
-    f32 pointRange = CVarGetFloat(CVAR_ENHANCEMENT("Graphics.ToonLighting.PointLightRange"), kDefaultPointLightRange);
-    f32 transitionTime =
-        CVarGetFloat(CVAR_ENHANCEMENT("Graphics.ToonLighting.TransitionTime"), kDefaultTransitionTime);
+    f32 pointRange = sParams.pointRange;
+    f32 transitionTime = sParams.transitionTime;
 
     OPEN_DISPS(play->state.gfxCtx);
 
@@ -623,19 +752,16 @@ static void HandleActorDraw(void* actorPtr) {
         st.dir[0] = targetDir[0], st.dir[1] = targetDir[1], st.dir[2] = targetDir[2];
         st.col[0] = targetCol[0], st.col[1] = targetCol[1], st.col[2] = targetCol[2];
         st.shadowScale = 0.0f, st.shadowScaleVel = 0.0f; // grows in on first appearance
+        st.floorSampled = 0, st.floorValid = 0;
     } else {
-        // Seconds per draw, derived from R_UPDATE_RATE (3 = 20 fps in normal play, 1 = 60 fps during
-        // special transitions) so the eased travel lasts the labelled seconds at any update rate. Frame
-        // interpolation replays this draw without re-running it, so it doesn't affect dt.
-        f32 toonKeyDt = (R_UPDATE_RATE > 0 ? R_UPDATE_RATE : 3) / 60.0f;
-        // Direction: antipode-safe eased slerp; alpha reaches ~99% in transitionTime seconds.
-        f32 alpha = 1.0f - expf(-4.6f * toonKeyDt / (transitionTime < 0.05f ? 0.05f : transitionTime));
+        // Eased travel using the frame-constant dt/alpha computed in OnToonFrameUpdate (frame
+        // interpolation replays this draw without re-running it, so they can't vary per actor anyway).
         f32 newDir[3];
 
-        ToonSlerp(st.dir, targetDir, alpha, newDir);
+        ToonSlerp(st.dir, targetDir, sToonKeyAlpha, newDir);
         st.dir[0] = newDir[0], st.dir[1] = newDir[1], st.dir[2] = newDir[2];
         for (s32 i = 0; i < 3; i++) {
-            st.col[i] = ToonSmoothDamp(st.col[i], targetCol[i], &st.colVel[i], transitionTime, toonKeyDt);
+            st.col[i] = ToonSmoothDamp(st.col[i], targetCol[i], &st.colVel[i], transitionTime, sToonKeyDt);
         }
     }
 
@@ -672,7 +798,7 @@ static void HandleActorDraw(void* actorPtr) {
         // on/off, the SIZE eases 0..1 (like Navi's light) so it grows in / shrinks to nothing. The eased scale
         // rides in planeD; the renderer scales the footprint by it (it ignores the floor plane otherwise), and
         // any nonzero normal simply arms the pass. A zero normal fully disarms it (no capture/projection/draw).
-        f32 maxDist = (f32)CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.MaxDistance"), kDefaultShadowMaxDistance);
+        f32 maxDist = sParams.maxDist;
         bool onWall = false;
         if (actor->id == ACTOR_PLAYER) {
             Player* player = (Player*)actor;
@@ -681,27 +807,43 @@ static void HandleActorDraw(void* actorPtr) {
         }
         bool hasFloor = false;
         f32 floorHeight = actor->floorHeight;
-        if (!ToonShadowExcluded(actor) && actor->projectedPos.z < maxDist) {
+        // The lower bound matters with the extended-culling enhancements: they draw actors BEHIND the
+        // camera (negative projected z), which would otherwise pay full capture + volume cost for a
+        // shadow that is never visible.
+        if (!ToonShadowExcluded(actor) && actor->projectedPos.z < maxDist && actor->projectedPos.z > -100.0f) {
             // Floor reference is the gate + a "near the ground" sanity check, and the feet-clamp Y for
             // deep-rooted actors (the renderer otherwise builds the volume from the captured feet, not this
             // plane). Most actors expose actor->floorPoly from their bg check; a few (e.g. the Courtyard Guards,
             // En_Heishi1) never run one, so floorPoly stays null and the shadow would never arm. Fall back to a
-            // downward raycast for those — the same approach their bespoke shadow used.
+            // downward raycast for those — cached in the eased state (see ToonKeyState) so stationary
+            // actors don't re-walk the static collision every frame.
             bool haveFloor = (actor->floorPoly != NULL);
             if (!haveFloor) {
-                Vec3f rayFrom = { actor->world.pos.x, actor->world.pos.y + 1.0f, actor->world.pos.z };
-                CollisionPoly* poly = NULL;
-                floorHeight = BgCheck_EntityRaycastFloor2(play, &play->colCtx, &poly, &rayFrom);
-                haveFloor = (poly != NULL);
+                f32 mdx = actor->world.pos.x - st.floorPos[0];
+                f32 mdy = actor->world.pos.y - st.floorPos[1];
+                f32 mdz = actor->world.pos.z - st.floorPos[2];
+                if (!st.floorSampled || ((mdx * mdx) + (mdy * mdy) + (mdz * mdz)) > 16.0f) {
+                    Vec3f rayFrom = { actor->world.pos.x, actor->world.pos.y + 1.0f, actor->world.pos.z };
+                    CollisionPoly* poly = NULL;
+                    st.floorY = BgCheck_EntityRaycastFloor2(play, &play->colCtx, &poly, &rayFrom);
+                    st.floorValid = (poly != NULL);
+                    st.floorSampled = 1;
+                    st.floorPos[0] = actor->world.pos.x;
+                    st.floorPos[1] = actor->world.pos.y;
+                    st.floorPos[2] = actor->world.pos.z;
+                }
+                haveFloor = st.floorValid;
+                if (haveFloor) {
+                    floorHeight = st.floorY;
+                }
             }
             if (haveFloor) {
                 f32 distToFloor = actor->world.pos.y - floorHeight;
                 hasFloor = (distToFloor > -50.0f) && (distToFloor < 1500.0f);
             }
         }
-        f32 fadeDt = (R_UPDATE_RATE > 0 ? R_UPDATE_RATE : 3) / 60.0f;
         st.shadowScale = ToonSmoothDamp(st.shadowScale, (hasFloor && !onWall) ? 1.0f : 0.0f, &st.shadowScaleVel,
-                                        kShadowFadeTime, fadeDt);
+                                        kShadowFadeTime, sToonKeyDt);
         if (st.shadowScale > 0.01f) {
             // Deep-rooted models (signposts) bury their geometry below the floor, which would sink the shadow
             // slab underground; pass the floor Y so the renderer lifts the slab's feet up to it. Everyone else
@@ -712,9 +854,14 @@ static void HandleActorDraw(void* actorPtr) {
         } else {
             gSPToonShadow(POLY_OPA_DISP++, 0, 0, 0, 0.0f); // fully off
         }
+    } else {
+        // Shadows off (cel still on): keep the eased size at zero so re-enabling grows the shadow in
+        // instead of popping it at whatever size it froze at.
+        st.shadowScale = 0.0f;
+        st.shadowScaleVel = 0.0f;
     }
 
-    if (CVarGetInteger(CVAR_DEVELOPER_TOOLS("ToonLighting.ShowDebug"), 0)) {
+    if (sParams.showDebug) {
         DrawDebugOverlay(play, actor, pointRange, st.dir);
     }
 
@@ -727,6 +874,40 @@ static void HandleActorDestroy(void* actorPtr) {
     sToonKeyStates.erase((Actor*)actorPtr);
 }
 
+// Lens-of-Truth actors draw through Actor_Draw AFTER the main actor bracket has closed, so without
+// these the hook's bracket tracking (sToonEnabled) desyncs from the stream: lens actors miss their cel
+// relight, an excluded lens actor can leave an unmatched bracket-ON leaking into the next frame, and
+// the last lens actor's shadow capture stays armed into the XLU stream. Re-open the bracket around the
+// lens pass (keeping the tracker in step) and mark the final object boundary on the way out.
+extern "C" void ToonLighting_LensBracketBegin(GraphicsContext* gfxCtx) {
+    if (sParams.cel) {
+        OPEN_DISPS(gfxCtx);
+        gSPToon(POLY_OPA_DISP++, true);
+        gSPToon(POLY_XLU_DISP++, true);
+        CLOSE_DISPS(gfxCtx);
+        sToonEnabled = true;
+        sHaveLastKey = false; // every bracket edge invalidates the renderer's key (see HandleActorDraw)
+    }
+}
+
+extern "C" void ToonLighting_LensBracketEnd(GraphicsContext* gfxCtx) {
+    if (!sParams.cel && !sParams.shadows) {
+        return;
+    }
+    OPEN_DISPS(gfxCtx);
+    if (sParams.cel) {
+        gSPToon(POLY_OPA_DISP++, false);
+        gSPToon(POLY_XLU_DISP++, false);
+        sToonEnabled = false;
+    }
+    if (sParams.shadows && !sParams.cel) {
+        // No closing bracket edge exists with cel off, so disarm the capture explicitly (the edge
+        // above already does it when cel is on).
+        gSPToonShadow(POLY_OPA_DISP++, 0, 0, 0, 0.0f);
+    }
+    CLOSE_DISPS(gfxCtx);
+}
+
 // The actor-shadow volumes are flushed by gSPToonShadowFlush emitted directly in the game's actor draw loop
 // (soh/src/code/z_actor.c, func_800315AC) — after the room and the walkable-floor receiver pre-pass, before
 // the remaining actors. That placement is why it lives in the draw loop rather than a hook here: it has to sit
@@ -735,24 +916,19 @@ static void HandleActorDestroy(void* actorPtr) {
 // to C via ToonLighting_IsShadowReceiver.
 
 void RegisterToonLighting() {
-    bool celEnabled = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.ToonLighting.Enabled"), 1);
-    bool shadowsEnabled = CVarGetInteger(CVAR_ENHANCEMENT("Graphics.WorldShadows.Enabled"), 0);
-    // The hooks drive BOTH the cel relight and the actor shadow (the shadow reuses the per-actor key this
-    // module computes), so run them while EITHER feature is on. HandleActorDraw internally gates the relight
-    // bracket on cel shading and the shadow emit on shadows, so each can be on without the other.
-    bool active = celEnabled || shadowsEnabled;
-    COND_HOOK(OnGameFrameUpdate, active, OnToonFrameUpdate);
-    COND_HOOK(OnActorDraw, active, HandleActorDraw);
-    COND_HOOK(OnActorDestroy, active, HandleActorDestroy);
-    // The accumulated shadow volumes are flushed from inside the actor draw loop (func_800315AC) now, not a
-    // hook: it sits after the room and the walkable-floor receiver pre-pass but before the rest of the actors,
-    // so shadows fall on the environment + receivers and never on the casting actors. See gSPToonShadowFlush
-    // there, gated on the same WorldShadows.Enabled CVar.
+    // Registered unconditionally: the per-frame CVar snapshot (RefreshFrameParams) gates all the work,
+    // which is what lets a console `set` of either Enabled CVar take effect without this re-running —
+    // the game-code guard (ToonLighting_FeaturesActive) keeps the hook dispatch itself out of the
+    // per-actor path when both features are off.
+    COND_HOOK(OnGameFrameUpdate, true, OnToonFrameUpdate);
+    COND_HOOK(OnActorDraw, true, HandleActorDraw);
+    COND_HOOK(OnActorDestroy, true, HandleActorDestroy);
+    RefreshFrameParams();
     // Drop the key-dedup state so the first actor after a (re-)enable always emits, before the
     // end-of-frame OnToonFrameUpdate reset has had a chance to run.
     sHaveLastKey = false;
     sToonEnabled = true;
-    if (!active) {
+    if (!sParams.cel && !sParams.shadows) {
         sToonKeyStates.clear();
     }
 }

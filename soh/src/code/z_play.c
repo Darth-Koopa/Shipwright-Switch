@@ -1557,12 +1557,6 @@ void Play_Draw(PlayState* play) {
             }
         }
 
-        // SOH [Enhancement] Wind Waker-style light casting: the point-light pool pass (OnPlayDrawWorldLights)
-        // used to fire here, after the room and before the actor loop. It now fires from inside func_800315AC,
-        // right after the walkable-floor receiver pre-pass, so pools fall on those floor actors (drawbridge,
-        // Shadow Temple trap floor, ...) too — they aren't in the depth buffer yet at this point. It still runs
-        // before the rest of the actors, so pools stay under them.
-
         if ((HREG(80) != 10) || (HREG(83) != 0)) {
             if ((play->skyboxCtx.unk_140 != 0) && (GET_ACTIVE_CAM(play)->setting != CAM_SET_PREREND_FIXED)) {
                 Vec3f quakeOffset;

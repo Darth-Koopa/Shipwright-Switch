@@ -819,8 +819,8 @@ void EnElf_UpdateLights(EnElf* this, PlayState* play) {
 
     // SOH [Enhancement] Wind Waker: tint Navi's emitted light toward her current targeting colour, so cel
     // shading, the cast light pool, and the vanilla scene lighting all read one shared colour. Done at the
-    // source so every downstream consumer gets it for free. Saturation 0 (the default) leaves it pure white
-    // = identical to vanilla; only Navi (FAIRY_NAVI) is affected.
+    // source so every downstream consumer gets it for free. Saturation 0 leaves it pure white = identical
+    // to vanilla; only Navi (FAIRY_NAVI) is affected.
     u8 lightR = 255;
     u8 lightG = 255;
     u8 lightB = 255;
