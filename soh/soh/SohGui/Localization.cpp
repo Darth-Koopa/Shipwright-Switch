@@ -1,4 +1,4 @@
-﻿#include "Localization.h"
+#include "Localization.h"
 
 #include <string>
 #include <unordered_map>
@@ -250,7 +250,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Applies the scene's shading to the collision display.", "将场景的着色应用到碰撞显示上。" },
     { "Colors", "颜色" },
     { "Normal", "正常" },
-    { "Hookshot", "钩爪" },
+    { "Hookshot", "短钩" },
     { "Entrance", "入口" },
     { "Special Surface (Grass/Sand/Etc)", "特殊表面（草/沙/等）" },
     { "Interactable (Vines/Crawlspace/Etc)", "可交互物（藤蔓/爬行空间/等）" },
@@ -334,12 +334,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Total number of days elapsed since the start of the game", "自游戏开始以来经过的总天数" },
     { "Deaths", "死亡次数" },
     { "Total number of deaths", "总死亡次数" },
-    { "Has BGS", "拥有巨人格罗多之剑" },
-    { "Is Biggoron sword unlocked? Replaces Giant's knife", "是否已解锁巨人格罗多之剑？（替代巨人刀）" },
+    { "Has BGS", "拥有大格雷之剑" },
+    { "Is Biggoron sword unlocked? Replaces Giant's knife", "是否已解锁大格雷之剑？替代巨人之刀" },
     { "Sword Health", "剑的耐久" },
-    { "Giant's knife health. Default is 8. Must be >0 for Biggoron sword to work", "巨人刀的耐久。默认为 8。巨人格罗多之剑需大于 0 方可生效" },
-    { "Bgs Day Count", "巨人格罗多之剑天数计数" },
-    { "Total number of days elapsed since receiving claim check from Biggoron", "自巨人格罗多处收到取货单以来经过的总天数" },
+    { "Giant's knife health. Default is 8. Must be >0 for Biggoron sword to work", "巨人刀的耐久。默认为 8。大格雷之剑需大于 0 方可生效" },
+    { "Bgs Day Count", "大格雷之剑天数计数" },
+    { "Total number of days elapsed since receiving claim check from Biggoron", "自大格雷处收到取货单以来经过的总天数" },
     { "Entrance Index", "入口索引" },
     { "From which entrance did Link arrive?", "林克是从哪个入口到达的？" },
     { "Cutscene Index", "过场动画索引" },
@@ -351,7 +351,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Timer Seconds", "计时器秒数" },
     { "Time, in seconds", "时间，以秒为单位" },
     { "Sub-Timer State", "子计时器状态" },
-    { "Trade timer, Ganon collapse timer, etc. Has yellow font", "交易计时器、加农崩溃计时器等，以黄色字体显示" },
+    { "Trade timer, Ganon collapse timer, etc. Has yellow font", "交易计时器、盖侬崩溃计时器等，以黄色字体显示" },
     { "Sub-Timer Seconds", "子计时器秒数" },
     { "Sound setting", "声音设置" },
     { "Stereo", "立体声" },
@@ -363,11 +363,11 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Z Target Mode", "Z 瞄准模式" },
     { "Z-Targeting behavior", "Z 瞄准行为" },
     { "Hold", "按住" },
-    { "Triforce Pieces", "三角神力碎片" },
+    { "Triforce Pieces", "三角力量碎片" },
     { "Currently obtained Triforce Pieces. For Triforce Hunt.", "当前已获得的三角神力碎片。用于三角神力狩猎。" },
     { "Minigames", "小游戏" },
     { "Horseback Archery", "骑马射箭" },
-    { "Big Poe Points", "大波欧点数" },
+    { "Big Poe Points", "大妖婆点数" },
     { "Fishing", "钓鱼" },
     { "Malon's Obstacle Course", "玛隆的障碍赛道" },
     { "Running Man Race", "奔跑男子竞速" },
@@ -397,10 +397,10 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Current", "当前" },
     { "Rooms", "房间" },
     { "Floors", "楼层" },
-    { "Gold Skulltulas", "黄金骷髅达人" },
+    { "Gold Skulltulas", "金色骷髅蜘蛛" },
     { "Flags", "标志" },
-    { "Keep GS Count Updated", "保持黄金骷髅计数更新" },
-    { "Automatically adjust the number of gold skulltula tokens acquired based on set flags.", "根据已设置的标志自动调整已获得的黄金骷髅令牌数。" },
+    { "Keep GS Count Updated", "保持金色骷髅计数更新" },
+    { "Automatically adjust the number of gold skulltula tokens acquired based on set flags.", "根据已设置的标志自动调整已获得的金色骷髅令牌数。" },
     { "Event Check Inf Flags", "事件检查信息标志" },
     { "Item Get Inf Flags", "道具获取信息标志" },
     { "Inf Flags", "信息标志" },
@@ -409,31 +409,31 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "stateFlags2", "状态标志2" },
     { "stateFlags3", "状态标志3" },
     { "unk_6AE_rotFlags", "未知_6AE_旋转标志" },
-    { "Deku Tree", "迪古树" },
+    { "Deku Tree", "德库树" },
     { "Dodongo's Cavern", "多东哥洞窟" },
-    { "Inside Jabu-Jabu's Belly", "加布加布腹内" },
+    { "Inside Jabu-Jabu's Belly", "加卜加卜腹内" },
     { "Forest Temple", "森林神殿" },
-    { "Fire Temple", "火焰神殿" },
+    { "Fire Temple", "火之神殿" },
     { "Water Temple", "水之神殿" },
-    { "Spirit Temple", "灵魂神殿" },
-    { "Shadow Temple", "阴影神殿" },
+    { "Spirit Temple", "魂之神殿" },
+    { "Shadow Temple", "暗之神殿" },
     { "Bottom of the Well", "井底" },
     { "Ice Cavern", "冰之洞窟" },
     { "Hyrule Field", "海拉鲁平原" },
     { "Lon Lon Ranch", "隆隆牧场" },
     { "Kokiri Forest", "科克里森林" },
     { "Lost Woods, Sacred Forest Meadow", "失落的森林，神圣森林草地" },
-    { "Castle Town and Ganon's Castle", "城邑与加农城堡" },
-    { "Death Mountain Trail, Goron City", "死亡山脉小径，哥隆城" },
+    { "Castle Town and Ganon's Castle", "城邑与盖侬城堡" },
+    { "Death Mountain Trail, Goron City", "死神山径，格雷城" },
     { "Kakariko Village", "卡卡利科村" },
-    { "Zora Fountain, River", "佐拉之泉，河流" },
-    { "Lake Hylia", "海利亚湖" },
-    { "Gerudo Valley", "杰鲁多山谷" },
-    { "Gerudo Fortress", "杰鲁多堡垒" },
-    { "Desert Colossus, Haunted Wasteland", "沙漠巨像，闹鬼荒野" },
+    { "Zora Fountain, River", "卓拉之泉，河流" },
+    { "Lake Hylia", "海拉鲁湖" },
+    { "Gerudo Valley", "格鲁德大峡谷" },
+    { "Gerudo Fortress", "格鲁德要塞" },
+    { "Desert Colossus, Haunted Wasteland", "巨大邪神像，幻影沙漠" },
     { "Bullet Bag", "子弹袋" },
     { "Quiver", "箭袋" },
-    { "Bomb Bag", "炸弹袋" },
+    { "Bomb Bag", "炸弹口袋" },
     { "Scale", "鱼鳞" },
     { "Strength", "力量" },
     { "Wallet", "钱包" },
@@ -462,14 +462,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Boots", "靴子" },
     { "Kokiri Sword", "科克里之剑" },
     { "Master Sword", "大师之剑" },
-    { "Biggoron's Sword", "巨人格罗多之剑" },
+    { "Biggoron's Sword", "大格雷之剑" },
     { "Fishing Pole", "钓竿" },
     { "Deku Shield", "德库盾" },
     { "Hylian Shield", "海拉鲁盾" },
     { "Mirror Shield", "镜盾" },
     { "Kokiri Tunic", "科克里外衣" },
-    { "Goron Tunic", "哥隆外衣" },
-    { "Zora Tunic", "佐拉外衣" },
+    { "Goron Tunic", "格雷外套" },
+    { "Zora Tunic", "卓拉外套" },
     { "Kokiri Boots", "科克里靴" },
     { "Iron Boots", "铁靴" },
     { "Hover Boots", "悬浮靴" },
@@ -490,7 +490,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Restricts items and ammo to only what is possible to legally acquire in-game", "将道具与弹药限制为游戏内可合法获取的范围" },
     { "No flags match the current search.", "没有标志匹配当前搜索。" },
     { "Current game state does not have an active scene", "当前游戏状态没有活动场景" },
-    { "GS Count", "黄金骷髅数" },
+    { "GS Count", "金色骷髅数" },
     { "PoH count", "心之碎片数" },
     { "Barinade's Lair does not have small keys", "巴里内德巢穴没有小钥匙" },
     { "Glitched", "异常" },
@@ -507,9 +507,9 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Chest flags", "宝箱标志" },
     { "Flags for visted rooms", "已访问房间的标志" },
     { "Flags for visted floors", "已访问楼层的标志" },
-    { "Number of gold skulltula tokens aquired", "已获得的黄金骷髅代币数量" },
-    { "GS unlocked", "黄金骷髅已解锁" },
-    { "If unlocked, enables showing the gold skulltula count in the quest status menu", "若解锁，在任务状态菜单显示黄金骷髅数量" },
+    { "Number of gold skulltula tokens aquired", "已获得的金色骷髅代币数量" },
+    { "GS unlocked", "金色骷髅已解锁" },
+    { "If unlocked, enables showing the gold skulltula count in the quest status menu", "若解锁，在任务状态菜单显示金色骷髅数量" },
     { "The number of pieces of heart acquired towards the next heart container", "距下一个心之容器已获得的心之碎片数量" },
     { "For Link's rotation in relation to the world", "林克相对世界的旋转" },
     { "For Link's actual model", "林克实际模型的旋转" },
@@ -526,7 +526,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Current magic level", "当前魔法等级" },
     { "Current magic. 48 units per magic level", "当前魔法值。每级魔法 48 单位" },
     { "Time of day", "一天中的时间" },
-    { "Is Biggoron sword unlocked? Replaces Giant's knife", "是否已解锁大goron之剑？替代巨人小刀" },
+    { "Is Biggoron sword unlocked? Replaces Giant's knife", "是否已解锁大格雷之剑？替代巨人之刀" },
     { "Sound setting", "声音设置" },
     { "WARNING! If you save, your file may be locked! Use caution!", "警告！保存后存档可能被锁定！请谨慎操作！" },
     { "Z-Targeting behavior", "Z 瞄准行为" },
@@ -749,10 +749,10 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Navi", "娜薇" },
     { "NPCs", "NPC" },
     { "All", "全部" },
-    { "Ocarina of Time", "时之笛" },
-    { "Ocarina of Time + Master Sword", "时之笛 + 大师之剑" },
-    { "Any Ocarina", "任意时之笛" },
-    { "Any Ocarina + Master Sword", "任意时之笛 + 大师之剑" },
+    { "Ocarina of Time", "时光之笛" },
+    { "Ocarina of Time + Master Sword", "时光之笛 + 大师之剑" },
+    { "Any Ocarina", "任意时光之笛" },
+    { "Any Ocarina + Master Sword", "任意时光之笛 + 大师之剑" },
     { "Once", "一次" },
     { "Always", "总是" },
     { "Never", "从不" },
@@ -784,7 +784,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Serrano", "塞拉诺椒" },
     { "Habanero", "哈瓦那椒" },
     { "Ghost Pepper", "鬼椒" },
-    { "Dampe's Inferno", "丹普的炼狱" },
+    { "Dampe's Inferno", "达培的炼狱" },
     { "Only in Rando", "仅随机模式" },
     { "Consistent Vanish", "一致消失" },
     { "No Vanish", "不消失" },
@@ -833,7 +833,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Remember Save Location", "记住存档位置" },
     { "Containers Match Contents", "容器外观匹配内容" },
     { "Containers of Agony", "痛苦容器" },
-    { "Nighttime GS Always Spawn", "夜间黄金史克拉始终出现" },
+    { "Nighttime GS Always Spawn", "夜间黄金骷髅蜘蛛始终出现" },
     { "Pull Grave During the Day", "白天可拉动墓碑" },
     { "Dampe Appears All Night", "达普整夜出现" },
     { "Exit Market at Night", "夜间可离开集市" },
@@ -850,7 +850,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Reworked Targeting", "重做瞄准" },
     { "Target Switch Button Combination:", "切换目标按键组合：" },
     { "Item Count Messages", "道具数量提示" },
-    { "Gold Skulltula Tokens", "黄金史克拉代币" },
+    { "Gold Skulltula Tokens", "金色骷髅蜘蛛代币" },
     { "Pieces of Heart", "爱心碎片" },
     { "Heart Containers", "心之容器" },
     { "Disable Crit Wiggle", "禁用低血量镜头抖动" },
@@ -864,11 +864,11 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Skip Tower Escape", "跳过逃塔" },
     { "Skip Playing Scarecrow's Song", "跳过演奏稻草人之歌" },
     { "Faster Rupee Accumulator", "更快的卢比累积" },
-    { "No Skulltula Freeze", "黄金史克拉不冻结" },
+    { "No Skulltula Freeze", "黄金骷髅蜘蛛不冻结" },
     { "Skip Save Confirmation", "跳过保存确认" },
     { "Link as Default File Name", "默认文件名设为林克" },
-    { "Spawn Bean Skulltula Faster", "更快生成豆藤史克拉" },
-    { "Biggoron Forge Time: %d days", "比格隆锻造时间：%d 天" },
+    { "Spawn Bean Skulltula Faster", "更快生成豆藤骷髅蜘蛛" },
+    { "Biggoron Forge Time: %d days", "大格雷锻造时间：%d 天" },
     { "Cutscenes", "过场动画" },
     { "All##Skips", "全部##跳过" },
     { "None##Skips", "无##跳过" },
@@ -902,7 +902,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Block Pushing Speed +%d", "推块速度 +%d" },
     { "Crawl Speed %dx", "爬行速度 %dx" },
     { "Exclude Glitch-Aiding Crawlspaces", "排除有助漏洞的爬行通道" },
-    { "King Zora Speed: %.2fx", "佐拉之王速度：%.2fx" },
+    { "King Zora Speed: %.2fx", "卓拉之王速度：%.2fx" },
     { "Faster Pause Menu", "更快的暂停菜单" },
     { "Mods", "模组" },
     { "Disable Bomb Billboarding", "禁用炸弹广告牌朝向" },
@@ -925,7 +925,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Minimal UI", "极简界面" },
     { "Disable Hot/Underwater Warning Text", "禁用高温/水下警告文字" },
     { "Remember Minimap State Between Areas", "区域间记住小地图状态" },
-    { "Visual Stone of Agony", "视觉痛苦之石" },
+    { "Visual Stone of Agony", "视觉振动石" },
     { "Disable HUD Heart Animations", "禁用 HUD 爱心动画" },
     { "Glitch Line-up Tick", "漏洞对齐刻度" },
     { "Disable Black Bar Letterboxes", "禁用黑边信箱模式" },
@@ -936,7 +936,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Enable Passage of Time on File Select", "文件选择界面时间流逝" },
     { "N64 Mode", "N64 模式" },
     { "Remove Spin Attack Darkness", "移除旋转攻击黑暗" },
-    { "Disable Link Spinning With Goron Pot", "禁用林克随哥隆壶旋转" },
+    { "Disable Link Spinning With Goron Pot", "禁用林克随格雷壶旋转" },
     { "Draw Distance", "绘制距离" },
     { "Increase Actor Draw Distance: %dx", "增加角色绘制距离：%dx" },
     { "Disable Kokiri Fade", "禁用科克里淡入" },
@@ -951,9 +951,9 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Unsheathe Sword Without Slashing", "拔剑不挥砍" },
     { "Sword Toggle Options", "剑切换选项" },
     { "Ask to Equip New Items", "提示装备新道具" },
-    { "Ocarina", "时之笛" },
-    { "Prevent Dropped Ocarina Inputs", "防止掉落时之笛输入丢失" },
-    { "Fast Ocarina Playback", "快速时之笛演奏" },
+    { "Ocarina", "时光之笛" },
+    { "Prevent Dropped Ocarina Inputs", "防止掉落时光之笛输入丢失" },
+    { "Fast Ocarina Playback", "快速时光之笛演奏" },
     { "Time Travel with Song of Time", "用时之之歌时间穿越" },
     { "Masks", "面具" },
     { "Bunny Hood Effect", "兔耳头巾效果" },
@@ -976,29 +976,29 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Bow as Child/Slingshot as Adult", "童年用弓/成人用弹弓" },
     { "Aiming Reticle for the Bow/Slingshot", "弓/弹弓瞄准准星" },
     { "Arrow Cycle", "箭种循环" },
-    { "Hookshot", "钩爪" },
+    { "Hookshot", "短钩" },
     { "Targetable Hookshot Reticle", "可钩锁定的钩爪准星" },
-    { "Boomerang", "回力镖" },
-    { "Instant Boomerang Recall", "瞬间召回回力镖" },
-    { "Aim Boomerang in First-Person Mode", "第一人称瞄准回力镖" },
-    { "Aiming Reticle for Boomerang", "回力镖瞄准准星" },
+    { "Boomerang", "飞旋镖" },
+    { "Instant Boomerang Recall", "瞬间召回飞旋镖" },
+    { "Aim Boomerang in First-Person Mode", "第一人称瞄准飞旋镖" },
+    { "Aiming Reticle for Boomerang", "飞旋镖瞄准准星" },
     { "Magic Spells", "魔法" },
-    { "Better Farore's Wind", "更好的法蕾薇之 wind" },
-    { "Faster Farore's Wind", "更快的法蕾薇之风" },
+    { "Better Farore's Wind", "更好的花柔之风" },
+    { "Faster Farore's Wind", "更快的花柔之风" },
     { "Bottles", "瓶子" },
     { "Rebottle Blue Fire", "重新装瓶蓝火" },
     { "Gameplay Fixes", "玩法修复" },
     { "Fix the Gravedigging Tour Glitch", "修复挖墓之旅漏洞" },
-    { "Fix Dampé Going Backwards", "修复丹普倒退" },
+    { "Fix Dampé Going Backwards", "修复达培倒退" },
     { "Fix Kokiri Forest Quest State", "修复科克里森林任务状态" },
     { "Fix Raised Floor Switches", "修复抬起的地板开关" },
-    { "Fix Zora Hint Dialogue", "修复佐拉提示对话" },
+    { "Fix Zora Hint Dialogue", "修复卓拉提示对话" },
     { "Fix Falling from Vine Edges", "修复从藤蔓边缘坠落" },
     { "Fix Bush Item Drops", "修复灌木道具掉落" },
     { "Fix Enemies not Spawning Near Water", "修复水边敌人不刷出" },
     { "Fix Poacher's Saw Softlock", "修复偷猎者锯子卡死" },
     { "Fix Anubis Fireballs", "修复阿努比斯火球" },
-    { "Fix Goron City Doors After Fire Temple", "修复火之神殿后的哥隆城大门" },
+    { "Fix Goron City Doors After Fire Temple", "修复火之神殿后的格雷城大门" },
     { "Item-related Fixes", "道具相关修复" },
     { "Fix Deku Nut Upgrade", "修复德库坚果升级" },
     { "Fix Megaton Hammer Crouch Stab", "修复巨型锤下蹲刺击" },
@@ -1013,7 +1013,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Fix Dungeon Entrances", "修复地牢入口" },
     { "Fix Two-Handed Idle Animations", "修复双手待机动画" },
     { "Fix Navi Text HUD Position", "修复娜薇文字 HUD 位置" },
-    { "Fix Gerudo Warrior's Clothing Colors", "修复杰拉多战士服装颜色" },
+    { "Fix Gerudo Warrior's Clothing Colors", "修复格鲁德战士服装颜色" },
     { "Fix Out of Bounds Textures", "修复越界纹理" },
     { "Fix Link's Eyes Open while Sleeping", "修复林克睡眠时睁眼" },
     { "Fix Hand Holding Hammer", "修复持锤手部" },
@@ -1023,16 +1023,16 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Fix Darunia Dancing too Fast", "修复达鲁尼亚跳舞过快" },
     { "Fix Credits Timing (PAL)", "修复制作人员名单 timing（PAL）" },
     { "Graphical Restorations", "画面还原" },
-    { "Red Ganon Blood", "红色加农之血" },
-    { "Restore Old Gold Skulltula Cutscene", "还原旧版黄金史克拉过场" },
+    { "Red Ganon Blood", "红色盖侬之血" },
+    { "Restore Old Gold Skulltula Cutscene", "还原旧版金色骷髅蜘蛛过场" },
     { "Pulsate Boss Icon", "Boss 图标脉动" },
     { "Glitch Restorations", "漏洞还原" },
     { "Fish while Hovering", "悬浮时钓鱼" },
     { "N64 Weird Frames", "N64 诡异帧" },
     { "Bombchus Out of Bounds", "炸弹鼠越界" },
     { "Quick Putaway", "快速收起" },
-    { "Quick Bongo Kill", "快速击杀邦邦" },
-    { "Early Eyeball Frog", "提前获得眼球蛙" },
+    { "Quick Bongo Kill", "快速击杀邦哥邦哥" },
+    { "Early Eyeball Frog", "提前获得大眼青蛙" },
     { "Misc Restorations", "其他还原" },
     { "Fix L&Z Page Switch in Pause Menu", "修复暂停菜单 L&Z 翻页" },
     { "Wide Door Ranges", "宽门触发范围" },
@@ -1049,12 +1049,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "No Random Drops", "无随机掉落" },
     { "Enable Bombchu Drops", "启用炸弹鼠掉落" },
     { "Trees Drop Sticks", "树木掉落树枝" },
-    { "Dampe Drop Rate", "丹普掉落速率" },
+    { "Dampe Drop Rate", "达培掉落速率" },
     { "Miscellaneous", "杂项" },
     { "Delete File on Death", "死亡删除存档" },
     { "Switch Timer Multiplier", "开关计时器倍率" },
-    { "Always Win Goron Pot", "始终赢得哥隆壶" },
-    { "Always Win Dampe Digging Game", "始终赢得丹普挖掘游戏" },
+    { "Always Win Goron Pot", "始终赢得格雷壶" },
+    { "Always Win Dampe Digging Game", "始终赢得达培挖掘游戏" },
     { "All Dogs are Richard", "所有狗都是理查德" },
     { "Cuccos Stay Put Multiplier: %dx", "咕咕停留倍率：%dx" },
     { "Cuccos Needed By Anju: %d", "安ju 需要的咕咕数：%d" },
@@ -1074,12 +1074,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Remove Small Cucco", "移除小咕咕" },
     { "Remove Big Cucco", "移除大咕咕" },
     { "Bombchu Count: %d bombchus", "炸弹鼠数量：%d 只" },
-    { "Frogs' Ocarina Game", "青蛙时之笛游戏" },
+    { "Frogs' Ocarina Game", "青蛙时光之笛游戏" },
     { "Customize Behavior##Frogs", "自定义行为##青蛙" },
     { "Instant Win##Frogs", "瞬间胜利##青蛙" },
     { "Unlimited Playback Time##Frogs", "无限回放时间##青蛙" },
     { "Modify Note Timer: %dx", "修改音符计时：%dx" },
-    { "Lost Woods Ocarina Game", "迷失森林时之笛游戏" },
+    { "Lost Woods Ocarina Game", "迷失森林时光之笛游戏" },
     { "Customize Behavior##LostWoods", "自定义行为##迷失森林" },
     { "Instant Win##LostWoods", "瞬间胜利##迷失森林" },
     { "Note Play Speed: %dx", "音符演奏速度：%dx" },
@@ -1097,7 +1097,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Fish never Escape", "鱼绝不挣脱" },
     { "Loaches always Appear", "泥鳅始终出现" },
     { "Skip Keep Confirmation", "跳过保留确认" },
-    { "All Fish are Hyrule Loaches", "所有鱼都是海拉尔泥鳅" },
+    { "All Fish are Hyrule Loaches", "所有鱼都是海拉鲁泥鳅" },
     { "Child Minimum Weight: %d lbs.", "童年最小重量：%d 磅" },
     { "Adult Minimum Weight: %d lbs.", "成人最小重量：%d 磅" },
     { "Bounce off Walls", "撞墙反弹" },
@@ -1129,7 +1129,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Ammo", "弹药" },
     { "Magic", "魔法" },
     { "Nayru's Love", "娜茹之爱" },
-    { "Epona Boost", "伊波娜冲刺" },
+    { "Epona Boost", "伊波纳冲刺" },
     { "Timeless Equipment", "无时限装备" },
     { "Unrestricted Items", "无限制道具" },
     { "Super Tunic", "超级外衣" },
@@ -1145,7 +1145,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "No ReDead/Gibdo Freeze", "避免 ReDead/Gibdo 冻结" },
     { "Keese/Guay don't Target You", "凯西/瓜伊不锁定你" },
     { "Disable Haunted Wasteland Sandstorm", "禁用鬼魅荒野沙暴" },
-    { "Targetable Gold Skulltula", "可锁定的黄金史克拉" },
+    { "Targetable Gold Skulltula", "可锁定的黄金骷髅蜘蛛" },
     { "Glitch Aids", "漏洞辅助" },
     { "Easy Frame Advancing with Pause", "暂停时简易帧前进" },
     { "Easy ISG", "简易 ISG" },
@@ -1193,14 +1193,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "载入存档时将林克放在他最后通过的入口。\n在洞穴、妖精泉或地牢中存档时无效。" },
     { "Toggle to change container textures to match their contents in randomizer games.\n"
       "Categories: Major items, Lesser items, Junk items, Small keys, Boss keys, Skulltula Tokens.",
-      "在随机模式切换容器纹理以匹配内容。\n分类：主要道具、次要道具、垃圾道具、小钥匙、Boss 钥匙、史克拉代币。" },
-    { "Only change the texture of containers if you have the Stone of Agony.", "仅当你拥有痛苦之石时更改容器纹理。" },
-    { "Nighttime Skulltulas will spawn during both day and night.", "夜间史克拉在白天与夜晚都会出现。" },
+      "在随机模式切换容器纹理以匹配内容。\n分类：主要道具、次要道具、垃圾道具、小钥匙、Boss 钥匙、骷髅蜘蛛代币。" },
+    { "Only change the texture of containers if you have the Stone of Agony.", "仅当你拥有振动石时更改容器纹理。" },
+    { "Nighttime Skulltulas will spawn during both day and night.", "夜间骷髅蜘蛛在白天与夜晚都会出现。" },
     { "Allows graves to be pulled when child during the day.", "允许童年白天拉动墓碑。" },
-    { "Makes Dampe appear anytime during the night, not just his usual working hours.", "让丹普整夜出现，而非仅工作时间。" },
+    { "Makes Dampe appear anytime during the night, not just his usual working hours.", "让达培整夜出现，而非仅工作时间。" },
     { "Allows exiting Hyrule Castle Market Town to Hyrule Field at night by speaking to the guard "
       "next to the gate.",
-      "夜间与门口守卫对话可从海拉尔城集市前往海拉尔平原。" },
+      "夜间与门口守卫对话可从海拉鲁城集市前往海拉鲁平原。" },
     { "Shops and Minigames are open both day and night. Requires a scene reload to take effect.",
       "商店与小游戏全天开放。需重新加载场景生效。" },
     { "This is not compatible with the Locked Overworld Doors Randomizer option.", "与\"锁定地表门\"随机选项不兼容。" },
@@ -1211,7 +1211,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Speak to Navi with L but enter First-Person Camera with C-Up.", "用 L 与娜薇对话，用 C-Up 进入第一人称镜头。" },
     { "Removes the Input Requirement on Text boxes after defeating Ganon, allowing the Credits "
       "Sequence to continue to progress.",
-      "移除击败加农后文本框的输入要求，使制作人员名单继续推进。" },
+      "移除击败盖侬后文本框的输入要求，使制作人员名单继续推进。" },
     { "Typically, inputs that are held prior to the buffer window are not included in the buffer. This "
       "setting changes that behavior to include them. This may cause some inputs to be re-triggered "
       "undesireably, for instance Z-Targeting something you might not want to.",
@@ -1243,14 +1243,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "open permanently.\n"
       "Never: Link never needs to play Zelda's Lullaby to open the waterfall. He only needs to have "
       "learned it and have an Ocarina.",
-      "总是：林克必须始终演奏塞尔达的摇篮曲才能打开通往佐拉之域的瀑布入口。\n"
+      "总是：林克必须始终演奏塞尔达的摇篮曲才能打开通往卓拉之域的瀑布入口。\n"
       "一次：林克只需演奏一次，之后永久开启。\n"
       "从不：林克无需演奏，只需学过且有笛子。" },
-    { "Allow Link to enter Jabu-Jabu without feeding him a fish.", "允许林克不喂鱼进入贾布贾布。" },
+    { "Allow Link to enter Jabu-Jabu without feeding him a fish.", "允许林克不喂鱼进入加卜加卜。" },
     { "This setting is forcefully enabled because a randomizer savefile with \"Jabu-Jabu: Open\" is loaded.",
-      "随机存档\"贾布贾布：开启\"已载入，此设置被强制启用。" },
+      "随机存档\"加卜加卜：开启\"已载入，此设置被强制启用。" },
     { "Allows you to change the number of days it takes for Biggoron to forge the Biggoron's Sword.",
-      "可更改比格隆锻造大剑所需天数。" },
+      "可更改大格雷锻造大剑所需天数。" },
     { "Disables bombs always rotating to face the camera. To be used in conjunction with mods that want to "
       "replace bombs with 3D objects.",
       "禁用炸弹始终朝向镜头旋转。配合将炸弹替换为 3D 物体的 MOD 使用。" },
@@ -1282,7 +1282,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "缩放成人装备以更贴合童年林克（并略微移动部分）。某些 MOD 下可能不正常。" },
     { "Renders Gauntlets when using the Bow and Hookshot like in OoT3D.", "如 OoT3D 般使用弓与钩爪时显示护腕。" },
     { "Displays an icon and plays a sound when Stone of Agony should be activated, for those without rumble.",
-      "为无震动玩家，在应激活痛苦之石时显示图标并播放声音。" },
+      "为无震动玩家，在应激活振动石时显示图标并播放声音。" },
     { "Disables the Beating Animation of the Hearts on the HUD.", "禁用 HUD 爱心跳动动画。" },
     { "Displays a tick in the top center of the screen to help with glitch line-ups in SoH, since "
       "traditional UI based line-ups do not work outside of 4:3",
@@ -1300,7 +1300,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Sets the aspect ratio to 4:3 and lowers resolution to 240p, the N64's native resolution.",
       "设置 4:3 比例并将分辨率降至 240p（N64 原生分辨率）。" },
     { "Remove the Darkness that appears when charging a Spin Attack.", "移除蓄力旋转攻击时的黑暗效果。" },
-    { "Link will not spin when the Goron Pot starts to spin.", "哥隆壶旋转时林克不会跟着转。" },
+    { "Link will not spin when the Goron Pot starts to spin.", "格雷壶旋转时林克不会跟着转。" },
     { "Increases the range in which Actors/Objects are drawn.", "增加角色/物体的绘制范围。" },
     { "The Kokiri are mystical beings that fade into view when approached. Enabling this will remove their "
       "draw distance.",
@@ -1318,7 +1318,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       " - Darunia\n"
       " - Gold Skulltulas",
       "从扩展剔除范围中排除有助漏洞的角色。部分角色仍会绘制，但不会\"更新\"，使依赖原始剔除要求的漏洞仍可用。\n\n"
-      "排除以下角色：\n - 白衣杰拉多\n - 佐拉之王\n -  gossip 石\n - 巨石\n - 蓝色传送点\n - 达鲁尼亚\n - 黄金史克拉" },
+      "排除以下角色：\n - 白衣格鲁德\n - 卓拉之王\n -  gossip 石\n - 巨石\n - 蓝色传送点\n - 达鲁尼亚\n - 黄金骷髅蜘蛛" },
     { "Equip items and equipment on the D-pad. If used with \"D-pad on Pause Screen\", you must "
       "hold C-Up to equip instead of navigate.",
       "用方向键装备道具与装备。若配合\"暂停菜单方向键\"，需按住 C-Up 装备而非导航。" },
@@ -1337,12 +1337,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "Child Toggle: This will allow for completely unequipping any sword as Child link.\n\n"
       "Both Ages: Any sword can be unequipped as either age. This may lead to swordless glitches as adult.",
       "引入卸下林克之剑的选项\n\n"
-      "无：仅比格隆之剑/巨人之刀可切换，切换后将装备大师之剑。\n\n"
+      "无：仅大格雷之剑/巨人之刀可切换，切换后将装备大师之剑。\n\n"
       "童年切换：童年可完全卸下任意剑。\n\n"
       "两个年龄段：任意年龄可卸下任意剑，成人时可能导致无剑漏洞。" },
     { "Adds a prompt to equip newly-obtained Swords, Shields, and Tunics.", "获得新剑、盾、外衣时提示装备。" },
-    { "Prevent dropping inputs when playing the Ocarina too quickly.", "防止过快演奏时之笛时输入丢失。" },
-    { "Skip the part where the Ocarina Playback is called when you play a song.", "跳过演奏歌曲时调用时之笛回放的部分。" },
+    { "Prevent dropping inputs when playing the Ocarina too quickly.", "防止过快演奏时光之笛时输入丢失。" },
+    { "Skip the part where the Ocarina Playback is called when you play a song.", "跳过演奏歌曲时调用时光之笛回放的部分。" },
     { "Allows Link to freely change age by playing the Song of Time.\n"
       "Time Blocks can still be used properly.\n\n"
       "Requirements:\n"
@@ -1352,7 +1352,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       " - Not within range of a Time Block\n"
       " - Not within range of Ocarina Playing spots",
       "允许林克演奏时之之歌自由切换年龄。\n时间方块仍正常使用。\n\n"
-      "要求：\n - 已学会时之之歌\n - 已获得时之笛（取决于选择）\n - 已获得大师之剑（取决于选择）\n"
+      "要求：\n - 已学会时之之歌\n - 已获得时光之笛（取决于选择）\n - 已获得大师之剑（取决于选择）\n"
       " - 不在时间方块范围内\n - 不在演奏点范围内" },
     { "Wearing the Bunny Hood grants a speed and jump boost like in Majora's Mask.\n"
       "Can also be limited to only the speed boost.\n"
@@ -1401,13 +1401,13 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "瞄准时可在不同箭种（普通、火、冰、光）间循环。按 R 切换到下一个可用箭种。"
       "仅在瞄准时有效，且只循环到你拥有足够魔法的箭种。" },
     { "Makes the Hookshot Reticle use a different color when aiming at hookshotable collision.", "钩爪准星在可钩锁定时变为不同颜色。" },
-    { "Instantly return the Boomerang to Link by pressing its item button while it's in the air.", "回力镖在空中时按道具键瞬间召回。" },
-    { "Change aiming for the Boomerang from Third-Person to First-Person to see past Link's head.", "将回力镖瞄准从第三人称改为第一人称，可越过林克头部。" },
-    { "Aiming with the Boomerang will display a reticle as with the Hookshot.", "用回力镖瞄准时显示如钩爪般的准星。" },
+    { "Instantly return the Boomerang to Link by pressing its item button while it's in the air.", "飞旋镖在空中时按道具键瞬间召回。" },
+    { "Change aiming for the Boomerang from Third-Person to First-Person to see past Link's head.", "将飞旋镖瞄准从第三人称改为第一人称，可越过林克头部。" },
+    { "Aiming with the Boomerang will display a reticle as with the Hookshot.", "用飞旋镖瞄准时显示如钩爪般的准星。" },
     { "Helps FW persist between ages, gives Child and Adult separate FW points, and can "
       "be used in more places.",
-      "帮助法蕾薇之风跨年龄保留，童年与成人有独立法点，可在更多地点使用。" },
-    { "Greatly decreases cast time of Farore's Wind magic spell.", "大幅减少法蕾薇之风的施法时间。" },
+      "帮助花柔之风跨年龄保留，童年与成人有独立法点，可在更多地点使用。" },
+    { "Greatly decreases cast time of Farore's Wind magic spell.", "大幅减少花柔之风的施法时间。" },
     { "Blue Fire dropped from bottle can be bottled.", "瓶中掉落的蓝火可重新装瓶。" },
 
     // ===========================================================================
@@ -1416,15 +1416,15 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Fixes a bug where the Gravedigging Tour Heart Piece disappears if the area reloads.",
       "修复区域重载后挖墓之旅爱心消失的漏洞。" },
     { "This setting is always enabled in randomized save files.", "随机存档中此设置始终启用。" },
-    { "Fixes Dampé going backwards in certain circumstances when the player is going backwards.", "修复玩家后退时丹普倒退。" },
+    { "Fixes Dampé going backwards in certain circumstances when the player is going backwards.", "修复玩家后退时达培倒退。" },
     { "Fixes kokiri animation state to match their text state when getting Zelda's Letter before Kokiri Emerald.",
-      "修复获得佐拉之信前科克里动画状态与文字状态不匹配。" },
+      "修复获得卓拉之信前科克里动画状态与文字状态不匹配。" },
     { "Fixes the two raised floor switches, the one in Forest Temple Basement and the one at the top of Fire "
       "Temple. This will lower them, making activating them easier.",
       "修复森林神殿地下与火之神殿顶部的两个抬起地板开关，将其降低以便更易激活。" },
     { "Fixes one Zora's dialogue giving a hint about bringing Ruto's Letter to King Zora to properly occur "
       "before moving King Zora rather than after.",
-      "修复某佐拉提示对话，使\"带露托之信给佐拉之王\"在移动佐拉之王前而非之后出现。" },
+      "修复某卓拉提示对话，使\"带茹特之信给卓拉之王\"在移动卓拉之王前而非之后出现。" },
     { "Prevents immediately falling off climbable surfaces if climbing on the edges.", "防止在边缘攀爬时立即掉落。" },
     { "Fixes the bushes to drop items correctly rather than spawning undefined items.", "修复灌木正确掉落道具而非生成未定义道具。" },
     { "Causes respawning enemies, like Stalchildren, to appear on land near bodies of water. "
@@ -1437,14 +1437,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "用镜盾反弹时阿努比斯火球造成火焰伤害。" },
     { "Forces Goron City doors open if you somehow complete Fire Temple without talking to Goron Link "
       "and receiving the Goron Tunic.",
-      "若未与哥隆林克对话获得哥隆外衣却完成火之神殿，强制打开哥隆城大门。" },
+      "若未与格雷林克对话获得格雷外衣却完成火之神殿，强制打开格雷城大门。" },
     { "Prevents the Forest Stage Deku Nut upgrade from becoming unobtainable after receiving the Poacher's Saw.",
       "防止获得偷猎者锯子后德库坚果升级无法获取。" },
     { "Make the Megaton Hammer's crouch stab able to destroy rocks without first swinging it normally.",
       "使巨型锤下蹲刺击可直接破坏岩石，无需先普通挥砍。" },
     { "Make crouch stabbing always do the same damage as a regular slash.", "下蹲刺击伤害与普攻相同。" },
     { "This setting is forcefully enabled when you are playing a Randomizer.", "随机模式下此设置被强制启用。" },
-    { "Fixes the Broken Giant's Knife flag not being reset when Medigoron fixes it.", "修复梅迪哥隆修复时破裂巨人之刀标志未重置。" },
+    { "Fixes the Broken Giant's Knife flag not being reset when Medigoron fixes it.", "修复梅迪格雷修复时破裂巨人之刀标志未重置。" },
     { "Fixes camera slightly drifting to the left when standing still due to a math error. May impact certain glitches.",
       "修复静止时镜头因计算错误向左轻微漂移。可能影响某些漏洞。" },
     { "Fixes camera getting stuck on collision when standing still. Also fixes slight shift back in camera "
@@ -1460,7 +1460,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "重新启用双手待机动画——原版中意外被禁用的看似已完成的动画。" },
     { "Correctly centers the Navi text prompt on the HUD's C-Up button.", "正确居中 HUD C-Up 上的娜薇文字提示。" },
     { "Prevent the Gerudo Warrior's clothes changing color when changing Link's tunic or using bombs in front of her.",
-      "防止更换林克外衣或在其面前用炸弹时杰拉多战士服装变色。" },
+      "防止更换林克外衣或在其面前用炸弹时格鲁德战士服装变色。" },
     { "Fixes authentic out of bounds texture reads, instead loading textures with the correct size.",
       "修复原版越界纹理读取，改为加载正确尺寸的纹理。" },
     { "Fixes Link's eyes being open in the opening cutscene when he is supposed to be sleeping.",
@@ -1483,20 +1483,20 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "延长某些制作人员名单场景，使音乐与画面正确对齐。（仅 PAL）" },
     { "Restore the original red blood from NTSC 1.0/1.1. Disable for Green blood.", "还原 NTSC 1.0/1.1 的原始红血。关闭则为绿血。" },
     { "Restore pre-release behavior where defeating a Gold Skulltula will play a cutscene showing it die.",
-      "还原击败黄金史克拉播放死亡过场的预发布行为。" },
+      "还原击败黄金骷髅蜘蛛播放死亡过场的预发布行为。" },
     { "Restores an unfinished feature to pulsate the boss room icon when you are in the boss room.", "还原 Boss 房间图标脉动这一未完成的特性。" },
     { "Restore a bug from NTSC 1.0 that allows casting the Fishing Rod while using the Hover Boots.", "还原 NTSC 1.0 中悬浮靴时抛竿的漏洞。" },
     { "Restores N64 Weird Frames allowing weirdshots and weirdslides to behave the same as N64.", "还原 N64 诡异帧，使诡异 shot 与诡异 slide 与 N64 一致。" },
     { "Allows Bombchus to explode out of bounds. Similar to GameCube and Wii VC.", "允许炸弹鼠越界爆炸。类似 GameCube 与 Wii VC。" },
     { "Restore a bug from NTSC 1.0 that allows putting away an item without an animation and performing Putaway Ocarina Items.",
-      "还原 NTSC 1.0 中无动画收起道具并执行收起时之笛道具的漏洞。" },
+      "还原 NTSC 1.0 中无动画收起道具并执行收起时光之笛道具的漏洞。" },
     { "Restore a bug from NTSC 1.0 that allows bypassing Bongo Bongo's intro cutscene to quickly kill him.",
-      "还原 NTSC 1.0 中跳过邦邦登场过场快速击杀的漏洞。" },
+      "还原 NTSC 1.0 中跳过邦哥邦哥登场过场快速击杀的漏洞。" },
     { "Restores a bug from NTSC 1.0/1.1 that allows you to obtain the eyeball frog from King Zora instead of the Zora Tunic by Holding Shield.",
-      "还原 NTSC 1.0/1.1 中持盾从佐拉之王获得眼球蛙而非佐拉外衣的漏洞。" },
+      "还原 NTSC 1.0/1.1 中持盾从卓拉之王获得大眼青蛙而非卓拉外衣的漏洞。" },
     { "Makes L and R switch pages like on the GameCube. Z opens the Debug Menu instead.", "使 L 和 R 如 GameCube 翻页。Z 改为打开调试菜单。" },
     { "Restores the wider range of certain shutter doors from NTSC 1.0.\nNotably affects Jabu-Jabu and boss doors.",
-      "还原 NTSC 1.0 某些卷帘门更宽的范围。\n明显影响贾布贾布与 Boss 门。" },
+      "还原 NTSC 1.0 某些卷帘门更宽的范围。\n明显影响加卜加卜与 Boss 门。" },
     { "Restores NTSC 1.0 behavior where Link jumps over grave holes and grabs the ledges.", "还原 NTSC 1.0 林克跳过墓穴并抓住边缘的行为。" },
     { "When you lose 4 quarters of a heart you will permanently lose that Heart Container.\n\n"
       "Disabling this after the fact will restore your Heart Containers.",
@@ -1554,24 +1554,24 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Disables Heart Drops, but not Heart Placements, like from a Deku Scrub running off.\n"
       "This simulates Hero Mode from other games in the series.",
       "禁用爱心掉落但不禁用爱心放置（如德库灌木逃跑时）。\n这模拟了系列其他作品中的英雄模式。" },
-    { "Disables Random Drops, except from the Goron Pot, Dampe, and Bosses.", "禁用随机掉落（哥隆壶、丹普与 Boss 除外）。" },
+    { "Disables Random Drops, except from the Goron Pot, Dampe, and Bosses.", "禁用随机掉落（格雷壶、达培与 Boss 除外）。" },
     { "Bombchus will sometimes drop in place of Bombs.", "炸弹鼠有时会替代炸弹掉落。" },
     { "This setting is forcefully enabled because a randomized savefile with \"Enable Bombchu Drops\" is loaded.",
       "随机存档\"启用炸弹鼠掉落\"已载入，此设置被强制启用。" },
     { "Bonking into Trees will have a chance to drop up to 3 Sticks. Must have obtained sticks previously.",
       "撞树有几率掉落最多 3 根树枝。需此前已获得树枝。" },
-    { "Adjusts rate Dampe drops flames during race.", "调整比赛中丹普掉落火焰的速率。" },
+    { "Adjusts rate Dampe drops flames during race.", "调整比赛中达培掉落火焰的速率。" },
     { "Dying will delete your file.\n\n" ICON_FA_EXCLAMATION_TRIANGLE " WARNING " ICON_FA_EXCLAMATION_TRIANGLE
       "\nTHIS IS NOT REVERSIBLE!\nUSE AT YOUR OWN RISK!",
       "死亡将删除你的存档。\n\n" ICON_FA_EXCLAMATION_TRIANGLE " 警告 " ICON_FA_EXCLAMATION_TRIANGLE
       "\n此操作不可逆！\n后果自负！" },
     { "-5 will be half as much time, +5 will be 6x as much time. Affects timed switches, torches, GTG statue "
       "eyes, & doors in race with Dampe.",
-      "-5 为一半时间，+5 为 6 倍时间。影响定时开关、火把、GTG 雕像眼及与丹普比赛中的门。" },
-    { "Always get the Heart Piece/Purple Rupee from the Spinning Goron Pot.", "始终从旋转哥隆壶获得爱心/紫卢比。" },
+      "-5 为一半时间，+5 为 6 倍时间。影响定时开关、火把、GTG 雕像眼及与达培比赛中的门。" },
+    { "Always get the Heart Piece/Purple Rupee from the Spinning Goron Pot.", "始终从旋转格雷壶获得爱心/紫卢比。" },
     { "Always win the Heart Piece/Purple Rupee on the first dig in Dampe's Grave Digging game. "
       "In a Randomizer file, this defaults to on if this enhancement has never been changed.",
-      "始终在丹普挖掘游戏首次挖掘获胜。随机存档中若从未改动此增强，默认开启。" },
+      "始终在达培挖掘游戏首次挖掘获胜。随机存档中若从未改动此增强，默认开启。" },
     { "All dogs can be traded in and will count as Richard.", "所有狗都可交换并计为理查德。" },
     { "Cuccos will stay in place longer after putting them down, by a multiple of the value of the slider.",
       "咕咕放下后停留时间按滑块值的倍数延长。" },
@@ -1590,12 +1590,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Prevents the small Cucco from appearing in the Bombchu Bowling minigame.", "防止小咕咕出现在炸弹鼠保龄球小游戏。" },
     { "Prevents the big Cucco from appearing in the Bombchu Bowling minigame.", "防止大咕咕出现在炸弹鼠保龄球小游戏。" },
     { "The number of Bombchus available at the start of the Bombchu Bowling minigame.", "炸弹鼠保龄球小游戏开始时的炸弹鼠数量。" },
-    { "Turn on/off changes to the Frogs' Ocarina Game behavior.", "开启/关闭对青蛙时之笛游戏行为的改动。" },
-    { "Skips the Frogs' Ocarina Game.", "跳过青蛙时之笛游戏。" },
+    { "Turn on/off changes to the Frogs' Ocarina Game behavior.", "开启/关闭对青蛙时光之笛游戏行为的改动。" },
+    { "Skips the Frogs' Ocarina Game.", "跳过青蛙时光之笛游戏。" },
     { "Removes the timer to play back the song.", "移除回放歌曲的计时器。" },
     { "Adjusts the time allowed for playback before failing.", "调整失败前允许的回放时间。" },
-    { "Turn on/off changes to the Lost Woods Ocarina Game behavior.", "开启/关闭对迷失森林时之笛游戏行为的改动。" },
-    { "Skips the Lost Woods Ocarina Memory Game.", "跳过迷失森林时之笛记忆游戏。" },
+    { "Turn on/off changes to the Lost Woods Ocarina Game behavior.", "开启/关闭对迷失森林时光之笛游戏行为的改动。" },
+    { "Skips the Lost Woods Ocarina Memory Game.", "跳过迷失森林时光之笛记忆游戏。" },
     { "Adjust the speed that the Skull Kids play the notes.", "调整骷髅儿童演奏音符的速度。" },
     { "Adjust the number of notes the Skull Kids play to start the first round.", "调整骷髅儿童第一轮起始演奏的音符数。" },
     { "Adjust the number of notes you need to play to end the first round.", "调整结束第一轮所需演奏的音符数。" },
@@ -1609,7 +1609,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Loaches will always appear in the fishing pond instead of every four visits.", "泥鳅始终出现在鱼塘，而非每四次访问一次。" },
     { "The Pond Owner will not ask to confirm if you want to keep a smaller Fish.", "鱼塘主不再询问是否保留较小的鱼。" },
     { "Every fish in the Fishing Pond will always be a Hyrule Loach.\n\nNOTE: This requires reloading the area.",
-      "鱼塘中所有鱼始终为海拉尔泥鳅。\n\n注意：需要重新加载区域。" },
+      "鱼塘中所有鱼始终为海拉鲁泥鳅。\n\n注意：需要重新加载区域。" },
     { "The minimum weight for the unique Fishing Reward as a child.", "童年独特钓鱼奖励的最小重量。" },
     { "The minimum weight for the unique fishing reward as an adult.", "成人独特钓鱼奖励的最小重量。" },
     { "Allows Link to bounce off walls when linear velocity is high enough, this is "
@@ -1662,7 +1662,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Keese and Guay no longer target you and simply ignore you as if you were wearing the Skull Mask.",
       "凯西与瓜伊不再锁定你，如同你戴着骷髅面具般忽略你。" },
     { "Disables sandstorm effect in Haunted Wasteland.", "禁用鬼魅荒野的沙暴效果。" },
-    { "Allows Z-Targeting Gold Skulltulas.", "允许锁定黄金史克拉。" },
+    { "Allows Z-Targeting Gold Skulltulas.", "允许锁定黄金骷髅蜘蛛。" },
     { "Continue holding START button when unpausing to only advance a single frame and then re-pause.",
       "取消暂停时继续按住 START 键，仅前进一帧后重新暂停。" },
     { "Passive Infinite Sword Glitch\nIt makes your sword's swing effect and hitbox stay active indefinitely.",
@@ -1733,7 +1733,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Displays a \"Mystery Item\" model in place of any freestanding/GS/shop items that were shuffled, and "
       "replaces item names for them and scrubs and merchants, regardless of hint settings, so you never "
       "know what you're getting.",
-      "为任何被随机的独立道具/黄金史克拉/商店道具显示\"神秘道具\"模型，并替换它们以及灌木与商人的道具名，"
+      "为任何被随机的独立道具/黄金骷髅蜘蛛/商店道具显示\"神秘道具\"模型，并替换它们以及灌木与商人的道具名，"
       "无论提示设置如何，使你永远不知道会得到什么。" },
     { "Simpler Boss Soul Models", "简化 Boss 灵魂模型" },
     { "When shuffling boss souls, they'll appear as a simpler model instead of showing the boss' models."
@@ -1795,12 +1795,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "- 关闭：调试存档为普通存档。\n"
       "- 原版：调试存档为原版游戏的调试存档。\n"
       "- 满级：调试存档为拥有全部道具与升级的存档。" },
-    { "OoT Skulltula Debug", "OoT 史克拉调试" },
+    { "OoT Skulltula Debug", "OoT 骷髅蜘蛛调试" },
     { "Enables Skulltula Debug, when moving the cursor in the menu above various map icons (boss key, "
       "compass, map screen locations, etc.) will set the GS bits in that area.\n"
       "USE WITH CAUTION AS IT DOES NOT UPDATE THE GS COUNT!",
-      "启用史克拉调试，在菜单中将光标移到各种地图图标上方（Boss 钥匙、罗盘、地图位置等）会设置该区域的史克拉位。\n"
-      "谨慎使用，因为它不会更新史克拉计数！" },
+      "启用骷髅蜘蛛调试，在菜单中将光标移到各种地图图标上方（Boss 钥匙、罗盘、地图位置等）会设置该区域的骷髅蜘蛛位。\n"
+      "谨慎使用，因为它不会更新骷髅蜘蛛计数！" },
     { "Resource logging", "资源记录" },
     { "Logs some resources as XML when they're loaded in binary format.", "资源以二进制格式加载时将其记录为 XML。" },
     { "Frame Advance", "帧前进" },
@@ -1961,9 +1961,9 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Navi's pool brightness, separate from the main Light Intensity.",
       "娜薇光池的亮度，独立于主\"光照强度\"。" },
     { "Makes non-Navi fairies emit light (they don't in vanilla): the fairies that drift around places like Kokiri Forest, and the healing fairies found out in the world (the magic one casts a wider pool). Since it turns them into real light sources, they then cast light pools AND can light nearby objects via Cel Shading, the same as Navi. A cluster of them can make the lighting busy.",
-      "让非娜薇的精灵发光（原版中不会）：在科奇里森林等地游荡的精灵，以及世界上能找到的治疗精灵（魔法精灵的光池更大）。由于它们变成了真实光源，会同时投射光池，并能像娜薇一样通过卡通着色照亮附近物体。一群聚集时可能让光照显得杂乱。" },
+      "让非娜薇的精灵发光（原版中不会）：在科克里森林等地游荡的精灵，以及世界上能找到的治疗精灵（魔法精灵的光池更大）。由于它们变成了真实光源，会同时投射光池，并能像娜薇一样通过卡通着色照亮附近物体。一群聚集时可能让光照显得杂乱。" },
     { "Pool size for non-Navi fairies (Kokiri Forest fairies + the healing fairies), separate from torches and Navi. The magic (big) fairy is already larger than the rest.",
-      "非娜薇精灵的光池尺寸（科奇里森林精灵 + 治疗精灵），独立于火把和娜薇。魔法（大）精灵本身已比其他精灵更大。" },
+      "非娜薇精灵的光池尺寸（科克里森林精灵 + 治疗精灵），独立于火把和娜薇。魔法（大）精灵本身已比其他精灵更大。" },
     { "Pool brightness for non-Navi fairies, separate from the main Light Intensity.",
       "非娜薇精灵的光池亮度，独立于主\"光照强度\"。" },
     { "Overlays a translucent faceted shell of each light's icosphere — the volume used for its cast pool — tinted by the light, so you can see where the pools are, their size, and their spin. (The renderer has no line primitive, so this is a shell rather than a true wireframe.)",
@@ -1991,7 +1991,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Hide the original game's actor shadows (Link's feet, the NPC/enemy circles, the horse shadow, the sign and snake-statue texture shadows) so only the new shape shadows show. Turn off to draw both.",
       "隐藏游戏原版的角色阴影（林克的脚、NPC/敌人圆圈、马匹阴影、招牌与蛇像纹理阴影），仅显示新的形状阴影。关闭则两者都绘制。" },
     { "Let shadows fall on a few \"floors\" that the game spawns as actors instead of room geometry — the castle-town drawbridge, the Gerudo Valley bridge, and some dungeon platforms. They are drawn just before the shadows so the shadows land on them like normal ground. Off = those surfaces show no shadow (the original behaviour).",
-      "让阴影落在一些游戏以角色而非房间几何体生成的\"地板\"上——城堡镇吊桥、格鲁德山谷大桥，以及部分迷宫平台。它们在阴影之前绘制，因此阴影会像落在普通地面一样落在它们上面。关闭 = 这些表面不显示阴影（原版行为）。" },
+      "让阴影落在一些游戏以角色而非房间几何体生成的\"地板\"上——城堡镇吊桥、格鲁德大峡谷大桥，以及部分迷宫平台。它们在阴影之前绘制，因此阴影会像落在普通地面一样落在它们上面。关闭 = 这些表面不显示阴影（原版行为）。" },
     { "Resets all the Actor Shadows sliders below to their default values.",
       "将所有下方的\"角色阴影\"滑块重置为默认值。" },
     { "How dark the shadow's core is. 0 = invisible; higher = darker.",
@@ -2124,7 +2124,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Fixed", "固定" },
     { "Free", "自由" },
     { "Full", "完整" },
-    { "Ganon's Boss Key", "加农的 Boss 钥匙" },
+    { "Ganon's Boss Key", "盖侬的 Boss 钥匙" },
     { "Glitchless", "无故障" },
     { "Greg", "格雷格" },
     { "Greg as Reward", "格雷格作为奖励" },
@@ -2150,7 +2150,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "On", "开启" },
     { "On (Pack)", "开启（打包）" },
     { "On (Separate)", "开启（分离）" },
-    { "On + Ganon", "开启 + 加农" },
+    { "On + Ganon", "开启 + 盖侬" },
     { "One-Time Only", "仅一次" },
     { "Open", "开放" },
     { "Overworld", "地面世界" },
@@ -2180,7 +2180,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Standard Rewards", "标准奖励" },
     { "Start With", "起始携带" },
     { "Stone", "石" },
-    { "Stone of Agony", "痛苦之石" },
+    { "Stone of Agony", "振动石" },
     { "Stones", "石" },
     { "Strong", "强" },
     { "Tokens", "令牌" },
@@ -2225,7 +2225,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Chickens Hint", "鸡提示" },
     { "Closed Forest", "封闭森林" },
     { "Damage Multiplier", "伤害倍率" },
-    { "Dampe's Diary Hint", "丹普日记提示" },
+    { "Dampe's Diary Hint", "达培日记提示" },
     { "Decouple Entrances", "解耦入口" },
     { "Deku Tree Quest", "德库树任务" },
     { "Dodongo's Cavern Quest", "多东哥洞穴任务" },
@@ -2240,23 +2240,23 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Fortress Carpenters", "堡垒木匠" },
     { "Frog Ocarina Game Hint", "青蛙陶笛游戏提示" },
     { "Full Wallets", "满钱包" },
-    { "Ganon's Castle Keyring", "加农城堡钥匙环" },
-    { "Ganon's Castle Quest", "加农城堡任务" },
-    { "Ganon's Tower Entrance", "加农塔入口" },
-    { "Ganon's Trials", "加农试炼" },
-    { "Ganon's Trials Count", "加农试炼数量" },
-    { "Ganondorf Hint", "加农多夫提示" },
+    { "Ganon's Castle Keyring", "盖侬城堡钥匙环" },
+    { "Ganon's Castle Quest", "盖侬城堡任务" },
+    { "Ganon's Tower Entrance", "盖侬塔入口" },
+    { "Ganon's Trials", "盖侬试炼" },
+    { "Ganon's Trials Count", "盖侬试炼数量" },
+    { "Ganondorf Hint", "盖侬道夫提示" },
     { "GCBK Dungeon Count", "GCBK 地牢数量" },
     { "GCBK LACS Reward Options", "GCBK LACS 奖励选项" },
     { "GCBK Medallion Count", "GCBK 徽章数量" },
     { "GCBK Reward Count", "GCBK 奖励数量" },
     { "GCBK Stone Count", "GCBK 石数量" },
     { "GCBK Token Count", "GCBK 令牌数量" },
-    { "Gerudo Fortress Keyring", "格鲁德堡垒钥匙环" },
-    { "Gerudo Fortress Keys", "格鲁德堡垒钥匙" },
+    { "Gerudo Fortress Keyring", "格鲁德要塞钥匙环" },
+    { "Gerudo Fortress Keys", "格鲁德要塞钥匙" },
     { "Gerudo Training Ground Keyring", "格鲁德训练场钥匙环" },
     { "Gerudo Training Ground Quest", "格鲁德训练场任务" },
-    { "Gold Skulltula Tokens", "黄金骷髅令牌" },
+    { "Gold Skulltula Tokens", "金色骷髅蜘蛛代币" },
     { "Gossip Stone Hints", "闲话石提示" },
     { "Greg the Green Rupee Hint", "绿色卢比格雷格提示" },
     { "Grottos Entrances", "洞穴入口" },
@@ -2270,8 +2270,8 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Infinite Upgrades", "无限升级" },
     { "Interior Entrances", "室内入口" },
     { "Item Pool", "道具池" },
-    { "Jabu-Jabu", "贾布贾布" },
-    { "Jabu-Jabu's Belly Quest", "贾布贾布之腹任务" },
+    { "Jabu-Jabu", "加卜加卜" },
+    { "Jabu-Jabu's Belly Quest", "加卜加卜之腹任务" },
     { "Kakariko Gate", "卡卡利科大门" },
     { "Key Rings", "钥匙环" },
     { "Keyring Dungeon Count", "钥匙环地牢数量" },
@@ -2332,7 +2332,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Set Dungeon Quests", "设定地牢任务" },
     { "Shadow Temple Keyring", "暗之神殿钥匙环" },
     { "Shadow Temple Quest", "暗之神殿任务" },
-    { "Sheik Light Arrow Hint", "希克光箭提示" },
+    { "Sheik Light Arrow Hint", "什克光箭提示" },
     { "Shop Shuffle", "商店洗牌" },
     { "Shops Adult Wallet Weight", "商店成人钱包权重" },
     { "Shops Affordable Prices", "商店可负担价格" },
@@ -2372,7 +2372,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Shuffle Grab", "洗牌抓取" },
     { "Shuffle Grass", "洗牌草丛" },
     { "Shuffle Jabber Nuts", "洗牌喋喋坚果" },
-    { "Shuffle Kokiri Sword", "洗牌科奇里之剑" },
+    { "Shuffle Kokiri Sword", "洗牌科克里之剑" },
     { "Shuffle Master Sword", "洗牌大师之剑" },
     { "Shuffle Merchants", "洗牌商人" },
     { "Shuffle Ocarina Buttons", "洗牌陶笛按钮" },
@@ -2386,18 +2386,18 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Skeleton Key", "万能钥匙" },
     { "Skip Child Stealth", "跳过儿童潜行" },
     { "Skip Child Zelda", "跳过儿童塞尔达" },
-    { "Skip Epona Race", "跳过伊波娜赛跑" },
+    { "Skip Epona Race", "跳过伊波纳赛跑" },
     { "Skip Planting Beans", "跳过种植魔豆" },
     { "Skip Scarecrow's Song", "跳过稻草人之歌" },
     { "Sleeping Waterfall", "沉睡瀑布" },
     { "Slingshot/Bow Can Break Beehives", "弹弓/弓可击破蜂巢" },
     { "Small Key Shuffle", "小钥匙洗牌" },
-    { "Spirit Temple Keyring", "灵之神殿钥匙环" },
-    { "Spirit Temple Quest", "灵之神殿任务" },
+    { "Spirit Temple Keyring", "魂之神殿钥匙环" },
+    { "Spirit Temple Quest", "魂之神殿任务" },
     { "Start with Bolero of Fire", "起始携带炎之波丽罗" },
     { "Start with Deku Shield", "起始携带德库盾" },
-    { "Start with Epona's Song", "起始携带伊波娜之歌" },
-    { "Start with Kokiri Sword", "起始携带科奇里之剑" },
+    { "Start with Epona's Song", "起始携带伊波纳之歌" },
+    { "Start with Kokiri Sword", "起始携带科克里之剑" },
     { "Start with Magic Beans", "起始携带魔法魔豆" },
     { "Start with Master Sword", "起始携带大师之剑" },
     { "Start with Minuet of Forest", "起始携带森林小步舞曲" },
@@ -2426,41 +2426,41 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Warp Songs", "传送歌曲" },
     { "Water Temple Keyring", "水之神殿钥匙环" },
     { "Water Temple Quest", "水之神殿任务" },
-    { "Zora's Fountain", "佐拉之泉" },
+    { "Zora's Fountain", "卓拉喷泉" },
     // ---- Randomizer Tricks: area names ----
     { "General Tricks", "通用技巧" },
-    { "Kokiri Forest", "科奇里森林" },
+    { "Kokiri Forest", "科克里森林" },
     { "Lost Woods", "迷失森林" },
     { "Sacred Forest Meadow", "神圣森林草甸" },
     { "Hyrule Field", "海拉鲁平原" },
     { "Lake Hylia", "海拉鲁湖" },
-    { "Gerudo Valley", "格鲁德山谷" },
-    { "Gerudo Fortress", "格鲁德堡垒" },
-    { "Haunted Wasteland", "闹鬼荒原" },
-    { "Desert Colossus", "沙漠巨像" },
+    { "Gerudo Valley", "格鲁德大峡谷" },
+    { "Gerudo Fortress", "格鲁德要塞" },
+    { "Haunted Wasteland", "幻影沙漠" },
+    { "Desert Colossus", "巨大邪神像" },
     { "Hyrule Market", "海拉鲁市场" },
     { "Hyrule Castle", "海拉鲁城堡" },
     { "Kakariko Village", "卡卡利科村" },
     { "Graveyard", "墓地" },
-    { "Death Mountain Trail", "死亡山脉小径" },
-    { "Goron City", "哥隆城" },
+    { "Death Mountain Trail", "死神山径" },
+    { "Goron City", "格雷城" },
     { "Death Mountain Crater", "死亡山脉火山口" },
-    { "Zora's River", "佐拉之河" },
-    { "Zora's Domain", "佐拉领地" },
-    { "Zora's Fountain", "佐拉之泉" },
+    { "Zora's River", "卓拉河" },
+    { "Zora's Domain", "卓拉领地" },
+    { "Zora's Fountain", "卓拉喷泉" },
     { "Lon Lon Ranch", "隆隆牧场" },
     { "Deku Tree", "德库树" },
     { "Dodongo's Cavern", "多东哥洞穴" },
-    { "Jabu Jabu's Belly", "贾布贾布之腹" },
+    { "Jabu Jabu's Belly", "加卜加卜之腹" },
     { "Forest Temple", "森林神殿" },
     { "Fire Temple", "火之神殿" },
     { "Water Temple", "水之神殿" },
-    { "Spirit Temple", "灵之神殿" },
+    { "Spirit Temple", "魂之神殿" },
     { "Shadow Temple", "暗之神殿" },
     { "Bottom of the Well", "井底" },
     { "Ice Cavern", "冰之洞窟" },
     { "Gerudo Training Ground", "格鲁德训练场" },
-    { "Ganon's Castle", "加农城堡" },
+    { "Ganon's Castle", "盖侬城堡" },
 
     // ---- Randomizer 地点/检查名称（shortName，经 SohGui::L() 显示）----
     { "Hidden Ceiling Chest", "隐藏天花板宝箱" },
@@ -2528,8 +2528,8 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Boulder Maze Upper Chest", "巨石迷宫上层宝箱" },
     { "Scarecrow Chest", "稻草人宝箱" },
     { "Megaton Hammer Chest", "百万吨锤宝箱" },
-    { "Highest Goron Chest", "最高哥隆宝箱" },
-    { "Volvagia Heart Container", "沃尔瓦吉亚心之容器" },
+    { "Highest Goron Chest", "最高格雷宝箱" },
+    { "Volvagia Heart Container", "沃沃基亚心之容器" },
     { "First Room Chest", "第一房间宝箱" },
     { "First Stalfos Chest", "第一骷髅兵宝箱" },
     { "Raised Island Courtyard Chest", "高岛庭院宝箱" },
@@ -2543,7 +2543,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "End Of Bridge Chest", "桥端宝箱" },
     { "Boss Room Chest", "Boss 房间宝箱" },
     { "King Dodongo Heart Container", "多东哥王心之容器" },
-    { "Boomerang Chest", "回旋镖宝箱" },
+    { "Boomerang Chest", "飞旋镖宝箱" },
     { "Barinade Heart Container", "巴里纳德心之容器" },
     { "Well Chest", "井宝箱" },
     { "Eye Switch Chest", "眼之开关宝箱" },
@@ -2552,7 +2552,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Bow Chest", "弓宝箱" },
     { "Blue Poe Chest", "蓝幽灵宝箱" },
     { "Falling Ceiling Room Chest", "落顶房间宝箱" },
-    { "Phantom Ganon Heart Container", "幻影加农心之容器" },
+    { "Phantom Ganon Heart Container", "幻影盖侬心之容器" },
     { "Hover Boots Chest", "悬浮靴宝箱" },
     { "Early Silver Rupee Chest", "初期银卢比宝箱" },
     { "Invisible Blades Visible Chest", "隐形刀片可见宝箱" },
@@ -2594,7 +2594,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Near Open Grotto Freestanding PoH", "露天洞穴附近独立 PoH" },
     { "Near Domain Freestanding PoH", "领地附近独立 PoH" },
     { "Diving Minigame", "潜水小游戏" },
-    { "King Zora Thawed", "佐拉王解冻" },
+    { "King Zora Thawed", "卓拉王解冻" },
     { "Iceberg Freestanding PoH", "冰山独立 PoH" },
     { "Bottom Freestanding PoH", "底层独立 PoH" },
     { "Bush 1", "灌木1" },
@@ -2610,8 +2610,8 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Trade Claim Check", "交易凭证" },
     { "Darunias Joy", "达鲁尼亚的喜悦" },
     { "Pot Freestanding PoH", "罐子独立 PoH" },
-    { "Rolling Goron as Child", "童年滚动哥隆" },
-    { "Rolling Goron as Adult", "成人滚动哥隆" },
+    { "Rolling Goron as Child", "童年滚动格雷" },
+    { "Rolling Goron as Adult", "成人滚动格雷" },
     { "Maze Left Chest", "迷宫左侧宝箱" },
     { "Maze Right Chest", "迷宫右侧宝箱" },
     { "Maze Center Chest", "迷宫中央宝箱" },
@@ -2647,13 +2647,13 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "此技巧仅适用于操作本身轻而易举的情况；仅从特定角度才能完成的情形不在此列，任何穿模（包括以跳跃斩将林克判定框卡入巨石）也不在此列。" },
 
     { "Allows entering hidden grottos without the Stone of Agony.",
-      "允许无需痛苦之石进入隐藏洞穴。" },
+      "允许无需振动石进入隐藏洞穴。" },
     { "Normally the only hot area logic expects you to navigate without a Goron Tunic is Death Mountain Crater\n"
        "and you are not expected to navigate underwater sections without a Zora Tunic.\n\n"
        "With this trick you are expected to do any underwater area except Central Pillar,\n"
        "any hot area except Volvagia and the Block lift room in Fire Temple\n"
        "and the health needed to logically navigate Crater is decreased.",
-      "通常情况下，仅有死亡山脉火山口这类高温区域的逻辑会要求你不穿哥隆外衣也能通过，且水下区域不会要求你不穿卓拉外衣。\n\n开启此技巧后，除中央柱外的所有水下区域、除沃尔瓦吉亚与火之神殿方块升降房外的所有高温区域，都预期你可在不穿对应外衣的情况下通过，且火山口所需的逻辑血量也会降低。" },
+      "通常情况下，仅有死亡山脉火山口这类高温区域的逻辑会要求你不穿格雷外衣也能通过，且水下区域不会要求你不穿卓拉外衣。\n\n开启此技巧后，除中央柱外的所有水下区域、除沃沃基亚与火之神殿方块升降房外的所有高温区域，都预期你可在不穿对应外衣的情况下通过，且火山口所需的逻辑血量也会降低。" },
     { "Many ledges can be overcome with particular jumps which are simple to execute without items.\n"
               "This includes jumping from heights to dive deeper without scales,\n"
               "though this trick doesn't cover Water Temple's Dragon Room.",
@@ -2679,7 +2679,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "apply to MQ Dead Hand bomb flowers.\nUsing blue fire on bombflower to stop rolling goron also requires "
               "\"Stop Link the Goron with Din's Fire\".\nUsing blue fire arrows to break floor in King Dodongo's "
               "chamber also requires \"Dodongo's Cavern Smash the Boss Lobby Floor\".",
-      "用蓝焰击碎泥墙、引爆炸弹花，并破坏通往多东哥王的道路。\n不适用于 MQ 死手处的炸弹花。\n用蓝焰引爆炸弹花以阻止滚哥隆，还需\"用戴因之火阻止哥隆林克\"。\n用蓝焰箭破坏多东哥王房间的地面，还需\"多东哥洞窟砸碎 Boss 前厅地板\"。" },
+      "用蓝焰击碎泥墙、引爆炸弹花，并破坏通往多东哥王的道路。\n不适用于 MQ 死手处的炸弹花。\n用蓝焰引爆炸弹花以阻止滚格雷，还需\"用戴因之火阻止格雷林克\"。\n用蓝焰箭破坏多东哥王房间的地面，还需\"多东哥洞窟砸碎 Boss 前厅地板\"。" },
     { "Underwater chests can be opened by wearing iron boots and hookshotting the chest.",
       "穿上铁靴并用钩绳钩住宝箱，即可开启水下宝箱。" },
     { "From afar boulder collision is disabled, allowing projectiles to pass through them.",
@@ -2691,7 +2691,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "- Hitting switch through wall in Spirit Temple's big mirror room with Bow, Slingshot, or Hookshot\n"
               "- Hitting switch through wall in Spirit Trial with Bow or Slingshot\n"
               "- Hitting switch through gate in Shadow Temple MQ with Bow or Slingshot",
-      "略微延长钩绳、弓或弹弓等投射物的射程，并允许投射物穿过碰撞。用于：\n- 用钩绳跨越格鲁德山谷\n- 拾取炸弹花旁的死亡山脉黄金骷髅\n- 在灵之神殿大镜房用弓、弹弓或钩绳隔墙击中开关\n- 在灵之试炼用弓或弹弓隔墙击中开关\n- 在暗之神殿 MQ 用弓或弹弓隔门击中开关" },
+      "略微延长钩绳、弓或弹弓等投射物的射程，并允许投射物穿过碰撞。用于：\n- 用钩绳跨越格鲁德大峡谷\n- 拾取炸弹花旁的死亡山脉金色骷髅\n- 在魂之神殿大镜房用弓、弹弓或钩绳隔墙击中开关\n- 在灵之试炼用弓或弹弓隔墙击中开关\n- 在暗之神殿 MQ 用弓或弹弓隔门击中开关" },
     { "Pausing while a big skulltula is bobbing upwards slightly lifts it,\n"
               "eventually allowing passage without any items.",
       "当大骷髅蜘蛛微微上浮时暂停，会将其稍微抬起，\n最终无需任何道具即可通过。" },
@@ -2711,15 +2711,15 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "With a specific position and angle, you can backflip over Mido.",
       "在特定的位置与角度下，你可用后空翻越过米多。" },
     { "You need Deku Sticks or Kokiri Sword to dive with Navi for entering Zora's River.",
-      "需要德库木棒或科奇里之剑，借助娜薇俯冲进入卓拉河。" },
+      "需要德库木棒或科克里之剑，借助娜薇俯冲进入卓拉河。" },
     { "You can collect the token with a precise Hookshot use, as long as you can kill the Skulltula somehow "
               "first. It can be killed using Longshot, Bow, Bombchus or Din's Fire.",
       "只要你能先设法击杀骷髅蜘蛛，便能凭借精准的钩绳使用拾取代币。可用远钩、弓、炸弹鼠或戴因之火将其击杀。" },
     { "With precise throws, the Boomerang alone can kill the Skulltula and collect the token, without first "
               "needing to blow up the wall.",
-      "凭借精准的投掷，仅凭回旋镖即可击杀骷髅蜘蛛并拾取代币，无需先炸开墙壁。" },
+      "凭借精准的投掷，仅凭飞旋镖即可击杀骷髅蜘蛛并拾取代币，无需先炸开墙壁。" },
     { "Big Poes have a chance of appearing without Epona, you can shoot them quickly with only bow.",
-      "大波克有一定几率在没骑伊波娜时也出现，你可仅凭弓迅速将其射落。" },
+      "大波克有一定几率在没骑伊波纳时也出现，你可仅凭弓迅速将其射落。" },
     { "Climb the tower as high as you can without touching the Gold Skulltula, then let go and jumpslash "
               "immediately. By jump-slashing from as low on the ladder as possible to still hit the Skulltula, this "
               "trick can be done without taking fall damage.",
@@ -2730,12 +2730,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Take the Hover Boots from the entrance to Impa's House over to the rooftop of Skulltula House. From there, a "
         "precise Hover Boots backwalk with backflip can be used to get onto a hill above the side of the village. And "
         "then from there you can Hover onto Impa's rooftop to kill the Skulltula and backflip into the token.",
-      "从英帕家入口处取悬浮靴，带到史克拉之屋的屋顶。由此，可借助精准的悬浮靴后退接后空翻，登上村庄一侧上方的小山。随后从那里悬浮至英帕家屋顶，击杀金骷髅并后空翻入代币。" },
+      "从英帕家入口处取悬浮靴，带到骷髅蜘蛛之屋的屋顶。由此，可借助精准的悬浮靴后退接后空翻，登上村庄一侧上方的小山。随后从那里悬浮至英帕家屋顶，击杀金骷髅并后空翻入代币。" },
     { "Using a precise moving setup you can obtain the Piece of Heart by having the Boomerang interact with it "
               "along the return path.",
-      "利用精准的移动设置，让回旋镖在回程路径上与心之碎片互动，即可获取。" },
+      "利用精准的移动设置，让飞旋镖在回程路径上与心之碎片互动，即可获取。" },
     { "It is possible to complete the second dampe race as child in under a minute, but it is a strict time limit.",
-      "儿童可在不到一分钟内完成第二次丹普赛跑，但时限非常严苛。" },
+      "儿童可在不到一分钟内完成第二次达培赛跑，但时限非常严苛。" },
     { "It is possible to light all of the torches to open the Shadow Temple entrance with just Fire Arrows, "
               "but you must be very quick, precise, and strategic with how you take your shots.",
       "仅凭火焰箭即可点燃所有火把、开启暗之神殿入口，但你必须在射击的时机、精度与策略上极为迅捷精准。" },
@@ -2745,7 +2745,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Bugs will go into the soft soil even while the boulder is still blocking the entrance. Then, using a "
               "precise moving setup you can kill the Gold Skulltula and obtain the token by having the Boomerang "
               "interact with it along the return path.",
-      "即便巨石仍堵住入口，虫子也会钻入松软的土壤。随后利用精准的移动设置，让回旋镖在回程路径上与其互动，即可击杀黄金骷髅并拾取代币。" },
+      "即便巨石仍堵住入口，虫子也会钻入松软的土壤。随后利用精准的移动设置，让飞旋镖在回程路径上与其互动，即可击杀金色骷髅并拾取代币。" },
     { "Child Link can blow up the wall using a nearby bomb flower. You must backwalk with the flower and then "
               "quickly throw it toward the wall.",
       "儿童林克可用附近的炸弹花炸开墙壁。你需带着炸弹花后退走位，再迅速将其掷向墙壁。" },
@@ -2770,19 +2770,19 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "可用炸弹鼠停住旋转壶，但要让它生效颇为挑剔。" },
     { "Allows for stopping the Goron City Spinning Pot using a Bomb Flower alone, requiring strength in lieu "
               "of inventory explosives.",
-      "允许仅凭炸弹花停住哥隆城旋转壶，以力量代替背包中的爆炸物。" },
+      "允许仅凭炸弹花停住格雷城旋转壶，以力量代替背包中的爆炸物。" },
     { "Use the Bomb Flower on the stairs or near Medigoron. Timing is tight, especially without backwalking.",
-      "在楼梯上或梅迪哥隆附近使用炸弹花。时机很紧，尤其是不后退走位时。" },
+      "在楼梯上或梅迪格雷附近使用炸弹花。时机很紧，尤其是不后退走位时。" },
     { "A precise backwalk starting from on top of the crate and ending with a precisely-timed backflip can "
               "reach this chest without needing either the Hammer or Silver Gauntlets.",
       "从板条箱顶起步、以精准时机后空翻收尾的精确后退走位，可在无需锤子或银护腕的情况下够到该宝箱。" },
     { "It is possible to reach the Goron City Grotto by quickly using the Hookshot while in the midst of "
               "taking damage from the lava floor.",
-      "可在受到熔岩地面伤害的过程中迅速使用钩绳，从而到达哥隆城洞穴。" },
+      "可在受到熔岩地面伤害的过程中迅速使用钩绳，从而到达格雷城洞穴。" },
     { "The timing is quite awkward.",
       "时机相当刁钻。" },
     { "Hover from the base of the bridge near Goron City and walk up the very steep slope.",
-      "从哥隆城附近桥墩底部悬浮，再走上那段极陡的斜坡。" },
+      "从格雷城附近桥墩底部悬浮，再走上那段极陡的斜坡。" },
     { "As Adult, using a shield to drop a pot while you have the perfect speed and position, the pot can push "
               "you that little extra distance you need to jump across the gap in the bridge.",
       "成年后，在你拥有完美速度与站位时，用盾丢出一个罐子，罐子能将你多推那一点距离，正好越过桥面缺口。" },
@@ -2803,7 +2803,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "儿童可抱着鸡飞到瀑布后方。" },
     { "With a precise jump as adult, it is possible to get on the fence next to King Zora from the front to "
               "access Zora's Fountain.",
-      "成年后凭借精准跳跃，可从正面跳上佐拉王旁的栅栏，从而进入卓拉之泉。" },
+      "成年后凭借精准跳跃，可从正面跳上卓拉王旁的栅栏，从而进入卓拉之泉。" },
     { "A precise jumpslash can kill the Skulltula and recoil back onto the top of the frozen waterfall. To "
               "kill it, the logic normally guarantees one of Hookshot, Bow, or Magic.",
       "精准的跳跃斩可击杀金骷髅并回弹到冰冻瀑布顶端。逻辑上通常会保证你拥有钩绳、弓或魔法三者之一来击杀它。" },
@@ -2822,14 +2822,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "进入水之神殿时若用黄金鳞片代替铁靴，通常需用远钩击中开关并开门。但站在特定位置，仅用钩绳的触及范围即可击中开关。" },
     { "From the far side of Gerudo Valley, a precise Hover Boots movement and jump-slash recoil can allow "
               "adult to reach the ledge with the crate PoH without needing Longshot. You will take fall damage.",
-      "从格鲁德山谷对岸，成年林克可凭精准的悬浮靴移动与跳跃斩回弹，无需远钩即够到板条箱心之碎片的凸台。你会受到坠落伤害。" },
+      "从格鲁德大峡谷对岸，成年林克可凭精准的悬浮靴移动与跳跃斩回弹，无需远钩即够到板条箱心之碎片的凸台。你会受到坠落伤害。" },
     { "The loading zone for Carpenter's Tent is accessible to child.",
       "儿童可进入木匠帐篷的读盘区。" },
     { "Using cucco as child, it's possible to jumpslash over the gate.",
       "儿童抱鸡可跳跃斩越过栅栏。" },
     { "Using Hookshot Extension and a precise setup, you can cross the broken bridge in Gerudo Valley with "
               "only a Hookshot.",
-      "利用钩绳延展与精准布置，可仅凭钩绳跨越格鲁德山谷的断桥。" },
+      "利用钩绳延展与精准布置，可仅凭钩绳跨越格鲁德大峡谷的断桥。" },
     { "The logic normally guarantees Bow or Hookshot to stun them from a distance,"
               "but every moving guard can be passed with basic movement and AI manipulation",
       "逻辑上通常会保证你有弓或钩绳从远处将其击晕，但每个移动的守卫都可通过基础走位与 AI 操纵绕过。" },
@@ -2855,7 +2855,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "through the Wasteland is \"Lensless Wasteland\". To cross the river of sand with no additional items, be "
               "sure to also enable \"Wasteland Crossing without Hover Boots or Longshot\". Unless all overworld "
               "entrances are randomized, Child Link will not be expected to do anything at Gerudo's Fortress.",
-      "记住路线后，可反向穿过荒野。注意：儿童跳向地毯商通常需相当精准的跳跃斩。正向穿过荒野的对应技巧是\"无真实之镜荒野\"。若要以无额外道具越过沙之河，务必同时开启\"无悬浮靴或远钩穿越荒野\"。除非所有地面世界入口都被随机化，否则不会要求儿童在格鲁德堡垒做任何事。" },
+      "记住路线后，可反向穿过荒野。注意：儿童跳向地毯商通常需相当精准的跳跃斩。正向穿过荒野的对应技巧是\"无真实之镜荒野\"。若要以无额外道具越过沙之河，务必同时开启\"无悬浮靴或远钩穿越荒野\"。除非所有地面世界入口都被随机化，否则不会要求儿童在格鲁德要塞做任何事。" },
     { "Somewhat precise. If you kill enough Leevers you can get enough of a break to take some time to aim "
               "more carefully.",
       "需要一定精度。若击杀足够多的利弗，可获得足够空隙更仔细地瞄准。" },
@@ -2870,7 +2870,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "are always in logic. Backflip onto the chest near the torch at the bottom of the vine wall. With "
               "precise positioning you can shoot through the torch to the right edge of the circular web. This allows "
               "completion of adult Deku Tree with no fire source.",
-      "德库树地下所有蛛网墙，成年后仅凭弓射穿火把即可烧除。本技巧仅适用于通往哥玛的环形网；两道竖直网始终算作可达。后空翻落到藤蔓墙底部火把旁的宝箱上，再凭精准站位射穿火把、命中环形网右缘，即可在无火源的情况下完成成年德库树。" },
+      "德库树地下所有蛛网墙，成年后仅凭弓射穿火把即可烧除。本技巧仅适用于通往哥马的环形网；两道竖直网始终算作可达。后空翻落到藤蔓墙底部火把旁的宝箱上，再凭精准站位射穿火把、命中环形网右缘，即可在无火源的情况下完成成年德库树。" },
     { "Allows backflipping over the spiked log in the Deku Tree basement in Vanilla. Only relevant if "
               "\"Shuffle Swim\" is enabled.",
       "允许在原版中后空翻越过德库树地下的尖刺木。仅当开启\"洗牌游泳\"时相关。" },
@@ -2882,7 +2882,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "滚地可短暂缩小判定框，从而越过尖刺木。成年后时机需更精准一些。" },
     { "You can jump off an Armos Statue to reach the alcove with the Gold Skulltula. It takes quite a long "
               "time to pull the statue the entire way. The jump to the alcove can be a bit picky when done as child.",
-      "你可跳上阿摩斯雕像，抵达藏有黄金骷髅的壁龛。将雕像整个拖到位相当费时。儿童起跳到壁龛时可能有些挑剔。" },
+      "你可跳上阿摩斯雕像，抵达藏有金色骷髅的壁龛。将雕像整个拖到位相当费时。儿童起跳到壁龛时可能有些挑剔。" },
 
     { "The vines upon which this Skulltula rests are one-sided collision. You can use the Longshot to get it "
               "from below, by shooting it through the vines, bypassing the need to lower the staircase.",
@@ -2927,7 +2927,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "the Hookshot can reach the switch. This trick is only relevant if \"Shuffle Boss Entrances\" is enabled. MQ "
               "Jabu: A Gold Skulltula Token can be collected with Longshot using the same methods as hitting the switch in "
               "Vanilla.",
-      "原版贾布：从靠近房间入口处，可用精准瞄准的弹弓、弓或远钩击中开启 Boss 房门的开关。此外，若爬到藤蔓顶端，可站在平台右缘、绕过玻璃射击。如此距离下，连钩绳都能击中开关。此技巧仅当「洗牌 Boss 入口」开启时相关。MQ 贾布：可用与击中原版开关相同的方法、以远钩拾取黄金骷髅代币。" },
+      "原版加卜：从靠近房间入口处，可用精准瞄准的弹弓、弓或远钩击中开启 Boss 房门的开关。此外，若爬到藤蔓顶端，可站在平台右缘、绕过玻璃射击。如此距离下，连钩绳都能击中开关。此技巧仅当「洗牌 Boss 入口」开启时相关。MQ 加卜：可用与击中原版开关相同的方法、以远钩拾取金色骷髅代币。" },
     { "You can hit the switch that opens the door to the boss room using a precisely-aimed Bombchu. Also, "
               "using the Hover Boots, adult can throw a Bomb at the switch. This trick is only relevant if \"Shuffle "
               "Boss Entrances\" is enabled.",
@@ -2935,18 +2935,18 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "It's possible reach pots past cube with only hover boots.",
       "仅凭悬浮靴即可越过方块够到罐子。" },
     { "Removes the requirements for the Lens of Truth in Jabu MQ.",
-      "去除 MQ 贾布对真实之镜的需求。" },
+      "去除 MQ 加卜对真实之镜的需求。" },
     { "Boomerang can reach the cow switch to spawn the chest by targeting the cow, jumping off of the ledge "
               "where the chest spawns, and throwing the Boomerang in midair.",
-      "回旋镖可锁定牛、从宝箱生成所在的凸台边缘跳下，并在半空投掷，从而触发牛开关生成宝箱。" },
+      "飞旋镖可锁定牛、从宝箱生成所在的凸台边缘跳下，并在半空投掷，从而触发牛开关生成宝箱。" },
     { "Allow the Boomerang to return to you through the Song of Time block to grab the token.",
-      "允许回旋镖穿过时间之歌方块飞回你手中，从而拾取代币。" },
+      "允许飞旋镖穿过时间之歌方块飞回你手中，从而拾取代币。" },
     { "Barinade can be damaged with pots, requiring only boomerang to defeat.",
-      "巴拉纳德可被罐子伤害，仅需回旋镖即可击败。" },
+      "巴拉纳德可被罐子伤害，仅需飞旋镖即可击败。" },
     { "Removes the requirements for the Lens of Truth in Bottom of the Well.",
       "去除井底对真实之镜的需求。" },
     { "You need Deku Sticks or Kokiri Sword to dive with Navi for entering Bottom of the Well.",
-      "需要德库木棒或科奇里之剑，借助娜薇俯冲进入井底。" },
+      "需要德库木棒或科克里之剑，借助娜薇俯冲进入井底。" },
 
     { "Requires 9 sticks or 5 jumpslashes.",
       "需要 9 根木棒或 5 次跳跃斩。" },
@@ -2959,13 +2959,13 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "room without explosives.",
       "井底的坑虽不能靠直冲跳越，但可借侧跳或后空翻跨越。有爆炸物时，可无需塞尔达的摇篮曲进入中央区域；有摇篮曲时，可无需爆炸物进入西侧内室。" },
     { "Boomerang can fish the item out of the rubble without needing explosives to blow it up.",
-      "回旋镖可直接从瓦砾中钩出该道具，无需爆炸物炸开。" },
+      "飞旋镖可直接从瓦砾中钩出该道具，无需爆炸物炸开。" },
     { "Allows killing this Skulltula with Sword or Sticks by jumpslashing it as you let go from the vines. "
               "You can avoid taking fall damage by recoiling onto the tree. Also allows killing it as Child with a "
               "Bomb throw. It's much more difficult to use a Bomb as child due to Child Link's shorter height.",
       "允许从藤蔓松手时跳跃斩，以剑或木棒击杀这只骷髅蜘蛛。可借回弹到树上避免坠落伤害。也允许儿童投炸弹将其击杀。但儿童身高较矮，用炸弹难度大得多。" },
     { "Precise Boomerang throws can allow child to kill the Skulltula and collect the token.",
-      "精准的回旋镖投掷可让儿童击杀骷髅蜘蛛并拾取代币。" },
+      "精准的飞旋镖投掷可让儿童击杀骷髅蜘蛛并拾取代币。" },
     { "The vines in Forest Temple leading to where the well drain switch is in the standard form can be barely "
               "reached with just the Hookshot. Applies to MQ also.",
       "森林神殿中通往标准形态下水井排水开关的藤蔓，仅靠钩绳勉强够到。MQ 同样适用。" },
@@ -2984,7 +2984,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "跳跃斩回弹可够到方块谜题房中通往西侧院子的凸台。原版中可省去可能的悬浮靴需求，MQ 有时也适用。两个年龄均可完成。" },
     { "A well aimed boomerang from the water's edge can reach the hearts from ground level. If unable to swim, "
               "you can back away from the water while the boomerang is returning so the hearts land on the ground.",
-      "从水边精准投掷回旋镖，可从地面够到心。若不会游泳，可在回旋镖回程时从水边后退，使心落于地面。" },
+      "从水边精准投掷飞旋镖，可从地面够到心。若不会游泳，可在飞旋镖回程时从水边后退，使心落于地面。" },
     { "Shoot the vines in the well as low and as far to the right as possible, and then immediately swim under "
               "the ceiling to the right. This is usually only useful in Master Quest.",
       "尽量低、尽量靠右地射中水井中的藤蔓，随即立刻潜入天花板下方向右游。通常仅在大师任务中有用。" },
@@ -2994,14 +2994,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "of the switch, either use the Hover Boots or hit the shortcut switch at the top of the room and jump "
               "from the glass blocks that spawn. Sticks can be used as child, but the Kokiri Sword is too short to "
               "reach through the glass.",
-      "扭动走廊的开关可借穿过玻璃块的跳跃斩击中。要站到开关前，要么用悬浮靴，要么击中房间顶部的捷径开关、从生成的玻璃块上跳起。儿童可用木棒，但科奇里之剑太短、穿不过玻璃。" },
+      "扭动走廊的开关可借穿过玻璃块的跳跃斩击中。要站到开关前，要么用悬浮靴，要么击中房间顶部的捷径开关、从生成的玻璃块上跳起。儿童可用木棒，但科克里之剑太短、穿不过玻璃。" },
     { "There's a very small gap between the glass block and the wall. Through that gap you can hookshot the "
               "target on the ceiling.",
       "玻璃块与墙壁之间有一道极窄的缝隙。可透过缝隙用钩绳钩中天花板上的目标。" },
     { "The Boomerang can return to Link through walls, allowing child to hit the hallway switch. This can be "
               "used to allow adult to pass through later, or in conjunction with \"Forest Temple Outside Backdoor with "
               "Jumpslash\".",
-      "回旋镖可穿墙飞回林克手中，让儿童击中走廊开关。借此可让成年林克稍后通过，或与\"森林神殿外后门跳跃斩\"并用。" },
+      "飞旋镖可穿墙飞回林克手中，让儿童击中走廊开关。借此可让成年林克稍后通过，或与\"森林神殿外后门跳跃斩\"并用。" },
     { "If Adult burns the courtyard webbing with Fire Arrows (which is a permanent flag in Ship Rando) "
               "then Child can climb up to the balconies and jump to the SoT block from the railing, "
               "and from there either roll jump or jump against the wall to reach the doorframe.\n"
@@ -3064,14 +3064,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "With precise Hover Boots movement it is possible to reach the boss key chest's region without needing "
               "the Longshot. It is not necessary to take damage from the spikes. The Gold Skulltula Token in the "
               "following room can also be obtained with just the Hover Boots.",
-      "凭精准的悬浮靴移动，可在无需远钩的情况下到达 Boss 钥匙宝箱所在区域。无需承受尖刺伤害。下一房间中的黄金骷髅代币也可仅凭悬浮靴取得。" },
+      "凭精准的悬浮靴移动，可在无需远钩的情况下到达 Boss 钥匙宝箱所在区域。无需承受尖刺伤害。下一房间中的金色骷髅代币也可仅凭悬浮靴取得。" },
     { "In the northern basement there's a ledge from where, in Vanilla Water Temple, boulders roll out into "
               "the room. Normally to jump directly to this ledge logically requires the Hover Boots, but with precise "
               "jump, it can be done without them. This trick applies to both Vanilla and Master Quest.",
       "在北侧地下室有一处凸台，在原版水之神殿中巨石会从那里滚入房间。通常逻辑上直接跳上此凸台需悬浮靴，但凭精准跳跃可无需它完成。原版与大师任务均适用。" },
     { "If you set Farore's Wind inside the central pillar and then return to that warp point after raising the "
               "water to the highest level, you can obtain this Skulltula Token with Hookshot or Boomerang.",
-      "若在中央柱内设下法蕾之风，待升至最高水位后再返回该传送点，即可用钩绳或回旋镖取得这只金骷髅代币。" },
+      "若在中央柱内设下花柔之风，待升至最高水位后再返回该传送点，即可用钩绳或飞旋镖取得这只金骷髅代币。" },
     { "After opening the middle water level door into the central pillar, the door will stay unbarred so long as you "
               "do not leave the room, even if you were to raise the water up to the highest level. With the Iron Boots to go "
               "through the door after the water has been raised, you can obtain the Skulltula Token with the Hookshot.",
@@ -3081,9 +3081,9 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "instead of the Bow.",
       "从上层地面极精准的弓射可击中眼形开关。随后跳入走廊，在门关上前穿过。儿童也可完成，以弹弓代替弓。" },
     { "If you stand on the very edge of the platform, this Gold Skulltula can be obtained with only the Hookshot.",
-      "若站在平台最边缘，这只黄金骷髅仅凭钩绳即可取得。" },
+      "若站在平台最边缘，这只金色骷髅仅凭钩绳即可取得。" },
     { "If you stand on the very edge of the platform, this Gold Skulltula can be obtained with only the Boomerang.",
-      "若站在平台最边缘，这只黄金骷髅仅凭回旋镖即可取得。" },
+      "若站在平台最边缘，这只金色骷髅仅凭飞旋镖即可取得。" },
 
     { "Standing on the exposed ground toward the end of the river, a precise Longshot use can obtain the "
               "token. The Longshot cannot normally reach far enough to kill the Skulltula, however. You'll first have "
@@ -3105,7 +3105,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "timing and positioning of this dive needs to be perfect to actually make it under the gate, and it all "
               "needs to be done very quickly to be able to get through before the gate closes. Be sure to enable "
               "\"Water Temple Dragon Statue Switch from Above the Water as Adult\" for adult's variant of this trick.",
-      "儿童可用炸弹鼠、弹弓或回旋镖之一从干地击中开关。随后为到达宝箱，儿童可持至少银鳞片俯冲穿过隧道。此俯冲的时机与站位须完美，方能真正从门下通过，且须极快完成、赶在关门前穿过。务必同时开启「水之神殿龙像开关（水上·成年）」以启用成年版。" },
+      "儿童可用炸弹鼠、弹弓或飞旋镖之一从干地击中开关。随后为到达宝箱，儿童可持至少银鳞片俯冲穿过隧道。此俯冲的时机与站位须完美，方能真正从门下通过，且须极快完成、赶在关门前穿过。务必同时开启「水之神殿龙像开关（水上·成年）」以启用成年版。" },
     { "Slanted torches have misleading hitboxes. Whenever you see a slanted torch jutting out of the wall, you "
               "can expect most or all of its hitbox is actually on the other side that wall. This can make slanted "
               "torches very finicky to light when using arrows. The torches in the central pillar of MQ Water Temple "
@@ -3178,20 +3178,20 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "towards the platform ledge. Note that jumps of this distance are inconsistent, but still possible.",
       "可从风之大道壁龛跳到中央平台。两种方法：在门对面的风扇前等候并一直向前，或向右跳、被该处风扇推往平台凸台。注意此距离跳跃并不稳定，但仍可行。" },
     { "Removes the requirements for the Lens of Truth in Spirit Temple.",
-      "去除灵之神殿对真实之镜的需求。" },
+      "去除魂之神殿对真实之镜的需求。" },
     { "A carefully-timed Bombchu can hit the switch.",
       "把握时机放出炸弹鼠可击中开关。" },
     { "By carefully walking onto the upper arm of the statue, it's possible to get a good angle on the "
               "Gold Skulltula (In Vanilla) and the farthest pot (In MQ) to collect the checks with Boomerang. "
               "The nearest pot in MQ can be reached from the forearm and is always in logic.",
-      "谨慎走上雕像的上臂，即可对金骷髅（原版）与最远罐子（MQ）取得良好角度，以回旋镖收取。MQ 中最近的罐子可从前臂够到，始终算作可达。" },
+      "谨慎走上雕像的上臂，即可对金骷髅（原版）与最远罐子（MQ）取得良好角度，以飞旋镖收取。MQ 中最近的罐子可从前臂够到，始终算作可达。" },
     { "A bomb can be used to hit the switch on the ceiling, but it must be thrown from a particular distance "
               "away and with precise timing.",
       "可用炸弹击中天花板上的开关，但须从特定距离、以精准时机投出。" },
     { "A precise jump to obtain the following as adult without needing one of Hover Boots, or Hookshot (in Vanilla) "
               "or Song of Time (in MQ): - Spirit Temple Statue Room Northeast Chest - Spirit Temple GS Lobby - Spirit Temple "
               "MQ Central Chamber Top Left Pot (Left) - Spirit Temple MQ Central Chamber Top Left Pot (Right)",
-      "成年林克凭精准跳跃即可取得以下项目，无需悬浮靴，也无需钩绳（原版）或时间之歌（MQ）：- 灵之神殿雕像房东北宝箱 - 灵之神殿金骷髅大厅 - MQ 灵之神殿中央室左上罐（左）- MQ 灵之神殿中央室左上罐（右）" },
+      "成年林克凭精准跳跃即可取得以下项目，无需悬浮靴，也无需钩绳（原版）或时间之歌（MQ）：- 魂之神殿雕像房东北宝箱 - 魂之神殿金骷髅大厅 - MQ 魂之神殿中央室左上罐（左）- MQ 魂之神殿中央室左上罐（右）" },
     { "To get a line of sight from the upper torch to the map chest torches, you must pull an Armos statue all "
               "the way up the stairs.",
       "要为上层火把与地图宝箱火把之间取得视线，须将阿摩斯雕像一路拉上楼梯。" },
@@ -3202,14 +3202,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Logic normally guarantees a way of dealing with both the Beamos and the Walltula before climbing the wall.",
       "逻辑上通常保证你在攀爬墙壁前，已有应对比莫斯与墙蛛的办法。" },
     { "Removes the requirements for the Lens of Truth in Spirit Temple MQ.",
-      "去除 MQ 灵之神殿对真实之镜的需求。" },
+      "去除 MQ 魂之神殿对真实之镜的需求。" },
     { "While adult can easily jump directly to the switch that unbars the door to the sun block room, child "
               "Link cannot make the jump without spawning a Song of Time block to jump from. You can skip this by "
               "throwing the crate down onto the switch from above, which does unbar the door, however the crate "
               "immediately breaks, so you must move quickly to get through the door before it closes back up.",
       "成年林克可轻松直接跳到解除太阳方块房门闩的开关，但儿童林克若不生成时间之歌方块作起跳点便跳不过去。你可改为从上方将板条箱掷到开关上，同样能解除门闩；但箱子会立刻碎裂，须迅速移动、在门重新关上前穿过。" },
     { "Throw the Boomerang in such a way that it curves through the side of the glass block to hit the Gold Skulltula.",
-      "投出回旋镖，使其绕过玻璃块侧面、命中金骷髅。" },
+      "投出飞旋镖，使其绕过玻璃块侧面、命中金骷髅。" },
     { "By standing in a precise position it is possible to light two of the torches with a single use of "
               "Din\'s Fire. This saves enough time to be able to light all three torches with only Din\'s Fire.",
       "站在精准位置，可凭一次戴因之火点亮两支火把。这节省的时间足以让你仅用戴因之火便点亮全部三支。" },
@@ -3224,7 +3224,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
 
     { "The Hover Boots can be used to get in front of the Skulltula to kill it with a jumpslash. Then, the "
               "Hover Boots can again be used to obtain the Token, all without Hookshot or Boomerang.",
-      "可穿悬浮靴站到骷髅蜘蛛前，以跳跃斩将其击杀。随后可再次用悬浮靴取得代币，全程无需钩绳或回旋镖。" },
+      "可穿悬浮靴站到骷髅蜘蛛前，以跳跃斩将其击杀。随后可再次用悬浮靴取得代币，全程无需钩绳或飞旋镖。" },
     { "If you side-hop into the perfect position, you can briefly stand on the platform with the red ice just "
               "long enough to dump some blue fire.",
       "若侧跳到完美位置，你可在红冰平台上短暂站立，恰好够时间倒些蓝焰。" },
@@ -3255,12 +3255,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
               "jumpslash. This trick supersedes \"Gerudo Training Ground MQ Left Side Silver Rupees with Hookshot\".",
       "收齐房间中其余银卢比后，被墙之主宰抓走、被拉入天花板时，可够到天花板上的最后一颗银卢比。墙之主宰不会追踪到你、让你直接位于卢比正下方；你应在墙之主宰开始抓你之后、最后一步站到卢比下方。本技巧亦包含：解除 GTG 最后宝箱门闩的开关，可凭精准跳跃斩、无需投射物击中。本技巧取代「格鲁德训练场 MQ 左侧银卢比（有钩绳）」。" },
     { "Removes the requirements for the Lens of Truth in Ganon's Castle.",
-      "去除加农城堡对真实之镜的需求。" },
+      "去除盖侬城堡对真实之镜的需求。" },
     { "The highest rupee can be obtained as adult by performing a precise jump and a well-timed jumpslash "
               "off of an Armos.",
       "成年林克可借精准跳跃、从阿摩斯身上及时跳跃斩，取得最高的卢比。" },
     { "Removes the requirements for the Lens of Truth in Ganon's Castle MQ.",
-      "去除加农城堡 MQ 对真实之镜的需求。" },
+      "去除盖侬城堡 MQ 对真实之镜的需求。" },
     { "It's possible to hook the target at the end of fire trial with just Hookshot, but it requires precise "
               "aim and perfect positioning. The main difficulty comes from getting on the very corner of the obelisk "
               "without falling into the lava.",
@@ -3275,35 +3275,35 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
 
     // ---- Randomizer Tricks: trick names (A) ----
     { "Acute angle clip", "锐角穿墙" },
-    { "Adult Kokiri Forest GS with Hover Boots", "成人用悬浮靴获取科奇里森林金骷髅" },
+    { "Adult Kokiri Forest GS with Hover Boots", "成人用悬浮靴获取科克里森林金骷髅" },
     { "Advanced clips", "高级穿墙" },
     { "Backflip over Mido as Adult", "成人用后空翻越过米多" },
-    { "Big Poe without Epona", "无需伊波娜获取大波克" },
+    { "Big Poe without Epona", "无需伊波纳获取大波克" },
     { "Blank A", "空 A 键" },
     { "Blue Fire Beyond Red Ice", "越过红冰获取蓝火焰" },
     { "Bombchu Beehives", "炸弹鼠蜂巢" },
     { "Bottom of the Well Map Chest with Strength & Sticks", "以力量与木棒获取井底地图宝箱" },
-    { "Bottom of the Well MQ Dead Hand Freestanding Key with Boomerang", "以回旋镖获取井底 MQ 死手独立钥匙" },
+    { "Bottom of the Well MQ Dead Hand Freestanding Key with Boomerang", "以飞旋镖获取井底 MQ 死手独立钥匙" },
     { "Bottom of the Well MQ Jump Over the Pits", "井底 MQ 跳过深坑" },
     { "Bottom of the Well Navi dive", "井底娜薇俯冲" },
     { "Bottom of the Well without Lens of Truth", "无需真实之镜通过井底" },
     { "Bunny Hood", "兔子头巾" },
-    { "Child Dead Hand without Kokiri Sword", "儿童无需科奇里之剑击败死手" },
+    { "Child Dead Hand without Kokiri Sword", "儿童无需科克里之剑击败死手" },
     { "Colossus Hill GS with Hookshot", "以钩绳获取巨像山丘金骷髅" },
     { "Death Mountain Crater Jump to Bolero", "死亡山脉火山口跳向波丽罗" },
     { "Death Mountain Crater Upper to Lower Boulder Skip", "死亡山脉火山口上层跳下巨石" },
     { "Death Mountain Crater Upper to Lower with Hammer", "以锤子从火山口上层到下层" },
-    { "Death Mountain Trail Chest with Strength", "以力量获取死亡山脉小径宝箱" },
-    { "Death Mountain Trail Child Climb Without Shield", "儿童无需盾攀爬死亡山脉小径" },
-    { "Death Mountain Trail Climb with Hover Boots", "以悬浮靴攀爬死亡山脉小径" },
+    { "Death Mountain Trail Chest with Strength", "以力量获取死神山径宝箱" },
+    { "Death Mountain Trail Child Climb Without Shield", "儿童无需盾攀爬死神山径" },
+    { "Death Mountain Trail Climb with Hover Boots", "以悬浮靴攀爬死神山径" },
     { "Death Mountain Trail Lower Red Rock GS with Hover Boots", "以悬浮靴获取下层红岩金骷髅" },
     { "Death Mountain Trail Lower Red Rock GS with Jumpslash", "以跳跃斩获取下层红岩金骷髅" },
     { "Death Mountain Trail Lower Red Rock GS with Magic Bean", "以魔法魔豆获取下层红岩金骷髅" },
-    { "Death Mountain Trail Soil GS without Destroying Boulder", "不破坏巨石获取死亡山脉小径土堆金骷髅" },
+    { "Death Mountain Trail Soil GS without Destroying Boulder", "不破坏巨石获取死神山径土堆金骷髅" },
     { "Death Mountain Trail Upper Red Rock GS with Backflip", "以後空翻获取上层红岩金骷髅" },
     { "Deku Tree Basement Backflip over Spiked Log", "德库树地下室後空翻越过尖刺木" },
     { "Deku Tree Basement Vines GS with Jumpslash", "以跳跃斩获取德库树地下室藤蔓金骷髅" },
-    { "Deku Tree Basement Web to Gohma with Bow", "以弓从蛛网到哥玛" },
+    { "Deku Tree Basement Web to Gohma with Bow", "以弓从蛛网到哥马" },
     { "Deku Tree Basement without Slingshot", "无需弹弓通过德库树地下室" },
     { "Deku Tree MQ Compass Room GS Boulders with Just Hammer", "仅以锤子处理德库树 MQ 指南针房巨石金骷髅" },
     { "Deku Tree MQ Roll Under the Spiked Log", "德库树 MQ 从尖刺木下滚过" },
@@ -3327,13 +3327,13 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Fire Temple Song of Time Room GS without Song of Time", "无需时间之歌获取火之神殿时间之歌房金骷髅" },
     { "Fire Trial MQ with Hookshot", "以钩绳通过火焰试炼 MQ" },
     { "Flame Storage", "火焰存储" },
-    { "Forest Temple Courtyard Hearts with Boomerang", "以回旋镖获取森林神殿庭院心之碎片" },
+    { "Forest Temple Courtyard Hearts with Boomerang", "以飞旋镖获取森林神殿庭院心之碎片" },
     { "Forest Temple East Courtyard Door Frame with Hover Boots", "以悬浮靴登森林神殿东庭院门框" },
-    { "Forest Temple East Courtyard GS with Boomerang", "以回旋镖获取森林神殿东庭院金骷髅" },
+    { "Forest Temple East Courtyard GS with Boomerang", "以飞旋镖获取森林神殿东庭院金骷髅" },
     { "Forest Temple East Courtyard Vines with Hookshot", "以钩绳获取森林神殿东庭院藤蔓" },
     { "Forest Temple First Room GS with Difficult-to-Use Weapons", "以难用武器获取森林神殿第一房金骷髅" },
-    { "Forest Temple MQ Doorframe GS as Child without Boomerang", "儿童无需回旋镖获取森林神殿 MQ 门框金骷髅" },
-    { "Forest Temple MQ Twisted Hallway Switch with Boomerang", "以回旋镖触发森林神殿 MQ 扭曲走廊开关" },
+    { "Forest Temple MQ Doorframe GS as Child without Boomerang", "儿童无需飞旋镖获取森林神殿 MQ 门框金骷髅" },
+    { "Forest Temple MQ Twisted Hallway Switch with Boomerang", "以飞旋镖触发森林神殿 MQ 扭曲走廊开关" },
     { "Forest Temple MQ Twisted Hallway Switch with Hookshot", "以钩绳触发森林神殿 MQ 扭曲走廊开关" },
     { "Forest Temple MQ Twisted Hallway Switch with Jumpslash", "以跳跃斩触发森林神殿 MQ 扭曲走廊开关" },
     { "Forest Temple NE Courtyard Ledge with Hover Boots", "以悬浮靴登森林神殿东北庭院凸台" },
@@ -3344,24 +3344,24 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Gerudo Training Ground MQ without Lens of Truth", "无需真实之镜通过格鲁德训练场 MQ" },
     { "Gerudo Training Ground without Lens of Truth", "无需真实之镜通过格鲁德训练场" },
     { "Gerudo Training Grounds Itemless Lava Room Jump", "无道具跳跃通过格鲁德训练场岩浆房" },
-    { "Gerudo Valley Bridge with only Hookshot", "仅以钩绳过格鲁德山谷大桥" },
+    { "Gerudo Valley Bridge with only Hookshot", "仅以钩绳过格鲁德大峡谷大桥" },
     { "Gerudo Valley Crate PoH as Adult with Hover Boots", "成人以悬浮靴用木箱到达 PoH" },
     { "Gerudo Valley Enter Carpenter's Tent as Child", "儿童进入木匠帐篷" },
-    { "Gerudo Valley Jump Fence with Cucco", "以鸡跳过格鲁德山谷栅栏" },
-    { "Goron City Grotto with Hookshot While Taking Damage", "受伤时用钩绳进入哥隆城洞穴" },
-    { "Goron City Maze Left Chest with Hover Boots", "以悬浮靴获取哥隆城迷宫左侧宝箱" },
+    { "Gerudo Valley Jump Fence with Cucco", "以鸡跳过格鲁德大峡谷栅栏" },
+    { "Goron City Grotto with Hookshot While Taking Damage", "受伤时用钩绳进入格雷城洞穴" },
+    { "Goron City Maze Left Chest with Hover Boots", "以悬浮靴获取格雷城迷宫左侧宝箱" },
     { "Goron City Spinning Pot PoH with Bombchu", "以炸弹鼠用旋转壶到达 PoH" },
     { "Goron City Spinning Pot PoH with Strength", "以力量用旋转壶到达 PoH" },
-    { "Graveyard Freestanding PoH with Boomerang", "以回旋镖获取墓地独立 PoH" },
+    { "Graveyard Freestanding PoH with Boomerang", "以飞旋镖获取墓地独立 PoH" },
     { "Ground Clip", "地面穿模" },
     { "Ground Jump", "地面跳" },
     { "Hard Ground Jumps", "高难度地面跳" },
     { "HESS", "HESS（超级延展滑行）" },
-    { "Hidden Grottos without Stone of Agony", "无需痛苦之石进入隐藏洞穴" },
+    { "Hidden Grottos without Stone of Agony", "无需振动石进入隐藏洞穴" },
     { "Hookshot Clip", "钩绳穿墙" },
     { "Hookshot Jump", "钩绳跳" },
     { "Hookshot Ladders", "钩绳梯子" },
-    { "Hyrule Castle Storms Grotto GS with Just Boomerang", "仅以回旋镖获取海拉鲁城堡风暴洞穴金骷髅" },
+    { "Hyrule Castle Storms Grotto GS with Just Boomerang", "仅以飞旋镖获取海拉鲁城堡风暴洞穴金骷髅" },
     { "Ice Cavern Block Room GS with Hover Boots", "以悬浮靴获取冰之洞窟方块房金骷髅" },
     { "Ice Cavern MQ Red Ice GS without Song of Time", "无需时间之歌获取冰之洞窟 MQ 红冰金骷髅" },
     { "Ice Cavern Stalagmite Clips", "冰之洞窟石笋穿模" },
@@ -3369,14 +3369,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Ignore Visible Collision", "忽略可见碰撞" },
     { "ISG", "ISG（无限剑故障）" },
     { "Item Extension", "道具延展" },
-    { "Jabu B1 Pass Cube with Hover Boots", "以悬浮靴通过贾布 B1 方块" },
-    { "Jabu Barinade with Pots", "以罐子击败贾布巴拉纳德" },
-    { "Jabu MQ Compass Chest with Boomerang", "以回旋镖获取贾布 MQ 指南针宝箱" },
-    { "Jabu MQ Song of Time Block GS with Boomerang", "以回旋镖获取贾布 MQ 时间之歌方块金骷髅" },
-    { "Jabu MQ without Lens of Truth", "无需真实之镜通过贾布 MQ" },
-    { "Jabu Near Boss Ceiling Switch with Explosives", "以爆炸物触发贾布 Boss 附近天花板开关" },
-    { "Jabu Near Boss Ceiling Switch/GS without Boomerang or Explosives", "无需回旋镖或爆炸物触发贾布 Boss 附近天花板开关/金骷髅" },
-    { "Jabu Near Boss Room with Hover Boots", "以悬浮靴进入贾布 Boss 附近房间" },
+    { "Jabu B1 Pass Cube with Hover Boots", "以悬浮靴通过加卜 B1 方块" },
+    { "Jabu Barinade with Pots", "以罐子击败加卜巴拉纳德" },
+    { "Jabu MQ Compass Chest with Boomerang", "以飞旋镖获取加卜 MQ 指南针宝箱" },
+    { "Jabu MQ Song of Time Block GS with Boomerang", "以飞旋镖获取加卜 MQ 时间之歌方块金骷髅" },
+    { "Jabu MQ without Lens of Truth", "无需真实之镜通过加卜 MQ" },
+    { "Jabu Near Boss Ceiling Switch with Explosives", "以爆炸物触发加卜 Boss 附近天花板开关" },
+    { "Jabu Near Boss Ceiling Switch/GS without Boomerang or Explosives", "无需飞旋镖或爆炸物触发加卜 Boss 附近天花板开关/金骷髅" },
+    { "Jabu Near Boss Room with Hover Boots", "以悬浮靴进入加卜 Boss 附近房间" },
     { "Jump onto the Lost Woods Bridge as Adult with Nothing", "成人空手跳上迷失森林桥" },
     { "Kakariko Rooftop GS with Hover Boots", "以悬浮靴获取卡卡利科屋顶金骷髅" },
     { "Kakariko Tower GS with Jumpslash", "以跳跃斩获取卡卡利科塔金骷髅" },
@@ -3392,8 +3392,8 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Open Underwater Chests", "开启水下宝箱" },
     { "Reach Gerudo Training Ground Fake Wall Ledge with Hover Boots", "以悬浮靴到达格鲁德训练场假墙凸台" },
     { "Reverse Wasteland", "反向荒原" },
-    { "Rolling Goron (Hot Rodder Goron) as Child with Strength", "儿童以力量推动滚哥隆（飙车哥隆）" },
-    { "Second Dampe Race as Child", "儿童参加第二次丹普赛跑" },
+    { "Rolling Goron (Hot Rodder Goron) as Child with Strength", "儿童以力量推动滚格雷（飙车格雷）" },
+    { "Second Dampe Race as Child", "儿童参加第二次达培赛跑" },
     { "Shadow Temple Bongo Bongo without Lens of Truth", "无需真实之镜击败暗之神殿邦哥邦哥" },
     { "Shadow Temple Bongo Bongo without projectiles", "无需投射物击败暗之神殿邦哥邦哥" },
     { "Shadow Temple Entry with Fire Arrows", "以火焰箭进入暗之神殿" },
@@ -3416,23 +3416,23 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Simple damage boosts", "简单伤害增益" },
     { "Simple hover boosts", "简单悬浮增益" },
     { "Skip Forest Temple MQ Block Puzzle with Bombchu", "以炸弹鼠跳过森林神殿 MQ 方块谜题" },
-    { "Skip King Zora as Adult with Nothing", "成人空手跳过佐拉王" },
+    { "Skip King Zora as Adult with Nothing", "成人空手跳过卓拉王" },
     { "Sliding Jumps", "滑行跳" },
     { "Sneak Past Moving Gerudo Guards with No Items", "无道具潜过移动格鲁德守卫" },
-    { "Spirit Temple Child Side Bridge with Bombchu", "以炸弹鼠过灵之神殿儿童侧桥" },
-    { "Spirit Temple Lower Adult Switch with Bombs", "以炸弹触发灵之神殿下层成人开关" },
-    { "Spirit Temple Main Room Hookshot to Boss Platform", "以钩绳从灵之神殿主厅到 Boss 平台" },
-    { "Spirit Temple Map Chest with Bow", "以弓获取灵之神殿地图宝箱" },
-    { "Spirit Temple MQ Frozen Eye Switch without Fire", "无需火触发灵之神殿 MQ 冰冻眼开关" },
-    { "Spirit Temple MQ Lower Adult without Fire Arrows", "无需火焰箭通过灵之神殿 MQ 下层成人区" },
-    { "Spirit Temple MQ Sun Block Room as Child without Song of Time", "儿童无需时间之歌进入灵之神殿 MQ 太阳方块房" },
-    { "Spirit Temple MQ Sun Block Room GS with Boomerang", "以回旋镖获取灵之神殿 MQ 太阳方块房金骷髅" },
-    { "Spirit Temple MQ without Lens of Truth", "无需真实之镜通过灵之神殿 MQ" },
-    { "Spirit Temple Shifting Wall with No Additional Items", "无需额外道具通过灵之神殿移动墙" },
-    { "Spirit Temple Statue Room Jump from Hands to Upper Ledges", "从手跳到灵之神殿雕像房上层凸台" },
-    { "Spirit Temple Statue Room West Ledge Checks with Boomerang", "以回旋镖检查灵之神殿雕像房西凸台" },
-    { "Spirit Temple Sun Block Room Chest with Bow", "以弓获取灵之神殿太阳方块房宝箱" },
-    { "Spirit Temple without Lens of Truth", "无需真实之镜通过灵之神殿" },
+    { "Spirit Temple Child Side Bridge with Bombchu", "以炸弹鼠过魂之神殿儿童侧桥" },
+    { "Spirit Temple Lower Adult Switch with Bombs", "以炸弹触发魂之神殿下层成人开关" },
+    { "Spirit Temple Main Room Hookshot to Boss Platform", "以钩绳从魂之神殿主厅到 Boss 平台" },
+    { "Spirit Temple Map Chest with Bow", "以弓获取魂之神殿地图宝箱" },
+    { "Spirit Temple MQ Frozen Eye Switch without Fire", "无需火触发魂之神殿 MQ 冰冻眼开关" },
+    { "Spirit Temple MQ Lower Adult without Fire Arrows", "无需火焰箭通过魂之神殿 MQ 下层成人区" },
+    { "Spirit Temple MQ Sun Block Room as Child without Song of Time", "儿童无需时间之歌进入魂之神殿 MQ 太阳方块房" },
+    { "Spirit Temple MQ Sun Block Room GS with Boomerang", "以飞旋镖获取魂之神殿 MQ 太阳方块房金骷髅" },
+    { "Spirit Temple MQ without Lens of Truth", "无需真实之镜通过魂之神殿 MQ" },
+    { "Spirit Temple Shifting Wall with No Additional Items", "无需额外道具通过魂之神殿移动墙" },
+    { "Spirit Temple Statue Room Jump from Hands to Upper Ledges", "从手跳到魂之神殿雕像房上层凸台" },
+    { "Spirit Temple Statue Room West Ledge Checks with Boomerang", "以飞旋镖检查魂之神殿雕像房西凸台" },
+    { "Spirit Temple Sun Block Room Chest with Bow", "以弓获取魂之神殿太阳方块房宝箱" },
+    { "Spirit Temple without Lens of Truth", "无需真实之镜通过魂之神殿" },
     { "Spirit Trial without Hookshot", "无需钩绳通过灵之试炼" },
     { "Swim Through Forest Temple Well with Hookshot", "以钩绳游过森林神殿水井" },
     { "Unintuitive Jumps", "反直觉跳跃" },
@@ -3447,7 +3447,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Water Temple Dragon Statue Switch from Above the Water as Adult", "成人从水上触发水之神殿龙像开关" },
     { "Water Temple Dragon Statue Switch from Above the Water as Child", "儿童从水上触发水之神殿龙像开关" },
     { "Water Temple Entry without Iron Boots using Hookshot", "以钩绳无铁靴进入水之神殿" },
-    { "Water Temple Falling Platform Room GS with Boomerang", "以回旋镖获取水之神殿落台房金骷髅" },
+    { "Water Temple Falling Platform Room GS with Boomerang", "以飞旋镖获取水之神殿落台房金骷髅" },
     { "Water Temple Falling Platform Room GS with Hookshot", "以钩绳获取水之神殿落台房金骷髅" },
     { "Water Temple Invisible Hookshot Target", "水之神殿隐形钩绳目标" },
     { "Water Temple Ledge Grab While Surfacing with Iron Boots", "以铁靴在浮出水面时抓凸台" },
@@ -3470,21 +3470,21 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Dodongo's Cavern Dodongo with Only Bombchus", "多东哥洞窟仅以炸弹鼠击败多东哥" },
     { "Dodongo's Cavern Light the Eyes with Bombchus", "多东哥洞窟以炸弹鼠点亮眼睛" },
     { "Lift Big Skulltulas with Pausing", "通过暂停抬起大骷髅蜘蛛" },
-    { "Gerudo's Fortress Gate Skip with Sidehop", "通过侧跳跳过格鲁德堡垒大门" },
-    { "Gerudo's Fortress Skip Wasteland Gate as Adult", "成人跳过格鲁德堡垒荒原大门" },
-    { "Gerudo's Fortress Warriors with Difficult Weapons", "用困难武器通过格鲁德堡垒战士" },
-    { "Stop Link the Goron with Din's Fire", "用丁火阻止林克哥隆" },
+    { "Gerudo's Fortress Gate Skip with Sidehop", "通过侧跳跳过格鲁德要塞大门" },
+    { "Gerudo's Fortress Skip Wasteland Gate as Adult", "成人跳过格鲁德要塞荒原大门" },
+    { "Gerudo's Fortress Warriors with Difficult Weapons", "用困难武器通过格鲁德要塞战士" },
+    { "Stop Link the Goron with Din's Fire", "用丁火阻止林克格雷" },
     { "Crater's Bean PoH with Hover Boots", "用悬浮靴到达火山口魔豆 PoH" },
-    { "Zora's River Lower Freestanding PoH as Adult with Nothing", "成人空手到达佐拉之河下层独立 PoH" },
-    { "Zora's River Upper Freestanding PoH as Adult with Nothing", "成人空手到达佐拉之河上层独立 PoH" },
-    { "Zora's Domain Entry with Hover Boots", "用悬浮靴进入佐拉领地" },
-    { "Zora's Domain Entry with Cucco", "用鸡进入佐拉领地" },
-    { "Zora's Domain GS with No Additional Items", "无额外道具获取佐拉领地金骷髅" },
-    { "Zora's Fountain Great Fairy without Explosives", "无爆炸物到达佐拉之泉大精灵" },
+    { "Zora's River Lower Freestanding PoH as Adult with Nothing", "成人空手到达卓拉之河下层独立 PoH" },
+    { "Zora's River Upper Freestanding PoH as Adult with Nothing", "成人空手到达卓拉之河上层独立 PoH" },
+    { "Zora's Domain Entry with Hover Boots", "用悬浮靴进入卓拉领地" },
+    { "Zora's Domain Entry with Cucco", "用鸡进入卓拉领地" },
+    { "Zora's Domain GS with No Additional Items", "无额外道具获取卓拉领地金骷髅" },
+    { "Zora's Fountain Great Fairy without Explosives", "无爆炸物到达卓拉之泉大精灵" },
     { "Fire Temple East Tower without Scarecrow's Song", "无需稻草人之歌通过火之神殿东塔" },
     { "Water Temple Central Pillar GS with Farore's Wind", "用法鲁风到达水之神殿中央柱金骷髅" },
-    { "Ganon's Castle without Lens of Truth", "无需真实之镜通过加农城堡" },
-    { "Ganon's Castle MQ without Lens of Truth", "无需真实之镜通过加农城堡 MQ" },
+    { "Ganon's Castle without Lens of Truth", "无需真实之镜通过盖侬城堡" },
+    { "Ganon's Castle MQ without Lens of Truth", "无需真实之镜通过盖侬城堡 MQ" },
     
     // ---- Randomizer option descriptions (1/?) ----
     { "Determines if Kokiri forest can be left for the Lost Woods bridge or the Deku Tree.\n"
@@ -3499,15 +3499,15 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n"
       "Off - Mido no longer blocks the path to the Deku Tree. Kokiri "
       "boy no longer blocks the path out of the forest.",
-      "决定能否离开科奇里森林前往迷失森林桥或德库树。\n"
+      "决定能否离开科克里森林前往迷失森林桥或德库树。\n"
       "\n"
-      "开启 - 需要科奇里之剑与德库盾才能进入德库树，且完成德库树才能\n"
+      "开启 - 需要科克里之剑与德库盾才能进入德库树，且完成德库树才能\n"
       "进入迷失森林桥出口。\n"
       "\n"
-      "仅德库 - 科奇里男孩不再挡住通往桥的路，但米多仍需要科奇里之剑\n"
+      "仅德库 - 科克里男孩不再挡住通往桥的路，但米多仍需要科克里之剑\n"
       "与德库盾才能进入德库树。\n"
       "\n"
-      "关闭 - 米多不再挡住通往德库树的路，科奇里男孩也不再挡住\n"
+      "关闭 - 米多不再挡住通往德库树的路，科克里男孩也不再挡住\n"
       "离开森林的路。" },
     { "Closed - The gate will remain closed until Zelda's Letter "
       "is shown to the guard.\n"
@@ -3540,27 +3540,27 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n"
       "Open - King Zora has already mweeped out of the way in both "
       "time periods. Ruto's Letter is removed from the item pool.",
-      "关闭 - 佐拉王挡住通往佐拉之泉的路。需以儿童林克出示\n"
-      "露托的信，才能在两个时期移动他。\n"
+      "关闭 - 卓拉王挡住通往卓拉之泉的路。需以儿童林克出示\n"
+      "茹特的信，才能在两个时期移动他。\n"
       "\n"
-      "儿童时期关闭 - 仅需在儿童时期出示露托的信移动佐拉王。\n"
-      "成人时期佐拉之泉初始即为开放。\n"
+      "儿童时期关闭 - 仅需在儿童时期出示茹特的信移动卓拉王。\n"
+      "成人时期卓拉之泉初始即为开放。\n"
       "\n"
-      "开放 - 两个时期佐拉王都已让开道路。露托的信从道具池移除。" },
+      "开放 - 两个时期卓拉王都已让开道路。茹特的信从道具池移除。" },
     { "Closed - Sleeping Waterfall obstructs the entrance to Zora's "
       "Domain. Zelda's Lullaby must be played in order to open it "
       "(but only once; then it stays open in both time periods).\n"
       "\n"
       "Open - Sleeping Waterfall is always open. "
       "Link may always enter Zora's Domain.",
-      "关闭 - 沉睡瀑布挡住佐拉领地的入口。需演奏塞尔达的摇篮曲\n"
+      "关闭 - 沉睡瀑布挡住卓拉领地的入口。需演奏塞尔达的摇篮曲\n"
       "才能打开（但只需一次；之后两个时期都保持开放）。\n"
       "\n"
-      "开放 - 沉睡瀑布始终开放。林克可随时进入佐拉领地。" },
+      "开放 - 沉睡瀑布始终开放。林克可随时进入卓拉领地。" },
     { "Closed - A fish is required to open Jabu-Jabu's mouth.\n\n"
       "Open - Jabu-Jabu's mouth opens without the need for a fish.",
-      "关闭 - 需要一条鱼才能打开贾布贾布之口。\n\n"
-      "开放 - 无需鱼，贾布贾布之口自动打开。" },
+      "关闭 - 需要一条鱼才能打开加卜加卜之口。\n\n"
+      "开放 - 无需鱼，加卜加卜之口自动打开。" },
     { "Add locks to all wooden overworld doors, requiring specific small keys to open them",
       "为所有地面世界的木门加上锁，需要特定的小钥匙才能打开" },
     { "Choose which age Link will start as.\n\n"
@@ -3589,7 +3589,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "自由 - 桥从一开始就已修复，娜薇（Nabooru）不会出现。\n"
       "若格鲁德会员卡未被洗牌，则初始即持有。\n"
       "\n"
-      "只有\"普通\"与格鲁德堡垒钥匙环兼容。" },
+      "只有\"普通\"与格鲁德要塞钥匙环兼容。" },
     { "Alters the requirements to open the bridge to Ganon's Castle.\n"
       "\n"
       "Vanilla - Obtain the Shadow Medallion, Spirit Medallion and Light Arrows.\n"
@@ -3610,7 +3610,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "Tokens - Obtain the specified amount of Skulltula tokens.\n"
       "\n"
       "Greg - Find Greg the Green Rupee.",
-      "改变打开通往加农城堡的桥所需的条件。\n"
+      "改变打开通往盖侬城堡的桥所需的条件。\n"
       "\n"
       "原版 - 获得暗之徽章、灵之徽章与光之箭。\n"
       "\n"
@@ -3653,7 +3653,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "slider below. Which specific trials you need to complete will be random.\n"
       "\n"
       "Random Number - A random number and set of trials will be required.",
-      "设定驱散屏障所需的加农试炼数量。\n"
+      "设定驱散屏障所需的盖侬试炼数量。\n"
       "\n"
       "跳过 - 无需试炼，屏障已解除。\n"
       "\n"
@@ -3662,7 +3662,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n"
       "随机数量 - 需要随机数量与组合的试炼。" },
     { "Set the number of trials required to enter Ganon's Tower.",
-      "设定进入加农塔所需的试炼数量。" },
+      "设定进入盖侬塔所需的试炼数量。" },
     { "Doors to trials will be barred until their corresponding medallion is acquired.",
       "在获得相应徽章之前，试炼之门保持封闭。" },
     { "Sets the number of Master Quest Dungeons that are shuffled into the pool.\n"
@@ -3709,8 +3709,8 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "勇气三角力量的碎片已散落世界各地。找齐它们即可通关！\n"
       "\n"
       "若设为胜利：游戏会存档并播放制作人员名单，但你可重新载入以\n"
-      "获得加农城堡的 Boss 钥匙。注意当\"所有地点可达\"关闭时，\n"
-      "加农可能在逻辑上无法到达。" },
+      "获得盖侬城堡的 Boss 钥匙。注意当\"所有地点可达\"关闭时，\n"
+      "盖侬可能在逻辑上无法到达。" },
     { "The amount of Triforce pieces that will be placed in the world. "
       "Keep in mind seed generation can fail if more pieces are placed than there are junk items in the item pool.",
       "将放置于世界中的三角力量碎片数量。注意若放置的碎片数量\n"
@@ -3729,7 +3729,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "- Gerudo Training Ground will be open for child after adult has paid to open the gate once.",
       "洗牌地牢入口池，包括井底、冰之洞窟与格鲁德训练场。\n"
       "\n"
-      "加农城堡的洗牌可单独开启。\n"
+      "盖侬城堡的洗牌可单独开启。\n"
       "\n"
       "此外，德库树、火之神殿、井底与格鲁德训练场的入口\n"
       "对儿童和成人都开放。\n"
@@ -3747,10 +3747,10 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n"
       "年龄限制 - 儿童与成人 Boss 房间入口分别洗牌。\n"
       "\n"
-      "完整 - 所有 Boss 房间入口一起洗牌。可能要求儿童击败幻影加农和/或\n"
+      "完整 - 所有 Boss 房间入口一起洗牌。可能要求儿童击败幻影盖侬和/或\n"
       "邦哥邦哥。" },
     { "Shuffle the entrance from Ganon's Castle to Ganon's Tower into the pool of boss entrances.",
-      "将加农城堡到加农塔的入口洗入 Boss 入口池。" },
+      "将盖侬城堡到盖侬塔的入口洗入 Boss 入口池。" },
     { "Shuffle the pool of Overworld entrances, which corresponds to almost all loading zones between overworld "
       "areas.\n"
       "\n"
@@ -3763,7 +3763,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "为避免问题，部分入口不参与洗牌：\n"
       "- 海拉鲁城堡庭院与花园入口\n"
       "- 市场后巷的两个入口\n"
-      "- 格鲁德山谷到海拉鲁湖（除非入口解耦）" },
+      "- 格鲁德大峡谷到海拉鲁湖（除非入口解耦）" },
     { "Shuffle the pool of interior entrances which contains most Houses and all Great Fairies.\n"
       "\n"
       "All - An extended version of 'Simple' with some extra places:\n"
@@ -3779,12 +3779,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "- 时之殿\n"
       "- 卡卡利科药水店" },
     { "Shuffle the pool of entrances between Gerudo Fortress & Thieves' Hideout.",
-      "洗牌格鲁德堡垒与盗贼藏身处之间的入口池。" },
+      "洗牌格鲁德要塞与盗贼藏身处之间的入口池。" },
     { "Shuffle the pool of grotto entrances, including all graves, small Fairy fountains and the Deku Theatre.",
       "洗牌洞穴入口池，包括所有墓穴、小型精灵泉与德库剧场。" },
     { "Randomize where Kaepora Gaebora (the Owl) drops you at when you talk "
       "to him at Lake Hylia or at the top of Death Mountain Trail.",
-      "随机化卡波拉·盖波拉（猫头鹰）在湖之祝福或死亡山脉小径顶端\n"
+      "随机化卡波拉·盖波拉（猫头鹰）在湖之祝福或死神山径顶端\n"
       "与你对话后把你放下的地点。" },
     { "Randomize where each of the 6 warp songs leads to.",
       "随机化 6 首传送歌曲各自的目的地。" },
@@ -3810,7 +3810,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "洗牌入口时解耦它们。这意味着你从入口返回时不再保证\n"
       "回到原处。\n"
       "\n"
-      "这还会在地面世界入口被洗牌时，把格鲁德山谷到海拉鲁湖的\n"
+      "这还会在地面世界入口被洗牌时，把格鲁德大峡谷到海拉鲁湖的\n"
       "单向入口加入池中。" },
     { "Shuffle entrances into a mixed pool instead of separate ones. Has no effect on pools whose "
       "entrances aren't shuffled, and \"Shuffle Boss Entrances\" must be set to \"Full\" to include them.\n"
@@ -3866,7 +3866,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "Overworld - Only shuffle GS tokens that are outside of dungeons.\n"
       "\n"
       "All Tokens - Shuffle all 100 GS tokens.",
-      "将黄金骷髅令牌洗入道具池。这意味着黄金骷髅也可能包含其它道具。\n"
+      "将金色骷髅令牌洗入道具池。这意味着金色骷髅也可能包含其它道具。\n"
       "\n"
       "关闭 - 金骷髅令牌不被洗牌。\n"
       "\n"
@@ -3877,14 +3877,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "所有令牌 - 洗牌全部 100 枚金骷髅令牌。" },
     { "All Golden Skulltulas that require nighttime to appear will only be "
       "expected to be collected after getting Sun's Song.",
-      "所有需要夜晚才会出现的黄金骷髅，都预期在获得太阳之歌后\n"
+      "所有需要夜晚才会出现的金色骷髅，都预期在获得太阳之歌后\n"
       "才能被收集。" },
     { "Shuffles the Kokiri Sword into the item pool.\n"
       "\n"
       "This will require the use of sticks until the Kokiri Sword is found.",
-      "将科奇里之剑洗入道具池。\n"
+      "将科克里之剑洗入道具池。\n"
       "\n"
-      "在找到科奇里之剑之前，需使用木棒战斗。" },
+      "在找到科克里之剑之前，需使用木棒战斗。" },
     { "Shuffles the Master Sword into the item pool.\n"
       "\n"
       "Adult Link will start with a second free item instead of the Master Sword.\n"
@@ -3892,7 +3892,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "将大师之剑洗入道具池。\n"
       "\n"
       "成人林克将以第二件免费道具起始，而非大师之剑。\n"
-      "若在面对加农前未找到大师之剑，战斗中也不会获得它。" },
+      "若在面对盖侬前未找到大师之剑，战斗中也不会获得它。" },
     { "Enabling this shuffles the Child's Wallet into the item pool.\n"
       "\n"
       "You will not be able to carry any rupees until you find a wallet.",
@@ -3926,14 +3926,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "若无游泳能力而进入水边入口，你会被传送回陆地以防无限死亡循环。\n"
       "若在水源神殿坠空，会立即被踢出以防卡死。" },
     { "Shuffle the ability to grab as a progressive upgrade before Goron Bracelet.",
-      "将抓取能力作为哥隆手镯之前的进阶升级洗入道具池。" },
+      "将抓取能力作为格雷手镯之前的进阶升级洗入道具池。" },
     { "Shuffle the ability to climb ladders into the item pool.",
       "将爬梯能力洗入道具池。" },
     { "Shuffles the ability to use crawlspaces into the item pool.",
       "将使用爬行空间的能力洗入道具池。" },
     { "Shuffle ability to speak to NPCs. 6 jabbernuts will be shuffled:\nDeku, Gerudo, Goron, Hylian, Kokiri, "
       "Zora\nKaepora Gaebora speaks any language.",
-      "洗牌与 NPC 对话的能力。将洗牌 6 颗喋喋坚果：\n德库、格鲁德、哥隆、海拉鲁、科奇里、\n佐拉\n卡波拉·盖波拉会说任何语言。" },
+      "洗牌与 NPC 对话的能力。将洗牌 6 颗喋喋坚果：\n德库、格鲁德、格雷、海拉鲁、科克里、\n卓拉\n卡波拉·盖波拉会说任何语言。" },
 
     // ---- Randomizer option descriptions (3/?) ----
     { "Shuffles the ability to open chests into the item pool.",
@@ -3953,7 +3953,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "奇怪的蛋是解锁以下事件所必需的：\n"
       "  - 英帕给予塞尔达的摇篮曲\n"
       "  - 神圣森林草甸的萨莉亚之歌\n"
-      "  - 隆隆牧场的伊波娜之歌与养鸡小游戏\n"
+      "  - 隆隆牧场的伊波纳之歌与养鸡小游戏\n"
       "  - 卡卡利科大门的塞尔达的信（若设为关闭）\n"
       "  - 快乐面具店支线\n" },
     { "Shuffles the Gerudo Membership Card into the item pool.\n"
@@ -3963,7 +3963,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "将格鲁德会员卡洗入道具池。\n"
       "\n"
       "进入格鲁德训练场需要格鲁德会员卡，它还会打开通往\n"
-      "闹鬼荒原与马背射箭小游戏的大门。" },
+      "幻影沙漠与马背射箭小游戏的大门。" },
     { "Pots will drop a randomized item the first time they're broken and collected. This does not include the "
       "flying pots."
       " Pots will have a different appearance when they hold a randomized item.\n"
@@ -3979,8 +3979,8 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "All pots - Shuffle all pots.",
       "陶罐首次被打破并拾取时会掉落随机道具。飞行陶罐不包括在内。"
       "持有随机道具的陶罐外观会不同。\n"
-      "开启此选项后，加农的 Boss 钥匙门会被移向楼梯更上方，以便在\n"
-      "获得加农 Boss 钥匙前即可访问这些陶罐。\n"
+      "开启此选项后，盖侬的 Boss 钥匙门会被移向楼梯更上方，以便在\n"
+      "获得盖侬 Boss 钥匙前即可访问这些陶罐。\n"
       "\n"
       "关闭 - 陶罐不被洗牌。\n"
       "\n"
@@ -4018,7 +4018,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n部分树木依赖林克的年龄，例如海拉鲁平原的一些树。\n"
       "海拉鲁城堡的两棵树仅在\"无逻辑\"下被洗牌。" },
     { "Bushes in Hyrule Field & Zora's Fountain will contain randomized items when first walked through.",
-      "海拉鲁平原与佐拉之泉的灌木丛在首次穿过时会包含随机道具。" },
+      "海拉鲁平原与卓拉之泉的灌木丛在首次穿过时会包含随机道具。" },
     { "Shuffles the fishing pole into the item pool.\n"
       "\n"
       "The fishing pole is required to play the fishing pond minigame.",
@@ -4117,7 +4117,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "关闭 - 鱼不被洗牌，钓鱼行为不变。\n\n"
       "仅洗牌海拉鲁泥鳅 - 在钓鱼池捕获海拉鲁泥鳅并交给店主可获得道具。\n\n"
       "洗牌钓鱼池 - 钓鱼池的鱼会被洗牌。在钓鱼池捕到鱼会给予奖励。\n\n"
-      "洗牌地面世界鱼 - 普通洞穴与佐拉领地的鱼会被洗牌。在瓶中捕到鱼会给予奖励。\n\n"
+      "洗牌地面世界鱼 - 普通洞穴与卓拉领地的鱼会被洗牌。在瓶中捕到鱼会给予奖励。\n\n"
       "两者都洗牌 - 地面世界鱼与钓鱼池的鱼都会被洗牌。" },
     { "The number of fish to randomize in the fishing pool.\n\n"
       "If set to maximum, each fish will have a unique check, including a Hyrule Loach which appears only as child, "
@@ -4189,7 +4189,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Beehives give a randomized item from the pool when broken.",
       "蜂巢被打破时会从池中掉落随机道具。" },
     { "Cows give a randomized item from the pool upon performing Epona's Song in front of them.",
-      "在牛面前演奏伊波娜之歌时，牛会从池中给予随机道具。" },
+      "在牛面前演奏伊波纳之歌时，牛会从池中给予随机道具。" },
     { "This setting governs if the Bean Salesman, Medigoron, Granny and the Carpet Salesman "
       "sell a random item.\n"
       "Beans Only - Only the Bean Salesman will have a check, and a pack of Magic Beans will be added "
@@ -4273,7 +4273,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "have collected all 100 Gold Skulltula Tokens.\n"
       "\n"
       "You can still talk to him multiple times to get Huge Rupees.",
-      "当你收集齐全部 100 枚黄金骷髅令牌时，洗牌骷髅屋中受诅咒的\n"
+      "当你收集齐全部 100 枚金色骷髅令牌时，洗牌骷髅屋中受诅咒的\n"
       "富人给予的道具。\n"
       "\n"
       "你仍可与他多次对话以获得巨大卢比。" },
@@ -4299,7 +4299,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "所有道具 - 洗牌所有独立卢比与心之碎片。" },
     { "Shuffle fairies in fountain locations. "
       "This includes the sets of fairies found in Ganon's Castle and the Desert Oasis.",
-      "洗牌喷泉地点的精灵。包括加农城堡与沙漠绿洲中的精灵群。" },
+      "洗牌喷泉地点的精灵。包括盖侬城堡与沙漠绿洲中的精灵群。" },
     { "Shuffle fairies from gossip stone locations.",
       "洗牌来自闲话石地点的精灵。" },
     { "Shuffle fairies from magic bean locations.",
@@ -4391,7 +4391,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "Anywhere - Small Keys can appear anywhere in the world.",
       "起始携带 - 你将起始携带所有地牢的全部小钥匙。\n"
       "\n"
-      "原版 - 小钥匙出现在原版位置。灵之神殿 MQ 中你以 3 把钥匙\n"
+      "原版 - 小钥匙出现在原版位置。魂之神殿 MQ 中你以 3 把钥匙\n"
       "起始，因为原版钥匙布局在逻辑上无法通过。\n"
       "\n"
       "自身地牢 - 小钥匙只能出现在各自对应的地牢。若火之神殿\n"
@@ -4433,7 +4433,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n"
       "若将小钥匙设为起始携带或原版，则为地牢选择钥匙环无效。\n"
       "\n"
-      "若格鲁德堡垒木匠设为普通，且格鲁德堡垒钥匙设为原版之外的值，\n"
+      "若格鲁德要塞木匠设为普通，且格鲁德要塞钥匙设为原版之外的值，\n"
       "则随机或数量可选的最大钥匙环数为 9；否则最大为 8。" },
     { "Vanilla - Thieves' Hideout Keys will appear in their vanilla locations.\n"
       "\n"
@@ -4495,17 +4495,17 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n"
       "100 GS Reward - Ganon's Boss Key will be awarded by the cursed rich man after you collect 100 Gold Skulltula "
       "Tokens.",
-      "原版 - 加农的 Boss 钥匙出现在原版位置。\n"
+      "原版 - 盖侬的 Boss 钥匙出现在原版位置。\n"
       "\n"
-      "自身地牢 - 加农的 Boss 钥匙可出现在加农城堡内任意位置。\n"
+      "自身地牢 - 盖侬的 Boss 钥匙可出现在盖侬城堡内任意位置。\n"
       "\n"
-      "起始携带 - 将加农的 Boss 钥匙放入起始背包。"
+      "起始携带 - 将盖侬的 Boss 钥匙放入起始背包。"
       "\n"
-      "任意地牢 - 加农的 Boss 钥匙只能出现在任意地牢内。\n"
+      "任意地牢 - 盖侬的 Boss 钥匙只能出现在任意地牢内。\n"
       "\n"
-      "地面世界 - 加农的 Boss 钥匙只能在地牢外出现。\n"
+      "地面世界 - 盖侬的 Boss 钥匙只能在地牢外出现。\n"
       "\n"
-      "任意地点 - 加农的 Boss 钥匙可出现在世界任何地方。\n"
+      "任意地点 - 盖侬的 Boss 钥匙可出现在世界任何地方。\n"
       "\n"
       "LACS - 这些设置将 Boss 钥匙放在光之箭过场位置，即成人时期\n"
       "时之殿的塞尔达处，条件各不相同：\n"
@@ -4516,7 +4516,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "- 地牢：完成指定数量的地牢。在 Boss 后踏入蓝色传送点即视为完成。\n"
       "- 令牌：获得指定数量的骷髅令牌。\n"
       "\n"
-      "100 金骷髅奖励 - 收集齐 100 枚黄金骷髅令牌后，受诅咒的富人会授予加农的 Boss 钥匙。" },
+      "100 金骷髅奖励 - 收集齐 100 枚金色骷髅令牌后，受诅咒的富人会授予盖侬的 Boss 钥匙。" },
     { "Standard Rewards - Greg does not change logic, Greg does not help obtain GBK, max "
       "number of rewards on slider does not change.\n"
       "\n"
@@ -4543,7 +4543,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "起始携带塞尔达的信以及英帕通常会给你的道具，并跳过\n"
       "直到遇见塞尔达之前的流程。禁用洗牌奇怪的蛋的能力。" },
     { "Epona can be summoned with Epona's Song without needing to race Ingo.",
-      "无需与英戈赛跑即可用伊波娜之歌召唤伊波娜。" },
+      "无需与印格赛跑即可用伊波纳之歌召唤伊波纳。" },
     { "How masks are acquired.\n"
       "Vanilla - Mask trade quest.\n"
       "\n"
@@ -4590,7 +4590,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "设定原版中存在的冰冻陷阱是否洗入道具池。\n"
       "若开启，总会向池中加入 1 个陷阱；\n"
       "若格鲁德训练场不是大师任务，会再增加 1 个；\n"
-      "若加农城堡不是大师任务，会再增加 4 个。" },
+      "若盖侬城堡不是大师任务，会再增加 4 个。" },
     { "Sets how many more Ice Traps will be added to item pool,\n"
       "assuming there is enough space after placing Progression Items.\n\n"
       "You do not need to have base ice traps on for this setting to work.",
@@ -4619,7 +4619,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n"
       "无需任何条件 - 闲话石始终提供提示。\n"
       "\n"
-      "需要痛苦之石 - 仅在获得痛苦之石后提供提示。\n"
+      "需要振动石 - 仅在获得振动石后提供提示。\n"
       "\n"
       "需要真实面具 - 仅在佩戴真实面具时提供提示。\n" },
     { "Sets the difficulty of hints.\n"
@@ -4635,13 +4635,13 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "设定提示的难度。\n"
       "\n"
       "冷门 - 每个道具的提示都唯一，但措辞可能晦涩。\n"
-      "例：科奇里之剑 > 一把黄油刀\n"
+      "例：科克里之剑 > 一把黄油刀\n"
       "\n"
       "模糊 - 提示表述清晰，但可能指向多个道具。\n"
-      "例：科奇里之剑 > 一把剑\n"
+      "例：科克里之剑 > 一把剑\n"
       "\n"
       "清晰 - 提示表述清晰且每个道具唯一。\n"
-      "例：科奇里之剑 > 科奇里之剑" },
+      "例：科克里之剑 > 科克里之剑" },
     { "Sets how many hints will be useful.\n"
       "\n"
       "Useless - Only junk hints.\n"
@@ -4665,19 +4665,19 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "conditions for building the Rainbow Bridge and getting the Boss Key for Ganon's Castle.",
       "儿童时期阅读时之殿祭坛会告诉你精神石的位置。成人时期阅读\n"
       "时之殿祭坛会告诉你徽章的位置，以及建造彩虹桥与获得\n"
-      "加农城堡 Boss 钥匙的条件。" },
+      "盖侬城堡 Boss 钥匙的条件。" },
     { "Talking to Ganondorf in his boss room will tell you the location of the Light Arrows and Master Sword."
       "If this option is enabled and Ganondorf is reachable without these items, Gossip Stones will never hint the "
       "appropriate items.",
-      "在 Boss 房与加农多夫对话会告诉你光之箭与大师之剑的位置。"
-      "若开启此选项且加农多夫无需这些道具即可到达，闲话石将永不提示相应道具。" },
+      "在 Boss 房与盖侬道夫对话会告诉你光之箭与大师之剑的位置。"
+      "若开启此选项且盖侬道夫无需这些道具即可到达，闲话石将永不提示相应道具。" },
     { "Talking to Sheik inside Ganon's Castle will tell you the location of the Light Arrows."
       "If this option is enabled and Sheik is reachable without Light Arrows, Gossip Stones will never hint the "
       "Light Arrows.",
-      "在加农城堡内与希克对话会告诉你光之箭的位置。"
-      "若开启此选项且希克无需光之箭即可到达，闲话石将永不提示光之箭。" },
+      "在盖侬城堡内与什克对话会告诉你光之箭的位置。"
+      "若开启此选项且什克无需光之箭即可到达，闲话石将永不提示光之箭。" },
     { "Reading the diary of Dampé the gravekeeper as adult will tell you the location of one of the Hookshots.",
-      "成人时期阅读守墓人丹普的日记会告诉你其中一个钩绳的位置。" },
+      "成人时期阅读守墓人达培的日记会告诉你其中一个钩绳的位置。" },
     { "Talking to the chest game owner after buying a key will tell you the location of Greg the Green Rupee.",
       "购买钥匙后与宝箱游戏店主对话会告诉你绿色卢比格雷格的位置。" },
     { "Talking to the fishing pond owner and asking to talk about something will "
@@ -4689,16 +4689,16 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "location of a progressive magic meter.",
       "亲自或与萨莉亚通过萨莉亚之歌对话，会告诉你进阶魔法槽的位置。" },
     { "Talking to Mido as child will tell you the location of the Kokiri Sword.",
-      "儿童时期与米多对话会告诉你科奇里之剑的位置。" },
+      "儿童时期与米多对话会告诉你科克里之剑的位置。" },
     { "Talking to the fishing pond owner without the fishing pole will tell you its location.",
       "没有钓竿时与钓鱼池店主对话会告诉你钓竿的位置。" },
     { "Sheik in the Temple of Time will tell you the item and song on the Ocarina of Time.",
-      "时之殿的希克会告诉你时之陶笛上的道具与歌曲。" },
+      "时之殿的什克会告诉你时之陶笛上的道具与歌曲。" },
     { "Standing near the pedestal for the frogs in Zora's River will tell you the "
       "reward for the frogs' Ocarina game.",
-      "站在佐拉之河青蛙的基座附近，会告诉你青蛙陶笛游戏的奖励。" },
+      "站在卓拉之河青蛙的基座附近，会告诉你青蛙陶笛游戏的奖励。" },
     { "Talking to Biggoron will tell you the item he will give you in exchange for the Claim Check.",
-      "与巨大哥隆对话会告诉你他交换领取凭证所给予的道具。" },
+      "与巨大格雷对话会告诉你他交换领取凭证所给予的道具。" },
     { "Talking to the Poe Collector in the Market Guardhouse while adult will "
       "tell you what you receive for handing in Big Poes.",
       "成人时期在市场警卫室与波克收集者对话，会告诉你交付大波克所获得的奖励。" },
@@ -4710,7 +4710,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "隆隆障碍赛击败她的时间后赢得的那头牛。" },
     { "Talking to the Horseback Archery gerudo in Gerudo Fortress, or the nearby sign, will tell you what you win "
       "for scoring 1000 and 1500 points on Horseback Archery.",
-      "在格鲁德堡垒与马背射箭的格鲁德人对话，或查看附近招牌，会告诉你\n"
+      "在格鲁德要塞与马背射箭的格鲁德人对话，或查看附近招牌，会告诉你\n"
       "在马背射箭中得 1000 与 1500 分时的奖励。" },
     { "Playing a warp song will tell you where it leads. (If warp song "
       "destinations are vanilla, this is always enabled.)",
@@ -4800,7 +4800,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "\n\"On + Ganon\" will also hide Ganon and Ganondorf behind a boss soul.",
       "洗牌 8 个 Boss 灵魂（每个蓝色传送地牢一个）。在收集到\n"
       "相应灵魂之前，Boss 不会出现。"
-      "\n\"开启 + 加农\"还会将加农与加农多夫也隐藏在 Boss 灵魂之后。" },
+      "\n\"开启 + 盖侬\"还会将盖侬与盖侬道夫也隐藏在 Boss 灵魂之后。" },
 
     // ---- Randomizer Tricks menu buttons ----
     { "Collapse All##disabled", "全部折叠##disabled" },
@@ -4853,7 +4853,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     // ---- Misc missing labels ----
     { "Fix Vanishing Paths", "修复消失的路径" },
     { "Play Zelda's Lullaby to Open Sleeping Waterfall", "演奏塞尔达的摇篮曲以开启沉睡瀑布" },
-    { "Skip Feeding Jabu-Jabu", "跳过喂养加农加加" },
+    { "Skip Feeding Jabu-Jabu", "跳过喂养盖侬加加" },
     { "Time of Day", "时间" },
     { "WWLSepFairy", "其他精灵" },
     { "WWLSepNavi", "娜薇" },
@@ -4864,7 +4864,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Allows Child Link to use a Bow with Arrows.\nAllows Adult Link to use a Slingshot with Seeds.\n\nRequires glitches or the 'Timeless Equipment' cheat to equip.",
       "允许童年林克使用弓箭。\n允许成年林克使用种子弹弓。\n\n需要利用漏洞或\"永恒装备\"作弊码才能装备。" },
     { "Allows Link to freely change age by playing the Song of Time.\nTime Blocks can still be used properly.\n\nRequirements:\n - Obtained the Song of Time\n - Obtained the Ocarina of Time (depends on selection)\n - Obtained the Master Sword (depends on selection)\n - Not within range of a Time Block\n - Not within range of Ocarina Playing spots",
-      "允许林克通过演奏时之笛自由切换年龄。\n时间方块仍可正常使用。\n\n要求：\n - 已获得时之笛\n - 已获得时之笛乐器（取决于选择）\n - 已获得大师之剑（取决于选择）\n - 不在时间方块范围内\n - 不在演奏乐器点范围内" },
+      "允许林克通过演奏时光之笛自由切换年龄。\n时间方块仍可正常使用。\n\n要求：\n - 已获得时光之笛\n - 已获得时光之笛乐器（取决于选择）\n - 已获得大师之剑（取决于选择）\n - 不在时间方块范围内\n - 不在演奏乐器点范围内" },
     { "Allows the cursor on the pause menu to be over any slot. Sometimes required in Randomizer to select certain items.",
       "允许暂停菜单的光标停留在任意槽位。在随机化器中，有时需要它来选择特定道具。" },
     { "Allows unequipping items from C-Buttons/D-pad by hovering over an equipped item and pressing the button it's equipped to.",
@@ -4892,7 +4892,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Enables Debug Mode, allowing you to select maps with L + R + Z, noclip with L + D-pad Right, and open the debug menu with L on the pause screen.",
       "启用调试模式，允许你用 L + R + Z 选择地图，用 L + 方向键右键穿墙，并在暂停界面按 L 打开调试菜单。" },
     { "Enables Skulltula Debug, when moving the cursor in the menu above various map icons (boss key, compass, map screen locations, etc.) will set the GS bits in that area.\nUSE WITH CAUTION AS IT DOES NOT UPDATE THE GS COUNT!",
-      "启用骷髅蜘蛛调试：当光标在菜单中移动到各种地图图标（ Boss 钥匙、罗盘、地图画面位置等）上方时，会设置该区域的黄金骷髅标记位。\n谨慎使用，因为它不会更新黄金骷髅计数！" },
+      "启用骷髅蜘蛛调试：当光标在菜单中移动到各种地图图标（ Boss 钥匙、罗盘、地图画面位置等）上方时，会设置该区域的金色骷髅标记位。\n谨慎使用，因为它不会更新金色骷髅计数！" },
     { "Enemies spawned by CrowdControl won't be considered for \"clear enemy rooms\", so they don't need to be killed to complete these rooms.",
       "由 CrowdControl 生成的敌人不会被计入清空敌人房间，因此无需击杀它们即可完成这些房间。" },
     { "Hides most of the UI when not needed.\nNOTE: Doesn't activate until scene transition.",
@@ -4914,7 +4914,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Skip the \"Game Saved\" confirmation screen.",
       "跳过\"游戏已保存\"确认画面。" },
     { "Skip the tower escape sequence between Ganondorf and Ganon.",
-      "跳过加农多夫与加农之间的逃脱塔序列。" },
+      "跳过盖侬道夫与盖侬之间的逃脱塔序列。" },
     { "Skips Link's taking breath animation after coming up from water. This setting does not interfere with getting items from underwater.",
       "跳过林克从水中浮出后的呼吸动画。此设置不影响从水下获取道具。" },
     { "Speeds up animation of the pause menu, similar to Majora's Mask",
@@ -5146,7 +5146,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     // ===== Cosmetics Editor : setting names / slider labels (covered by central label wrap) =====
     { "Let It Snow", "让它下雪" },
     { "Link Body Size", "林克身体尺寸" },
-    { "Unfix Goron Spin", "解除哥隆旋转锁定" },
+    { "Unfix Goron Spin", "解除格雷旋转锁定" },
     { "Faries Size", "仙女尺寸" },
     { "N64 Logo Spin Speed", "N64 标志旋转速度" },
     { "Moon Size", "月亮尺寸" },
@@ -5161,7 +5161,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Link Sword Scale", "林克剑缩放" },
     { "Bunny Hood Length", "兔子帽长度" },
     { "Bunny Hood Spread", "兔子帽展开" },
-    { "Goron Neck Length", "哥隆颈部长度" },
+    { "Goron Neck Length", "格雷颈部长度" },
     { "Randomize All", "全部随机化" },
     { "Reset All", "全部重置" },
     { "Lock All", "全部锁定" },
@@ -5470,7 +5470,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
       "此选项已被禁用，因为只载入了一种类型的 O2R" },
     { "Loach hint is only avaliable with \"Fishsanity\" set to \"Shuffle only Hyrule Loach\"\n"
       "as that's the only setting where you present the loach to the fishing pond owner.",
-      "仅在\"Fishsanity\"设为\"仅洗牌海拉尔鲫鱼\"时才有钓翁提示，\n"
+      "仅在\"Fishsanity\"设为\"仅洗牌海拉鲁鲫鱼\"时才有钓翁提示，\n"
       "因为只有在该设定下你才会把鲫鱼交给钓鱼池主人。" },
     { "Malon's hint points to a cow, so requires cows to be shuffled.",
       "玛隆的提示指向一头奶牛，因此需要开启奶牛洗牌。" },
@@ -5759,7 +5759,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Freezard:", "冰怪：" },
     { "Gerudo Thief:", "格鲁多盗贼：" },
     { "Gibdo:", "吉布多：" },
-    { "Gohma Larva:", "哥玛幼虫：" },
+    { "Gohma Larva:", "哥马幼虫：" },
     { "Guay:", "呱依：" },
     { "Iron Knuckle:", "铁拳：" },
     { "Iron Knuckle (Nab):", "铁拳（娜柏茹）：" },
@@ -5784,10 +5784,10 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Redead:", "瑞迪德：" },
     { "Shabom:", "沙邦：" },
     { "Shell Blade:", "贝壳刃：" },
-    { "Skulltula:", "史克拉：" },
-    { "Skulltula (Big):", "史克拉（大）：" },
-    { "Skulltula (Gold):", "史克拉（金）：" },
-    { "Skullwalltula:", "墙史克拉：" },
+    { "Skulltula:", "骷髅蜘蛛：" },
+    { "Skulltula (Big):", "骷髅蜘蛛（大）：" },
+    { "Skulltula (Gold):", "骷髅蜘蛛（金）：" },
+    { "Skullwalltula:", "墙骷髅蜘蛛：" },
     { "Skull Kid:", "斯克比德：" },
     { "Spike:", "尖刺：" },
     { "Stalchild:", "骷髅童：" },
@@ -5826,31 +5826,31 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     // ---- Gameplay Stats: scene names (sceneMappings) ----
     { "Inside the Deku Tree", "德库树内部" },
     { "Dodongo's Cavern", "多东哥洞穴" },
-    { "Inside Jabu-Jabu's Belly", "贾布贾布之腹" },
+    { "Inside Jabu-Jabu's Belly", "加卜加卜腹内" },
     { "Forest Temple", "森林神殿" },
     { "Fire Temple", "火之神殿" },
     { "Water Temple", "水之神殿" },
-    { "Spirit Temple", "灵之神殿" },
+    { "Spirit Temple", "魂之神殿" },
     { "Shadow Temple", "暗之神殿" },
     { "Bottom of the Well", "井底" },
     { "Ice Cavern", "冰之洞窟" },
-    { "Ganon's Tower", "加农之塔" },
+    { "Ganon's Tower", "盖侬塔" },
     { "Gerudo Training Ground", "格鲁德训练场" },
     { "Thieves' Hideout", "盗贼藏身处" },
-    { "Inside Ganon's Castle", "加农城堡内部" },
+    { "Inside Ganon's Castle", "盖侬城堡内部" },
     { "Tower Collapse", "高塔崩塌" },
     { "Castle Collapse", "城堡崩塌" },
     { "Treasure Box Shop", "宝箱商店" },
-    { "Gohma's Lair", "哥玛巢穴" },
+    { "Gohma's Lair", "哥马巢穴" },
     { "King Dodongo's Lair", "多东哥王巢穴" },
-    { "Barinade's Lair", "巴利奈德巢穴" },
-    { "Phantom Ganon's Lair", "幻影加农巢穴" },
-    { "Volvagia's Lair", "沃尔瓦吉亚巢穴" },
+    { "Barinade's Lair", "巴林内德巢穴" },
+    { "Phantom Ganon's Lair", "幻影盖侬巢穴" },
+    { "Volvagia's Lair", "沃沃基亚巢穴" },
     { "Morpha's Lair", "莫尔法巢穴" },
-    { "Twinrova's Lair", "双魔巢穴" },
+    { "Twinrova's Lair", "孪生洛娃巢穴" },
     { "Bongo Bongo's Lair", "邦戈邦戈巢穴" },
-    { "Ganondorf's Lair", "加农多夫巢穴" },
-    { "Ganon's Lair", "加农巢穴" },
+    { "Ganondorf's Lair", "盖侬道夫巢穴" },
+    { "Ganon's Lair", "盖侬巢穴" },
     { "Market Entrance (Day)", "市场入口（白天）" },
     { "Market Entrance (Night)", "市场入口（夜晚）" },
     { "Market Entrance (Adult)", "市场入口（成人）" },
@@ -5869,9 +5869,9 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Carpenter Boss's House", "木工头目之家" },
     { "Man in Green's House", "绿衣人之家" },
     { "Bazaar", "集市" },
-    { "Kokiri Shop", "科奇里商店" },
-    { "Goron Shop", "哥隆商店" },
-    { "Zora Shop", "佐拉商店" },
+    { "Kokiri Shop", "科克里商店" },
+    { "Goron Shop", "格雷商店" },
+    { "Zora Shop", "卓拉商店" },
     { "Kakariko Potion Shop", "卡卡利科药水店" },
     { "Market Potion Shop", "市场药水店" },
     { "Bombchu Shop", "炸弹鼠商店" },
@@ -5895,35 +5895,35 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Castle Maze (Day)", "城堡迷宫（白天）" },
     { "Castle Maze (Night)", "城堡迷宫（夜晚）" },
     { "Cutscene Map", "过场地图" },
-    { "Dampe's Grave", "丹普之墓" },
+    { "Dampe's Grave", "达培之墓" },
     { "Fishing Pond", "钓鱼池" },
     { "Castle Courtyard", "城堡庭院" },
     { "Bombchu Bowling Alley", "炸弹鼠保龄球场" },
     { "Ranch House", "牧场小屋" },
     { "Guard House", "守卫之屋" },
     { "Granny's Potion Shop", "老奶奶药水店" },
-    { "Ganon Fight", "加农战斗" },
-    { "House of Skulltula", "史克拉之屋" },
+    { "Ganon Fight", "盖侬战斗" },
+    { "House of Skulltula", "骷髅蜘蛛之屋" },
     { "Hyrule Field", "海拉鲁平原" },
     { "Kakariko Village", "卡卡利科村" },
     { "Graveyard", "墓地" },
-    { "Zora's River", "佐拉之河" },
-    { "Kokiri Forest", "科奇里森林" },
+    { "Zora's River", "卓拉河" },
+    { "Kokiri Forest", "科克里森林" },
     { "Sacred Forest Meadow", "神圣森林草甸" },
     { "Lake Hylia", "海拉鲁湖" },
-    { "Zora's Domain", "佐拉领地" },
-    { "Zora's Fountain", "佐拉之泉" },
-    { "Gerudo Valley", "格鲁德山谷" },
+    { "Zora's Domain", "卓拉领地" },
+    { "Zora's Fountain", "卓拉喷泉" },
+    { "Gerudo Valley", "格鲁德大峡谷" },
     { "Lost Woods", "迷失森林" },
-    { "Desert Colossus", "沙漠巨像" },
-    { "Gerudo's Fortress", "格鲁德堡垒" },
-    { "Haunted Wasteland", "闹鬼荒原" },
+    { "Desert Colossus", "巨大邪神像" },
+    { "Gerudo's Fortress", "格鲁德要塞" },
+    { "Haunted Wasteland", "幻影沙漠" },
     { "Hyrule Castle", "海拉鲁城堡" },
-    { "Death Mountain Trail", "死亡山脉小径" },
+    { "Death Mountain Trail", "死神山径" },
     { "Death Mountain Crater", "死亡山脉火山口" },
-    { "Goron City", "哥隆城" },
+    { "Goron City", "格雷城" },
     { "Lon Lon Ranch", "隆隆牧场" },
-    { "Outside Ganon's Castle", "加农城堡外" },
+    { "Outside Ganon's Castle", "盖侬城堡外" },
     { "Test Map", "测试地图" },
     { "Test Room", "测试房间" },
     { "Depth Test", "深度测试" },
@@ -5946,7 +5946,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Tektite Grotto", "忒克泰特洞窟" },
     { "Forest Stage", "森林舞台" },
     { "Webbed Grotto", "蛛网洞窟" },
-    { "Big Skulltula Grotto", "大史克拉洞窟" },
+    { "Big Skulltula Grotto", "大骷髅蜘蛛洞窟" },
     { "Windmill", "风车" },
 
 
@@ -5956,30 +5956,30 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Din's Fire:", "丁斯的火焰：" },
     { "Slingshot:", "弹弓：" },
     { "Fairy Ocarina:", "妖精陶笛：" },
-    { "Ocarina of Time:", "时之笛：" },
+    { "Ocarina of Time:", "时光之笛：" },
     { "Bombchus:", "炸弹鼠：" },
     { "Hookshot:", "钩爪：" },
     { "Longshot:", "长钩爪：" },
     { "Ice Arrows:", "冰箭：" },
-    { "Farore's Wind:", "法蕾薇之风：" },
-    { "Boomerang:", "回旋镖：" },
+    { "Farore's Wind:", "花柔之风：" },
+    { "Boomerang:", "飞旋镖：" },
     { "Lens of Truth:", "真实之镜：" },
     { "Megaton Hammer:", "百万顿锤：" },
     { "Light Arrows:", "光箭：" },
     { "Bottle:", "空瓶：" },
     { "Zelda's Letter:", "塞尔达的信：" },
-    { "Kokiri Sword:", "科奇里剑：" },
+    { "Kokiri Sword:", "科克里剑：" },
     { "Master Sword:", "大师之剑：" },
-    { "Biggoron's Sword:", "比格隆之剑：" },
+    { "Biggoron's Sword:", "大格雷之剑：" },
     { "Deku Shield:", "德库盾：" },
     { "Hylian Shield:", "海拉鲁盾：" },
     { "Mirror Shield:", "镜盾：" },
-    { "Goron Tunic:", "哥隆外衣：" },
-    { "Zora Tunic:", "佐拉外衣：" },
+    { "Goron Tunic:", "格雷外衣：" },
+    { "Zora Tunic:", "卓拉外衣：" },
     { "Iron Boots:", "铁靴：" },
     { "Hover Boots:", "悬浮靴：" },
     { "Bomb Bag:", "炸弹袋：" },
-    { "Goron's Bracelet:", "哥隆手镯：" },
+    { "Goron's Bracelet:", "格雷手镯：" },
     { "Silver Gauntlets:", "银护腕：" },
     { "Gold Gauntlets:", "金护腕：" },
     { "Silver Scale:", "银鳞：" },
@@ -5997,9 +5997,9 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Odd Mushroom:", "奇怪蘑菇：" },
     { "Odd Potion:", "奇怪药水：" },
     { "Poacher's Saw:", "偷猎者锯：" },
-    { "Broken Goron Sword:", "破损哥隆剑：" },
+    { "Broken Goron Sword:", "破损格雷剑：" },
     { "Prescription:", "处方：" },
-    { "Eyeball Frog:", "眼球蛙：" },
+    { "Eyeball Frog:", "大眼青蛙：" },
     { "Eye Drops:", "眼药水：" },
     { "Claim Check:", "领取单：" },
     { "Minuet of Forest:", "森林小步舞曲：" },
@@ -6009,7 +6009,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Nocturne of Shadow:", "暗夜小夜曲：" },
     { "Prelude of Light:", "光之前奏曲：" },
     { "Zelda's Lullaby:", "塞尔达的摇篮曲：" },
-    { "Epona's Song:", "伊波娜之歌：" },
+    { "Epona's Song:", "伊波纳之歌：" },
     { "Saria's Song:", "萨莉亚之歌：" },
     { "Sun's Song:", "太阳之歌：" },
     { "Song of Time:", "时间之歌：" },
@@ -6020,22 +6020,22 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Spirit Medallion:", "灵之勋章：" },
     { "Shadow Medallion:", "暗之勋章：" },
     { "Light Medallion:", "光之勋章：" },
-    { "Kokiri's Emerald:", "科奇里翡翠：" },
-    { "Goron's Ruby:", "哥隆红宝石：" },
-    { "Zora's Sapphire:", "佐拉蓝宝石：" },
-    { "Ganon's Boss Key:", "加农 Boss 之钥：" },
+    { "Kokiri's Emerald:", "科克里翡翠：" },
+    { "Goron's Ruby:", "格雷红宝石：" },
+    { "Zora's Sapphire:", "卓拉蓝宝石：" },
+    { "Ganon's Boss Key:", "盖侬 Boss 之钥：" },
     { "Magic:", "魔法：" },
     { "Double Defense:", "双重防御：" },
-    { "Gohma Defeated:", "哥玛击败：" },
+    { "Gohma Defeated:", "哥马击败：" },
     { "KD Defeated:", "多东哥王击败：" },
-    { "Barinade Defeated:", "巴利奈德击败：" },
-    { "PG Defeated:", "幻影加农击败：" },
-    { "Volvagia Defeated:", "沃尔瓦吉亚击败：" },
+    { "Barinade Defeated:", "巴林内德击败：" },
+    { "PG Defeated:", "幻影盖侬击败：" },
+    { "Volvagia Defeated:", "沃沃基亚击败：" },
     { "Morpha Defeated:", "莫尔法击败：" },
     { "Bongo Defeated:", "邦戈邦戈击败：" },
-    { "Twinrova Defeated:", "双魔击败：" },
-    { "Ganondorf Defeated:", "加农多夫击败：" },
-    { "Ganon Defeated:", "加农击败：" },
+    { "Twinrova Defeated:", "孪生洛娃击败：" },
+    { "Ganondorf Defeated:", "盖侬道夫击败：" },
+    { "Ganon Defeated:", "盖侬击败：" },
     { "Boss Rush Finished:", "Boss 速通完成：" },
     { "Greg Found:", "找到格雷格：" },
     { "Triforce Completed:", "三角力量完成：" },
@@ -6079,13 +6079,13 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Din's Fire", "丁斯的火焰" },
     { "Fairy Slingshot", "妖精弹弓" },
     { "Fairy Ocarina", "妖精陶笛" },
-    { "Ocarina of Time", "时之笛" },
+    { "Ocarina of Time", "时光之笛" },
     { "Bombchu", "炸弹鼠" },
-    { "Hookshot", "钩爪" },
-    { "Longshot", "长钩爪" },
+    { "Hookshot", "短钩" },
+    { "Longshot", "长钩" },
     { "Ice Arrow", "冰箭" },
-    { "Farore's Wind", "法蕾薇之风" },
-    { "Boomerang", "回旋镖" },
+    { "Farore's Wind", "花柔之风" },
+    { "Boomerang", "飞旋镖" },
     { "Lens of Truth", "真实之镜" },
     { "Magic Bean", "魔法豆" },
     { "Megaton Hammer", "百万顿锤" },
@@ -6098,10 +6098,10 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Bottled Fairy", "瓶装妖精" },
     { "Fish", "鱼" },
     { "Milk", "牛奶" },
-    { "Ruto's Letter", "露托的信" },
+    { "Ruto's Letter", "茹特的信" },
     { "Blue Fire", "蓝色火焰" },
     { "Bug", "虫子" },
-    { "Big Poe", "大波克" },
+    { "Big Poe", "大妖婆" },
     { "Poe", "波克" },
     { "Weird Egg", "奇怪的蛋" },
     { "Chicken", "小鸡" },
@@ -6110,8 +6110,8 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Skull Mask", "骷髅面具" },
     { "Spooky Mask", "诡异面具" },
     { "Bunny Hood", "兔耳头巾" },
-    { "Goron Mask", "哥隆面具" },
-    { "Zora Mask", "佐拉面具" },
+    { "Goron Mask", "格雷面具" },
+    { "Zora Mask", "卓拉面具" },
     { "Gerudo Mask", "格鲁多面具" },
     { "Mask of Truth", "真实面具" },
     { "Pocket Egg", "口袋蛋" },
@@ -6120,19 +6120,19 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Odd Mushroom", "奇怪蘑菇" },
     { "Odd Potion", "奇怪药水" },
     { "Poacher's Saw", "偷猎者锯" },
-    { "Goron's Sword (Broken)", "哥隆之剑（破损）" },
+    { "Goron's Sword (Broken)", "格雷之剑（破损）" },
     { "Prescription", "处方" },
-    { "Eyeball Frog", "眼球蛙" },
+    { "Eyeball Frog", "大眼青蛙" },
     { "Eye Drops", "眼药水" },
     { "Claim Check", "领取单" },
-    { "Kokiri Sword", "科奇里剑" },
+    { "Kokiri Sword", "科克里剑" },
     { "Master Sword", "大师之剑" },
-    { "Giant's Knife & Biggoron's Sword", "巨人刀与比格隆之剑" },
+    { "Giant's Knife & Biggoron's Sword", "巨人刀与大格雷之剑" },
     { "Deku Shield", "德库盾" },
     { "Hylian Shield", "海拉鲁盾" },
     { "Mirror Shield", "镜盾" },
-    { "Goron Tunic", "哥隆外衣" },
-    { "Zora Tunic", "佐拉外衣" },
+    { "Goron Tunic", "格雷外套" },
+    { "Zora Tunic", "卓拉外套" },
     { "Iron Boots", "铁靴" },
     { "Hover Boots", "悬浮靴" },
     { "Bullet Bag (30)", "种子袋（30）" },
@@ -6144,7 +6144,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Bomb Bag (20)", "炸弹袋（20）" },
     { "Big Bomb Bag (30)", "大炸弹袋（30）" },
     { "Biggest Bomb Bag (40)", "最大炸弹袋（40）" },
-    { "Goron's Bracelet", "哥隆手镯" },
+    { "Goron's Bracelet", "格雷手镯" },
     { "Silver Gauntlets", "银护腕" },
     { "Golden Gauntlets", "金护腕" },
     { "Silver Scale", "银鳞" },
@@ -6153,30 +6153,30 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Adult's Wallet", "成人钱包" },
     { "Giant's Wallet", "巨人钱包" },
     { "Fishing Pole", "钓竿" },
-    { "Minuet of Forest", "森林小步舞曲" },
-    { "Bolero of Fire", "火焰波丽露" },
-    { "Serenade of Water", "流水小夜曲" },
-    { "Requiem of Spirit", "灵之安魂曲" },
-    { "Nocturne of Shadow", "暗夜小夜曲" },
+    { "Minuet of Forest", "森林小步曲" },
+    { "Bolero of Fire", "烈火之舞曲" },
+    { "Serenade of Water", "水中小夜曲" },
+    { "Requiem of Spirit", "精灵安魂曲" },
+    { "Nocturne of Shadow", "暗影梦幻曲" },
     { "Prelude of Light", "光之前奏曲" },
     { "Zelda's Lullaby", "塞尔达的摇篮曲" },
-    { "Epona's Song", "伊波娜之歌" },
+    { "Epona's Song", "伊波纳之歌" },
     { "Saria's Song", "萨莉亚之歌" },
     { "Sun's Song", "太阳之歌" },
-    { "Song of Time", "时间之歌" },
-    { "Song of Storms", "风暴之歌" },
+    { "Song of Time", "时光曲" },
+    { "Song of Storms", "风雪壮歌" },
     { "Forest Medallion", "森林勋章" },
     { "Fire Medallion", "火焰勋章" },
     { "Water Medallion", "流水勋章" },
     { "Spirit Medallion", "灵之勋章" },
     { "Shadow Medallion", "暗之勋章" },
     { "Light Medallion", "光之勋章" },
-    { "Kokiri's Emerald", "科奇里翡翠" },
-    { "Goron's Ruby", "哥隆红宝石" },
-    { "Zora's Sapphire", "佐拉蓝宝石" },
-    { "Stone of Agony", "痛苦之石" },
+    { "Kokiri's Emerald", "科克里翡翠" },
+    { "Goron's Ruby", "格雷红宝石" },
+    { "Zora's Sapphire", "卓拉蓝宝石" },
+    { "Stone of Agony", "振动石" },
     { "Gerudo's Card", "格鲁多之卡" },
-    { "Skulltula Token", "史克拉代币" },
+    { "Skulltula Token", "骷髅蜘蛛代币" },
     { "Magic Meter", "魔法槽" },
     { "Double Magic", "双重魔法" },
     { "Double Defense", "双重防御" },
@@ -6184,32 +6184,32 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Deku Stick Upgrade (30)", "德库木棒升级（30）" },
     { "Deku Nut Upgrade (30)", "德库坚果升级（30）" },
     { "Deku Nut Upgrade (40)", "德库坚果升级（40）" },
-    { "Queen Gohma", "哥玛女王" },
+    { "Queen Gohma", "哥马女王" },
     { "King Dodongo", "多东哥王" },
-    { "Barinade", "巴利奈德" },
-    { "Phantom Ganon", "幻影加农" },
-    { "Volvagia", "沃尔瓦吉亚" },
+    { "Barinade", "巴林内德" },
+    { "Phantom Ganon", "幻影盖侬" },
+    { "Volvagia", "沃沃基亚" },
     { "Morpha", "莫尔法" },
-    { "Bongo Bongo", "邦戈邦戈" },
-    { "Twinrova", "双魔" },
-    { "Ganondorf", "加农多夫" },
-    { "Ganon", "加农" },
+    { "Bongo Bongo", "邦哥邦哥" },
+    { "Twinrova", "孪生洛娃" },
+    { "Ganondorf", "盖侬道夫" },
+    { "Ganon", "盖侬" },
     { "Enter Deku Tree", "进入德库树" },
     { "Enter Dodongos Cavern", "进入多东哥洞穴" },
-    { "Enter Jabu Jabu's Belly", "进入贾布贾布之腹" },
+    { "Enter Jabu Jabu's Belly", "进入加卜加卜之腹" },
     { "Enter Forest Temple", "进入森林神殿" },
     { "Enter Fire Temple", "进入火之神殿" },
     { "Enter Water Temple", "进入水之神殿" },
-    { "Enter Spirit Temple", "进入灵之神殿" },
+    { "Enter Spirit Temple", "进入魂之神殿" },
     { "Enter Shadow Temple", "进入暗之神殿" },
     { "Enter Bottom of the Well", "进入井底" },
     { "Enter Ice Cavern", "进入冰之洞窟" },
-    { "Enter Ganons Tower", "进入加农之塔" },
+    { "Enter Ganons Tower", "进入盖侬之塔" },
     { "Enter Gerudo Training Ground", "进入格鲁德训练场" },
     { "Enter Thieves Hideout", "进入盗贼藏身处" },
-    { "Enter Ganons Castle", "进入加农城堡" },
+    { "Enter Ganons Castle", "进入盖侬城堡" },
     { "Enter Tower Collapse Interior", "进入高塔崩塌内部" },
-    { "Enter Ganons Castle Collapse", "进入加农城堡崩塌" },
+    { "Enter Ganons Castle Collapse", "进入盖侬城堡崩塌" },
     { "Lost Woods Escape", "迷失森林逃脱" },
     { "Forest Escape", "森林逃脱" },
     { "Watchtower Death", "瞭望塔死亡" },
@@ -6221,7 +6221,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Game Over", "游戏结束" },
     { "Boss Clear", "击败 Boss" },
     { "Obtain Item", "获得道具" },
-    { "Enter Ganondorf", "加农多夫登场" },
+    { "Enter Ganondorf", "盖侬道夫登场" },
     { "Obtain Heart Container", "获得心之容器" },
     { "Open Treasure Chest", "开启宝箱" },
     { "Hyrule Field Morning Theme", "海拉鲁平原早晨主题曲" },
@@ -6241,21 +6241,21 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Deku Tree", "德库树" },
     { "Legend of Hyrule", "海拉鲁传说" },
     { "Shooting Gallery", "射击场" },
-    { "Sheik's Theme", "希克主题曲" },
+    { "Sheik's Theme", "什克主题曲" },
     { "Goodbye to Zelda", "告别塞尔达" },
-    { "Ganon Intro", "加农登场" },
+    { "Ganon Intro", "盖侬登场" },
     { "Chamber of the Sages", "贤者之间" },
     { "Open Door of Temple of Time", "开启时之殿之门" },
     { "Kaepora Gaebora's Theme", "卡波拉·盖波拉主题曲" },
-    { "Ganon's Castle Bridge", "加农城堡吊桥" },
+    { "Ganon's Castle Bridge", "盖侬城堡吊桥" },
     { "Kotake & Koume's Theme", "科塔克与科梅主题曲" },
-    { "Escape from Ganon's Castle", "逃离加农城堡" },
+    { "Escape from Ganon's Castle", "逃离盖侬城堡" },
     { "Mini-Game", "小游戏" },
     // 战斗音轨（SEQ_BGM_BATTLE）
     { "Boss Battle", "Boss 战" },
     { "Mini-Boss Battle", "小 Boss 战" },
-    { "Ganondorf Battle", "加农多夫战" },
-    { "Ganon Battle", "加农战" },
+    { "Ganondorf Battle", "盖侬道夫战" },
+    { "Ganon Battle", "盖侬战" },
     { "King Dodongo & Volvagia Boss Battle", "多顿多加王与伏尔瓦吉亚 Boss 战" },
     // 片尾曲（SEQ_ENDING）
     { "End Credits I", "片尾曲 I" },
@@ -6310,7 +6310,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Battle Music", "战斗音乐" },
     { "Ending", "结局" },
     { "Instruments", "乐器" },
-    { "Ocarina", "时之笛" },
+    { "Ocarina", "时光之笛" },
     { "Sound Effects", "音效" },
     { "Voices", "语音" },
     { "Audio Shuffle Pool Management", "音频洗牌池管理" },
@@ -6322,7 +6322,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "World", "世界" },
     { "Event", "事件" },
     { "Battle", "战斗" },
-    { "Ocarina", "时之笛" },
+    { "Ocarina", "时光之笛" },
     { "Fanfare", "号角" },
     { "Error", "错误" },
     { "SFX", "音效" },
@@ -6341,18 +6341,18 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Bubble Laugh", "泡泡怪笑声" },
     { "Redead Moan", "死灵低吟" },
     { "Redead Scream", "死灵尖叫" },
-    { "Goron Wake", "哥隆苏醒" },
+    { "Goron Wake", "格雷苏醒" },
     { "Hammer Bonk", "锤子重击" },
     { "Iron Knuckle", "铁拳" },
     { "Bomb Bounce", "炸弹弹跳" },
     { "Shabom Pop", "夏波姆破裂" },
-    { "Bongo Bongo Low", "邦邦低鼓" },
-    { "Bongo Bongo High", "邦邦高鼓" },
-    { "Gohma Larva Croak", "哥玛幼虫呱叫" },
+    { "Bongo Bongo Low", "邦哥邦哥低鼓" },
+    { "Bongo Bongo High", "邦哥邦哥高鼓" },
+    { "Gohma Larva Croak", "哥马幼虫呱叫" },
     { "Flare Dancer Startled", "火焰舞者受惊" },
     { "Flare Dancer Laugh", "火焰舞者笑声" },
-    { "Ganondorf Teh!", "加农多罗夫「咻！」" },
-    { "Phantom Ganon Laugh", "幻影加农笑声" },
+    { "Ganondorf Teh!", "盖侬道夫「咻！」" },
+    { "Phantom Ganon Laugh", "幻影盖侬笑声" },
     { "Rupee", "卢比" },
     { "HP Recover", "生命恢复" },
     { "Target Neutral", "锁定中立目标" },
@@ -6363,7 +6363,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "File Select Cursor", "存档选择光标" },
     { "File Select Choose", "存档选择确定" },
     { "File Select Back", "存档选择返回" },
-    { "Gold Skulltula Token", "黄金骷髅蜘蛛代币" },
+    { "Gold Skulltula Token", "金色骷髅蜘蛛代币" },
     { "Carrot Refill", "胡萝卜补充" },
     { "Cartoon Fall", "卡通坠落" },
     { "Child Link - Slash", "小林克—挥砍" },
@@ -6404,10 +6404,10 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Talon - Surprised", "塔隆—惊讶" },
     { "Talon - Hmm", "塔隆—嗯" },
     { "Talon - Scream", "塔隆—尖叫" },
-    { "Ingo - WAAAH!", "英戈—哇啊啊！" },
-    { "Ingo - KAAAAH! (Lost)", "英戈—咔啊啊！（落败）" },
-    { "Ingo - Heyeah (Horse 1)", "英戈—嘿呀（马1）" },
-    { "Ingo - Ha (Horse 2)", "英戈—哈（马2）" },
+    { "Ingo - WAAAH!", "印格—哇啊啊！" },
+    { "Ingo - KAAAAH! (Lost)", "印格—咔啊啊！（落败）" },
+    { "Ingo - Heyeah (Horse 1)", "印格—嘿呀（马1）" },
+    { "Ingo - Ha (Horse 2)", "印格—哈（马2）" },
     { "Great Fairy - Big Laugh", "大妖精—大笑" },
     { "Great Fairy - Small Laugh", "大妖精—小笑" },
     { "Nabooru - Pained Gasp", "娜波如—痛苦喘息" },
@@ -6416,13 +6416,13 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Navi - Watchout!", "娜薇—小心！" },
     { "Navi - Look!", "娜薇—看！" },
     { "Navi - Hey! (C-up Sound)", "娜薇—嘿！（C上键音效）" },
-    { "Ruto - Crash", "露托—撞击" },
-    { "Ruto - Found", "露托—发现" },
-    { "Ruto - Fall", "露托—坠落" },
-    { "Ruto - Giggle", "露托—咯咯笑" },
-    { "Ruto - Lifted/Navi - Intro Bonk", "露托—被举起/娜薇—开场撞击" },
-    { "Ruto - Thrown", "露托—被抛出" },
-    { "Ruto - Held Tantrum", "露托—被抱住耍赖" },
+    { "Ruto - Crash", "茹特—撞击" },
+    { "Ruto - Found", "茹特—发现" },
+    { "Ruto - Fall", "茹特—坠落" },
+    { "Ruto - Giggle", "茹特—咯咯笑" },
+    { "Ruto - Lifted/Navi - Intro Bonk", "茹特—被举起/娜薇—开场撞击" },
+    { "Ruto - Thrown", "茹特—被抛出" },
+    { "Ruto - Held Tantrum", "茹特—被抱住耍赖" },
     { "Cursed Man - Scream", "被诅咒者—尖叫" },
     { "Cursed Man - Gasp", "被诅咒者—喘息" },
     { "Child Zelda - Hurry", "小塞尔达—快点" },
@@ -6430,13 +6430,13 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Child Zelda - Question", "小塞尔达—疑问" },
     { "Child Zelda - Sigh", "小塞尔达—叹息" },
     { "Child Zelda - Laugh", "小塞尔达—笑" },
-    { "Child Zelda - Sees Ganon Gasp", "小塞尔达—看见加农多罗夫喘息" },
+    { "Child Zelda - Sees Ganon Gasp", "小塞尔达—看见盖侬道夫喘息" },
     { "Child Zelda - Throws Ocarina", "小塞尔达—抛出陶笛" },
-    { "Sheik - Pained Gasp (Nocturne)", "希克—痛苦喘息（夜想曲）" },
-    { "Sheik - Pained Scream (Nocturne)", "希克—痛苦尖叫（夜想曲）" },
-    { "Sheik - Pained Landing (Nocturne)", "希克—痛苦落地（夜想曲）" },
+    { "Sheik - Pained Gasp (Nocturne)", "什克—痛苦喘息（夜想曲）" },
+    { "Sheik - Pained Scream (Nocturne)", "什克—痛苦尖叫（夜想曲）" },
+    { "Sheik - Pained Landing (Nocturne)", "什克—痛苦落地（夜想曲）" },
     { "Navi - Listen!", "娜薇—听！" },
-    { "Sheik - Shout (Throwing Deku Nut)", "希克—喊叫（投掷德库坚果）" },
+    { "Sheik - Shout (Throwing Deku Nut)", "什克—喊叫（投掷德库坚果）" },
     { "Adult Zelda - Scream 1", "成年塞尔达—尖叫1" },
     { "Adult Zelda - Scream 2", "成年塞尔达—尖叫2" },
     { "Adult Zelda - Open Seseme Magic Gasp", "成年塞尔达—芝麻开门魔法喘息" },
@@ -6450,18 +6450,18 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "House", "小屋" },
     { "Kakariko Village (Child)", "卡卡利科村（童年）" },
     { "Hyrule Castle Courtyard", "海拉鲁城堡庭院" },
-    { "Ganondorf's Theme", "加农多罗夫主题曲" },
-    { "Ingo's Theme", "英戈主题曲" },
+    { "Ganondorf's Theme", "盖侬道夫主题曲" },
+    { "Ingo's Theme", "印格主题曲" },
     { "Windmill Hut", "风车小屋" },
     { "Shop", "商店" },
     { "Potion Shop", "药水店" },
-    { "Ganon's Castle Under Ground", "加农城堡地下" },
+    { "Ganon's Castle Under Ground", "盖侬城堡地下" },
     { "Hair", "头发" },
     { "Linen", "亚麻布" },
     { "Gauntlets Gem", "铁手套宝石" },
     { "Emblem", "徽记" },
     { "Mirror", "镜面" },
-    { "Boomerang Gem", "回旋镖宝石" },
+    { "Boomerang Gem", "飞旋镖宝石" },
     { "Bow Handle", "弓柄" },
     { "Bow String", "弓弦" },
     { "Bow Tips", "弓梢" },
@@ -6491,7 +6491,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Normal Secondary", "普通（副色）" },
     { "Level 1 Secondary", "一级旋转攻击（副色）" },
     { "Level 2 Primary", "二级旋转攻击（主色）" },
-    { "Biggoron Sword", "比格隆之剑" },
+    { "Biggoron Sword", "大格雷之剑" },
     { "Hammer", "锤" },
     { "Stick", "木棒" },
     { "Block of Time", "时间方块" },
@@ -6509,7 +6509,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Metal Trap", "金属陷阱" },
     { "Hearts counts use margins", "红心计数使用边距" },
     { "Magic meter use margins", "魔法槽使用边距" },
-    { "Visual stone of agony use margins", "痛苦之石使用边距" },
+    { "Visual stone of agony use margins", "振动石使用边距" },
     { "B Button use margins", "B 键使用边距" },
     { "A Button use margins", "A 键使用边距" },
     { "Start Button use margins", "Start 键使用边距" },
@@ -6535,7 +6535,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Prev. Best", "前次最佳" },
     { "Included", "已包含" },
     { "Excluded", "已排除" },
-    { "Kokiri Forest", "科奇利森林" },
+    { "Kokiri Forest", "科克里森林" },
     { "Mido Top Left Chest", "米多左上宝箱" },
     { "Mido Top Right Chest", "米多右上宝箱" },
     { "Mido Bottom Left Chest", "米多左下宝箱" },
@@ -6623,14 +6623,14 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Lab Dive", "实验室潜水" },
     { "Freestanding PoH", "独立心之碎片" },
     { "Sun", "太阳（火之箭）" },
-    { "Gerudo Valley", "格鲁德山谷" },
+    { "Gerudo Valley", "格鲁德大峡谷" },
     { "Crate Freestanding PoH", "木箱独立心之碎片" },
     { "Waterfall Freestanding PoH", "瀑布独立心之碎片" },
-    { "Gerudo Fortress", "格鲁德堡垒" },
+    { "Gerudo Fortress", "格鲁德要塞" },
     { "HBA 1000 Points", "射击场1000分" },
     { "HBA 1500 Points", "射击场1500分" },
-    { "Haunted Wasteland", "闹鬼荒原" },
-    { "Desert Colossus", "沙漠巨像" },
+    { "Haunted Wasteland", "幻影沙漠" },
+    { "Desert Colossus", "巨大邪神像" },
     { "Great Fairy Reward", "大妖精奖励" },
     { "Hyrule Market", "海拉鲁市场" },
     { "Shooting Gallery", "射击场" },
@@ -6653,12 +6653,12 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Open Grotto Chest", "空旷洞窟宝箱" },
     { "Redead Grotto Chest", "瑞迪德洞窟宝箱" },
     { "Shooting Gallery Reward", "射击场奖励" },
-    { "10 Gold Skulltula Reward", "10个黄金骷髅蜘蛛奖励" },
-    { "20 Gold Skulltula Reward", "20个黄金骷髅蜘蛛奖励" },
-    { "30 Gold Skulltula Reward", "30个黄金骷髅蜘蛛奖励" },
-    { "40 Gold Skulltula Reward", "40个黄金骷髅蜘蛛奖励" },
-    { "50 Gold Skulltula Reward", "50个黄金骷髅蜘蛛奖励" },
-    { "100 Gold Skulltula Reward", "100个黄金骷髅蜘蛛奖励" },
+    { "10 Gold Skulltula Reward", "10个金色骷髅蜘蛛奖励" },
+    { "20 Gold Skulltula Reward", "20个金色骷髅蜘蛛奖励" },
+    { "30 Gold Skulltula Reward", "30个金色骷髅蜘蛛奖励" },
+    { "40 Gold Skulltula Reward", "40个金色骷髅蜘蛛奖励" },
+    { "50 Gold Skulltula Reward", "50个金色骷髅蜘蛛奖励" },
+    { "100 Gold Skulltula Reward", "100个金色骷髅蜘蛛奖励" },
     { "Custom", "自定义" },
     { "No Sequence Type", "无序列类型" },
     { "Exclude All", "全部排除" },
@@ -6796,16 +6796,16 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Swords", "剑" },
     { "Consumables", "消耗品" },
     // 单条目标签（DrawCosmeticRow 已包 SohGui::L）
-    { "Kokiri Tunic", "科奇里外衣" },
-    { "Goron Bracelet", "哥隆手镯" },
+    { "Kokiri Tunic", "科克里外衣" },
+    { "Goron Bracelet", "格雷手镯" },
     { "Body", "本体" },
-    { "Boomerang Body", "回旋镖本体" },
+    { "Boomerang Body", "飞旋镖本体" },
     { "Bow Body", "弓本体" },
     { "Hammer Head", "大锤锤头" },
     { "Non-Hookshotable Reticle", "不可钩取准星" },
     { "Hookshotable Reticle", "可钩取准星" },
-    { "Biggoron Sword Blade", "比格隆之剑剑身" },
-    { "Kokiri Sword Blade", "科奇里剑剑身" },
+    { "Biggoron Sword Blade", "大格雷之剑剑身" },
+    { "Kokiri Sword Blade", "科克里剑剑身" },
     { "Master Sword Blade", "大师之剑剑身" },
     { "DD Hearts", "双倍防御之心" },
     { "Hearts", "心" },
@@ -6842,10 +6842,10 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Shadow Small Key Emblem", "暗影小钥匙纹章" },
     { "Shadow Boss Key Body", "暗影 Boss 钥匙本体" },
     { "Shadow Boss Key Gem", "暗影 Boss 钥匙宝石" },
-    { "Ganons Small Key Body", "加农小钥匙本体" },
-    { "Ganons Small Key Emblem", "加农小钥匙纹章" },
-    { "Ganons Boss Key Body", "加农 Boss 钥匙本体" },
-    { "Ganons Boss Key Gem", "加农 Boss 钥匙宝石" },
+    { "Ganons Small Key Body", "盖侬小钥匙本体" },
+    { "Ganons Small Key Emblem", "盖侬小钥匙纹章" },
+    { "Ganons Boss Key Body", "盖侬 Boss 钥匙本体" },
+    { "Ganons Boss Key Gem", "盖侬 Boss 钥匙宝石" },
     { "Well Small Key", "井中小钥匙" },
     { "Well Small Key Emblem", "井中小钥匙纹章" },
     { "Fortress Small Key", "要塞小钥匙" },
@@ -6861,7 +6861,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Trails", "拖尾" },
     // 单条目标签（DrawCosmeticRow 已包 SohGui::L）
     { "Din's Primary", "丁之主色" },
-    { "Farore's Primary", "法蕾之主色" },
+    { "Farore's Primary", "花柔之主色" },
     { "Nayru's Primary", "娜茹之主色" },
     { "Normal Primary", "普通主色" },
     { "Fire Primary", "火主色" },
@@ -6885,7 +6885,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Fire Keese Primary", "火之吉斯主色" },
     { "Ice Keese Primary", "冰之吉斯主色" },
     { "Golden Skulltula", "黄金蜘蛛" },
-    { "Kokiri", "科奇里" },
+    { "Kokiri", "科克里" },
     { "Gerudo", "格鲁德" },
     { "Iron Knuckles", "铁拳" },
     // ===== HUD / 标题画面 颜色（CosmeticsEditor.cpp 的 HUD / Title Screen 分组）=====
@@ -7022,7 +7022,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Adult Link - Jump/Swing Bottle", "成年林克 - 跳跃/挥瓶" },
     { "Adult Link - Use Nayru's Love", "成年林克 - 使用娜茹之爱" },
     { "Adult Link - Suprised Gasp", "成年林克 - 惊讶喘息" },
-    { "Adult Link - Use Farore's Wind", "成年林克 - 使用法蕾之风" },
+    { "Adult Link - Use Farore's Wind", "成年林克 - 使用花柔之风" },
     { "Adult Link - Push", "成年林克 - 推" },
     { "Adult Link - Hookshot hang", "成年林克 - 钩索悬吊" },
     { "Adult Link - Fall damage", "成年林克 - 坠落伤害" },
@@ -7175,7 +7175,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Details", "详情" },
     { "Vanilla/MQ Dungeon Spoilers", "原版/MQ 地牢剧透" },
     { "Hide Unshuffled Shop Item Checks", "隐藏未洗牌的商店道具检查" },
-    { "Always Show Gold Skulltulas", "始终显示黄金骷髅蜘蛛" },
+    { "Always Show Gold Skulltulas", "始终显示金色骷髅蜘蛛" },
     { "Enable Available Checks", "启用可用检查" },
     { "Spawn", "生成" },
     { "Spawn as Child", "以童年形态生成" },
@@ -7235,7 +7235,7 @@ static const std::unordered_map<std::string, std::string> gChineseTable = {
     { "Current Scene", "当前场景" },
     { "Dungeon", "迷宫" },
     { "Flag", "标志" },
-    { "Gold Skulltulas", "黄金骷髅蜘蛛" },
+    { "Gold Skulltulas", "金色骷髅蜘蛛" },
     { "Infinite", "无限" },
     { "Inventory", "道具栏" },
     { "Player State", "玩家状态" },
