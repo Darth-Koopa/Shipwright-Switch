@@ -8,6 +8,10 @@
 #include <set>
 #include <vector>
 
+#include <array>
+#include <set>
+#include <vector>
+
 void LoadGuiTextures();
 
 extern "C" {

@@ -37,7 +37,7 @@ OUT_Z_MESSAGE_CHI = REPO / "soh" / "soh" / "z_message_CHI.cpp"
 OUT_Z_KANFONT_TBL = REPO / "soh" / "src" / "code" / "z_kanfont_chinese_tbl.inc"
 OUT_CHINESE_FONT_H = REPO / "soh" / "assets" / "textures" / "chinese_font" / "chinese_font.h"
 OUT_GLYPH_DIR = REPO / "soh" / "assets" / "custom" / "textures" / "chinese_font"
-FONT_PATH = HERE / "charmap" / "SourceHanSansSC-Regular.otf"
+FONT_PATH = HERE / "charmap" / "VonwaonBitmap_12px.ttf"
 TYPEPOS_TXT = HERE / "txt" / "message_raw_typepos.txt"
 
 # iQue encoding range for all-CharChn
@@ -298,7 +298,7 @@ def generate_message_cpp(messages: dict[int, list[int]], out_path: Path,
 # ---------------------------------------------------------------------------
 
 GLYPH_SIZE = 16
-FONT_RENDER_SIZE = 14
+FONT_RENDER_SIZE = 12
 
 
 # Characters whose bbox-centering pushes them too high (e.g. baseline
@@ -326,7 +326,7 @@ def _render_char_i4_rgba(char: str, font) -> Image.Image:
     bbox = draw.textbbox((0, 0), char, font=font)
     w = bbox[2] - bbox[0]
     h = bbox[3] - bbox[1]
-    x = (GLYPH_SIZE - w) // 2 - bbox[0]
+    x = (GLYPH_SIZE - w) // 2 - bbox[0] - 2
     y = (GLYPH_SIZE - h) // 2 - bbox[1]
     y += _CHAR_Y_OFFSET.get(char, 0)
 

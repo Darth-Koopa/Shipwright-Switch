@@ -54,6 +54,7 @@ MessageTableEntry* sFraMessageEntryTablePtr = NULL;
 MessageTableEntry* sJpnMessageEntryTablePtr = NULL;
 MessageTableEntry* sStaffMessageEntryTablePtr = NULL;
 MessageTableEntry* sChiMessageEntryTablePtr = NULL;
+extern MessageTableEntry* sChiStaffMessageEntryTablePtr; // SOH [Chinese] - embedded staff credits (method B)
 
 char* _message_0xFFFC_nes;
 
@@ -399,6 +400,12 @@ void Message_FindCreditsMessage(PlayState* play, u16 textId) {
     const char* nextSeg;
     const char* seg;
     MessageTableEntry* messageTableEntry = sStaffMessageEntryTablePtr;
+
+    // SOH [Chinese] - use the embedded CHI staff table when one is available
+    if (gSaveContext.language == LANGUAGE_CHI && sChiStaffMessageEntryTablePtr != NULL) {
+        messageTableEntry = sChiStaffMessageEntryTablePtr;
+    }
+
     Font* font;
 
     seg = messageTableEntry->segment;
@@ -620,6 +627,12 @@ void Message_DrawTextboxIcon(PlayState* play, Gfx** p, s16 x, s16 y) {
         return;
     }
 
+    // SOH [Chinese] - Force icon scale to 80 for CHI
+    s32 savedScale = R_TEXT_CHAR_SCALE;
+    if (gSaveContext.language == LANGUAGE_CHI && !sDisplayNextMessageAsEnglish) {
+        R_TEXT_CHAR_SCALE = 80;
+    }
+
     prim.r = (ABS(sIconPrim.r - sIconPrimColors[sIconFlashColorIdx].r)) / sIconFlashTimer;
     prim.g = (ABS(sIconPrim.g - sIconPrimColors[sIconFlashColorIdx].g)) / sIconFlashTimer;
     prim.b = (ABS(sIconPrim.b - sIconPrimColors[sIconFlashColorIdx].b)) / sIconFlashTimer;
@@ -690,6 +703,8 @@ void Message_DrawTextboxIcon(PlayState* play, Gfx** p, s16 x, s16 y) {
 
     gSPTextureRectangle(gfx++, x << 2, y << 2, (x + sCharTexSize) << 2, (y + sCharTexSize) << 2, G_TX_RENDERTILE, 0, 0,
                         sCharTexScale, sCharTexScale);
+
+    R_TEXT_CHAR_SCALE = savedScale;
 
     msgCtx->stateTimer++;
 
@@ -1632,7 +1647,8 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
 
                 // #region SOH [Chinese] - Full-width for Chinese characters
                 if (character == 0xFE) {
-                    msgCtx->textPosX += (s32)(16.0f * (R_TEXT_CHAR_SCALE / 100.0f));
+                    #define CHINESE_CHAR_WIDTH_FACTOR 14.0f
+                    msgCtx->textPosX += (s32)(CHINESE_CHAR_WIDTH_FACTOR * (R_TEXT_CHAR_SCALE / 100.0f));
                 } else {
                     msgCtx->textPosX += (s32)(sFontWidths[character - ' '] * (R_TEXT_CHAR_SCALE / 100.0f));
                 }
@@ -1670,16 +1686,16 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem32XOffsets[language];
         R_TEXTBOX_ICON_YPOS = y + 6;
         R_TEXTBOX_ICON_SIZE = 32;
-        memcpy((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, gItemIcons[itemId],
-               strlen(gItemIcons[itemId]) + 1);
+        memcpy((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GetItemIcon(itemId),
+               strlen(GetItemIcon(itemId)) + 1);
         // "Item 32-0"
         osSyncPrintf("アイテム32-0\n");
     } else {
         R_TEXTBOX_ICON_XPOS = R_TEXT_INIT_XPOS - sIconItem24XOffsets[language];
         R_TEXTBOX_ICON_YPOS = y + 10;
         R_TEXTBOX_ICON_SIZE = 24;
-        memcpy((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, gItemIcons[itemId],
-               strlen(gItemIcons[itemId]) + 1);
+        memcpy((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, GetItemIcon(itemId),
+               strlen(GetItemIcon(itemId)) + 1);
         // "Item 24"
         osSyncPrintf("アイテム24＝%d (%d) {%d}\n", itemId, itemId - ITEM_KOKIRI_EMERALD, 84);
     }
@@ -2352,17 +2368,35 @@ void Message_Decode(PlayState* play) {
             // Textbox decoding ends with any of the above text control characters
             msgCtx->msgMode = MSGMODE_TEXT_DISPLAYING;
             msgCtx->textDrawPos = 1;
-            R_TEXT_INIT_YPOS = R_TEXTBOX_Y + 8;
-            osSyncPrintf("ＪＪ＝%d\n", numLines);
-            if (msgCtx->textBoxType != TEXTBOX_TYPE_NONE_BOTTOM) {
-                if (numLines == 0) {
-                    R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 26);
-                } else if (numLines == 1) {
-                    R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 20);
-                } else if (numLines == 2) {
-                    R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 16);
+
+            // SOH [Chinese] - Use iQue Y offsets
+            if (gSaveContext.language == LANGUAGE_CHI && !sTextIsCredits && !sDisplayNextMessageAsEnglish) {
+                if (msgCtx->textBoxType != TEXTBOX_TYPE_NONE_BOTTOM) {
+                    if (numLines == 0) {
+                        R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 18);
+                    } else if (numLines == 1) {
+                        R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 12);
+                    } else if (numLines == 2) {
+                        R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 8);
+                    } else {
+                        R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 6);
+                    }
+                } else {
+                    R_TEXT_INIT_YPOS = R_TEXTBOX_Y + 6;
+                }
+            } else {
+                R_TEXT_INIT_YPOS = R_TEXTBOX_Y + 8;
+                if (msgCtx->textBoxType != TEXTBOX_TYPE_NONE_BOTTOM) {
+                    if (numLines == 0) {
+                        R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 26);
+                    } else if (numLines == 1) {
+                        R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 20);
+                    } else if (numLines == 2) {
+                        R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 16);
+                    }
                 }
             }
+
             if (phi_s1 == MESSAGE_TEXTID) {
                 osSyncPrintf("NZ_NEXTMSG=%x, %x, %x\n", font->msgBuf[msgCtx->msgBufPos],
                              font->msgBuf[msgCtx->msgBufPos + 1], font->msgBuf[msgCtx->msgBufPos + 2]);
@@ -2727,7 +2761,7 @@ void Message_Decode(PlayState* play) {
             // 0xFE is safe because it is > 0x8B (max Font_LoadChar index),
             //   not a control code (0x01–0x1F), not an ASCII byte (0x20–0x7E),
             //   not extended Latin (0x80–0x9E), and not a button icon (0x9F–0xAB).
-            } else if (gSaveContext.language == LANGUAGE_CHI && !sTextIsCredits &&
+            } else if (gSaveContext.language == LANGUAGE_CHI &&
                        !sDisplayNextMessageAsEnglish && temp_s2 >= 0xA0) {
                 u8 lowByte = font->msgBuf[++msgCtx->msgBufPos];
                 u16 chiChar = (temp_s2 << 8) | lowByte;
@@ -2753,6 +2787,9 @@ void Message_OpenText(PlayState* play, u16 textId) {
     MessageContext* msgCtx = &play->msgCtx;
     Font* font = &msgCtx->font;
     s16 textBoxType;
+
+    // 重置对话框目标尺寸为默认值（非中文模式）
+    R_TEXTBOX_HEIGHT_TARGET = 64;
 
     bool loadFromMessageTable = true;
     GameInteractor_ExecuteOnOpenText(&textId, &loadFromMessageTable);
@@ -2789,6 +2826,12 @@ void Message_OpenText(PlayState* play, u16 textId) {
         R_TEXT_CHAR_SCALE = 88;
         R_TEXT_LINE_SPACING = 18;
         R_TEXT_INIT_XPOS = 50;
+    } else if (gSaveContext.language == LANGUAGE_CHI && !sDisplayNextMessageAsEnglish) {
+        // SOH [Chinese] - Apply iQue-like settings
+        R_TEXT_CHAR_SCALE = 100;
+        R_TEXT_LINE_SPACING = 16;
+        R_TEXT_INIT_XPOS = 60;
+        R_TEXTBOX_HEIGHT_TARGET = 74;
     } else {
         R_TEXT_CHAR_SCALE = 75;
         R_TEXT_LINE_SPACING = 12;
@@ -3155,10 +3198,16 @@ void Message_DrawTextBox(PlayState* play, Gfx** p) {
                                G_TX_NOLOD, G_TX_NOLOD);
     }
 
-    gSPTextureRectangle(gfx++, R_TEXTBOX_X << 2, R_TEXTBOX_Y << 2, (R_TEXTBOX_X + R_TEXTBOX_WIDTH) << 2,
-                        (R_TEXTBOX_Y + R_TEXTBOX_HEIGHT) << 2, G_TX_RENDERTILE, 0, 0, R_TEXTBOX_TEXWIDTH << 1,
-                        R_TEXTBOX_TEXHEIGHT << 1);
+    // SOH [Chinese] - Force texture V-scale for CHI
+    if (gSaveContext.language == LANGUAGE_CHI && !sTextIsCredits && !sDisplayNextMessageAsEnglish) {
+        R_TEXTBOX_TEXHEIGHT = 442;
+    }
 
+    gSPTextureRectangle(gfx++, R_TEXTBOX_X << 2, R_TEXTBOX_Y << 2,
+                        (R_TEXTBOX_X + R_TEXTBOX_WIDTH) << 2,
+                        (R_TEXTBOX_Y + R_TEXTBOX_HEIGHT) << 2,
+                        G_TX_RENDERTILE, 0, 0,
+                        R_TEXTBOX_TEXWIDTH << 1, R_TEXTBOX_TEXHEIGHT << 1);
     // Draw treble clef
     if (msgCtx->textBoxType == TEXTBOX_TYPE_OCARINA) {
         gDPPipeSync(gfx++);
@@ -4558,13 +4607,23 @@ void Message_Update(PlayState* play) {
                         R_TEXTBOX_Y_TARGET = sTextboxMidYPositions[var];
                     }
                 }
+                // 保存未调整的 Y 值用于光标位置
+                s16 baseY = R_TEXTBOX_Y_TARGET;
 
+                // SOH [Chinese] - Shift dialog up by 10 pixels
+                if (gSaveContext.language == LANGUAGE_CHI && !sTextIsCredits && !sDisplayNextMessageAsEnglish) {
+                    R_TEXTBOX_Y_TARGET -= 10;
+                }
                 R_TEXTBOX_X_TARGET = sTextboxXPositions[var];
-                R_TEXTBOX_END_YPOS = sTextboxEndIconYOffset[var] + R_TEXTBOX_Y_TARGET;
+                R_TEXTBOX_END_YPOS = sTextboxEndIconYOffset[var] + baseY;
                 if (gSaveContext.language == LANGUAGE_JPN && !sTextIsCredits && !sDisplayNextMessageAsEnglish) {
                     R_TEXT_CHOICE_YPOS(0) = R_TEXTBOX_Y_TARGET + 7;
                     R_TEXT_CHOICE_YPOS(1) = R_TEXTBOX_Y_TARGET + 25;
                     R_TEXT_CHOICE_YPOS(2) = R_TEXTBOX_Y_TARGET + 43;
+                } else if (gSaveContext.language == LANGUAGE_CHI && !sTextIsCredits && !sDisplayNextMessageAsEnglish) {
+                    R_TEXT_CHOICE_YPOS(0) = R_TEXTBOX_Y_TARGET + 23;
+                    R_TEXT_CHOICE_YPOS(1) = R_TEXTBOX_Y_TARGET + 39;
+                    R_TEXT_CHOICE_YPOS(2) = R_TEXTBOX_Y_TARGET + 55;
                 } else {
                     R_TEXT_CHOICE_YPOS(0) = R_TEXTBOX_Y_TARGET + 20;
                     R_TEXT_CHOICE_YPOS(1) = R_TEXTBOX_Y_TARGET + 32;

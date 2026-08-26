@@ -9,16 +9,15 @@
 // File based on matching decomp for z_file_nameset_NES on N64 1.0 https://decomp.me/scratch/1tru6
 // Edited to follow port's stage of documentation and implemented enhancements found in z_file_nameset_PAL.c
 
-// Language Enums were changed between NTSC and PAL, so using (gSaveContext.language == LANGUAGE_ENG)
-// as a substitute for indexing arrays with just gSaveContext.language
-
-#define NTSC_LANGUAGE_INDEX (gSaveContext.language == LANGUAGE_ENG)
+// 定义语言索引：0=日文，1=英文，2=中文
+#define GET_LANG_INDEX() ((gSaveContext.language == LANGUAGE_ENG) ? 1 : ((gSaveContext.language == LANGUAGE_CHI) ? 2 : 0))
 
 // DATA
 
 static void* sNameLabelTexturesNES[] = {
-    gFileSelNameJPNTex,
-    gFileSelNameENGTex,
+    gFileSelNameJPNTex,  // 日文
+    gFileSelNameENGTex,  // 英文
+    gFileSelNameCHITex,  // 中文
 };
 
 static void* sBackspaceEndTexturesNES[] = {
@@ -29,25 +28,25 @@ static void* sBackspaceEndTexturesNES[] = {
 static s16 sBackspaceEndWidthsNES[] = { 44, 44, 28, 28, 44 };
 
 typedef struct {
-    void* texture[2];
+    void* texture[3];  // 改为3个纹理指针：日、英、中
     u16 width;
     u16 height;
 } OptionsMenuTextureInfoNES; // size = 0x8
 
 static OptionsMenuTextureInfoNES sOptionsMenuHeaders[] = {
-    { { gFileSelOptionsJPNTex, gFileSelOptionsENGTex }, 128, 16 },
-    { { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex }, 64, 16 },
-    { { gFileSelLTargetingJPNTex, gFileSelLTargetingENGTex }, 64, 16 },
-    { { gFileSelCheckBrightnessJPNTex, gFileSelCheckBrightnessENGNTSCTex }, 96, 16 },
+    { { gFileSelOptionsJPNTex, gFileSelOptionsENGTex, gFileSelOptionsCHITex }, 128, 16 },
+    { { gFileSelSOUNDENGTex, gFileSelSOUNDENGTex, gFileSelSOUNDCHITex }, 64, 16 },
+    { { gFileSelLTargetingJPNTex, gFileSelLTargetingENGTex, gFileSelZTargetingCHITex }, 64, 16 },
+    { { gFileSelCheckBrightnessJPNTex, gFileSelCheckBrightnessENGNTSCTex, gFileSelCheckBrightnessCHITex }, 96, 16 },
 };
 
 static OptionsMenuTextureInfoNES sOptionsMenuSettings[] = {
-    { { gFileSelStereoJPNTex, gFileSelStereoENGTex }, 48, 16 },
-    { { gFileSelMonoJPNTex, gFileSelMonoENGTex }, 48, 16 },
-    { { gFileSelHeadsetJPNTex, gFileSelHeadsetENGTex }, 48, 16 },
-    { { gFileSelSurroundJPNTex, gFileSelSurroundENGTex }, 48, 16 },
-    { { gFileSelSwitchJPNTex, gFileSelSwitchENGTex }, 48, 16 },
-    { { gFileSelHoldJPNTex, gFileSelHoldENGTex }, 48, 16 },
+    { { gFileSelStereoJPNTex, gFileSelStereoENGTex, gFileSelStereoCHITex }, 48, 16 },
+    { { gFileSelMonoJPNTex, gFileSelMonoENGTex, gFileSelMonoCHITex }, 48, 16 },
+    { { gFileSelHeadsetJPNTex, gFileSelHeadsetENGTex, gFileSelHeadsetCHITex }, 48, 16 },
+    { { gFileSelSurroundJPNTex, gFileSelSurroundENGTex, gFileSelSurroundCHITex }, 48, 16 },
+    { { gFileSelSwitchJPNTex, gFileSelSwitchENGTex, gFileSelSwitchCHITex }, 48, 16 },
+    { { gFileSelHoldJPNTex, gFileSelHoldENGTex, gFileSelHoldCHITex }, 48, 16 },
 };
 
 // CODE
@@ -135,6 +134,7 @@ void FileChoose_SetNameEntryVtxNES(GameState* thisx) {
     s16 var_t2;
     s16 var_v0;
     u8* filename = Save_GetSaveMetaInfo(this->buttonIndex)->playerName;
+    int langIndex = GET_LANG_INDEX();
 
     OPEN_DISPS(this->state.gfxCtx);
 
@@ -148,7 +148,8 @@ void FileChoose_SetNameEntryVtxNES(GameState* thisx) {
 
     gSPVertex(POLY_OPA_DISP++, D_80811BB0_NTSC, 24, 0);
 
-    gDPLoadTextureBlock(POLY_OPA_DISP++, sNameLabelTexturesNES[NTSC_LANGUAGE_INDEX], G_IM_FMT_IA, G_IM_SIZ_8b, 56, 16,
+    // 标题贴图：根据语言选择
+    gDPLoadTextureBlock(POLY_OPA_DISP++, sNameLabelTexturesNES[langIndex], G_IM_FMT_IA, G_IM_SIZ_8b, 56, 16,
                         0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
 
@@ -157,6 +158,7 @@ void FileChoose_SetNameEntryVtxNES(GameState* thisx) {
 
     for (var_t2 = 0, var_s0 = 4; var_t2 < 5; var_t2++, var_s0 += 4) {
         if (gSaveContext.language == LANGUAGE_JPN) {
+            // 日文模式：绘制所有5个按钮（平假名、片假名、汉字、退格、END）
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                             255);
@@ -168,11 +170,18 @@ void FileChoose_SetNameEntryVtxNES(GameState* thisx) {
 
             gSP1Quadrangle(POLY_OPA_DISP++, var_s0, var_s0 + 2, var_s0 + 3, var_s0 + 1, 0);
         } else if (var_t2 >= 3) {
+            // 非日文模式（英文/中文）：只绘制退格（3）和END（4）
+            void* tex;
+            if (var_t2 == 4 && gSaveContext.language == LANGUAGE_CHI) {
+                tex = gFileSelENDButtonCHITex;   // 中文 END 贴图
+            } else {
+                tex = sBackspaceEndTexturesNES[var_t2]; // 退格或英文 END
+            }
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->windowColor[0], this->windowColor[1], this->windowColor[2],
                             255);
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-            gDPLoadTextureBlock(POLY_OPA_DISP++, sBackspaceEndTexturesNES[var_t2], G_IM_FMT_IA, G_IM_SIZ_16b,
+            gDPLoadTextureBlock(POLY_OPA_DISP++, tex, G_IM_FMT_IA, G_IM_SIZ_16b,
                                 sBackspaceEndWidthsNES[var_t2], 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -1112,6 +1121,7 @@ void FileChoose_DrawOptionsImplNES(GameState* thisx) {
     s16 i;
     s16 j;
     s16 vtx;
+    int langIndex = GET_LANG_INDEX();
 
     OPEN_DISPS(this->state.gfxCtx);
 
@@ -1184,7 +1194,7 @@ void FileChoose_DrawOptionsImplNES(GameState* thisx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
     for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuHeaders[i].texture[NTSC_LANGUAGE_INDEX], G_IM_FMT_IA,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuHeaders[i].texture[langIndex], G_IM_FMT_IA,
                             G_IM_SIZ_8b, sOptionsMenuHeaders[i].width, sOptionsMenuHeaders[i].height, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
@@ -1209,14 +1219,10 @@ void FileChoose_DrawOptionsImplNES(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
-        //! @bug Mistakenly using sOptionsMenuHeaders instead of sOptionsMenuSettings for the height.
-        //! This works out anyway because all heights are 16.
-        // #region SOH [Port] Just use sOptionsMenuSettings height instead
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[NTSC_LANGUAGE_INDEX], G_IM_FMT_IA,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[langIndex], G_IM_FMT_IA,
                             G_IM_SIZ_8b, sOptionsMenuSettings[i].width, sOptionsMenuSettings[i].height, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
-        // #endregion
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 
@@ -1224,7 +1230,7 @@ void FileChoose_DrawOptionsImplNES(GameState* thisx) {
         gDPPipeSync(POLY_OPA_DISP++);
 
         if (i == (gSaveContext.zTargetSetting + 4)) {
-            if (sSelectedSetting != FS_SETTING_AUDIO) {
+            if (sSelectedSetting == FS_SETTING_TARGET) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, cursorPrimRed, cursorPrimGreen, cursorPrimBlue,
                                 this->titleAlpha[0]);
                 gDPSetEnvColor(POLY_OPA_DISP++, cursorEnvRed, cursorEnvGreen, cursorEnvBlue, 0xFF);
@@ -1237,15 +1243,10 @@ void FileChoose_DrawOptionsImplNES(GameState* thisx) {
             gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         }
 
-        //! @bug Mistakenly using sOptionsMenuHeaders instead of sOptionsMenuSettings for the height.
-        //! This is also an OOB read that happens to access the height of the first two elements in
-        //! sOptionsMenuSettings, and since all heights are 16, it works out anyway.
-        // #region SOH [Port] Avoid UB and use sOptionsMenuSettings height instead
-        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[NTSC_LANGUAGE_INDEX], G_IM_FMT_IA,
+        gDPLoadTextureBlock(POLY_OPA_DISP++, sOptionsMenuSettings[i].texture[langIndex], G_IM_FMT_IA,
                             G_IM_SIZ_8b, sOptionsMenuSettings[i].width, sOptionsMenuSettings[i].height, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
-        // #endregion
         gSP1Quadrangle(POLY_OPA_DISP++, vtx, vtx + 2, vtx + 3, vtx + 1, 0);
     }
 
