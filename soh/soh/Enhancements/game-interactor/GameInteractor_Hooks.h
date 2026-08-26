@@ -2,7 +2,6 @@
 
 #include "vanilla-behavior/GIVanillaBehavior.h"
 #include "GameInteractor.h"
-#include <stdarg.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -69,6 +68,7 @@ void GameInteractor_ExecuteOnDialogMessage();
 void GameInteractor_ExecuteOnPresentTitleCard();
 void GameInteractor_ExecuteOnInterfaceUpdate();
 void GameInteractor_ExecuteOnKaleidoscopeUpdate(int16_t inDungeonScene);
+void GameInteractor_ExecuteOnMinimapDrawCompassIcons();
 
 // MARK: - Main Menu
 void GameInteractor_ExecuteOnPresentFileSelect();

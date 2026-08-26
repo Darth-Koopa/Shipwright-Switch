@@ -3,7 +3,9 @@
 #ifdef __cplusplus
 
 #include "soh/Network/Network.h"
-#include <libultraship/libultraship.h>
+#include <libultraship/bridge/consolevariablebridge.h>
+#include <ship/window/gui/GuiWindow.h>
+#include <spdlog/spdlog.h>
 #include <queue>
 #include <mutex>
 
@@ -29,6 +31,7 @@ typedef struct {
     bool isSaveLoaded;
     bool isGameComplete;
     s16 sceneNum;
+    s8 curRoomNum;
     s32 entranceIndex;
 
     // Only available in PLAYER_UPDATE packets
@@ -110,7 +113,11 @@ class Anchor : public Network {
 
   public:
     uint32_t ownClientId;
+#ifdef OVERRIDE_ANCHOR_CLIENT_VERSION
+    inline static const std::string clientVersion = OVERRIDE_ANCHOR_CLIENT_VERSION;
+#else
     inline static const std::string clientVersion = (char*)gGitCommitHash;
+#endif
 
     // Packet types //
     inline static const std::string ALL_CLIENT_STATE = "ALL_CLIENT_STATE";

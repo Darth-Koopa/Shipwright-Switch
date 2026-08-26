@@ -22,10 +22,21 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     if(NOT CMAKE_VS_PLATFORM_NAME)
         set(CMAKE_VS_PLATFORM_NAME "x64")
     endif()
+    if("${CMAKE_VS_PLATFORM_NAME}" MATCHES "^[Aa][Rr][Mm]64$")
+        set(SOH_WINDOWS_ARM64 TRUE)
+    else()
+        set(SOH_WINDOWS_ARM64 FALSE)
+    endif()
+    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64" OR SOH_WINDOWS_ARM64)
+        set(SOH_WINDOWS_64BIT TRUE)
+    else()
+        set(SOH_WINDOWS_64BIT FALSE)
+    endif()
     message("${CMAKE_VS_PLATFORM_NAME} architecture in use")
 
     if(NOT ("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64"
-        OR "${CMAKE_VS_PLATFORM_NAME}" STREQUAL "Win32"))
+        OR "${CMAKE_VS_PLATFORM_NAME}" STREQUAL "Win32"
+        OR SOH_WINDOWS_ARM64))
         message(FATAL_ERROR "${CMAKE_VS_PLATFORM_NAME} arch is not supported!")
     endif()
 endif()
@@ -142,11 +153,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set_source_files_properties(soh/Enhancements/custom-message/CustomMessageManager.h PROPERTIES COMPILE_FLAGS "/utf-8")
 endif()
 
-# handle Network removals
-if (!BUILD_REMOTE_CONTROL)
-    list(FILTER soh__ EXCLUDE REGEX "soh/Enhancements/crowd-control/")
-endif()
-
 # handle speechsynthesizer removals
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     list(FILTER soh__ EXCLUDE REGEX "soh/Enhancements/speechsynthesizer/Darwin")
@@ -235,7 +241,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set_target_properties(${PROJECT_NAME} PROPERTIES
         VS_GLOBAL_KEYWORD "Win32Proj"
     )
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+    if(SOH_WINDOWS_64BIT)
         set_target_properties(${PROJECT_NAME} PROPERTIES
             INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
         )
@@ -259,7 +265,7 @@ endif()
 ################################################################################
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     get_property(MSVC_RUNTIME_LIBRARY_DEFAULT TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+    if(SOH_WINDOWS_64BIT)
         string(CONCAT "MSVC_RUNTIME_LIBRARY_STR"
             $<$<CONFIG:Debug>:
                 MultiThreadedDebug
@@ -297,15 +303,46 @@ FetchContent_MakeAvailable(dr_libs)
 find_package(SDL2)
 set(SDL2-INCLUDE ${SDL2_INCLUDE_DIRS})
 
-if (BUILD_REMOTE_CONTROL)
-    find_package(SDL2_net)
+if(CMAKE_SYSTEM_NAME MATCHES "NintendoSwitch")
+    # On Nintendo Switch portlibs provide only a pkg-config file.
+    # Use PkgConfig to discover include/lib and create IMPORTED targets
+    find_package(PkgConfig QUIET)
+    if(PkgConfig_FOUND)
+        pkg_check_modules(SDL2NET_PKG QUIET SDL2_net)
+        if(SDL2NET_PKG_FOUND)
+            message(STATUS "Found SDL2_net via pkg-config: ${SDL2NET_PKG_VERSION}")
 
-    if(NOT SDL2_net_FOUND)
-        message(STATUS "SDL2_net not found (it's possible the version installed is too old). Disabling BUILD_REMOTE_CONTROL.")
-        set(BUILD_REMOTE_CONTROL 0)
-    else()
-        set(SDL2-NET-INCLUDE ${SDL_NET_INCLUDE_DIRS})
+            # expose include dirs similar to Find module
+            set(SDL2-NET-INCLUDE ${SDL2NET_PKG_INCLUDE_DIRS})
+
+            # Create imported interface targets so existing link lines keep working.
+            if(NOT TARGET "SDL2_net::SDL2_net")
+                add_library("SDL2_net::SDL2_net" INTERFACE IMPORTED)
+                set_target_properties("SDL2_net::SDL2_net" PROPERTIES
+                    INTERFACE_LINK_LIBRARIES "${SDL2NET_PKG_LIBRARIES}"
+                    INTERFACE_INCLUDE_DIRECTORIES "${SDL2NET_PKG_INCLUDE_DIRS}"
+                )
+            endif()
+
+            if(NOT TARGET "SDL2_net::SDL2_net-static")
+                add_library("SDL2_net::SDL2_net-static" INTERFACE IMPORTED)
+                set_target_properties("SDL2_net::SDL2_net-static" PROPERTIES
+                    INTERFACE_LINK_LIBRARIES "${SDL2NET_PKG_LIBRARIES}"
+                    INTERFACE_INCLUDE_DIRECTORIES "${SDL2NET_PKG_INCLUDE_DIRS}"
+                )
+            endif()
+
+            set(SDL2_net_FOUND TRUE)
+        endif()
     endif()
+else()
+    find_package(SDL2_net)
+endif()
+
+if(NOT SDL2_net_FOUND)
+    message(STATUS "SDL2_net not found (it's possible the version installed is too old).")
+else()
+    set(SDL2-NET-INCLUDE ${SDL_NET_INCLUDE_DIRS})
 endif()
 
 if (ESPEAK)
@@ -329,7 +366,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE assets
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+    if(SOH_WINDOWS_64BIT)
         target_compile_definitions(${PROJECT_NAME} PRIVATE
             "$<$<CONFIG:Debug>:"
                 "_DEBUG;"
@@ -339,7 +376,6 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
             "$<$<CONFIG:Release>:"
                 "NDEBUG;"
             ">"
-            "$<$<BOOL:${BUILD_REMOTE_CONTROL}>:ENABLE_REMOTE_CONTROL>"
             "INCLUDE_GAME_PRINTF;"
             "F3DEX_GBI_2"
             "UNICODE;"
@@ -396,7 +432,6 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU|Clang|AppleClang")
             "NDEBUG;"
         ">"
         "F3DEX_GBI_2;"
-        "$<$<BOOL:${BUILD_REMOTE_CONTROL}>:ENABLE_REMOTE_CONTROL>;"
         "_CONSOLE;"
         "_CRT_SECURE_NO_WARNINGS;"
         "ENABLE_OPENGL;"
@@ -407,20 +442,40 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU|Clang|AppleClang")
     )
 endif()
 ################################################################################
+# Anchor client version (fetched from upstream Shipwright tags at configure time for Switch/PC cross-play compat)
+################################################################################
+if(CMAKE_SYSTEM_NAME MATCHES "NintendoSwitch")
+    # Get upstream commit hash for release
+    execute_process(
+        COMMAND bash -c "git ls-remote https://github.com/HarbourMasters/Shipwright refs/tags/${CMAKE_PROJECT_VERSION} | awk '{print $1}' | cut -c 1-7"
+        OUTPUT_VARIABLE ANCHOR_CLIENT_VERSION
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+        TIMEOUT 15
+    )
+
+    if(ANCHOR_CLIENT_VERSION)
+        message(STATUS "Anchor client version: ${ANCHOR_CLIENT_VERSION}")
+        target_compile_definitions(${PROJECT_NAME} PRIVATE
+            "OVERRIDE_ANCHOR_CLIENT_VERSION=\"${ANCHOR_CLIENT_VERSION}\""
+        )
+    endif()
+endif()
+################################################################################
 # Compile and link options
 ################################################################################
 if(MSVC)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+    if(SOH_WINDOWS_64BIT)
         target_compile_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
-                /w;
                 /Od
             >
             $<$<CONFIG:Release>:
                 /Oi;
                 /Gy;
-                /W3
             >
+            /W3;
+            /WX;
             /bigobj;
             /sdl-;
             /permissive-;
@@ -442,12 +497,13 @@ if(MSVC)
             /permissive-;
             /MP;
             /sdl-;
-            /w;
+            /W3;
+            /WX;
             ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
             ${DEFAULT_CXX_EXCEPTION_HANDLING}
         )
     endif()
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+    if(SOH_WINDOWS_64BIT)
         target_link_options(${PROJECT_NAME} PRIVATE
             $<$<CONFIG:Debug>:
                 /INCREMENTAL
@@ -524,6 +580,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
             $<$<COMPILE_LANGUAGE:C>:
                 -Werror-implicit-function-declaration
                 -Wno-incompatible-pointer-types
+				-Wno-int-conversion
             >
             $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
             $<$<COMPILE_LANGUAGE:CXX>:
@@ -635,14 +692,14 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     link_libraries(Opus::opus)
     find_package(OpusFile CONFIG REQUIRED)
     link_libraries(OpusFile::opusfile CONFIG REQUIRED)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+    if(SOH_WINDOWS_64BIT)
         set(ADDITIONAL_LIBRARY_DEPENDENCIES
             "libultraship;"
             "ZAPDLib;"
             "glu32;"
             "SDL2::SDL2;"
             "SDL2::SDL2main;"
-            "$<$<BOOL:${BUILD_REMOTE_CONTROL}>:SDL2_net::SDL2_net-static>"
+            "SDL2_net::SDL2_net-static"
             "glfw;"
             "winmm;"
             "imm32;"
@@ -675,10 +732,20 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "NintendoSwitch")
     find_package(Threads REQUIRED)
     set(ADDITIONAL_LIBRARY_DEPENDENCIES
         "libultraship;"
+		"SDL2_net::SDL2_net-static"
         SDL2::SDL2
         -lglad
         Threads::Threads
+        -lvorbisfile
+        -lvorbisenc
+        -lvorbis
+        -logg
+        -lopusfile
+        -lopus
     )
+	target_include_directories(${PROJECT_NAME} PRIVATE
+			${DEVKITPRO}/portlibs/switch/include/opus
+	)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "CafeOS")
     find_package(SDL2 REQUIRED)
     set(ADDITIONAL_LIBRARY_DEPENDENCIES
@@ -708,7 +775,7 @@ else()
         "Vorbis::vorbisfile"
         "Opus::opus"
         "Opusfile::Opusfile"
-        "$<$<BOOL:${BUILD_REMOTE_CONTROL}>:SDL2_net::SDL2_net>"
+        "SDL2_net::SDL2_net"
         ${CMAKE_DL_LIBS}
         Threads::Threads
     )
@@ -749,7 +816,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "NintendoSwitch")
 nx_generate_nacp(Ship.nacp
    NAME "Ship of Harkinian"
    AUTHOR "${PROJECT_TEAM}"
-   VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}"
+   VERSION "${PROJECT_VERSION_CACHE}"
 )
 
 nx_create_nro(soh

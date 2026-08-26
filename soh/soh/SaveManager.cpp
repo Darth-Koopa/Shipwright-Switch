@@ -8,14 +8,13 @@
 #include "soh/util.h"
 #include "Enhancements/randomizer/hint.h"
 #include "Enhancements/randomizer/item.h"
+#include "soh/Enhancements/randomizer/settings.h"
 #include "ResourceManagerHelpers.h"
 
 #include "z64.h"
-#include "cvar_prefixes.h"
 #include "functions.h"
 #include "macros.h"
 #include <variables.h>
-#include <libultraship/libultraship.h>
 #include "soh/SohGui/SohGui.hpp"
 
 #define NOGDI // avoid various windows defines that conflict with things in z64.h
@@ -28,6 +27,32 @@
 
 extern "C" SaveContext gSaveContext;
 using namespace std::string_literals;
+
+#if defined(__WIIU__) || defined(__SWITCH__)
+// std::filesystem::copy_file doesn't work properly with the Wii U's toolchain atm
+int copy_file(const char* src, const char* dst) {
+    alignas(0x40) uint8_t buf[4096];
+    FILE* r = fopen(src, "r");
+    if (!r) {
+        return -1;
+    }
+    FILE* w = fopen(dst, "w");
+    if (!w) {
+        return -2;
+    }
+
+    size_t res;
+    while ((res = fread(buf, 1, sizeof(buf), r)) > 0) {
+        if (fwrite(buf, 1, res, w) != res) {
+            break;
+        }
+    }
+
+    fclose(r);
+    fclose(w);
+    return res >= 0 ? 0 : res;
+}
+#endif
 
 void SaveManager::WriteSaveFile(const std::filesystem::path& savePath, const uintptr_t addr, void* dramAddr,
                                 const size_t size) {
@@ -59,6 +84,11 @@ std::filesystem::path SaveManager::GetFileName(int fileNum) {
 std::filesystem::path SaveManager::GetFileTempName(int fileNum) {
     const std::filesystem::path sSavePath(Ship::Context::GetPathRelativeToAppDirectory("Save"));
     return sSavePath / ("file" + std::to_string(fileNum + 1) + ".temp");
+}
+
+std::filesystem::path SaveManager::GetFileBackupName(int fileNum) {
+    const std::filesystem::path sSavePath(Ship::Context::GetPathRelativeToAppDirectory("Save"));
+    return sSavePath / ("file" + std::to_string(fileNum + 1) + ".bak");
 }
 
 std::vector<RandomizerHint> Rando::StaticData::oldVerHintOrder{
@@ -461,12 +491,34 @@ void SaveManager::Init() {
 
     // Load files to initialize metadata
     for (int fileNum = 0; fileNum < MaxFiles; fileNum++) {
+#if defined(__SWITCH__)
+        // If a backup exists but the save doesn't, the previous save was interrupted between deleting the original and
+        // completing the copy.  Recover.
+        std::filesystem::path backupFile = GetFileBackupName(fileNum);
+        if (std::filesystem::exists(backupFile) && !std::filesystem::exists(GetFileName(fileNum))) {
+            SPDLOG_WARN("Save File - recovering backup for fileNum: {}", fileNum);
+            copy_file(backupFile.c_str(), GetFileName(fileNum).c_str());
+        }
+
+        // Clean up any stale/backup temp files from a completed save.
+        if (std::filesystem::exists(backupFile)) {
+            std::filesystem::remove(backupFile);
+        }
+
+        if (std::filesystem::path tempFile = GetFileTempName(fileNum); std::filesystem::exists(tempFile)) {
+            std::filesystem::remove(tempFile);
+        }
+#endif
         if (std::filesystem::exists(GetFileName(fileNum))) {
             StartupCheckAndInitMeta(fileNum);
         }
     }
     saveBlock = nlohmann::json::object();
     OTRGlobals::Instance->gRandoContext->ClearItemLocations();
+
+#if defined(__SWITCH__)
+    InitSaveWorker();
+#endif
 }
 
 void SaveManager::StartupCheckAndInitMeta(int fileNum) {
@@ -550,6 +602,10 @@ void SaveManager::StartupCheckAndInitMeta(int fileNum) {
     fileMetaInfo[fileNum].gregFound = false;
     fileMetaInfo[fileNum].filenameLanguage = baseBlock.value("filenameLanguage", 0);
     fileMetaInfo[fileNum].hasWallet = !isRando;
+    fileMetaInfo[fileNum].triforcePieces = 0;
+    fileMetaInfo[fileNum].maxTriforcePieces = 0;
+    fileMetaInfo[fileNum].hasFishingRod = !isRando;
+    fileMetaInfo[fileNum].fishingPoleShuffled = false;
     fileMetaInfo[fileNum].defense = baseBlock["inventory"]["defenseHearts"];
     fileMetaInfo[fileNum].health = baseBlock["health"];
 
@@ -567,6 +623,15 @@ void SaveManager::StartupCheckAndInitMeta(int fileNum) {
             (int16_t)baseBlock["randomizerInf"][RAND_INF_GREG_FOUND >> 4] & (1 << (RAND_INF_GREG_FOUND & 0xF));
         fileMetaInfo[fileNum].hasWallet =
             (int16_t)baseBlock["randomizerInf"][RAND_INF_HAS_WALLET >> 4] & (1 << (RAND_INF_HAS_WALLET & 0xF));
+        fileMetaInfo[fileNum].triforcePieces = randoBlock.value("triforcePiecesCollected", 0);
+        nlohmann::json& randoSettings = randoBlock["randoSettings"];
+        if (randoSettings[RSK_TRIFORCE_HUNT].get<uint8_t>() != 0) {
+            fileMetaInfo[fileNum].maxTriforcePieces =
+                randoSettings[RSK_TRIFORCE_HUNT_PIECES_REQUIRED].get<uint8_t>() + 1;
+        }
+        fileMetaInfo[fileNum].hasFishingRod = (int16_t)baseBlock["randomizerInf"][RAND_INF_FISHING_POLE_FOUND >> 4] &
+                                              (1 << (RAND_INF_FISHING_POLE_FOUND & 0xF));
+        fileMetaInfo[fileNum].fishingPoleShuffled = randoSettings[RSK_SHUFFLE_FISHING_POLE].get<uint8_t>() != 0;
         fileMetaInfo[fileNum].requiresMasterQuest = randoBlock["masterQuestDungeonCount"] > 0;
         // If the file is not marked as Master Quest, it could still theoretically be a rando save with all 12 MQ
         // dungeons, in which case we don't actually require a vanilla OTR.
@@ -719,7 +784,7 @@ void SaveManager::InitFileNormal() {
         gSaveContext.inventory.dungeonItems[dungeon] = 0;
     }
     for (int dungeon = 0; dungeon < ARRAY_COUNT(gSaveContext.inventory.dungeonKeys); dungeon++) {
-        gSaveContext.inventory.dungeonKeys[dungeon] = 0xFF;
+        gSaveContext.inventory.dungeonKeys[dungeon] = static_cast<u8>(0xFF);
     }
     gSaveContext.inventory.defenseHearts = 0;
     gSaveContext.inventory.gsTokens = 0;
@@ -823,19 +888,22 @@ void SaveManager::InitFileDebug() {
 
     gSaveContext.deaths = 0;
     if (ResourceMgr_GetGameRegion(0) == GAME_REGION_PAL && gSaveContext.language != LANGUAGE_JPN) {
-        const static std::array<char, 8> sPlayerName = { 0x15, 0x12, 0x17, 0x14, 0x3E, 0x3E, 0x3E, 0x3E };
+        const static std::array<u8, 8> sPlayerName = { 0x15, 0x12, 0x17, 0x14, 0x3E, 0x3E, 0x3E, 0x3E };
+
         for (int i = 0; i < ARRAY_COUNT(gSaveContext.playerName); i++) {
             gSaveContext.playerName[i] = sPlayerName[i];
         }
         gSaveContext.ship.filenameLanguage = NAME_LANGUAGE_PAL;
     } else if (gSaveContext.language == LANGUAGE_JPN) { // Japanese
-        const static std::array<char, 8> sPlayerName = { 0x81, 0x87, 0x61, 0xDF, 0xDF, 0xDF, 0xDF, 0xDF };
+        const static std::array<u8, 8> sPlayerName = { 0x81, 0x87, 0x61, 0xDF, 0xDF, 0xDF, 0xDF, 0xDF };
+
         for (int i = 0; i < ARRAY_COUNT(gSaveContext.playerName); i++) {
             gSaveContext.playerName[i] = sPlayerName[i];
         }
         gSaveContext.ship.filenameLanguage = NAME_LANGUAGE_NTSC_JPN;
     } else { // GAME_REGION_NTSC
-        const static std::array<char, 8> sPlayerName = { 0xB6, 0xB3, 0xB8, 0xB5, 0xDF, 0xDF, 0xDF, 0xDF };
+        const static std::array<u8, 8> sPlayerName = { 0xB6, 0xB3, 0xB8, 0xB5, 0xDF, 0xDF, 0xDF, 0xDF };
+
         for (int i = 0; i < ARRAY_COUNT(gSaveContext.playerName); i++) {
             gSaveContext.playerName[i] = sPlayerName[i];
         }
@@ -943,19 +1011,22 @@ void SaveManager::InitFileMaxed() {
 
     gSaveContext.deaths = 0;
     if (ResourceMgr_GetGameRegion(0) == GAME_REGION_PAL && gSaveContext.language != LANGUAGE_JPN) {
-        const static std::array<char, 8> sPlayerName = { 0x15, 0x12, 0x17, 0x14, 0x3E, 0x3E, 0x3E, 0x3E };
+        const static std::array<u8, 8> sPlayerName = { 0x15, 0x12, 0x17, 0x14, 0x3E, 0x3E, 0x3E, 0x3E };
+
         for (int i = 0; i < ARRAY_COUNT(gSaveContext.playerName); i++) {
             gSaveContext.playerName[i] = sPlayerName[i];
         }
         gSaveContext.ship.filenameLanguage = NAME_LANGUAGE_PAL;
     } else if (gSaveContext.language == LANGUAGE_JPN) { // Japanese
-        const static std::array<char, 8> sPlayerName = { 0x81, 0x87, 0x61, 0xDF, 0xDF, 0xDF, 0xDF, 0xDF };
+        const static std::array<u8, 8> sPlayerName = { 0x81, 0x87, 0x61, 0xDF, 0xDF, 0xDF, 0xDF, 0xDF };
+
         for (int i = 0; i < ARRAY_COUNT(gSaveContext.playerName); i++) {
             gSaveContext.playerName[i] = sPlayerName[i];
         }
         gSaveContext.ship.filenameLanguage = NAME_LANGUAGE_NTSC_JPN;
     } else { // GAME_REGION_NTSC
-        const static std::array<char, 8> sPlayerName = { 0xB6, 0xB3, 0xB8, 0xB5, 0xDF, 0xDF, 0xDF, 0xDF };
+        const static std::array<u8, 8> sPlayerName = { 0xB6, 0xB3, 0xB8, 0xB5, 0xDF, 0xDF, 0xDF, 0xDF };
+
         for (int i = 0; i < ARRAY_COUNT(gSaveContext.playerName); i++) {
             gSaveContext.playerName[i] = sPlayerName[i];
         }
@@ -1099,32 +1170,6 @@ void SaveManager::InitFileMaxed() {
     Flags_SetRandomizerInf(RAND_INF_OBTAINED_ROCS_FEATHER);
 }
 
-#if defined(__WIIU__) || defined(__SWITCH__)
-// std::filesystem::copy_file doesn't work properly with the Wii U's toolchain atm
-int copy_file(const char* src, const char* dst) {
-    alignas(0x40) uint8_t buf[4096];
-    FILE* r = fopen(src, "r");
-    if (!r) {
-        return -1;
-    }
-    FILE* w = fopen(dst, "w");
-    if (!w) {
-        return -2;
-    }
-
-    size_t res;
-    while ((res = fread(buf, 1, sizeof(buf), r)) > 0) {
-        if (fwrite(buf, 1, res, w) != res) {
-            break;
-        }
-    }
-
-    fclose(r);
-    fclose(w);
-    return res >= 0 ? 0 : res;
-}
-#endif
-
 // Threaded SaveFile takes copy of gSaveContext for local unmodified storage
 
 void SaveManager::SaveFileThreaded(int fileNum, SaveContext* saveContext, int sectionID) {
@@ -1188,7 +1233,37 @@ void SaveManager::SaveFileThreaded(int fileNum, SaveContext* saveContext, int se
     output.close();
 #endif
 
-#if defined(__SWITCH__) || defined(__WIIU__)
+#if defined(__SWITCH__)
+    // Backup-safe file replacement: ensure a valid save always exists on disk.  If we crash between any of these
+    // steps, Init() will recover from the backup.
+    const std::filesystem::path backupFile = GetFileBackupName(fileNum);
+    if (std::filesystem::exists(fileName)) {
+        // Preserve the current save as a backup before touching it.
+        if (std::filesystem::exists(backupFile)) {
+            std::filesystem::remove(backupFile);
+        }
+
+        copy_file(fileName.c_str(), backupFile.c_str());
+        std::filesystem::remove(fileName);
+    }
+
+    if (copy_file(tempFile.c_str(), fileName.c_str()) == 0) {
+        // New save written successfully, clean up.
+        if (std::filesystem::exists(backupFile)) {
+            std::filesystem::remove(backupFile);
+        }
+
+        if (std::filesystem::exists(tempFile)) {
+            std::filesystem::remove(tempFile);
+        }
+    } else {
+        // Copy failed, restore from backup.
+        SPDLOG_ERROR("Save File - copy failed for fileNum: {}, restoring backup", fileNum);
+        if (std::filesystem::exists(backupFile)) {
+            copy_file(backupFile.c_str(), fileName.c_str());
+        }
+    }
+#elif defined(__WIIU__)
     if (std::filesystem::exists(fileName)) {
         std::filesystem::remove(fileName);
     }
@@ -1221,11 +1296,62 @@ void SaveManager::SaveSection(int fileNum, int sectionID, bool threaded) {
     }
     auto saveContext = new SaveContext;
     memcpy(saveContext, &gSaveContext, sizeof(gSaveContext));
+
+#if defined(__SWITCH__)
+    // Build JSON on the main thread where game state is consistent. Section handlers read globals beyond gSaveContext,
+    // so running them on a background thread races with scene transitions and gameplay updates.
+    SPDLOG_INFO("Save File - fileNum: {}", fileNum);
+    saveBlock["version"] = 1;
+    saveBlock["fileType"] = IS_RANDO ? FILE_TYPE_SAVE_RANDO : FILE_TYPE_SAVE_VANILLA;
+
+    if (sectionID == SECTION_ID_BASE) {
+        for (auto& val : sectionSaveHandlers | std::views::values) {
+            auto& saveFuncInfo = val;
+            if (!saveFuncInfo.saveWithBase || (saveFuncInfo.name == "randomizer" && !IS_RANDO)) {
+                continue;
+            }
+
+            nlohmann::json& sectionBlock = saveBlock["sections"][saveFuncInfo.name];
+            sectionBlock["version"] = val.version;
+            currentJsonContext = &sectionBlock["data"];
+            val.func(saveContext, sectionID, true);
+        }
+    } else {
+        SaveFuncInfo svi = sectionSaveHandlers.find(sectionID)->second;
+        auto& sectionName = svi.name;
+        auto sectionVersion = svi.version;
+
+        if (svi.parentSection != -1 && svi.parentSection < sectionIndex) {
+            const auto parentSvi = sectionSaveHandlers.find(svi.parentSection)->second;
+            sectionName = parentSvi.name;
+            sectionVersion = parentSvi.version;
+        }
+
+        nlohmann::json& sectionBlock = saveBlock["sections"][sectionName];
+        sectionBlock["version"] = sectionVersion;
+        currentJsonContext = &sectionBlock["data"];
+        svi.func(saveContext, sectionID, false);
+    }
+
+    // Serialize to string on main thread, then dispatch only file I/O to pthread.
+    const auto jsonData = new std::string(saveBlock.dump(1));
+    delete saveContext;
+
+    if (threaded) {
+        pthread_mutex_lock(&mSaveWorkerMtx);
+        mSaveJobQueue.push({ fileNum, jsonData, sectionID });
+        pthread_cond_signal(&mSaveWorkerCond);
+        pthread_mutex_unlock(&mSaveWorkerMtx);
+    } else {
+        SaveFileIOThreaded(fileNum, jsonData, sectionID);
+    }
+#else
     if (threaded) {
         smThreadPool->detach_task(std::bind(&SaveManager::SaveFileThreaded, this, fileNum, saveContext, sectionID));
     } else {
         SaveFileThreaded(fileNum, saveContext, sectionID);
     }
+#endif
 }
 
 void SaveManager::SaveFile(int fileNum) {
@@ -1307,7 +1433,7 @@ void SaveManager::LoadFile(int fileNum) {
         }
         InitMeta(fileNum);
         GameInteractor::Instance->ExecuteHooks<GameInteractor::OnLoadFile>(fileNum);
-    } catch (const std::exception& e) {
+    } catch ([[maybe_unused]] const std::exception& e) {
         input.close();
         std::string newFileName =
             Ship::Context::GetPathRelativeToAppDirectory("Save") +
@@ -1327,18 +1453,36 @@ void SaveManager::LoadFile(int fileNum) {
 }
 
 void SaveManager::ThreadPoolWait() {
+#if defined(__SWITCH__)
+    // Wait for all pending save jobs to finish without stopping the worker thread.  The loop guards against spurious
+    // wakes -- we need both an empty queue and the worker not mid-I/O before proceeding.
+    pthread_mutex_lock(&mSaveWorkerMtx);
+
+    while (!mSaveJobQueue.empty() || mSaveWorkerBusy) {
+        pthread_cond_wait(&mSaveWorkerDoneCond, &mSaveWorkerMtx);
+    }
+
+    pthread_mutex_unlock(&mSaveWorkerMtx);
+#endif
     if (smThreadPool) {
         smThreadPool->wait();
     }
 }
 
 bool SaveManager::SaveFile_Exist(int fileNum) {
+#if defined(__SWITCH__)
+    // Exception unwinding fails on Switch (calls abort instead of catching), so we use the non-throwing overload to
+    // avoid crashes when the save thread has the file in a transitional state during backup-safe replacement.
+    std::error_code ec = {};
+    return std::filesystem::exists(GetFileName(fileNum), ec);
+#else
     try {
         return std::filesystem::exists(GetFileName(fileNum));
-    } catch (std::filesystem::filesystem_error const& ex) {
+    } catch ([[maybe_unused]] std::filesystem::filesystem_error const& ex) {
         SPDLOG_ERROR("Filesystem error");
         return false;
     }
+#endif
 }
 
 void SaveManager::AddInitFunction(InitFunc func) {
@@ -2404,27 +2548,7 @@ void SaveManager::CopyZeldaFile(int from, int to) {
 #else
     std::filesystem::copy_file(GetFileName(from), GetFileName(to));
 #endif
-    fileMetaInfo[to].valid = true;
-    fileMetaInfo[to].deaths = fileMetaInfo[from].deaths;
-    for (int i = 0; i < ARRAY_COUNT(fileMetaInfo[to].playerName); i++) {
-        fileMetaInfo[to].playerName[i] = fileMetaInfo[from].playerName[i];
-    }
-    for (int i = 0; i < ARRAY_COUNT(fileMetaInfo[to].seedHash); i++) {
-        fileMetaInfo[to].seedHash[i] = fileMetaInfo[from].seedHash[i];
-    }
-    fileMetaInfo[to].healthCapacity = fileMetaInfo[from].healthCapacity;
-    fileMetaInfo[to].questItems = fileMetaInfo[from].questItems;
-    fileMetaInfo[to].defense = fileMetaInfo[from].defense;
-    fileMetaInfo[to].health = fileMetaInfo[from].health;
-    fileMetaInfo[to].randoSave = fileMetaInfo[from].randoSave;
-    fileMetaInfo[to].requiresMasterQuest = fileMetaInfo[from].requiresMasterQuest;
-    fileMetaInfo[to].requiresOriginal = fileMetaInfo[from].requiresOriginal;
-    fileMetaInfo[to].buildVersionMajor = fileMetaInfo[from].buildVersionMajor;
-    fileMetaInfo[to].buildVersionMinor = fileMetaInfo[from].buildVersionMinor;
-    fileMetaInfo[to].buildVersionPatch = fileMetaInfo[from].buildVersionPatch;
-    fileMetaInfo[to].filenameLanguage = fileMetaInfo[from].filenameLanguage;
-    SohUtils::CopyStringToCharArray(fileMetaInfo[to].buildVersion, fileMetaInfo[from].buildVersion,
-                                    ARRAY_COUNT(fileMetaInfo[to].buildVersion));
+    fileMetaInfo[to] = fileMetaInfo[from];
 }
 
 void SaveManager::DeleteZeldaFile(int fileNum) {
@@ -2784,6 +2908,130 @@ void SaveManager::ConvertFromUnversioned() {
 #undef SLOT_SIZE
 #undef SLOT_OFFSET
 }
+
+#if defined(__SWITCH__)
+SaveManager::~SaveManager() {
+    if (mSaveWorkerRunning) {
+        ShutdownSaveWorker();
+    }
+}
+
+void SaveManager::SaveFileIOThreaded(int fileNum, std::string* jsonData, int sectionID) {
+    saveMtx.lock();
+
+    const std::filesystem::path fileName = GetFileName(fileNum);
+    const std::filesystem::path tempFile = GetFileTempName(fileNum);
+
+    if (std::filesystem::exists(tempFile)) {
+        std::filesystem::remove(tempFile);
+    }
+
+    FILE* w = fopen(tempFile.c_str(), "w");
+    fwrite(jsonData->c_str(), sizeof(char), jsonData->length(), w);
+    fclose(w);
+    delete jsonData;
+
+    // Backup-safe file replacement: ensure a valid save always exists on disk. If we crash between any of these
+    // steps, Init() will recover from the backup.
+    const std::filesystem::path backupFile = GetFileBackupName(fileNum);
+
+    if (std::filesystem::exists(fileName)) {
+        if (std::filesystem::exists(backupFile)) {
+            std::filesystem::remove(backupFile);
+        }
+
+        copy_file(fileName.c_str(), backupFile.c_str());
+        std::filesystem::remove(fileName);
+    }
+
+    if (copy_file(tempFile.c_str(), fileName.c_str()) == 0) {
+        if (std::filesystem::exists(backupFile)) {
+            std::filesystem::remove(backupFile);
+        }
+
+        if (std::filesystem::exists(tempFile)) {
+            std::filesystem::remove(tempFile);
+        }
+    } else {
+        SPDLOG_ERROR("Save File - copy failed for fileNum: {}, restoring backup", fileNum);
+
+        if (std::filesystem::exists(backupFile)) {
+            copy_file(backupFile.c_str(), fileName.c_str());
+        }
+    }
+
+    InitMeta(fileNum);
+    GameInteractor::Instance->ExecuteHooks<GameInteractor::OnSaveFile>(fileNum, sectionID);
+    SPDLOG_INFO("Save File Finish - fileNum: {}", fileNum);
+    saveMtx.unlock();
+}
+
+// --------------------------------------------------------------------------------------------------------------------
+// Instead of creating and joining a pthread per save (which blocks the main thread on SD card I/O), a single worker
+// thread with a 2MB stack sleeps on mSaveWorkerCond and wakes to process queued SaveJobs.
+//
+// Two condition variables serve different purposes:
+//  - mSaveWorkerCond:      signals the worker that a new job is available or that it should shut down.
+//  - mSaveWorkerDoneCond:  signals ThreadPoolWait that the worker has finished a job and is idle.
+//
+// mSaveWorkerBusy tracks whether the worker is mid-I/O, so ThreadPoolWait can distinguish "queue empty but still
+// writing" from "fully idle."
+// --------------------------------------------------------------------------------------------------------------------
+
+void SaveManager::InitSaveWorker() {
+    // Idempotent -- Init() is called on every game load, but the worker only needs to be created once.
+    if (mSaveWorkerRunning) {
+        return;
+    }
+
+    mSaveWorkerRunning = true;
+
+    pthread_attr_t attr = {};
+    pthread_attr_init(&attr);
+    pthread_attr_setstacksize(&attr, 0x200000); // 2MB
+    pthread_create(&mSaveWorker, &attr, SaveWorkerEntry, this);
+    pthread_attr_destroy(&attr);
+}
+
+void SaveManager::ShutdownSaveWorker() {
+    pthread_mutex_lock(&mSaveWorkerMtx);
+    mSaveWorkerRunning = false;
+    pthread_cond_signal(&mSaveWorkerCond);
+    pthread_mutex_unlock(&mSaveWorkerMtx);
+    pthread_join(mSaveWorker, nullptr);
+}
+
+void* SaveManager::SaveWorkerEntry(void* arg) {
+    const auto self = static_cast<SaveManager*>(arg);
+
+    while (true) {
+        pthread_mutex_lock(&self->mSaveWorkerMtx);
+
+        while (self->mSaveJobQueue.empty() && self->mSaveWorkerRunning) {
+            pthread_cond_wait(&self->mSaveWorkerCond, &self->mSaveWorkerMtx);
+        }
+
+        if (!self->mSaveWorkerRunning && self->mSaveJobQueue.empty()) {
+            pthread_mutex_unlock(&self->mSaveWorkerMtx);
+            break;
+        }
+
+        const auto [fileNum, json, sectionID] = self->mSaveJobQueue.front();
+        self->mSaveJobQueue.pop();
+        self->mSaveWorkerBusy = true;
+        pthread_mutex_unlock(&self->mSaveWorkerMtx);
+
+        self->SaveFileIOThreaded(fileNum, json, sectionID);
+
+        pthread_mutex_lock(&self->mSaveWorkerMtx);
+        self->mSaveWorkerBusy = false;
+        pthread_cond_signal(&self->mSaveWorkerDoneCond);
+        pthread_mutex_unlock(&self->mSaveWorkerMtx);
+    }
+
+    return nullptr;
+}
+#endif
 
 // C to C++ bridge
 
