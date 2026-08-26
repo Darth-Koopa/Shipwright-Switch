@@ -90,7 +90,7 @@ You can verify you have dumped a supported copy of the game by using the compati
 
 ### 3. Installation on the Switch
 * Download and extract [the latest Switch release](https://github.com/timschneeb/Shipwright-Switch/releases) from releases (ZIP file with `soh.nro` and `soh.o2r`)
-* Copy the files to your sd card
+* Copy the files to your sd card.
 
 ```
 sdcard
